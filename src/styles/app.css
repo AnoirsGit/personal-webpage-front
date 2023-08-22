@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import all fonts using @font-face */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../static/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../static/fonts/ttf/JetBrainsMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Add similar @font-face rules for each font variation */
+
+/* Apply fonts to specific elements */
+body {
+  font-family: 'mono', sans-serif;
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+.app {
+  @apply font-mono bg-main-blue w-screen h-full min-h-screen text-white;
+}
+
+.app-content {
+  @apply w-full px-8 lg:mx-auto lg:w-240 xl:w-320;
+}
+
+a{
+  @apply underline text-amber-600
+}
+
+.flex-center{
+  @apply flex justify-center items-center
+}
+
+.abs-center{
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+}
+
+.abs-center-x{
+  @apply absolute left-1/2 -translate-x-1/2
+}
+
+.abs-center-y{
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+}
