@@ -1,6 +1,6 @@
 <script>
 	import LeftNavigationLine from "../components/leftNavigationLine.svelte";
-
+	import ParticleImage from "../components/canvas-animation/particleImage.svelte";
 </script>
 	<section class="flex gap-4 mt-32">
 		<LeftNavigationLine />
@@ -24,4 +24,5 @@
 			</div>
 		</div>
 	</section>
+	<ParticleImage />
 <!-- <section>sdf</section> -->
