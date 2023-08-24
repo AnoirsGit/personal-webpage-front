@@ -3,9 +3,9 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
     let rotationDeg = Math.random() * 360;
     let velocityX = 0;
     let velocityY = 0;
-    
+
     const friction = 0.9;
-    const particleSize = groupSize * 3;
+    const particleSize = groupSize * 2;
     const size = (particleSize * 0.9) + (Math.random() * particleSize) * 0.9;
     const [originX, originY] = [Math.floor(particle.x), Math.floor(particle.y)];
     const ease = 0.01 + Math.random() * 0.02;
@@ -21,11 +21,11 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(rotationDeg * Math.PI / 180);
-        
+
         const centroidY = (sideLengths[0] + sideLengths[2]) / 6;
-        
+
         ctx.translate(-sideLengths[1] / 2, -centroidY);
-        
+
         ctx.beginPath();
         ctx.moveTo(0, -sideLengths[0] / 2);
         ctx.lineTo(sideLengths[1] / 2, sideLengths[2] / 2);
@@ -43,16 +43,18 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
 
     const update = () => {
         if (mouse.x && mouse.y) {
-            const dx = mouse.x - x;
-            const dy = mouse.y - y;
+            const dx = x - mouse.x;
+            const dy = y - mouse.y;
             const distance = dx * dx + dy * dy;
-            const force = (mouse.r / distance);
             
-            if (distance < mouse.r) {
+            if (distance < mouse.r) { // Apply the effect only within mouse.r
                 const angle = Math.atan2(dy, dx);
+                const force = (mouse.r ) / mouse.r; // Gradually decrease force with distance
+                
                 velocityX += force * Math.cos(angle);
                 velocityY += force * Math.sin(angle);
             }
+
             x += (velocityX *= friction) + (originX - x) * ease;
             y += (velocityY *= friction) + (originY - y) * ease;
         } else {
@@ -60,26 +62,25 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
             y += (originY - y) * ease;
         }
     
-// Ensure particles stay within canvas bounds
-if (x < size) {
-    x = size;
-    velocityX *= -1; // Reflect velocity
-} else if (x > canvas.width - size) {
-    x = canvas.width - size;
-    velocityX *= -1; // Reflect velocity
-}
-
-if (y < size) {
-    y = size;
-    velocityY *= -1; // Reflect velocity
-} else if (y > canvas.height - size) {
-    y = canvas.height - size;
-    velocityY *= -1; // Reflect velocity
-}
-
-rotationDeg += rotateVelocity;
-    };
+        // Ensure particles stay within canvas bounds
+        if (x < canvas.width * 0.1) {
+            x = canvas.width * 0.1;
+            velocityX *= -1; // Reflect velocity
+        } else if (x > canvas.width * 0.9) {
+            x = canvas.width * 0.9;
+            velocityX *= -1; // Reflect velocity
+        }
     
+        if (y < canvas.height * 0.1) {
+            y = canvas.height * 0.1;
+            velocityY *= -1; // Reflect velocity
+        } else if (y > canvas.height * 0.9) {
+            y = canvas.height * 0.9;
+            velocityY *= -1; // Reflect velocity
+        }
+    
+        rotationDeg += rotateVelocity;
+    };
 
     return { draw, drawRect, update };
 };

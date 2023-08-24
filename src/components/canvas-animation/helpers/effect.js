@@ -2,7 +2,7 @@ import { Particle } from './particle';
 
 export const createEffect = (ctx, canvas, image) => {
     const particles = [];
-    let mouse = { r: 3000, x: null, y: null };
+    let mouse = { r: 1000, x: null, y: null };
 
     const init = () => {
         const centerImageX = (canvas.width - image.width) / 2;
