@@ -1,76 +1,19 @@
 <script>
 	import { onMount } from 'svelte';
-	import { Particle } from './helpers/particle';
-
+	import { createEffect, animate } from './helpers/effect';
 	let image;
 	let canvas;
 	let effect;
-	const createEffect = (ctx) => {
-		const particles = [];
-		let mouse = { r: 3000, x: null, y: null };
-
-		const init = () => {
-			const centerImageX = (canvas.width - image.width) / 2;
-			const centerImageY = (canvas.height - image.height) / 2;
-			ctx.drawImage(image, centerImageX, centerImageY);
-			const { data: pixels } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-			const gap = 2;
-			const groupPixel = 4;
-
-			for (let y = 0; y < image.height; y += gap * groupPixel) {
-				for (let x = 0; x < image.width; x += gap * groupPixel) {
-					const index = (y * image.width + x) * groupPixel;
-					const [red, green, blue, alpha] = pixels.slice(index, index + 4);
-					const color = `rgba(${red},${green},${blue})`;
-					const particle = { x, y, color };
-					if (alpha > 0)
-						particles.push(Particle({ canvas, ctx, particle, groupSize: gap * groupPixel, mouse }));
-				}
-			}
-		};
-
-		const draw = () => {
-			particles.forEach((particle) => particle.draw());
-		};
-
-		const update = () => {
-			particles.forEach((particle) => particle.update());
-		};
-
-		const mouseMoveHandler = (mouseX, mouseY) => {
-			mouse.x = mouseX;
-			mouse.y = mouseY;
-		};
-
-		const mouseLeaveHandler = () => {
-			mouse.x = null;
-			mouse.y = null;
-		};
-
-		return { draw, update, init, mouseLeaveHandler, mouseMoveHandler };
-	};
-
-	const animate = (ctx, effect) => {
-		if(!canvas)  {
-      requestAnimationFrame(() => animate(ctx, effect));
-      return
-    }
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		effect.draw();
-		effect.update();
-		requestAnimationFrame(() => animate(ctx, effect));
-	};
 
 	onMount(() => {
 		const ctx = canvas.getContext('2d');
 		canvas.width = 400;
 		canvas.height = 400;
 
-		effect = createEffect(ctx);
+		effect = createEffect(ctx, canvas, image);
 		effect.init();
 
-		animate(ctx, effect);
+		animate({ctx, canvas, effect});
 	});
 
 	const mouseMoveHandler = (event) => {
