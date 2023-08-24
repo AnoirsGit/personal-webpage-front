@@ -52,6 +52,10 @@
 	};
 
 	const animate = (ctx, effect) => {
+		if(!canvas)  {
+      requestAnimationFrame(() => animate(ctx, effect));
+      return
+    }
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		effect.draw();
 		effect.update();

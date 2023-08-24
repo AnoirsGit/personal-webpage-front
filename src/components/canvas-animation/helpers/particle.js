@@ -59,9 +59,27 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
             x += (originX - x) * ease;
             y += (originY - y) * ease;
         }
+    
+// Ensure particles stay within canvas bounds
+if (x < size) {
+    x = size;
+    velocityX *= -1; // Reflect velocity
+} else if (x > canvas.width - size) {
+    x = canvas.width - size;
+    velocityX *= -1; // Reflect velocity
+}
 
-        rotationDeg += rotateVelocity;
+if (y < size) {
+    y = size;
+    velocityY *= -1; // Reflect velocity
+} else if (y > canvas.height - size) {
+    y = canvas.height - size;
+    velocityY *= -1; // Reflect velocity
+}
+
+rotationDeg += rotateVelocity;
     };
+    
 
     return { draw, drawRect, update };
 };
