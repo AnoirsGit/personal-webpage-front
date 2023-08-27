@@ -1,5 +1,6 @@
 <script>
 	import MdHome from 'svelte-icons/md/MdHome.svelte';
+	import GlowingElement from './glowingElement.svelte';
 
 	export let topLineParams = {
 		gradientStart: '#6600cc',
@@ -28,7 +29,7 @@
     <div class="z-40">
       <slot name="icon"><MdHome /></slot>
     </div>
-    <div class="abs-center z-0" style="box-shadow: 0 0 50px 20px #48abe0;"></div>
+    <GlowingElement />
   </div>
 	<div class="relative w-full" style="height: {botLineParams.height}px;">
 		<div

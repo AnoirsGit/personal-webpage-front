@@ -1,11 +1,14 @@
 <script>
-	import LeftNavigationLine from "../components/leftNavigationLine.svelte";
+	import LeftNavigationLine from "../components/UI/leftNavigationLine.svelte";
 	import ParticleImage from "../components/canvas-animation/particleImage.svelte";
+	import Tree from "../components/tree/tree.svelte";
 </script>
-	<section class="flex gap-4 mt-32">
+	<section class="flex gap-4">
 		<LeftNavigationLine />
 		<div class="flex flex-col lg:flex-row gap-12 items-center justify-between w-full">
-			<div class="h-104 w-full lg:w-96 xl:w-1/2 bg-green-300" />
+			<div class="flex-center h-104 w-full lg:w-96 xl:w-1/2" >
+				<ParticleImage />
+			</div>
 			<div class="h-104 w-full lg:w-96 xl:w-1/2 relative">
 				<h1 class="text-[4.5rem] leading-[4.75rem] font-bold opacity-10 absolute inset-0">
 					WEB <br /> DEVELOPER
@@ -24,5 +27,6 @@
 			</div>
 		</div>
 	</section>
-	<ParticleImage />
-<!-- <section>sdf</section> -->
+<section>
+	<Tree />
+</section>
