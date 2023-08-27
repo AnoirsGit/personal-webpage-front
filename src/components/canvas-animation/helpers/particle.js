@@ -5,7 +5,7 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
     let velocityY = 0;
 
     const friction = 0.9;
-    const particleSize = groupSize * 2;
+    const particleSize = groupSize * 2.125;
     const size = (particleSize * 0.9) + (Math.random() * particleSize) * 0.9;
     const [originX, originY] = [Math.floor(particle.x), Math.floor(particle.y)];
     const ease = 0.01 + Math.random() * 0.02;
