@@ -2,61 +2,55 @@
 	import Node from './Node.svelte';
 	import Edge from './Edge.svelte';
 	import TreeWrapper from './TreeWrapper.svelte';
-
 	import { getEdges, getEdgeData } from './helpers/edge';
+	import { getNodeUnderMouse } from './helpers/node';
 	import { nodesMock } from '../../mocks/tree';
 
 	export let nodes = nodesMock;
 
 	let edges = getEdges(nodes);
-
 	let allowTreeDrag = true;
 	let isNewEdgeDragging = false;
-
 	let newEdgeStyle = '';
-	let dotStyles = '';
+	let edgeToConnectFromId = 0;
+
+	const addNewEdge = (sourceNodeId, targetNodeId) => {
+		console.log({ sourceNodeId, targetNodeId });
+	};
 
 	const handleNodeDrag = (position, nodeId) => {
 		allowTreeDrag = false;
-		nodes = nodes.map((node) => {
-			if (node.id !== nodeId) return node;
-			const draggedNode = { ...node, position };
-			return draggedNode;
-		});
+		nodes = nodes.map((node) => (node.id !== nodeId ? node : { ...node, position }));
 	};
 
 	const handleNodeDragDone = () => {
 		allowTreeDrag = true;
 	};
 
-	const handleNewVectorClick = (event, nodeId) => {
-		isNewEdgeDragging = true; // Use 'let' instead of 'const' to allow reassignment
-		const node = nodes.find((node) => node.id === nodeId);
+	const handleNewEdgeClick = (event, sourceNodeId) => {
+		isNewEdgeDragging = true;
+		const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
-		if (!node) {
-			return; // Node not found, handle the error accordingly
-		}
+		if (!sourceNode) return;
 
-		const nodePosition = node.position;
-		const initialY = event.clientY - nodePosition.y;
-		const initialX = event.clientX - nodePosition.x; // Should be 'nodePosition.x'
+		const sourceNodePosition = sourceNode.position;
+		const initialY = event.clientY - sourceNodePosition.y;
+		const initialX = event.clientX - sourceNodePosition.x;
 
 		const handleMouseMove = (event) => {
 			if (isNewEdgeDragging) {
 				const y = event.clientY - initialY;
 				const x = event.clientX - initialX;
-				newEdgeStyle = getEdgeData(nodePosition, { x, y }).edgeStyle; // Assuming getEdgeData is a defined function
-				dotStyles = `top: ${y}px; left: ${x}px`;
-				console.log(dotStyles);
-
-				// Update your element's style with 'newEdgeStyle' and 'dotStyles' as needed
+				newEdgeStyle = getEdgeData(sourceNodePosition, { x, y }).edgeStyle;
+				edgeToConnectFromId = getNodeUnderMouse({ nodes, node: sourceNode, x, y })?.id;
 			}
 		};
 
 		const handleMouseUp = () => {
 			isNewEdgeDragging = false;
 			newEdgeStyle = '';
-			dotStyles = '';
+			addNewEdge(sourceNodeId, edgeToConnectFromId);
+			edgeToConnectFromId = null;
 			window.removeEventListener('mousemove', handleMouseMove);
 			window.removeEventListener('mouseup', handleMouseUp);
 		};
@@ -70,18 +64,15 @@
 	{#each nodes as node}
 		<Node
 			{node}
+			active={edgeToConnectFromId === node.id}
 			onNodeDrag={handleNodeDrag}
 			onDragDone={handleNodeDragDone}
-			onNewVector={handleNewVectorClick}
+			onNewEdge={handleNewEdgeClick}
 		/>
 	{/each}
 
 	{#if isNewEdgeDragging}
 		<Edge width={4} edgeStyle={newEdgeStyle} color={'orange'} />
-	{/if}
-
-	{#if isNewEdgeDragging}
-		<div class="w-4 h-4 bg-green-500 absolute" style={dotStyles} />
 	{/if}
 
 	{#each edges as edge}

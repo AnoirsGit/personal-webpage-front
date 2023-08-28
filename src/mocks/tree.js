@@ -6,7 +6,7 @@ export const nodesMock = [
         position: { y: 100, x: 500, },
         prevNode: null,
         nexNode: 2,
-        points: []
+        isActive: false
     },
     {
         id: 2,
@@ -15,6 +15,6 @@ export const nodesMock = [
         position: { y: 200, x: 200, },
         prevNode: 1,
         nexNode: null,
-        points: []
+        isActive: false
     }
 ];

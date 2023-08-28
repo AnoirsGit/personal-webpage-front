@@ -1,28 +1,28 @@
 <script>
 	import GiMove from 'svelte-icons/gi/GiMove.svelte';
 	import MdCallReceived from 'svelte-icons/md/MdCallReceived.svelte';
-
 	import '../../styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from './helpers/node';
+
 	// Props
 	export let node;
 	export let onNodeDrag;
 	export let onDragDone;
-	export let onNewVector;
+	export let onNewEdge;
 	export let editMode = true;
+	export let active = false;
 
 	let isDragging = false;
-
-	// Use a reactive statement to update positionStyle when node.position changes
-	let positionStyle;
+	let style = '';
 
 	$: {
-		positionStyle = getNodePositionStyle(getNodeCenter(node.position, node.size));
+		style = `
+		${active ? 'box-shadow: 0 0 50px 20px #fff; background: white;' : ''}
+		${getNodePositionStyle(getNodeCenter(node.position, node.size))}`;
 	}
 
 	const handleMouseDown = (event) => {
 		if (!editMode) return;
-
 		isDragging = true;
 
 		const initialX = event.clientX - node.position.x;
@@ -47,16 +47,16 @@
 		window.addEventListener('mouseup', handleMouseUp);
 	};
 
-	const handleNewVectorClick = (event) => {
-		onNewVector(event, node.id);
+	const handleNewEdgeClick = (event) => {
+		onNewEdge(event, node.id);
 	};
 </script>
 
-<div class="absolute m-0 w-20 h-20 bg-red-400 z-node" style={positionStyle}>
+<div class="absolute m-0 w-20 h-20 bg-red-400 z-node" {style}>
 	<button class="absolute top-2 right-2 w-4 h-4 text-slate-500" on:mousedown={handleMouseDown}>
 		<GiMove />
 	</button>
-	<button class="absolute top-6 right-2 w-4 h-4 text-slate-500" on:click={handleNewVectorClick}>
+	<button class="absolute top-6 right-2 w-4 h-4 text-slate-500" on:click={handleNewEdgeClick}>
 		<MdCallReceived />
 	</button>
 </div>
