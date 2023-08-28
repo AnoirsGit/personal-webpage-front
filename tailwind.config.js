@@ -55,7 +55,7 @@ export default {
 				'node': '50',
 				'edge': '40',
 				'wrapper': '30',
-			  }
+			}
 		}
 	},
 	plugins: []

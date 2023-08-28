@@ -22,11 +22,11 @@
 /* Apply fonts to specific elements */
 body {
   font-family: 'mono', sans-serif;
-  overflow-x: hidden; /* Hide horizontal overflow */
+  @apply overflow-x-hidden bg-main-blue;
 }
 
 .app {
-  @apply font-mono bg-main-blue w-screen h-full min-h-screen text-white;
+  @apply font-mono w-screen h-full min-h-screen text-white;
 }
 
 .app-content {
@@ -50,5 +50,5 @@ a{
 }
 
 .abs-center-y{
-  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+  @apply absolute top-1/2 -translate-x-1/2 -translate-y-1/2
 }

@@ -5,5 +5,5 @@ export const getNodeCenter = (position, size) => {
 };
 
 export const getNodePositionStyle = (position) => {
-	return `left: ${position.x}px; top: ${position.y}px;`;
+	return `top: ${position.y}px; left: ${position.x}px;`;
 };

@@ -6,18 +6,16 @@
 	let effect;
 
 	const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/b/be/Vrp-400x400.jpg';
-	
+
 	onMount(() => {
-	
-				const ctx = canvas.getContext('2d');
-				canvas.width = 400;
-				canvas.height = 400;
+		const ctx = canvas.getContext('2d');
+		canvas.width = 400;
+		canvas.height = 400;
 
-				effect = createEffect(ctx, canvas, image);
-				effect.init();
+		effect = createEffect(ctx, canvas, image);
+		effect.init();
 
-				animate({ ctx, canvas, effect });
-		
+		animate({ ctx, canvas, effect });
 	});
 
 	const mouseMoveHandler = (event) => {
