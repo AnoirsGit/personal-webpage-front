@@ -1,7 +1,7 @@
 <script>
-	import LeftNavigationLine from "../components/UI/leftNavigationLine.svelte";
-	import ParticleImage from "../components/canvas-animation/particleImage.svelte";
-	import Tree from "../components/tree/tree.svelte";
+	import LeftNavigationLine from "../components/UI/LeftNavigationLine.svelte";
+	import ParticleImage from "../components/canvas-animation/ParticleImage.svelte";
+	import Tree from "../components/tree/Tree.svelte";
 </script>
 	<section class="flex gap-4">
 		<LeftNavigationLine />

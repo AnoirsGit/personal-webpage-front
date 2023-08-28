@@ -1,6 +1,6 @@
 <script>
 	import MdHome from 'svelte-icons/md/MdHome.svelte';
-	import GlowingElement from './glowingElement.svelte';
+	import GlowingElement from './GlowingElement.svelte';
 
 	export let topLineParams = {
 		gradientStart: '#6600cc',
