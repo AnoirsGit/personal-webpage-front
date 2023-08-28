@@ -30,24 +30,33 @@
 	};
 
 	const handleNewVectorClick = (event, nodeId) => {
-		isNewEdgeDragging = true;
-		const nodePosition = nodes.find((node) => node.id === nodeId).position;
+		isNewEdgeDragging = true; // Use 'let' instead of 'const' to allow reassignment
+		const node = nodes.find((node) => node.id === nodeId);
 
-		const initialX = event.clientX - nodePosition.y;
+		if (!node) {
+			return; // Node not found, handle the error accordingly
+		}
+
+		const nodePosition = node.position;
 		const initialY = event.clientY - nodePosition.y;
+		const initialX = event.clientX - nodePosition.x; // Should be 'nodePosition.x'
 
 		const handleMouseMove = (event) => {
 			if (isNewEdgeDragging) {
 				const y = event.clientY - initialY;
 				const x = event.clientX - initialX;
-				newEdgeStyle = getEdgeData(nodePosition, { x, y }).edgeStyle;
-				dotStyles = `top: ${y}px; left:${x}px`;
+				newEdgeStyle = getEdgeData(nodePosition, { x, y }).edgeStyle; // Assuming getEdgeData is a defined function
+				dotStyles = `top: ${y}px; left: ${x}px`;
 				console.log(dotStyles);
+
+				// Update your element's style with 'newEdgeStyle' and 'dotStyles' as needed
 			}
 		};
 
 		const handleMouseUp = () => {
 			isNewEdgeDragging = false;
+			newEdgeStyle = '';
+			dotStyles = '';
 			window.removeEventListener('mousemove', handleMouseMove);
 			window.removeEventListener('mouseup', handleMouseUp);
 		};
