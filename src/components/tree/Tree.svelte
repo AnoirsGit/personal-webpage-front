@@ -13,7 +13,7 @@
 			position: { x: 400, y: 200 },
 			prevNode: null,
 			nexNode: 2,
-			childs: []
+			points: []
 		},
 		{
 			id: 2,
@@ -31,11 +31,20 @@
 	onMount(() => {
 		edges = getEdges(nodes);
 	});
+
+	const handleNodeDrag = (position, nodeId) => {
+		// console.log(position)
+		nodes = nodes.map(node => {
+			if(node.id !== nodeId) return node;
+			const draggedNode = { ...node,position};
+			return draggedNode;
+		})
+	}
 </script>
 
 <TreeWrapper>
 	{#each nodes as node}
-		<Node {node} />
+		<Node {node} onNodeDrag={handleNodeDrag} />
 	{/each}
 
 	{#each edges as edge}
