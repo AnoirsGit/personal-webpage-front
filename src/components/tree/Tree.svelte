@@ -49,7 +49,7 @@
 		const handleMouseMove = (event) => {
 			if (isNewEdgeDragging) {
 				const y = event.clientY - initialY;
-				const x = event.clientX - initialX;
+				const x = event.clientX - initialX + sourceNode.size;
 				newEdge = { sourcePoint: sourceNodePosition, targetPoint: { y, x } };
 				edgeToConnectId = getNodeUnderMouse({ nodes, node: sourceNode, x, y })?.id;
 			}
@@ -71,11 +71,15 @@
 	};
 
 	const handleEdgeDelete = (index) => {
-    nodesToConnect = nodesToConnect.filter((_, i) => index !== i);
-};
+		nodesToConnect = nodesToConnect.filter((_, i) => index !== i);
+	};
+
+	const handleNodeDelete = (nodeId) => {
+		nodes = nodes.filter((node) => node.id !== nodeId);
+	};
 </script>
 
-<div class="flex gap-3  mb-32">
+<div class="flex gap-3 mb-32">
 	<div class="relative {isEditMode ? 'w-3/5' : 'w-full'}">
 		<TreeActionBar />
 		<TreeWrapper {allowTreeDrag}>
@@ -88,6 +92,7 @@
 					onNodeDrag={handleNodeDrag}
 					onDragDone={handleNodeDragDone}
 					onNewEdge={handleNewEdgeClick}
+					onDeleteNode={handleNodeDelete}
 				/>
 			{/each}
 
@@ -97,6 +102,6 @@
 		</TreeWrapper>
 	</div>
 	{#if isEditMode}
-		<div class="w-2/5 bg-white rounded-xl" > adsfas </div>
+		<div class="w-2/5 bg-white rounded-xl">adsfas</div>
 	{/if}
 </div>

@@ -35,6 +35,8 @@
 
 {#if showTooltip && isDeletable}
 	<div class="tooltip" style="top: {toolTipPosition.y}px; left: {toolTipPosition.x}px">
-		<button class="w-4 h-4" on:click={() => onDelete(index)}><MdDelete /></button>
+		<button class="flex items-center gap-2" on:click={() => onDelete(index)}>
+			<div class="w-3 h-3"><MdDelete /></div> delete
+		</button>
 	</div>
 {/if}

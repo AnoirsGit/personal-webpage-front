@@ -10,7 +10,7 @@ export const calculateEdgeFromNodes = (p1 = { x: 0, y: 0 }, p2 = { x: 0, y: 0 })
 };
 
 export const getEdgeDataFromPointAndAngle = (p1 = { x: 0, y: 0 }, distance, angle) => {
-	const edgeStyle = `height: ${distance}px; top:${p1.y}px; left:${p1.x}px; transform: rotate(${angle}deg) translate(-50%);`;
+	const edgeStyle = `height: ${distance}px; top:${p1.y}px; left:${p1.x}px; transform: rotate(${angle}deg) translateX(-50%);`;
 	return { distance, angle, edgeStyle };
 }
 

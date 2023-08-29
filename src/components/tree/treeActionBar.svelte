@@ -1,4 +1,5 @@
 <script>
+	import FaNeuter from 'svelte-icons/fa/FaNeuter.svelte'
   
 
 </script>

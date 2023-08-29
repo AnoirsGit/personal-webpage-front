@@ -1,25 +1,35 @@
 <script>
 	import GiMove from 'svelte-icons/gi/GiMove.svelte';
-	import MdCallReceived from 'svelte-icons/md/MdCallReceived.svelte';
+	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
+	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
 	import '../../styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from './helpers/node';
 
-	// Props
-	export let node;
-	export let onNodeDrag;
-	export let onDragDone;
-	export let onNewEdge;
+	export let node = () => {};
+	export let onNewEdge = () => {};
+	export let onNodeDrag = () => {};
+	export let onDragDone = () => {};
+	export let onDeleteNode = () => {};
+	export let onNodeSelect = () => {};
 	export let editMode = true;
 	export let active = false;
 
 	let isDragging = false;
+	let showTooltip = false;
 	let style = '';
+	let toolTipPosition;
 
+	$: nodePosition = getNodeCenter(node.position, node.size);
 	$: {
 		style = `
 		${active ? 'box-shadow: 0 0 50px 20px #fff; background: white;' : ''}
-		${getNodePositionStyle(getNodeCenter(node.position, node.size))}`;
+		${getNodePositionStyle(nodePosition)}`;
 	}
+
+	$: toolTipPosition = {
+		y: nodePosition.y,
+		x: nodePosition.x + node.size + 8
+	};
 
 	const handleMouseDown = (event) => {
 		if (!editMode) return;
@@ -50,13 +60,33 @@
 	const handleNewEdgeClick = (event) => {
 		onNewEdge(event, node.id);
 	};
+
+	const handleNodeClick = () => {
+		onNodeSelect(node);
+		showTooltip = !showTooltip;
+	};
 </script>
 
-<div class="absolute m-0 w-20 h-20 bg-red-400 z-node" {style}>
-	<button class="absolute top-2 right-2 w-4 h-4 text-slate-500" on:mousedown={handleMouseDown}>
-		<GiMove />
-	</button>
-	<button class="absolute top-6 right-2 w-4 h-4 text-slate-500" on:click={handleNewEdgeClick}>
-		<MdCallReceived />
-	</button>
-</div>
+{#if showTooltip}
+	<div
+		class="tooltip flex flex-col gap-2"
+		style="top: {toolTipPosition.y}px; left: {toolTipPosition.x}px"
+	>
+		<button class="flex items-center gap-2" on:mousedown={handleMouseDown}>
+			<div class="w-3 h-3"><GiMove /></div>
+			move
+		</button>
+
+		<button class="flex items-center gap-2" on:click={handleNewEdgeClick}>
+			<div class="w-3 h-3"><FaSlash /></div>
+			connect
+		</button>
+
+		<button class="flex items-center gap-2" on:click={() => onDeleteNode(node.id)}>
+			<div class="w-3 h-3"><MdDelete /></div>
+			delete
+		</button>
+	</div>
+{/if}
+
+<button class="absolute m-0 w-20 h-20 bg-red-400 z-node" {style} on:click={handleNodeClick} />
