@@ -1,21 +1,28 @@
 <script>
 	import Node from './Node.svelte';
-	import Edge from './Edge.svelte';
+	import Edge from './edge/Edge.svelte';
+	import Edges from './edge/Edges.svelte';
 	import TreeWrapper from './TreeWrapper.svelte';
-	import { getEdges, getEdgeData } from './helpers/edge';
 	import { getNodeUnderMouse } from './helpers/node';
 	import { nodesMock } from '../../mocks/tree';
 
 	export let nodes = nodesMock;
 
-	let edges = getEdges(nodes);
+	let nodesToConnect = [{ sourceNodeId: 1, targetNodeId: 2 }];
+
 	let allowTreeDrag = true;
 	let isNewEdgeDragging = false;
-	let newEdgeStyle = '';
-	let edgeToConnectFromId = 0;
+	let newEdge;
+	let edgeToConnectId = 0;
 
 	const addNewEdge = (sourceNodeId, targetNodeId) => {
-		console.log({ sourceNodeId, targetNodeId });
+		const edgeExists = nodesToConnect.some(
+			(edge) => edge.sourceNodeId === sourceNodeId && edge.targetNodeId === targetNodeId
+		);
+
+		if (!edgeExists) {
+			nodesToConnect = [...nodesToConnect, { sourceNodeId, targetNodeId }];
+		}
 	};
 
 	const handleNodeDrag = (position, nodeId) => {
@@ -41,16 +48,18 @@
 			if (isNewEdgeDragging) {
 				const y = event.clientY - initialY;
 				const x = event.clientX - initialX;
-				newEdgeStyle = getEdgeData(sourceNodePosition, { x, y }).edgeStyle;
-				edgeToConnectFromId = getNodeUnderMouse({ nodes, node: sourceNode, x, y })?.id;
+				newEdge = { sourcePoint: sourceNodePosition, targetPoint: { y, x } };
+				edgeToConnectId = getNodeUnderMouse({ nodes, node: sourceNode, x, y })?.id;
 			}
 		};
 
 		const handleMouseUp = () => {
+			if (edgeToConnectId) addNewEdge(sourceNodeId, edgeToConnectId);
+
+			newEdge = null;
+			edgeToConnectId = null;
 			isNewEdgeDragging = false;
-			newEdgeStyle = '';
-			addNewEdge(sourceNodeId, edgeToConnectFromId);
-			edgeToConnectFromId = null;
+
 			window.removeEventListener('mousemove', handleMouseMove);
 			window.removeEventListener('mouseup', handleMouseUp);
 		};
@@ -61,21 +70,19 @@
 </script>
 
 <TreeWrapper {allowTreeDrag}>
+	<Edges {nodesToConnect} {nodes} />
+
 	{#each nodes as node}
 		<Node
 			{node}
-			active={edgeToConnectFromId === node.id}
+			active={edgeToConnectId === node.id}
 			onNodeDrag={handleNodeDrag}
 			onDragDone={handleNodeDragDone}
 			onNewEdge={handleNewEdgeClick}
 		/>
 	{/each}
 
-	{#if isNewEdgeDragging}
-		<Edge width={4} edgeStyle={newEdgeStyle} color={'orange'} />
+	{#if newEdge && isNewEdgeDragging}
+		<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
 	{/if}
-
-	{#each edges as edge}
-		<Edge width={4} edgeStyle={edge.edgeStyle} />
-	{/each}
 </TreeWrapper>

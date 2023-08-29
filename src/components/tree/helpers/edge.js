@@ -16,19 +16,6 @@ export const getEdgeDataFromPointAndAngle = (p1 = { x: 0, y: 0 }, distance, angl
 
 export const getEdgeData = (p1 = { x: 0, y: 0 }, p2 = { x: 0, y: 0 }) => {
 	const { distance, angle } = calculateEdgeFromNodes(p1, p2);
-	return getEdgeDataFromPointAndAngle(p1, distance, angle)
+	return getEdgeDataFromPointAndAngle(p1, distance, angle) //{ distance, angle, edgeStyle }
 };
 
-
-export const getEdges = (nodes) => {
-	if (!nodes) return
-
-	const edges = [];
-
-	for (let i = 0; i < nodes.length - 1; i++) {
-		const edge = getEdgeData(nodes[i].position, nodes[i + 1].position);
-		edges.push(edge);
-	}
-
-	return edges;
-};
