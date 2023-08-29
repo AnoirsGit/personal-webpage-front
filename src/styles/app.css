@@ -52,3 +52,7 @@ a{
 .abs-center-y{
   @apply absolute top-1/2 -translate-x-1/2 -translate-y-1/2
 }
+
+.tooltip{
+  @apply absolute z-tooltip bg-black/40 text-slate-800 p-2 border rounded-lg text-xs text-white;
+}

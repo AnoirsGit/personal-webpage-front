@@ -8,10 +8,6 @@
 	let offsetY = 0;
 	let isDragging = false;
 
-	let repeatTimes = 30;
-	let dummyArray = Array.from({ length: repeatTimes }, (_, index) => index);
-	let dummyArra1 = Array.from({ length: repeatTimes }, (_, index) => index);
-
 	const handleWheel = (event) => {
 		event.preventDefault();
 		const deltaY = event.deltaY;
@@ -49,7 +45,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="draggable-container w-full h-96 mb-32 overflow-hidden {isDragging ? 'cursor-grab' : ''}"
+	class="draggable-container w-full h-144 overflow-hidden {isDragging ? 'cursor-grab' : ''}"
 	on:wheel={handleWheel}
 	on:mousedown={handleMouseDown}
 	on:mousemove={handleMouseMove}
@@ -57,7 +53,7 @@
 	style="position: relative;"
 >
 	<div
-		class="draggable-content bg-red-200 w-full h-320"
+		class="draggable-content bg-red-200 w-screen h-320"
 		style="
         transform-origin: top left;
         transform: scale({scale});
@@ -65,14 +61,6 @@
         position: absolute;
       "
 	>
-		{#each dummyArray as i}
-			{#each dummyArra1 as j}
-				<div
-					class="absolute w-[100px] h-[100px] border-2"
-					style="left: {100 * i}px; top:{100 * j}px;"
-				/>
-			{/each}
-		{/each}
 		<slot />
 	</div>
 </div>

@@ -5,7 +5,9 @@
 	import TreeWrapper from './TreeWrapper.svelte';
 	import { getNodeUnderMouse } from './helpers/node';
 	import { nodesMock } from '../../mocks/tree';
+	import TreeActionBar from './treeActionBar.svelte';
 
+	export let isEditMode = true;
 	export let nodes = nodesMock;
 
 	let nodesToConnect = [{ sourceNodeId: 1, targetNodeId: 2 }];
@@ -67,22 +69,34 @@
 		window.addEventListener('mousemove', handleMouseMove);
 		window.addEventListener('mouseup', handleMouseUp);
 	};
+
+	const handleEdgeDelete = (index) => {
+    nodesToConnect = nodesToConnect.filter((_, i) => index !== i);
+};
 </script>
 
-<TreeWrapper {allowTreeDrag}>
-	<Edges {nodesToConnect} {nodes} />
+<div class="flex gap-3  mb-32">
+	<div class="relative {isEditMode ? 'w-3/5' : 'w-full'}">
+		<TreeActionBar />
+		<TreeWrapper {allowTreeDrag}>
+			<Edges onEdgeDelete={handleEdgeDelete} {nodesToConnect} {nodes} />
 
-	{#each nodes as node}
-		<Node
-			{node}
-			active={edgeToConnectId === node.id}
-			onNodeDrag={handleNodeDrag}
-			onDragDone={handleNodeDragDone}
-			onNewEdge={handleNewEdgeClick}
-		/>
-	{/each}
+			{#each nodes as node}
+				<Node
+					{node}
+					active={edgeToConnectId === node.id}
+					onNodeDrag={handleNodeDrag}
+					onDragDone={handleNodeDragDone}
+					onNewEdge={handleNewEdgeClick}
+				/>
+			{/each}
 
-	{#if newEdge && isNewEdgeDragging}
-		<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
+			{#if newEdge && isNewEdgeDragging}
+				<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
+			{/if}
+		</TreeWrapper>
+	</div>
+	{#if isEditMode}
+		<div class="w-2/5 bg-white rounded-xl" > adsfas </div>
 	{/if}
-</TreeWrapper>
+</div>
