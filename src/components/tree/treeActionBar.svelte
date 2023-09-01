@@ -7,7 +7,7 @@
 	<div class="w-max h-max flex text-slate-800 text-xs">
 		<button class="flex gap-1 items-center hover:text-blue-500" on:click={onNodeAdd}>
 			<div class="w-3 h-3 rotate-45"><FaNeuter /></div>
-			Add Node</button
-		>
+			Add Node
+		</button>
 	</div>
 </div>

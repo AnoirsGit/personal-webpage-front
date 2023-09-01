@@ -88,7 +88,7 @@
 
 	const handleNodeSelect = (nodeId) => {
 		const selectedNode = nodes.find((node) => node.id === nodeId);
-		itemToEdit = { type: 'NODE', item: selectedNode };
+		itemToEdit = { type: 'NODE', item: { ...selectedNode } };
 	};
 
 	const handleWrapperZoomScrollChange = ({ x, y, scale }) => (wrapperZoomScroll = { x, y, scale });
@@ -138,7 +138,7 @@
 	</div>
 	{#if isEditMode}
 		<div class="w-2/5 bg-white rounded-xl">
-			<EditForm itemToEdit />
+			<EditForm {itemToEdit} />
 		</div>
 	{/if}
 </div>
