@@ -8,7 +8,6 @@
 	let edges;
 	$: {
 		edges = nodesToConnect.map((nodesPair) => {
-			console.log(nodesToConnect);
 			const p1 = nodes.find((node) => node.id === nodesPair.sourceNodeId)?.position;
 			const p2 = nodes.find((node) => node.id === nodesPair.targetNodeId)?.position;
 
@@ -16,7 +15,6 @@
 			return { p1, p2 };
 		});
 	}
-
 </script>
 
 {#each edges as edge, index}

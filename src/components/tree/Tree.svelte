@@ -3,12 +3,19 @@
 	import Edge from './edge/Edge.svelte';
 	import Edges from './edge/Edges.svelte';
 	import TreeWrapper from './TreeWrapper.svelte';
-	import { getNodeUnderMouse } from './helpers/node';
+
+	import { getNodeUnderMouse, newNodePosition } from './helpers/node';
 	import { nodesMock } from '../../mocks/tree';
+	import { generateRandomID } from './helpers/helper';
+
+	import EditForm from './EditForm.svelte';
 	import TreeActionBar from './treeActionBar.svelte';
 
 	export let isEditMode = true;
 	export let nodes = nodesMock;
+
+	let tree;
+	let wrapperZoomScroll = { x: 0, y: 0, scale: 1 };
 
 	let nodesToConnect = [{ sourceNodeId: 1, targetNodeId: 2 }];
 
@@ -16,6 +23,7 @@
 	let isNewEdgeDragging = false;
 	let newEdge;
 	let edgeToConnectId = 0;
+	let itemToEdit;
 
 	const addNewEdge = (sourceNodeId, targetNodeId) => {
 		const edgeExists = nodesToConnect.some(
@@ -77,12 +85,38 @@
 	const handleNodeDelete = (nodeId) => {
 		nodes = nodes.filter((node) => node.id !== nodeId);
 	};
+
+	const handleNodeSelect = (nodeId) => {
+		const selectedNode = nodes.find((node) => node.id === nodeId);
+		itemToEdit = { type: 'NODE', item: selectedNode };
+	};
+
+	const handleWrapperZoomScrollChange = ({ x, y, scale }) => (wrapperZoomScroll = { x, y, scale });
+
+	const handleNodeAdd = () => {
+		const nodePosition = newNodePosition(wrapperZoomScroll, tree, 80);
+		let mockId;
+
+		do {
+			mockId = `mock-${generateRandomID(6)}`;
+		} while (nodes.some((node) => node.id === mockId));
+
+		const newNode = {
+			id: mockId,
+			treeId: 1,
+			size: 80,
+			position: nodePosition,
+			isActive: false
+		};
+
+		nodes = [...nodes, newNode];
+	};
 </script>
 
 <div class="flex gap-3 mb-32">
-	<div class="relative {isEditMode ? 'w-3/5' : 'w-full'}">
-		<TreeActionBar />
-		<TreeWrapper {allowTreeDrag}>
+	<div bind:this={tree} class="relative {isEditMode ? 'w-3/5' : 'w-full'}">
+		<TreeActionBar onNodeAdd={handleNodeAdd} />
+		<TreeWrapper {allowTreeDrag} onZoomScrollChange={handleWrapperZoomScrollChange}>
 			<Edges onEdgeDelete={handleEdgeDelete} {nodesToConnect} {nodes} />
 
 			{#each nodes as node}
@@ -93,6 +127,7 @@
 					onDragDone={handleNodeDragDone}
 					onNewEdge={handleNewEdgeClick}
 					onDeleteNode={handleNodeDelete}
+					onNodeSelect={handleNodeSelect}
 				/>
 			{/each}
 
@@ -102,6 +137,8 @@
 		</TreeWrapper>
 	</div>
 	{#if isEditMode}
-		<div class="w-2/5 bg-white rounded-xl">adsfas</div>
+		<div class="w-2/5 bg-white rounded-xl">
+			<EditForm itemToEdit />
+		</div>
 	{/if}
 </div>

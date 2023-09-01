@@ -24,3 +24,15 @@ export const getNodeUnderMouse = ({ nodes, node, x, y }) => {
 	}
 	return null; // Return null outside of the loop if no node is found
 };
+
+export const newNodePosition = (wrapperZoomScroll, tree, nodeSize = 80) => {
+	const parentCenterWidth = tree.offsetWidth / 2 * wrapperZoomScroll.scale;
+	const parentCenterHeight = tree.offsetHeight / 2 * wrapperZoomScroll.scale;
+
+	const center = {
+		x: wrapperZoomScroll.x + parentCenterWidth,
+		y: wrapperZoomScroll.y + parentCenterHeight
+	}
+
+	return center;
+}

@@ -4,6 +4,7 @@
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
 	import '../../styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from './helpers/node';
+	import FaNeuter from 'svelte-icons/fa/FaNeuter.svelte';
 
 	export let node = () => {};
 	export let onNewEdge = () => {};
@@ -11,6 +12,7 @@
 	export let onDragDone = () => {};
 	export let onDeleteNode = () => {};
 	export let onNodeSelect = () => {};
+	export let onCopyNode = () => {};
 	export let editMode = true;
 	export let active = false;
 
@@ -62,7 +64,7 @@
 	};
 
 	const handleNodeClick = () => {
-		onNodeSelect(node);
+		onNodeSelect(node.id);
 		showTooltip = !showTooltip;
 	};
 </script>
@@ -80,6 +82,11 @@
 		<button class="flex items-center gap-2" on:click={handleNewEdgeClick}>
 			<div class="w-3 h-3"><FaSlash /></div>
 			connect
+		</button>
+
+		<button class="flex items-center gap-2" on:click={() => onCopyNode(node.id)}>
+			<div class="w-3 h-3"><FaNeuter /></div>
+			copy
 		</button>
 
 		<button class="flex items-center gap-2" on:click={() => onDeleteNode(node.id)}>

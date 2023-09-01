@@ -2,11 +2,13 @@
 	export let minZoom = 1;
 	export let maxZoom = 2;
 	export let allowTreeDrag = true;
+	export let onZoomScrollChange = () => {};
 
 	let scale = 1;
 	let offsetX = 0;
 	let offsetY = 0;
 	let isDragging = false;
+	let container;
 
 	const handleWheel = (event) => {
 		event.preventDefault();
@@ -17,6 +19,8 @@
 		} else {
 			scale = Math.min(maxZoom, scale + 0.1);
 		}
+
+		onZoomScrollChange({ x: container.scrollLeft, y: container.scrollTop, scale });
 	};
 
 	const handleMouseDown = (event) => {
@@ -30,9 +34,10 @@
 
 		const deltaX = event.clientX - offsetX;
 		const deltaY = event.clientY - offsetY;
-		const container = event.target.closest('.draggable-container');
 		container.scrollLeft -= deltaX;
 		container.scrollTop -= deltaY;
+
+		onZoomScrollChange({ x: container.scrollLeft, y: container.scrollTop, scale });
 
 		offsetX = event.clientX;
 		offsetY = event.clientY;
@@ -46,6 +51,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="draggable-container w-full h-144 overflow-hidden {isDragging ? 'cursor-grab' : ''}"
+	bind:this={container}
 	on:wheel={handleWheel}
 	on:mousedown={handleMouseDown}
 	on:mousemove={handleMouseMove}
