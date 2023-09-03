@@ -1,11 +1,11 @@
 <script>
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import { randomColorGenerator } from '../helpers/colorGenerator';
 	import { getEdgeData } from '../helpers/edge';
+	import GlowingElement from '../../UI/GlowingElement.svelte';
 
 	export let index;
+	export let color;
 	export let width = 1;
-	export let color = randomColorGenerator();
 	export let sourcePoint;
 	export let targetPoint;
 
@@ -31,12 +31,19 @@
 	};
 </script>
 
-<button on:click={handleEdgeClick} class="absolute z-edge origin-top-left bg-[{color}]" {style} />
+<button
+	on:click={handleEdgeClick}
+	class="absolute z-edge origin-top-left {color ? `bg-[${color}]` : 'bg-violet-700'}"
+	{style}
+>
+	<GlowingElement isInner={true} size={1} color="rgba(100, 40, 220 , 0.5)" opacity={20} /></button
+>
 
 {#if showTooltip && isDeletable}
 	<div class="tooltip" style="top: {toolTipPosition.y}px; left: {toolTipPosition.x}px">
 		<button class="flex items-center gap-2" on:click={() => onDelete(index)}>
-			<div class="w-3 h-3"><MdDelete /></div> delete
+			<div class="w-3 h-3"><MdDelete /></div>
+			 delete
 		</button>
 	</div>
 {/if}

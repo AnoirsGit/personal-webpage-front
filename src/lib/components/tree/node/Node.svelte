@@ -2,15 +2,18 @@
 	import GiMove from 'svelte-icons/gi/GiMove.svelte';
 	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import '../../styles/node.css';
-	import { getNodeCenter, getNodePositionStyle } from './helpers/node';
+	import '$lib/styles/node.css';
+	import { getNodeCenter, getNodePositionStyle } from '../helpers/node';
 
 	export let node = () => {};
+	export let allowActions = false;
 	export let onNewEdge = () => {};
 	export let onNodeDrag = () => {};
 	export let onDragDone = () => {};
 	export let onDeleteNode = () => {};
 	export let onNodeSelect = () => {};
+	export let onMouseEnterNode = () => {};
+	export let onMouseLeaveNode = () => {};
 	export let editMode = true;
 	export let active = false;
 
@@ -39,6 +42,8 @@
 		const initialY = event.clientY - node.position.y;
 
 		const handleMouseMove = (event) => {
+			if (!allowActions) isDragging = false;
+
 			if (isDragging) {
 				const y = event.clientY - initialY;
 				const x = event.clientX - initialX;
@@ -65,6 +70,10 @@
 		onNodeSelect(node.id);
 		showTooltip = !showTooltip;
 	};
+
+	const onMouseMove = (event) => onMouseEnterNode(node.id, event)
+
+	const onMouseLeave = () => onMouseLeaveNode()
 </script>
 
 {#if showTooltip}
@@ -89,4 +98,17 @@
 	</div>
 {/if}
 
-<button class="absolute m-0 w-20 h-20 bg-red-400 z-node" {style} on:click={handleNodeClick} />
+<button
+	class="absolute m-0 w-20 h-20 z-node bg-white border-4 border-main-blue-50 rotate-45 overflow-hidden"
+	{style}
+	on:click={handleNodeClick}
+	on:mousemove={onMouseMove}
+	on:mouseleave={onMouseLeave}
+>
+	<img
+		class="-rotate-45 w-full h-full"
+		src={node.imageUrl}
+		crossorigin="anonymous"
+		alt={node.title}
+	/>
+</button>

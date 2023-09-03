@@ -1,29 +1,32 @@
 <script>
-	import Node from './Node.svelte';
+	import Node from './node/Node.svelte';
 	import Edge from './edge/Edge.svelte';
 	import Edges from './edge/Edges.svelte';
 	import TreeWrapper from './TreeWrapper.svelte';
 
-	import { getNodeUnderMouse, newNodePosition } from './helpers/node';
-	import { nodesMock } from '../../mocks/tree';
-	import { generateRandomID } from './helpers/helper';
+	import { getNodeUnderMouse, createNodeTooltip, addNodeToTree } from './helpers/node';
+	import { nodesMock } from '$lib/mocks/tree';
 
-	import EditForm from './EditForm.svelte';
+	import EditForm from './node/EditForm.svelte';
 	import TreeActionBar from './treeActionBar.svelte';
+	import NodeTooltip from './node/NodeTooltip.svelte';
 
 	export let isEditMode = true;
 	export let nodes = nodesMock;
+	export let treeId = 1;
 
 	let tree;
 	let wrapperZoomScroll = { x: 0, y: 0, scale: 1 };
 
 	let nodesToConnect = [{ sourceNodeId: 1, targetNodeId: 2 }];
 
+	let allowActions = false;
 	let allowTreeDrag = true;
 	let isNewEdgeDragging = false;
 	let newEdge;
 	let edgeToConnectId = 0;
-	let itemToEdit;
+	let nodeToEdit;
+	let nodeTooltip = null;
 
 	const addNewEdge = (sourceNodeId, targetNodeId) => {
 		const edgeExists = nodesToConnect.some(
@@ -88,40 +91,52 @@
 
 	const handleNodeSelect = (nodeId) => {
 		const selectedNode = nodes.find((node) => node.id === nodeId);
-		itemToEdit = { type: 'NODE', item: { ...selectedNode } };
+		nodeToEdit = { ...selectedNode };
 	};
 
 	const handleWrapperZoomScrollChange = ({ x, y, scale }) => (wrapperZoomScroll = { x, y, scale });
 
 	const handleNodeAdd = () => {
-		const nodePosition = newNodePosition(wrapperZoomScroll, tree, 80);
-		let mockId;
-
-		do {
-			mockId = `mock-${generateRandomID(6)}`;
-		} while (nodes.some((node) => node.id === mockId));
-
-		const newNode = {
-			id: mockId,
-			treeId: 1,
-			size: 80,
-			position: nodePosition,
-			isActive: false
-		};
+		const newNode = addNodeToTree(nodes, wrapperZoomScroll, tree, treeId);
 
 		nodes = [...nodes, newNode];
 	};
+
+	const handleMouseEnter = () => setTimeout(() => (allowActions = true), 500);
+	const handleMouseLeave = () => (allowActions = false);
+
+	const handleMouseMoveNode = (nodeId, event) => {
+		const node = nodes.find((tempNode) => tempNode.id === nodeId);
+		nodeTooltip = createNodeTooltip(node, wrapperZoomScroll, tree, event);
+	};
+	const handleMouseLeaveNode = () => (nodeTooltip = null);
+
+	const handleSaveNode = (node) => {
+		nodes = [...nodes.filter( tempNode => tempNode.id !== node.id), node]
+	}
 </script>
 
-<div class="flex gap-3 mb-32">
-	<div bind:this={tree} class="relative {isEditMode ? 'w-3/5' : 'w-full'}">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="flex flex-col xl:flex-row gap-3 mb-32">
+	<div
+		bind:this={tree}
+		on:mouseenter={handleMouseEnter}
+		on:mouseleave={handleMouseLeave}
+		class="relative bg-main-blue-90 rounded {isEditMode ? 'w-3/5' : 'w-full'}"
+	>
+		{#if nodeTooltip}
+			<NodeTooltip {nodeTooltip} />
+		{/if}
 		<TreeActionBar onNodeAdd={handleNodeAdd} />
-		<TreeWrapper {allowTreeDrag} onZoomScrollChange={handleWrapperZoomScrollChange}>
+		<TreeWrapper {allowActions} {allowTreeDrag} onZoomScrollChange={handleWrapperZoomScrollChange}>
 			<Edges onEdgeDelete={handleEdgeDelete} {nodesToConnect} {nodes} />
 
 			{#each nodes as node}
 				<Node
 					{node}
+					{allowActions}
+					onMouseEnterNode={handleMouseMoveNode}
+					onMouseLeaveNode={handleMouseLeaveNode}
 					active={edgeToConnectId === node.id}
 					onNodeDrag={handleNodeDrag}
 					onDragDone={handleNodeDragDone}
@@ -138,7 +153,7 @@
 	</div>
 	{#if isEditMode}
 		<div class="w-2/5 bg-white rounded-xl">
-			<EditForm {itemToEdit} />
+			<EditForm node={nodeToEdit} onSaveNode={handleSaveNode} />
 		</div>
 	{/if}
 </div>

@@ -1,5 +1,5 @@
 <script>
-  import "../styles/header.css";
+  import "$lib/styles/header.css";
   import MdKeyboardArrowDown from 'svelte-icons/md/MdKeyboardArrowDown.svelte'
 </script>
 

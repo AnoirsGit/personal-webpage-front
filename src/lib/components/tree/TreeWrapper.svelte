@@ -1,6 +1,7 @@
 <script>
 	export let minZoom = 1;
 	export let maxZoom = 2;
+	export let allowActions = false;
 	export let allowTreeDrag = true;
 	export let onZoomScrollChange = () => {};
 
@@ -30,7 +31,8 @@
 	};
 
 	$: handleMouseMove = (event) => {
-		if (!isDragging || !allowTreeDrag) return;
+		if(!allowActions) isDragging = false
+		if (!isDragging || !allowTreeDrag ) return;
 
 		const deltaX = event.clientX - offsetX;
 		const deltaY = event.clientY - offsetY;
@@ -50,7 +52,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="draggable-container w-full h-144 overflow-hidden {isDragging ? 'cursor-grab' : ''}"
+	class="draggable-container w-full h-144 overflow-hidden {isDragging && allowActions? 'cursor-grab' : ''}"
 	bind:this={container}
 	on:wheel={handleWheel}
 	on:mousedown={handleMouseDown}
@@ -59,7 +61,7 @@
 	style="position: relative;"
 >
 	<div
-		class="draggable-content bg-red-200 w-screen h-320"
+		class="draggable-content  w-screen h-320"
 		style="
         transform-origin: top left;
         transform: scale({scale});

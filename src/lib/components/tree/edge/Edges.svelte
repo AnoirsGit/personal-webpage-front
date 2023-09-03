@@ -19,12 +19,14 @@
 
 {#each edges as edge, index}
 	{#if edge}
-		<Edge
-			isDeletable={true}
-			{index}
-			onDelete={onEdgeDelete}
-			sourcePoint={edge.p1}
-			targetPoint={edge.p2}
-		/>
+
+	<Edge
+		isDeletable={true}
+		{index}
+		width=2
+		onDelete={onEdgeDelete}
+		sourcePoint={edge.p1}
+		targetPoint={edge.p2}
+	/>
 	{/if}
 {/each}
