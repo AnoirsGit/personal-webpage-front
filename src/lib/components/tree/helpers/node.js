@@ -57,28 +57,3 @@ export const addNodeToTree = (nodes, wrapperZoomScroll, tree, treeId, params) =>
 		position: nodePosition
 	};
 };
-
-export const tooltipPositionFromMouseAndTree = (wrapperZoomScroll, tree, mouseEvent) => {
-	const containerRect = tree.getBoundingClientRect();
-	const mouseX = mouseEvent.clientX - containerRect.left;
-	const mouseY = containerRect.height - (mouseEvent.clientY - containerRect.top);
-
-	// Calculate the adjusted tooltip position
-	const tooltipPosition = {
-		x: mouseX / wrapperZoomScroll.scale + wrapperZoomScroll.x,
-		y: mouseY / wrapperZoomScroll.scale + wrapperZoomScroll.y
-	};
-
-	return tooltipPosition;
-};
-
-export const createNodeTooltip = (node, wrapperZoomScroll, tree, event) => {
-	const position = tooltipPositionFromMouseAndTree(wrapperZoomScroll, tree, event);
-	return {
-		title: node.title,
-		description: node.description,
-		imageUrl: node.imageUrl,
-    tags: node.tags,
-		style: `bottom: ${position.y}px; left: ${position.x}px`
-	};
-};

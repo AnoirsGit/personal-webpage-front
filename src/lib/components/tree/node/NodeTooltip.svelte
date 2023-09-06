@@ -1,28 +1,25 @@
 <script>
-	import {marked} from 'marked';
+	import { marked } from 'marked';
 	import { onMount } from 'svelte';
-	
+
 	export let nodeTooltip = null;
 
-	let description
-	
-	onMount(() => {
+	let description;
 
+	onMount(() => {
 		const renderer = new marked.Renderer();
 
-    // Define a custom function for rendering text within elements
-    renderer.text = function (text) {
-      // You can apply custom styling here if needed
-      return '<span class="custom-text">' + text + '</span>';
-    };
+		// Define a custom function for rendering text within elements
+		renderer.text = function (text) {
+			// You can apply custom styling here if needed
+			return '<span class="custom-text">' + text + '</span>';
+		};
 
-		description.innerHTML = marked((nodeTooltip?.description || ''), renderer)
-	})
-
-
+		description.innerHTML = marked(nodeTooltip?.description || '', renderer);
+	});
 </script>
 
-<div class="tooltip-data flex flex-col gap-2 w-60 h-max" style={nodeTooltip.style}>
+<div class="tooltip-data flex flex-col gap-2 w-60 h-max right-2 top-2" >
 	<div class="flex flex-col gap-3 h-max pb-3 border-b border-slate-500">
 		<div class="w-full flex-center gap-3">
 			{#if nodeTooltip.imageUrl && nodeTooltip.imageUrl !== ''}
@@ -37,12 +34,11 @@
 		</div>
 
 		<div class="flex flex-wrap gap-3">
-			{#each nodeTooltip.tags as tag }
+			{#each nodeTooltip.tags as tag}
 				<div class="py-2 px-3 rounded bg-[rgba(255,255,255,0.1)]">
 					{tag}
-					</div>
+				</div>
 			{/each}
-
 		</div>
 	</div>
 

@@ -4,7 +4,7 @@
 	import Edges from './edge/Edges.svelte';
 	import TreeWrapper from './TreeWrapper.svelte';
 
-	import { getNodeUnderMouse, createNodeTooltip, addNodeToTree } from './helpers/node';
+	import { getNodeUnderMouse, addNodeToTree } from './helpers/node';
 	import { nodesMock } from '$lib/mocks/tree';
 
 	import EditForm from './node/EditForm.svelte';
@@ -27,6 +27,7 @@
 	let edgeToConnectId = 0;
 	let nodeToEdit;
 	let nodeTooltip = null;
+	let nodeTooltipDebounceTimer = null;
 
 	const addNewEdge = (sourceNodeId, targetNodeId) => {
 		const edgeExists = nodesToConnect.some(
@@ -105,15 +106,20 @@
 	const handleMouseEnter = () => setTimeout(() => (allowActions = true), 500);
 	const handleMouseLeave = () => (allowActions = false);
 
-	const handleMouseMoveNode = (nodeId, event) => {
+	const handleMouseMoveNode = (nodeId) => {
 		const node = nodes.find((tempNode) => tempNode.id === nodeId);
-		nodeTooltip = createNodeTooltip(node, wrapperZoomScroll, tree, event);
+		nodeTooltip = node;
 	};
-	const handleMouseLeaveNode = () => (nodeTooltip = null);
+	const handleMouseLeaveNode = () => {
+		clearTimeout(nodeTooltipDebounceTimer);
+		nodeTooltipDebounceTimer = setTimeout(() => {
+			nodeTooltip = null;
+		}, 500); // 1000 milliseconds (1 second)
+	};
 
 	const handleSaveNode = (node) => {
-		nodes = [...nodes.filter( tempNode => tempNode.id !== node.id), node]
-	}
+		nodes = [...nodes.filter((tempNode) => tempNode.id !== node.id), node];
+	};
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -135,7 +141,7 @@
 				<Node
 					{node}
 					{allowActions}
-					onMouseEnterNode={handleMouseMoveNode}
+					onMouseMoveNode={handleMouseMoveNode}
 					onMouseLeaveNode={handleMouseLeaveNode}
 					active={edgeToConnectId === node.id}
 					onNodeDrag={handleNodeDrag}

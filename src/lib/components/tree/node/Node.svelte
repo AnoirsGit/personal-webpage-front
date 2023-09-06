@@ -12,7 +12,7 @@
 	export let onDragDone = () => {};
 	export let onDeleteNode = () => {};
 	export let onNodeSelect = () => {};
-	export let onMouseEnterNode = () => {};
+	export let onMouseMoveNode = () => {};
 	export let onMouseLeaveNode = () => {};
 	export let editMode = true;
 	export let active = false;
@@ -71,7 +71,7 @@
 		showTooltip = !showTooltip;
 	};
 
-	const onMouseMove = (event) => onMouseEnterNode(node.id, event)
+	const onMouseMove = (event) => onMouseMoveNode(node.id, event)
 
 	const onMouseLeave = () => onMouseLeaveNode()
 </script>
