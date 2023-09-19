@@ -123,7 +123,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="flex flex-col xl:flex-row gap-3 mb-32">
+<div class="flex flex-col lg:flex-row gap-3 mb-32">
 	<div
 		bind:this={tree}
 		on:mouseenter={handleMouseEnter}
