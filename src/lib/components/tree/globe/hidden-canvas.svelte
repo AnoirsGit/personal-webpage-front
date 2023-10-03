@@ -16,31 +16,40 @@
 		const centerImageY = (canvas.height - image.height) / 2;
 		ctx.drawImage(image, centerImageX, centerImageY);
 		const { data: pixels } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		// const impacts = [];
-		// for (let i = 0; i < CountriesAndCities.length; i++) {
-		// 	impacts.push({
-		// 		impactPosition: new Vector3(
-		// 			CountriesAndCities[i].position[0],
-		// 			CountriesAndCities[i].position[3],
-		// 			CountriesAndCities[i].position[2]
-		// 		),
-		// 		impactMaxRadius: THREE.Math.randFloat(0.0001, 0.002),
-		// 		impactRatio: 0.01
-		// 	});
-		// }
 
-		// uniforms 301 row
-		const arrOfPoints = [];
+		// Географические координаты углов карты (примерные значения)
+		const topLeftLongitude = -180; // Долгота левого верхнего угла карты
+		const topLeftLatitude = 90; // Широта левого верхнего угла карты
+		const bottomRightLongitude = 180; // Долгота правого нижнего угла карты
+		const bottomRightLatitude = -90; // Широта правого нижнего угла карты
 
-		for (let y = 0; y < canvas.width; y++) {
+		const pixelDataArray = [];
+
+		// Преобразование пикселей в координаты и проверка альфа-значения
+		for (let y = 0; y < canvas.height; y++) {
 			for (let x = 0; x < canvas.width; x++) {
-				const alpha = pixels[(canvas.width * y + x) * 4 + 3];
-				// console.log(alpha);
-				if (alpha > 200) arrOfPoints.push([x - canvas.width, y - canvas.width / 6.2]); // 6.2 is an indentation from south
+				// Получение индекса пикселя
+				const pixelIndex = (y * canvas.width + x) * 4;
+
+				// Получение значения альфа-канала пикселя
+				const alpha = pixels[pixelIndex + 3];
+
+				// Проверка альфа-значения
+				if (alpha > 200) {
+					// Преобразование цвета пикселя в долготу и широту
+					const longitude =
+						topLeftLongitude + (x / canvas.width) * (bottomRightLongitude - topLeftLongitude);
+					const latitude =
+						topLeftLatitude - (y / canvas.height) * (topLeftLatitude - bottomRightLatitude);
+
+					// Добавление координаты в массив
+					pixelDataArray.push({ latitude, longitude });
+				}
 			}
 		}
-		console.log(arrOfPoints);
-		onGlobeImageDataLoad(arrOfPoints);
+		console.log(pixelDataArray);
+
+		onGlobeImageDataLoad(pixelDataArray);
 	});
 </script>
 

@@ -5,8 +5,9 @@
 	import * as Utils from 'three/src/math/MathUtils';
 	import { PLACE_POINTER_DATA } from './consts';
 	import HiddenCanvas from './hidden-canvas.svelte';
+	import { mapArrayOfCoordinatesToPosition } from '../helpers/globePositionHelper';
 
-	const globe = { size: 3 };
+	let arrayOfGlobeDots = [];
 
 	let placePointer = [];
 	let text = 'KAVO';
@@ -21,7 +22,23 @@
 		placePointer = [...placePointer, { pointer, pointerBottom, color: PLACE_POINTER_DATA.color }];
 	};
 
-	const handleArrayOfPixelsLoad = (arrayOfPixels) => {};
+	const handleArrayOfPixelsLoad = (arrayOfPixels) => {
+		// const countries = [
+		// 	{ name: 'United States', latitude: 37.0902, longitude: -95.7129 },
+		// 	{ name: 'Canada', latitude: 56.1304, longitude: -106.3468 },
+		// 	{ name: 'United Kingdom', latitude: 51.5098, longitude: -0.118 },
+		// 	{ name: 'Australia', latitude: -25.2744, longitude: 133.7751 },
+		// 	{ name: 'Brazil', latitude: -14.235, longitude: -51.9253 },
+		// 	{ name: 'India', latitude: 20.5937, longitude: 78.9629 },
+		// 	{ name: 'China', latitude: 35.8617, longitude: 104.1954 },
+		// 	{ name: 'Russia', latitude: 61.524, longitude: 105.3188 },
+		// 	{ name: 'South Africa', latitude: -30.5595, longitude: 22.9375 },
+		// 	{ name: 'Japan', latitude: 36.2048, longitude: 138.2529 }
+		// ];
+		arrayOfGlobeDots = mapArrayOfCoordinatesToPosition(arrayOfPixels, 5.05);
+		console.log(arrayOfGlobeDots.length);
+		console.log(arrayOfGlobeDots);
+	};
 
 	addPlacePointer({});
 </script>
@@ -35,16 +52,24 @@
 				ref.lookAt(0, 0, 0);
 			}}
 		>
-			<!-- <OrbitControls /> -->
+			<OrbitControls />
 		</T.PerspectiveCamera>
 		<T.DirectionalLight castShadow color="white" position={[-2, 6, 5]} intensity={1.3} />
 		<T.DirectionalLight castShadow color="white" position={[10, -8, -10]} intensity={0.2} />
 
 		<T.Mesh
 			position={[0, 0, 0]}
-			geometry={new Three.SphereGeometry(5, 64, 64)}
+			geometry={new Three.SphereGeometry(5, 50, 50)}
 			material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
 		/>
+
+		{#each arrayOfGlobeDots as dot}
+			<T.Mesh
+				position={dot}
+				geometry={new Three.SphereGeometry(0.01, 10, 10)}
+				material={new Three.MeshBasicMaterial({ color: '#fff' })}
+			/>
+		{/each}
 		<T.GridHelper args={[10, 10]} />
 		<T.AxesHelper args={[8]} />
 		{#each placePointer as pointer}
@@ -96,7 +121,6 @@
 				ref.rotateY(Math.PI);
 			}}
 		/>
-		<T.Mesh material={new Three.MeshBasicMaterial({ opacity: 0, transparent: true })} />
 	</Canvas>
 
 	<HiddenCanvas onGlobeImageDataLoad={handleArrayOfPixelsLoad} />
