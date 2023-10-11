@@ -3,7 +3,7 @@
 	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
 	import '$lib/styles/node.css';
-	import { getNodeCenter, getNodePositionStyle } from '../helpers/node';
+	import { getNodeCenter, getNodePositionStyle } from '$lib/helpers/node';
 
 	export let node = () => {};
 	export let allowActions = false;
@@ -71,9 +71,9 @@
 		showTooltip = !showTooltip;
 	};
 
-	const onMouseMove = (event) => onMouseMoveNode(node.id, event)
+	const onMouseMove = (event) => onMouseMoveNode(node.id, event);
 
-	const onMouseLeave = () => onMouseLeaveNode()
+	const onMouseLeave = () => onMouseLeaveNode();
 </script>
 
 {#if showTooltip}

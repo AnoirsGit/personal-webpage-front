@@ -1,7 +1,7 @@
 <script>
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import { getEdgeData } from '../helpers/edge';
-	import GlowingElement from '../../UI/GlowingElement.svelte';
+	import { getEdgeData } from '$lib/helpers/edge';
+	import GlowingElement from '$lib/components/UI/GlowingElement.svelte';
 
 	export let index;
 	export let color;
@@ -43,7 +43,7 @@
 	<div class="tooltip" style="top: {toolTipPosition.y}px; left: {toolTipPosition.x}px">
 		<button class="flex items-center gap-2" on:click={() => onDelete(index)}>
 			<div class="w-3 h-3"><MdDelete /></div>
-			 delete
+			delete
 		</button>
 	</div>
 {/if}

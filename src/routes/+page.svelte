@@ -1,8 +1,8 @@
 <script>
 	import LeftNavigationLine from '$lib/components/UI/LeftNavigationLine.svelte';
-	import Globe from '$lib/components/tree/globe/globe.svelte';
-	import ParticleImage from '../lib/components/canvas-animation/ParticleImage.svelte';
-	import Tree from '../lib/components/tree/Tree.svelte';
+	import Globe from '$lib/components/globe/globe.svelte';
+	import ParticleImage from '$lib/components/canvas-animation/ParticleImage.svelte';
+	import Tree from '$lib/components/tree/Tree.svelte';
 </script>
 
 <section class="flex gap-4">
