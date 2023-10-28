@@ -2,7 +2,6 @@
 	import { Canvas, T } from '@threlte/core';
 	import { OrbitControls, Text } from '@threlte/extras';
 	import * as Three from 'three';
-	import * as Utils from 'three/src/math/MathUtils';
 
 	import HiddenCanvas from './hidden-canvas.svelte';
 	import {
@@ -12,18 +11,17 @@
 	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
 
 	let coordinatesFromPixels = [];
-	let coordinationCircleMaterial;
+	const coordinationCircleMaterial = new Three.MeshBasicMaterial({
+		color: 'white',
+		side: Three.BackSide
+	});
+	const coordinationCircleGeometry = new Three.CircleGeometry(0.02, 4);
 
 	const placePointer = CITY_COORDINATES.find((city) => city.name === 'Almaty');
 	const globeRadius = 5;
 
 	const handleArrayOfPixelsLoad = (arrayOfPixels) => {
 		coordinatesFromPixels = mapArrayOfCoordinatesToPosition(arrayOfPixels, globeRadius + 0.05);
-
-		coordinationCircleMaterial = new Three.MeshBasicMaterial({
-			color: '#fff',
-			side: Three.BackSide
-		});
 	};
 </script>
 
@@ -50,7 +48,7 @@
 		{#each coordinatesFromPixels as dot}
 			<T.Mesh
 				position={dot}
-				geometry={new Three.PlaneGeometry(0.03, 0.03)}
+				geometry={coordinationCircleGeometry}
 				material={coordinationCircleMaterial}
 				on:create={({ ref }) => {
 					ref.lookAt(0, 0, 0);
