@@ -3,26 +3,22 @@
 	import { OrbitControls, Text } from '@threlte/extras';
 	import * as Three from 'three';
 
-	import HiddenCanvas from './hidden-canvas.svelte';
 	import {
 		mapArrayOfCoordinatesToPosition,
 		getPositionOnGlobeFromCoordinates
 	} from '$lib/helpers/globePositionHelper';
 	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
+	import globePoints from '$lib/data/globe-points.json';
 
-	let coordinatesFromPixels = [];
+	let coordinatesFromPixels = mapArrayOfCoordinatesToPosition(globePoints, globeRadius + 0.05);
 	const coordinationCircleMaterial = new Three.MeshBasicMaterial({
 		color: 'white',
 		side: Three.BackSide
 	});
-	const coordinationCircleGeometry = new Three.CircleGeometry(0.02, 4);
+	const coordinationCircleGeometry = new Three.CircleGeometry(0.02, 7);
 
 	const placePointer = CITY_COORDINATES.find((city) => city.name === 'Almaty');
 	const globeRadius = 5;
-
-	const handleArrayOfPixelsLoad = (arrayOfPixels) => {
-		coordinatesFromPixels = mapArrayOfCoordinatesToPosition(arrayOfPixels, globeRadius + 0.05);
-	};
 </script>
 
 <div class="border-2 border-white w-100% h-192">
@@ -119,6 +115,4 @@
 			}}
 		/>
 	</Canvas>
-
-	<HiddenCanvas onGlobeImageDataLoad={handleArrayOfPixelsLoad} />
 </div>

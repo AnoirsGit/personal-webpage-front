@@ -22,34 +22,36 @@ export const mapArrayOfCoordinatesToPosition = (arrOfCoordinates, radius) => {
     });
 };
 
-export const pixelsArrayToCoordinates = (width, height, pixels,) => {
-    const margin = 8
-    // Geographic coordinates of map corners (approximate values)
-    const topLeftLongitude = -180; // Longitude of the top-left corner of the map
-    const topLeftLatitude = 90 - margin; // Latitude of the top-left corner of the map with margin
-    const bottomRightLongitude = 180; // Longitude of the bottom-right corner of the map
-    const bottomRightLatitude = -90 + margin; // Latitude of the bottom-right corner of the map with margin
+export const mapPositionToArrayOfCoordinates = (positions, radius) => {
+    return positions.map(position => {
+        const x = position[0];
+        const y = position[1];
+        const z = position[2];
 
+        const latitude = (Math.asin(y / radius) * 180) / Math.PI;
+        const longitude = (Math.atan2(z, x) * 180) / Math.PI;
+
+        return {
+            latitude,
+            longitude,
+        };
+    });
+};
+
+export function generateSphericalFibonacciMapping(numDots, radius) {
+    const phi = (1 + Math.sqrt(5)) / 2; // Golden ratio
     const coordinatesArray = [];
 
-    // Convert pixels to coordinates and check alpha values
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const pixelIndex = (y * width + x) * 4; // Get the pixel index
+    for (let i = 0; i < numDots; i++) {
+        const y = 1 - (i / (numDots - 1)) * 2; // Ranges from 1 to -1
+        const radiusAtY = Math.sqrt(1 - y * y) * radius;
+        const theta = 2 * Math.PI * i / phi;
 
-            const alpha = pixels[pixelIndex + 3]; // Get the alpha channel value of the pixel
+        const x = Math.cos(theta) * radiusAtY;
+        const z = Math.sin(theta) * radiusAtY;
 
-            // Check the alpha value
-            if (alpha > 100) {
-                // Convert pixel color to longitude and latitude
-                const longitude =
-                    topLeftLongitude + (x / width) * (bottomRightLongitude - topLeftLongitude);
-                const latitude =
-                    topLeftLatitude - (y / height) * (topLeftLatitude - bottomRightLatitude);
-
-                coordinatesArray.push({ latitude, longitude }); // Add the coordinate to the array
-            }
-        }
+        coordinatesArray.push([x, y * radius, z]);
     }
+
     return coordinatesArray;
 }
