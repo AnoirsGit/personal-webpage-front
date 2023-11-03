@@ -1,4 +1,4 @@
-export const getPositionOnGlobeFromCoordinates = (radius, latitude, longitude, isIndeg = true) => {
+export const getPositionOnFromCoordinates = (radius, latitude, longitude, isIndeg = true) => {
     if (isIndeg) {
         latitude = (latitude / 180) * Math.PI;
         longitude = (longitude / 180) * Math.PI;
@@ -10,7 +10,7 @@ export const getPositionOnGlobeFromCoordinates = (radius, latitude, longitude, i
     ]
 };
 
-export const mapArrayOfCoordinatesToPosition = (arrOfCoordinates, radius) => {
+export const arrayOfCoordinatesToPosition = (arrOfCoordinates, radius) => {
     return arrOfCoordinates.map(coordinates => {
         const radLatitude = (coordinates.latitude / 180) * Math.PI;
         const radLongitude = (coordinates.longitude / 180) * Math.PI;

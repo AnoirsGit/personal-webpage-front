@@ -1,24 +1,19 @@
 <script>
-	import { Canvas, T } from '@threlte/core';
-	import { OrbitControls, Text } from '@threlte/extras';
 	import * as Three from 'three';
+	import { Canvas, T } from '@threlte/core';
+	import { OrbitControls } from '@threlte/extras';
 
-	import {
-		mapArrayOfCoordinatesToPosition,
-		getPositionOnGlobeFromCoordinates
-	} from '$lib/helpers/globePositionHelper';
+	import { arrayOfCoordinatesToPosition } from '$lib/helpers/globePositionHelper';
 	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
 	import globePoints from '$lib/data/globe-points.json';
+	import { GLOBE_RADIUS } from '$lib/consts/globeConsts';
 
-	let coordinatesFromPixels = mapArrayOfCoordinatesToPosition(globePoints, globeRadius + 0.05);
-	const coordinationCircleMaterial = new Three.MeshBasicMaterial({
-		color: 'white',
-		side: Three.BackSide
-	});
-	const coordinationCircleGeometry = new Three.CircleGeometry(0.02, 7);
+	import MapPoints from './mapPoints.svelte';
+	import PlacePointer from './placePointer.svelte';
+
+	let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
 
 	const placePointer = CITY_COORDINATES.find((city) => city.name === 'Almaty');
-	const globeRadius = 5;
 </script>
 
 <div class="border-2 border-white w-100% h-192">
@@ -32,87 +27,24 @@
 		>
 			<OrbitControls />
 		</T.PerspectiveCamera>
+
 		<T.DirectionalLight castShadow color="white" position={[-2, 6, 5]} intensity={1.3} />
 		<T.DirectionalLight castShadow color="white" position={[10, -8, -10]} intensity={0.2} />
 
-		<T.Mesh
-			position={[0, 0, 0]}
-			geometry={new Three.SphereGeometry(globeRadius, 50, 50)}
-			material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
-		/>
-
-		{#each coordinatesFromPixels as dot}
-			<T.Mesh
-				position={dot}
-				geometry={coordinationCircleGeometry}
-				material={coordinationCircleMaterial}
-				on:create={({ ref }) => {
-					ref.lookAt(0, 0, 0);
-				}}
-			/>
-		{/each}
 		<T.GridHelper args={[10, 10]} />
 		<T.AxesHelper args={[8]} />
-		{#if placePointer}
-			<T.Group>
-				<T.Mesh
-					position={getPositionOnGlobeFromCoordinates(
-						globeRadius + 0.25,
-						placePointer.latitude,
-						placePointer.longitude
-					)}
-					material={new Three.MeshBasicMaterial({ color: 'white' })}
-					geometry={new Three.CylinderGeometry(0.01, 0.01, 0.5, 8)}
-					on:create={({ ref }) => {
-						ref.translateY(0.25);
-					}}
-				/>
-				<T.Mesh
-					position={getPositionOnGlobeFromCoordinates(
-						globeRadius + 0.25,
-						placePointer.latitude,
-						placePointer.longitude
-					)}
-					geometry={new Three.CircleGeometry(0.1, 30)}
-					material={new Three.MeshBasicMaterial({ color: 'white', side: Three.DoubleSide })}
-					on:create={({ ref }) => {
-						ref.lookAt(0, 0, 0);
-					}}
-				/>
-			</T.Group>
-		{/if}
-		<Text
-			position={getPositionOnGlobeFromCoordinates(
-				globeRadius + 0.5,
-				placePointer.latitude,
-				placePointer.longitude
-			)}
-			text="ameno"
-			color="white"
-			fontSize={0.3}
-			anchorX="50%"
-			anchorY="100%"
-			on:create={({ ref }) => {
-				ref.lookAt(0, 0, 0);
-				ref.rotateY(Math.PI);
-				ref.translateY(0.2);
-			}}
-		/>
-		<Text
-			position={getPositionOnGlobeFromCoordinates(
-				globeRadius + 0.5,
-				placePointer.latitude,
-				placePointer.longitude
-			)}
-			text="ANIME"
-			color="white"
-			fontSize={0.2}
-			anchorX="50%"
-			anchorY="100%"
-			on:create={({ ref }) => {
-				ref.lookAt(0, 0, 0);
-				ref.rotateY(Math.PI);
-			}}
-		/>
+
+		<T.Group>
+			<T.Mesh
+				position={[0, 0, 0]}
+				geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
+				material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
+			/>
+
+			{#if arrayOfMapPositions && arrayOfMapPositions.length > 0}
+				<MapPoints {arrayOfMapPositions} />
+			{/if}
+			<PlacePointer {placePointer} />
+		</T.Group>
 	</Canvas>
 </div>
