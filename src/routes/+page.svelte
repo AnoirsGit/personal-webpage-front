@@ -3,7 +3,13 @@
 	import Globe from '$lib/components/globe/globe.svelte';
 	import ParticleImage from '$lib/components/canvas-animation/ParticleImage.svelte';
 	import Tree from '$lib/components/tree/Tree.svelte';
+
+	import { fps } from '@sveu/browser';
+
+	const _fps = fps();
 </script>
+
+<div class="fixed top-2 right-4">{$_fps}</div>
 
 <section class="flex gap-4">
 	<LeftNavigationLine />

@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveu/browser": "^1.0.1",
 		"@threlte/core": "^6.0.8",
 		"@threlte/extras": "^5.6.3",
 		"@types/three": "^0.156.0",

@@ -1,7 +1,6 @@
 <script>
 	import * as Three from 'three';
 	import { Canvas, T } from '@threlte/core';
-	import { OrbitControls } from '@threlte/extras';
 
 	import { arrayOfCoordinatesToPosition } from '$lib/helpers/globePositionHelper';
 	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
@@ -10,31 +9,34 @@
 
 	import MapPoints from './mapPoints.svelte';
 	import PlacePointer from './placePointer.svelte';
+	import { onMount } from 'svelte';
 
 	let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
+	let placePointers = [];
+	let globeRotationY = 0;
 
-	const placePointer = CITY_COORDINATES.find((city) => city.name === 'Almaty');
+	const spinGlobe = () => {
+		globeRotationY += 0.001;
+		requestAnimationFrame(spinGlobe);
+	};
+
+	onMount(() => spinGlobe());
+
+	placePointers.push(CITY_COORDINATES.find((city) => city.name === 'Almaty'));
 </script>
 
-<div class="border-2 border-white w-100% h-192">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="w-100% h-192">
 	<Canvas>
 		<T.PerspectiveCamera
 			makeDefault
 			position={[11, 5, 3]}
-			on:create={({ ref }) => {
-				ref.lookAt(0, 0, 0);
-			}}
-		>
-			<OrbitControls />
-		</T.PerspectiveCamera>
+			on:create={({ ref }) => ref.lookAt(0, 0, 0)}
+		/>
 
-		<T.DirectionalLight castShadow color="white" position={[-2, 6, 5]} intensity={1.3} />
-		<T.DirectionalLight castShadow color="white" position={[10, -8, -10]} intensity={0.2} />
+		<T.DirectionalLight castShadow color="white" position={[-2, 8, 5]} intensity={1.3} />
 
-		<T.GridHelper args={[10, 10]} />
-		<T.AxesHelper args={[8]} />
-
-		<T.Group>
+		<T.Group rotation={[0, globeRotationY, 0]}>
 			<T.Mesh
 				position={[0, 0, 0]}
 				geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
@@ -44,7 +46,9 @@
 			{#if arrayOfMapPositions && arrayOfMapPositions.length > 0}
 				<MapPoints {arrayOfMapPositions} />
 			{/if}
-			<PlacePointer {placePointer} />
+			{#each placePointers as placePointer}
+				<PlacePointer {placePointer} />
+			{/each}
 		</T.Group>
 	</Canvas>
 </div>

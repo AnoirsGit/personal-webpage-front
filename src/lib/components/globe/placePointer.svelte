@@ -8,13 +8,15 @@
 
 	export let placePointer;
 
+	const pointerPositionRadius = GLOBE_RADIUS + 0.2;
+
 	const pointerPosition = getPositionOnFromCoordinates(
-		GLOBE_RADIUS + 0.4,
+		pointerPositionRadius,
 		placePointer.latitude,
 		placePointer.longitude
 	);
 	const textPosition = getPositionOnFromCoordinates(
-		GLOBE_RADIUS + 0.4,
+		pointerPositionRadius,
 		placePointer.latitude,
 		placePointer.longitude
 	);
