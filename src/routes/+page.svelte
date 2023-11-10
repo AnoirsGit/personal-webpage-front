@@ -5,6 +5,7 @@
 	import Tree from '$lib/components/tree/Tree.svelte';
 
 	import { fps } from '@sveu/browser';
+	import GlobeMerged from '$lib/components/globeMerged.svelte/globeMerged.svelte';
 
 	const _fps = fps();
 </script>
@@ -39,5 +40,6 @@
 	<Tree isEditMode={true} />
 </section>
 <section class="h-128">
-	<Globe />
+	<!-- <Globe /> -->
+	<GlobeMerged />
 </section>
