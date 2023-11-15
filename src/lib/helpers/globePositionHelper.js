@@ -1,3 +1,14 @@
+import * as Three from 'three';
+
+export const coordinatesToVector = (radius, latitude, longitude) => {
+    const vector = new Three.Vector3().setFromSphericalCoords(
+        radius,
+        ((90 - latitude) / 180) * Math.PI,
+        (longitude / 180) * Math.PI
+    )
+    return vector
+}
+
 export const getPositionOnFromCoordinates = (radius, latitude, longitude, isIndeg = true) => {
     if (isIndeg) {
         latitude = (latitude / 180) * Math.PI;
