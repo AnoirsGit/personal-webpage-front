@@ -1,54 +1,140 @@
 <script>
-	import * as Three from 'three';
-	import { Canvas, T } from '@threlte/core';
-
-	import { arrayOfCoordinatesToPosition } from '$lib/helpers/globePositionHelper';
-	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
-	import globePoints from '$lib/data/globe-points.json';
-	import { GLOBE_RADIUS } from '$lib/consts/globeConsts';
-
-	import MapPoints from './mapPoints.svelte';
-	import PlacePointer from './placePointer.svelte';
 	import { onMount } from 'svelte';
 
-	let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
-	let placePointers = [];
-	let globeRotationY = 0;
+	import * as Three from 'three';
+	import { Canvas, T } from '@threlte/core';
+	import { OrbitControls } from '@threlte/extras';
+	import { mergeBufferGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
-	const spinGlobe = () => {
-		globeRotationY += 0.001;
-		requestAnimationFrame(spinGlobe);
+	import PlacePointer from './placePointer.svelte';
+
+	import {
+		arrayOfCoordinatesToPosition,
+		coordinatesToVector
+	} from '$lib/helpers/globePositionHelper';
+	import globePoints from '$lib/data/globe-points.json';
+	import { GLOBE_RADIUS } from '$lib/consts/globeConsts';
+	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
+	import { requestAnimationTween } from '$lib/helpers/animation';
+
+	import fragmentShader from './globeFragment.glsl?raw';
+	import vertexShader from './globeVertex.glsl?raw';
+
+	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
+	export let impacts = [{ lat: 43.2557, lon: 76.945 }]; // Array for "boom"
+
+	let globeMesh;
+	let placePointers = [];
+	placePointers.push(CITY_COORDINATES.find((city) => city.name === 'Almaty'));
+
+	let initializedImpacts = impacts.map((impact) => {
+		const { lat, lon } = impact;
+		const impactRatio = 0;
+		const boomSpeed = impact.boomSpeed || 2000;
+		const boomePeriods = impact.boomePeriods || 5000;
+		const impactMaxRadius = impact.impactMaxRadius || 2;
+		const animationFrame = requestAnimationTween(0, 1, boomSpeed, boomePeriods);
+		const impactPosition = coordinatesToVector(GLOBE_RADIUS, lat, lon);
+
+		return { impactPosition, impactRatio, impactMaxRadius, animationFrame };
+	});
+
+	const createGeometry = () => {
+		const dummyObject = new Three.Object3D(); // object To Apply matrix4
+		const posVec3 = new Three.Vector3();
+		const spherical = new Three.Spherical();
+		const geoms = [];
+
+		arrayOfMapPositions.forEach((pointPosition) => {
+			posVec3.fromArray(pointPosition);
+
+			spherical.setFromVector3(posVec3);
+			dummyObject.lookAt(posVec3);
+			dummyObject.updateMatrix();
+
+			const planeGeometry = new Three.PlaneGeometry(0.05, 0.05);
+
+			planeGeometry.applyMatrix4(dummyObject.matrix);
+			planeGeometry.translate(posVec3.x, posVec3.y, posVec3.z);
+
+			// prettier-ignore
+			const centers = [
+				posVec3.x, posVec3.y, posVec3.z,
+                posVec3.x, posVec3.y, posVec3.z,
+                posVec3.x, posVec3.y, posVec3.z,
+                posVec3.x, posVec3.y, posVec3.z
+			];
+
+			const uv = new Three.Vector2(
+				(spherical.theta + Math.PI) / (Math.PI * 2),
+				1 - spherical.phi / Math.PI
+			);
+			// prettier-ignore
+			const uvs = [
+                uv.x, uv.y,
+                uv.x, uv.y,
+                uv.x, uv.y,
+                uv.x, uv.y
+            ];
+			planeGeometry.setAttribute('center', new Three.Float32BufferAttribute(centers, 3));
+			planeGeometry.setAttribute('bUv', new Three.Float32BufferAttribute(uvs, 2));
+			geoms.push(planeGeometry);
+		});
+
+		return mergeBufferGeometries(geoms);
 	};
 
-	onMount(() => spinGlobe());
+	const initGlobe = () => {
+		const uniforms = {
+			// For Shader with "boom"
+			impacts: { value: initializedImpacts },
+			minSize: { value: 0.03 },
+			waveHeight: { value: 0.125 },
+			scaling: { value: 2 }
+		};
 
-	placePointers.push(CITY_COORDINATES.find((city) => city.name === 'Almaty'));
+		const geometry = createGeometry();
+		const material = new Three.ShaderMaterial({ uniforms, vertexShader, fragmentShader });
+
+		material.defines = { USE_UV: '' };
+		return new Three.Mesh(geometry, material);
+	};
+
+	const animate = () => {
+		initializedImpacts.forEach((impact) => (impact.impactRatio = impact.animationFrame.update()));
+		requestAnimationFrame(animate);
+	};
+
+	onMount(() => {
+		globeMesh = initGlobe();
+		animate();
+	});
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="w-100% h-192">
 	<Canvas>
 		<T.PerspectiveCamera
 			makeDefault
 			position={[11, 5, 3]}
 			on:create={({ ref }) => ref.lookAt(0, 0, 0)}
-		/>
-
+		>
+			<OrbitControls enableDamping />
+		</T.PerspectiveCamera>
 		<T.DirectionalLight castShadow color="white" position={[-2, 8, 5]} intensity={1.3} />
 
-		<T.Group rotation={[0, globeRotationY, 0]}>
-			<T.Mesh
-				position={[0, 0, 0]}
-				geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
-				material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
-			/>
+		{#if globeMesh}
+			<T.Group>
+				<T is={globeMesh} />
+				<T.Mesh
+					position={[0, 0, 0]}
+					geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
+					material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
+				/>
 
-			{#if arrayOfMapPositions && arrayOfMapPositions.length > 0}
-				<MapPoints {arrayOfMapPositions} />
-			{/if}
-			{#each placePointers as placePointer}
-				<PlacePointer {placePointer} />
-			{/each}
-		</T.Group>
+				{#each placePointers as placePointer}
+					<PlacePointer {placePointer} />
+				{/each}
+			</T.Group>
+		{/if}
 	</Canvas>
 </div>
