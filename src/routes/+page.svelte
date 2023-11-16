@@ -40,6 +40,5 @@
 	<Tree isEditMode={true} />
 </section>
 <section class="h-128">
-	<!-- <Globe /> -->
 	<GlobeMerged />
 </section>

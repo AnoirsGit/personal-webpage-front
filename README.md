@@ -1,18 +1,11 @@
-# create-svelte
+# Personal Anoir's webpage
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is a personal webpage to show my technical capabilities with front-end, where i will show you work with 2d, UI/UX design and 3d optimized objects with custom shaders 
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## install a project
+ ```bash
+ npm i
+ ```
 
 ## Developing
 
