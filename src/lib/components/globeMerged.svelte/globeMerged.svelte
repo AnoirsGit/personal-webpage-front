@@ -10,27 +10,23 @@
 	} from '$lib/helpers/globePositionHelper';
 	import globePoints from '$lib/data/globe-points.json';
 	import { GLOBE_RADIUS } from '$lib/consts/globeConsts';
-	import { roundFragmentShader, vertexShaderWithBoom } from '$lib/consts/globeShaders';
 	import { onMount } from 'svelte';
 	import { requestAnimationTween } from '$lib/helpers/animation';
 
+	import fragmentShader from './globeFragment.glsl?raw';
+	import vertexShader from './globeVertex.glsl?raw';
+
+	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
+	export let impacts = [{ lat: 43.2557, lon: 76.945 }]; // Array for "boom"
+
 	let globeMesh;
-	let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
-	let impacts = [
-		{
-			lat: 43.2557,
-			lon: 76.945,
-			impactRatio: 0,
-			impactMaxRadius: 2,
-			boomSpeed: 2000, // Integer | Default (some random): THREE.Math.randInt(2500, 5000) | min ≈500 , max ≈5000 || THREE.Math.randomInt(2500, 5000)
-			boomePeriods: 5000,
-			boomRadius: 3 // Integer | Default (some random): [5 * THREE.Math.randFloat(.2, .7)] | min ≈.5 , max ≈3 || 5 * THREE.Math.randFloat(.2, .7)
-		}
-	]; // Array for "boom"
-	export let sizeOfPoints = 0.12;
 
 	let initializedImpacts = impacts.map((impact) => {
-		const { impactRatio, impactMaxRadius, lat, lon, boomSpeed, boomePeriods } = impact;
+		const { lat, lon } = impact;
+		const impactRatio = 0;
+		const boomSpeed = impact.boomSpeed || 2000;
+		const boomePeriods = impact.boomePeriods || 5000;
+		const impactMaxRadius = impact.impactMaxRadius || 2;
 		const animationFrame = requestAnimationTween(0, 1, boomSpeed, boomePeriods);
 		const impactPosition = coordinatesToVector(GLOBE_RADIUS, lat, lon);
 
@@ -57,7 +53,7 @@
 			dummyObject.lookAt(posVec3);
 			dummyObject.updateMatrix();
 
-			const planeGeometry = new Three.PlaneGeometry(0.2, 0.2);
+			const planeGeometry = new Three.PlaneGeometry(0.05, 0.05);
 
 			planeGeometry.applyMatrix4(dummyObject.matrix);
 			planeGeometry.translate(posVec3.x, posVec3.y, posVec3.z);
@@ -88,15 +84,7 @@
 
 		const mergedGeometry = mergeBufferGeometries(geoms);
 
-		const material = new Three.MeshBasicMaterial({
-			color: 0xffffff,
-			side: Three.DoubleSide,
-			onBeforeCompile: (shader) => {
-				shader.uniforms = { ...shader.uniforms, ...uniforms };
-				shader.vertexShader = vertexShaderWithBoom(shader.vertexShader, impacts);
-				shader.fragmentShader = roundFragmentShader(shader.fragmentShader, sizeOfPoints);
-			}
-		});
+		const material = new Three.ShaderMaterial({ uniforms, vertexShader, fragmentShader });
 
 		material.defines = { USE_UV: '' };
 		return new Three.Mesh(mergedGeometry, material);
@@ -104,7 +92,6 @@
 
 	const animate = () => {
 		initializedImpacts.forEach((impact) => (impact.impactRatio = impact.animationFrame.update()));
-		// console.log(initializedImpacts[0].impactRatio);
 		requestAnimationFrame(animate);
 	};
 
