@@ -1,5 +1,5 @@
 import { generateRandomID } from './helper';
-import { DEFAULT_NODE_SIZES } from '$lib/consts/nodeConsts';
+import { DEFAULT_NODE_SIZES } from '$lib/shared/consts/nodeConsts';
 
 export const getNodeCenter = (position, size) => {
 	const center = { x: position.x - size / 2, y: position.y - size / 2 };

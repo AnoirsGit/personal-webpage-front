@@ -4,8 +4,8 @@
 	import Edges from './edge/Edges.svelte';
 	import TreeWrapper from './TreeWrapper.svelte';
 
-	import { getNodeUnderMouse, addNodeToTree } from '$lib/helpers/node';
-	import { nodesMock } from '$lib/mocks/tree';
+	import { getNodeUnderMouse, addNodeToTree } from '$lib/shared/helpers/node';
+	import { nodesMock } from '$lib/shared/mocks/tree';
 
 	import EditForm from './node/EditForm.svelte';
 	import TreeActionBar from './treeActionBar.svelte';

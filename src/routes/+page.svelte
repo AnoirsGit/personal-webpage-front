@@ -1,11 +1,11 @@
 <script>
-	import LeftNavigationLine from '$lib/components/UI/LeftNavigationLine.svelte';
-	import Globe from '$lib/components/globe/globe.svelte';
-	import ParticleImage from '$lib/components/canvas-animation/ParticleImage.svelte';
-	import Tree from '$lib/components/tree/Tree.svelte';
+	import LeftNavigationLine from '$lib/widgets/UI/LeftNavigationLine.svelte';
+	import Globe from '$lib/widgets/globe/globe.svelte';
+	import ParticleImage from '$lib/widgets/canvas-animation/ParticleImage.svelte';
+	import Tree from '$lib/widgets/tree/Tree.svelte';
 
 	import { fps } from '@sveu/browser';
-	import GlobeMerged from '$lib/components/globe/globe.svelte';
+	import GlobeMerged from '$lib/widgets/globe/globe.svelte';
 
 	const _fps = fps();
 </script>

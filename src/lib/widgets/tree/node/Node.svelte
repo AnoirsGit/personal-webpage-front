@@ -3,7 +3,7 @@
 	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
 	import '$lib/styles/node.css';
-	import { getNodeCenter, getNodePositionStyle } from '$lib/helpers/node';
+	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/node';
 
 	export let node = () => {};
 	export let allowActions = false;

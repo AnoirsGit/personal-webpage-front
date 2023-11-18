@@ -3,8 +3,8 @@
 	import { T } from '@threlte/core';
 	import { Text } from '@threlte/extras';
 
-	import { GLOBE_RADIUS } from '$lib/consts/globeConsts';
-	import { getPositionOnFromCoordinates } from '$lib/helpers/globePositionHelper';
+	import { GLOBE_RADIUS } from '$lib/shared/consts/globeConsts';
+	import { getPositionOnFromCoordinates } from '$lib/shared/helpers/globePositionHelper';
 
 	export let placePointer;
 

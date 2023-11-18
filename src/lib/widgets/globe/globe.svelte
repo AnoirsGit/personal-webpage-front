@@ -11,14 +11,14 @@
 	import {
 		arrayOfCoordinatesToPosition,
 		coordinatesToVector
-	} from '$lib/helpers/globePositionHelper';
-	import globePoints from '$lib/data/globe-points.json';
-	import { GLOBE_RADIUS } from '$lib/consts/globeConsts';
-	import { CITY_COORDINATES } from '$lib/consts/goeLocations';
-	import { requestAnimationTween } from '$lib/helpers/animation';
+	} from '$lib/shared/helpers/globePositionHelper';
+	import globePoints from '$lib/shared/mocks/globe-points.json';
+	import { GLOBE_RADIUS } from '$lib/shared/consts/globeConsts';
+	import { CITY_COORDINATES } from '$lib/shared/consts/goeLocations';
+	import { requestAnimationTween } from '$lib/shared/helpers/animation';
 
-	import fragmentShader from './globeFragment.glsl?raw';
-	import vertexShader from './globeVertex.glsl?raw';
+	import fragmentShader from '$lib/shared/shaders/globeFragment.glsl?raw';
+	import vertexShader from '$lib/shared/shaders/globeVertex.glsl?raw';
 
 	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
 	export let impacts = [{ lat: 43.2557, lon: 76.945 }]; // Array for "boom"

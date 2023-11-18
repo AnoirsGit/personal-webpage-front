@@ -1,7 +1,7 @@
 <script>
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import { getEdgeData } from '$lib/helpers/edge';
-	import GlowingElement from '$lib/components/UI/GlowingElement.svelte';
+	import { getEdgeData } from '$lib/shared/helpers/edge';
+	import GlowingElement from '$lib/widgets/UI/GlowingElement.svelte';
 
 	export let index;
 	export let color;

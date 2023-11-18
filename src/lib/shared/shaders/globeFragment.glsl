@@ -1,5 +1,5 @@
-uniform vec3 diffuse;
 uniform vec3 customColor;
+uniform vec3 diffuse;
 #ifndef FLAT_SHADED
 #endif
 #include <common>
