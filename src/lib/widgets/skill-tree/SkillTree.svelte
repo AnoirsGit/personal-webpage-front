@@ -2,13 +2,13 @@
 	import Node from '$lib/entities/tree/node/Node.svelte';
 	import Edge from '$lib/entities/tree/edge/Edge.svelte';
 	import Edges from '$lib/entities/tree/edge/Edges.svelte';
-	import TreeWrapper from '$lib/widgets/tree/TreeWrapper.svelte';
+	import TreeWrapper from '$lib/widgets/skill-tree/TreeWrapper.svelte';
 
 	import { getNodeUnderMouse, addNodeToTree } from '$lib/shared/helpers/tree/node';
 	import { nodesMock } from '$lib/shared/mocks/tree';
 
 	import EditForm from '$lib/features/tree/EditForm.svelte';
-	import TreeActionBar from '$lib/features/tree/treeActionBar.svelte';
+	import TreeActionBar from '$lib/features/tree/TreeActionBar.svelte';
 	import NodeTooltip from '$lib//features/tree/NodeTooltip.svelte';
 
 	export let isEditMode = true;

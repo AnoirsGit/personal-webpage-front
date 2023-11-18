@@ -2,7 +2,7 @@
 	import LeftNavigationLine from '$lib/shared/UI/LeftNavigationLine.svelte';
 	import Globe from '$lib/widgets/globe/globe.svelte';
 	import ParticleImage from '$lib/widgets/canvas-animation/ParticleImage.svelte';
-	import Tree from '$lib/widgets/tree/Tree.svelte';
+	import Tree from '$lib/widgets/skill-tree/SkillTree.svelte';
 
 	import { fps } from '@sveu/browser';
 	import GlobeMerged from '$lib/widgets/globe/globe.svelte';
