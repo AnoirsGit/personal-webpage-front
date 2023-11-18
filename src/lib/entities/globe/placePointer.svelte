@@ -4,7 +4,7 @@
 	import { Text } from '@threlte/extras';
 
 	import { GLOBE_RADIUS } from '$lib/shared/consts/globeConsts';
-	import { getPositionOnFromCoordinates } from '$lib/shared/helpers/globePositionHelper';
+	import { getPositionOnFromCoordinates } from '$lib/shared/helpers/tree/globePositionHelper';
 
 	export let placePointer;
 

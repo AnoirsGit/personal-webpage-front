@@ -2,8 +2,8 @@
 	import GiMove from 'svelte-icons/gi/GiMove.svelte';
 	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import '$lib/styles/node.css';
-	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/node';
+	import '$lib/app/styles/node.css';
+	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
 
 	export let node = () => {};
 	export let allowActions = false;

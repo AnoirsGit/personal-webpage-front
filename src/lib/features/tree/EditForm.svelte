@@ -1,5 +1,5 @@
 <script>
-	import '$lib/styles/node.css';
+	import '$lib/app/styles/node.css';
 	import MdClose from 'svelte-icons/md/MdClose.svelte';
 	export let node;
 	export let onSaveNode;
@@ -8,7 +8,7 @@
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		onSaveNode(node)
+		onSaveNode(node);
 	};
 
 	const handleAddTag = () => {
@@ -47,7 +47,9 @@
 				<div class="mb-4">
 					<div class="flex flex-wrap gap-3">
 						{#each node.tags as tag, index}
-							<div class="flex-center gap-2 px-3 py-1 border border-main-blue rounded text-slate-700">
+							<div
+								class="flex-center gap-2 px-3 py-1 border border-main-blue rounded text-slate-700"
+							>
 								<p>{tag}</p>
 								<button class="w-4 h-4" on:click={() => handleRemoveTag(index)}><MdClose /></button>
 							</div>

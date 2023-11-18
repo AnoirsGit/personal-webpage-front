@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { createEffect, animate } from './helpers/effect';
+	import { createEffect, animate } from '$lib/shared/helpers/2d-canvas/effect';
 	let image;
 	let canvas;
 	let effect;

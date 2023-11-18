@@ -6,16 +6,16 @@
 	import { OrbitControls } from '@threlte/extras';
 	import { mergeBufferGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
-	import PlacePointer from './placePointer.svelte';
+	import PlacePointer from '$lib/entities/globe/placePointer.svelte';
 
 	import {
 		arrayOfCoordinatesToPosition,
 		coordinatesToVector
-	} from '$lib/shared/helpers/globePositionHelper';
+	} from '$lib/shared/helpers/tree/globePositionHelper';
 	import globePoints from '$lib/shared/mocks/globe-points.json';
 	import { GLOBE_RADIUS } from '$lib/shared/consts/globeConsts';
 	import { CITY_COORDINATES } from '$lib/shared/consts/goeLocations';
-	import { requestAnimationTween } from '$lib/shared/helpers/animation';
+	import { requestAnimationTween } from '$lib/shared/helpers/tween';
 
 	import fragmentShader from '$lib/shared/shaders/globeFragment.glsl?raw';
 	import vertexShader from '$lib/shared/shaders/globeVertex.glsl?raw';

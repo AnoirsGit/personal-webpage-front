@@ -1,5 +1,5 @@
 <script>
-	import LeftNavigationLine from '$lib/widgets/UI/LeftNavigationLine.svelte';
+	import LeftNavigationLine from '$lib/shared/UI/LeftNavigationLine.svelte';
 	import Globe from '$lib/widgets/globe/globe.svelte';
 	import ParticleImage from '$lib/widgets/canvas-animation/ParticleImage.svelte';
 	import Tree from '$lib/widgets/tree/Tree.svelte';

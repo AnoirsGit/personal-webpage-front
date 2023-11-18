@@ -1,15 +1,15 @@
 <script>
-	import Node from './node/Node.svelte';
-	import Edge from './edge/Edge.svelte';
-	import Edges from './edge/Edges.svelte';
-	import TreeWrapper from './TreeWrapper.svelte';
+	import Node from '$lib/entities/tree/node/Node.svelte';
+	import Edge from '$lib/entities/tree/edge/Edge.svelte';
+	import Edges from '$lib/entities/tree/edge/Edges.svelte';
+	import TreeWrapper from '$lib/widgets/tree/TreeWrapper.svelte';
 
-	import { getNodeUnderMouse, addNodeToTree } from '$lib/shared/helpers/node';
+	import { getNodeUnderMouse, addNodeToTree } from '$lib/shared/helpers/tree/node';
 	import { nodesMock } from '$lib/shared/mocks/tree';
 
-	import EditForm from './node/EditForm.svelte';
-	import TreeActionBar from './treeActionBar.svelte';
-	import NodeTooltip from './node/NodeTooltip.svelte';
+	import EditForm from '$lib/features/tree/EditForm.svelte';
+	import TreeActionBar from '$lib/features/tree/treeActionBar.svelte';
+	import NodeTooltip from '$lib//features/tree/NodeTooltip.svelte';
 
 	export let isEditMode = true;
 	export let nodes = nodesMock;
