@@ -14,7 +14,6 @@ const func = {
     },
 };
 
-// Add other easing functions as needed
 export const requestAnimationTween = (startValue, endValue, duration, repeatDuration, type = 'ease.in') => {
     const funcType = type.split('.');
     const easingFunction = func[funcType[0]]?.[funcType[1]];
@@ -34,11 +33,19 @@ export const requestAnimationTween = (startValue, endValue, duration, repeatDura
         const currentTime = new Date().getTime();
         const timeDifference = currentTime - startTime;
 
-        const totalElapsedTime = timeDifference % (duration + repeatDuration);
+        if (repeatDuration >= 0) {
+            const totalElapsedTime = timeDifference % (duration + repeatDuration);
 
-        if (totalElapsedTime <= duration) {
-            const progress = easingFunction(totalElapsedTime / duration);
-            return startValue + (endValue - startValue) * progress;
+            if (totalElapsedTime <= duration) {
+                const progress = easingFunction(totalElapsedTime / duration);
+                return startValue + (endValue - startValue) * progress;
+            }
+        } else {
+            // Don't repeat if repeatDuration is less than 0
+            if (timeDifference <= duration) {
+                const progress = easingFunction(timeDifference / duration);
+                return startValue + (endValue - startValue) * progress;
+            }
         }
 
         return endValue;
@@ -49,3 +56,4 @@ export const requestAnimationTween = (startValue, endValue, duration, repeatDura
         update,
     };
 };
+

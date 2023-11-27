@@ -3,39 +3,37 @@
 
 	import * as Three from 'three';
 	import { T } from '@threlte/core';
+	import { interactivity } from '@threlte/extras';
 	import { mergeBufferGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
-	import {
-		arrayOfCoordinatesToPosition,
-		coordinatesToVector
-	} from '$lib/shared/helpers/tree/globePositionHelper';
-	import globePoints from '$lib/shared/mocks/globe-points.json';
-	import { GLOBE_RADIUS } from '$lib/shared/consts/globeConsts';
+	import { GLOBE_RADIUS, MAX_IMPACTS_COUNT } from '$lib/shared/consts/globeConsts';
 	import { CITY_COORDINATES } from '$lib/shared/consts/goeLocations';
-	import { requestAnimationTween } from '$lib/shared/helpers/tween';
+
+	import globePoints from '$lib/shared/mocks/globe-points.json';
+	import { arrayOfCoordinatesToPosition } from '$lib/shared/helpers/tree/globePositionHelper';
+	import {
+		createImpactGenerator,
+		updateImpacts,
+		createEmptyImpacts,
+		addImpact
+	} from '$lib/shared/helpers/globe/impact';
 
 	import fragmentShader from '$lib/shared/shaders/globeFragment.glsl?raw';
 	import vertexShader from '$lib/shared/shaders/globeVertex.glsl?raw';
 	import PlacePointer from '$lib/entities/globe/PlacePointer.svelte';
 
-	let globeMesh;
 	export let placePointers = [];
 	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
-	export let impacts = [{ lat: 43.2557, lon: 76.945 }]; // Array for "boom"
+
+	let geometry;
+	const impacts = createEmptyImpacts(MAX_IMPACTS_COUNT);
 
 	placePointers.push(CITY_COORDINATES.find((city) => city.name === 'Almaty'));
 
-	let initializedImpacts = impacts.map((impact) => {
-		const { lat, lon } = impact;
-		const impactRatio = 0;
-		const boomSpeed = impact.boomSpeed || 2000;
-		const boomePeriods = impact.boomePeriods || 5000;
-		const impactMaxRadius = impact.impactMaxRadius || 2;
-		const animationFrame = requestAnimationTween(0, 1, boomSpeed, boomePeriods);
-		const impactPosition = coordinatesToVector(GLOBE_RADIUS, lat, lon);
+	const createImpactFromPosition = createImpactGenerator(false);
+	const createImpactFromCoordinates = createImpactGenerator(true);
 
-		return { impactPosition, impactRatio, impactMaxRadius, animationFrame };
-	});
+	interactivity();
 
 	const createGeometry = () => {
 		const dummyObject = new Three.Object3D(); // object To Apply matrix4
@@ -82,37 +80,50 @@
 		return mergeBufferGeometries(geoms);
 	};
 
-	const initGlobe = () => {
-		const uniforms = {
-			// For Shader with "boom"
-			impacts: { value: initializedImpacts },
-			minSize: { value: 0.03 },
-			waveHeight: { value: 0.125 },
-			scaling: { value: 2 }
-		};
-
-		const geometry = createGeometry();
-		const material = new Three.ShaderMaterial({ uniforms, vertexShader, fragmentShader });
-
-		material.defines = { USE_UV: '' };
-		return new Three.Mesh(geometry, material);
+	const initializeImpacts = () => {
+		for (const { latitude: lat, longitude: lon } of placePointers) {
+			const impact = createImpactFromCoordinates({ lat, lon });
+			addImpact(impacts, impact);
+		}
 	};
 
 	const animate = () => {
-		initializedImpacts.forEach((impact) => (impact.impactRatio = impact.animationFrame.update()));
+		updateImpacts(impacts);
+
 		requestAnimationFrame(animate);
 	};
 
 	onMount(() => {
-		globeMesh = initGlobe();
+		initializeImpacts();
+		geometry = createGeometry();
+
 		animate();
 	});
 </script>
 
-{#if globeMesh}
+{#if geometry}
 	<T.Group>
-		<T is={globeMesh} />
+		<T.Mesh {geometry}>
+			<T.ShaderMaterial
+				{vertexShader}
+				{fragmentShader}
+				uniforms={{
+					// For Shader with "boom"
+					impacts: { value: impacts },
+					minSize: { value: 0.03 },
+					waveHeight: { value: 0.125 },
+					scaling: { value: 2 }
+				}}
+				defines={{ USE_UV: '' }}
+			/>
+		</T.Mesh>
+
 		<T.Mesh
+			on:click={({ point }) => {
+				const { x, y, z } = point;
+				const impact = createImpactFromPosition({ x, y, z, shouldRepeat: false });
+				addImpact(impacts, impact);
+			}}
 			position={[0, 0, 0]}
 			geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
 			material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
