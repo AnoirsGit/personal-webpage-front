@@ -48,7 +48,7 @@ void main() {
 	finalStep = clamp(finalStep, 0., 1.);
 	vFinalStep = finalStep;
 	float scale = scaling;
-	transformed = (position - center) * mix(1., scale * 1.25, finalStep) + center; // scale on wave
+	transformed = (position - center) * mix(1., scale * 1.1, finalStep) + center; // scale on wave
 	transformed += normal * finalStep * waveHeight; // lift on wave
 
 	#include <morphtarget_vertex>

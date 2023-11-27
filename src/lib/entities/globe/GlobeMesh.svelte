@@ -48,7 +48,7 @@
 			dummyObject.lookAt(posVec3);
 			dummyObject.updateMatrix();
 
-			const planeGeometry = new Three.PlaneGeometry(0.05, 0.05);
+			const planeGeometry = new Three.PlaneGeometry(0.03, 0.03);
 
 			planeGeometry.applyMatrix4(dummyObject.matrix);
 			planeGeometry.translate(posVec3.x, posVec3.y, posVec3.z);
