@@ -47,7 +47,6 @@ export const addImpact = (impacts, impact) => {
 export const deleteUnrepeatedImpacts = (impacts) => {
     for (let i = 0; i < impacts.length; i++) {
         if (!impacts[i].shouldRepeat && impacts[i].impactRatio >= 1) {
-            console.log('asdf')
             impacts[i] = {
                 isEmpty: true, impactPosition: coordinatesToVector(0, 0, 0),
                 impactMaxRadius: 0.0,
@@ -57,12 +56,19 @@ export const deleteUnrepeatedImpacts = (impacts) => {
     }
 };
 
-export const updateImpacts = (impacts) => {
-    for (let i = 0; i < impacts.length; i++) {
-        if (impacts[i].isEmpty) continue;
-        const updateRatio = impacts[i].animationFrame.update();
-        impacts[i].impactRatio = updateRatio;
+export const updateImpacts = (impacts, stackImpactEvents) => {
+    for (let i = 0; i < stackImpactEvents.length; i++) {
+        const impact = stackImpactEvents[i];
+        addImpact(impacts, impact);
+        stackImpactEvents.splice(i, 1);
     }
 
-    deleteUnrepeatedImpacts(impacts)
-}
+    impacts.forEach(impact => {
+        if (!impact.isEmpty) {
+            const updateRatio = impact.animationFrame.update();
+            impact.impactRatio = updateRatio;
+        }
+    });
+
+    deleteUnrepeatedImpacts(impacts);
+};

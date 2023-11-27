@@ -29,7 +29,7 @@ void main() {
     if(distanceFromCenter > 0.5)
         discard;
 
-    vec3 diffuseMap = (length(customColor) > 0.0) ? (diffuse * customColor) : vec3(1.0);
+    vec3 diffuseMap = (length(customColor) > 0.0) ? (diffuse * customColor) : vec3(0.4);
     vec3 col = diffuseMap; // Use constant color or any other color
 
     float opct = 1.;

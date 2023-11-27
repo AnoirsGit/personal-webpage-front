@@ -26,6 +26,7 @@
 	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
 
 	let geometry;
+	const stackImpactEvents = [];
 	const impacts = createEmptyImpacts(MAX_IMPACTS_COUNT);
 
 	placePointers.push(CITY_COORDINATES.find((city) => city.name === 'Almaty'));
@@ -88,7 +89,7 @@
 	};
 
 	const animate = () => {
-		updateImpacts(impacts);
+		updateImpacts(impacts, stackImpactEvents);
 
 		requestAnimationFrame(animate);
 	};
@@ -122,7 +123,7 @@
 			on:click={({ point }) => {
 				const { x, y, z } = point;
 				const impact = createImpactFromPosition({ x, y, z, shouldRepeat: false });
-				addImpact(impacts, impact);
+				stackImpactEvents.push(impact);
 			}}
 			position={[0, 0, 0]}
 			geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
