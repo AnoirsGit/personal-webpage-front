@@ -10,9 +10,7 @@
 	onMount(() => {
 		const renderer = new marked.Renderer();
 
-		// Define a custom function for rendering text within elements
 		renderer.text = function (text) {
-			// You can apply custom styling here if needed
 			return '<span class="custom-text">' + text + '</span>';
 		};
 
