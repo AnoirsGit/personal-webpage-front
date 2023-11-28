@@ -104,9 +104,13 @@
 	const handleMouseEnterTree = () => setTimeout(() => (allowActions = true), 500);
 	const handleMouseLeaveTree = () => (allowActions = false);
 	const handleMouseMoveTree = (event) => {
-		mouseOnTreePosition = { x: event.clientX - 100, y: event.clientY - 100 };
-	};
+		var bounds = event.target.getBoundingClientRect();
 
+		mouseOnTreePosition = {
+			x: event.clientX,
+			y: event.clientY
+		};
+	};
 	const handleMouseMoveNode = (nodeId) => {
 		const node = nodes.find((tempNode) => tempNode.id === nodeId);
 		nodeTooltip = node;
@@ -124,13 +128,13 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="flex flex-col lg:flex-row gap-3 mb-32">
+<div class="relative flex flex-col lg:flex-row gap-3">
 	<div
+		class=" relative rounded {isEditMode ? 'w-3/5' : 'w-full'}"
 		bind:this={tree}
-		on:mouseenter={handleMouseEnterTree}
 		on:mousemove={handleMouseMoveTree}
+		on:mouseenter={handleMouseEnterTree}
 		on:mouseleave={handleMouseLeaveTree}
-		class="relative rounded {isEditMode ? 'w-3/5' : 'w-full'}"
 	>
 		{#if nodeTooltip}
 			<NodeTooltip {nodeTooltip} mousePosition={mouseOnTreePosition} />

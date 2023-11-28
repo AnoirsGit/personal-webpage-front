@@ -21,8 +21,8 @@
 </script>
 
 <div
-	class="tooltip-data flex flex-col gap-2 w-60 h-max"
-	style={`top: ${mousePosition.y}px; left: ${mousePosition.x}px`}
+	class="tooltip-data flex flex-col gap-2 w-60 h-max -translate-y-full -translate-x-1/2"
+	style={`top: ${mousePosition.y - 16}px; left: ${mousePosition.x}px`}
 >
 	<div class="flex flex-col gap-3 h-max pb-3 border-b border-slate-500">
 		<div class="w-full flex-center gap-3">

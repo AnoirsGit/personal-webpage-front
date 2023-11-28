@@ -58,5 +58,5 @@ a{
 }
 
 .tooltip-data{
-  @apply absolute z-tooltip bg-black/80 text-slate-800 p-4 border rounded-lg text-xs text-white;
+  @apply fixed z-tooltip bg-black/80 text-slate-800 p-4 border rounded-lg text-xs text-white;
 }
