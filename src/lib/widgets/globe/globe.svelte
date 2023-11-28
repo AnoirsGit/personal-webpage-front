@@ -1,26 +1,70 @@
 <script>
 	import { Canvas, T } from '@threlte/core';
-	import { OrbitControls } from '@threlte/extras';
+
 	import GlobeMesh from '$lib/entities/globe/GlobeMesh.svelte';
 	import Atmosphere from '$lib/entities/globe/Atmosphere.svelte';
+
+	let x = 0;
+	let isDragging = false;
+	let startCoords = { x: 0 };
+	let velocity = { x: 0 };
+
+	const handleMouseDown = (event) => {
+		isDragging = true;
+		startCoords.x = event.clientX;
+		velocity.x = 0;
+		requestAnimationFrame(updatePosition);
+	};
+
+	const handleMouseMove = (event) => {
+		if (!isDragging) return;
+
+		const deltaX = event.clientX - startCoords.x;
+
+		x += deltaX;
+
+		velocity.x = deltaX;
+		startCoords.x = event.clientX;
+	};
+
+	const handleMouseUp = () => {
+		isDragging = false;
+	};
+
+	const updatePosition = () => {
+		if (!isDragging) {
+			x += velocity.x * 0.1;
+			velocity.x *= 0.95;
+
+			if (Math.abs(velocity.x) < 0.01) return;
+		}
+		requestAnimationFrame(updatePosition);
+	};
 </script>
 
-<div class="w-100% h-192">
-	<Canvas>
-		<T.PerspectiveCamera
-			makeDefault
-			position={[-1, 5, 13]}
-			on:create={({ ref }) => ref.lookAt(0, 0, 0)}
-		>
-			<!-- <OrbitControls enableDamping /> -->
-		</T.PerspectiveCamera>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="relative w-100% h-192">
+	<div
+		class="absolute w-screen h-192 left-1/2 -translate-x-1/2"
+		on:mousedown={handleMouseDown}
+		on:mousemove={handleMouseMove}
+		on:mouseup={handleMouseUp}
+	>
+		<Canvas>
+			<T.PerspectiveCamera
+				makeDefault
+				position={[-1, 5, 13]}
+				on:create={({ ref }) => ref.lookAt(0, 0, 0)}
+			/>
+			<T.Group rotation.y={x * 0.01}>
+				<GlobeMesh rotationY={x * 0.01} />
+			</T.Group>
+			<Atmosphere />
 
-		<GlobeMesh />
-		<Atmosphere />
-
-		<T.DirectionalLight castShadow color="white" position={[-12, 7, 2]} intensity={1} />
-		<T.DirectionalLight color="#ff33cc" position={[-10, 6, -5]} intensity={0.6} />
-		<T.DirectionalLight color="#ff33cc" position={[-10, 10, -5]} intensity={1.2} />
-		<T.DirectionalLight color="#ff33cc" position={[0, 15, 0]} intensity={0.8} />
-	</Canvas>
+			<T.DirectionalLight castShadow color="white" position={[-12, 7, 2]} intensity={1} />
+			<T.DirectionalLight color="#ff33cc" position={[-10, 6, -5]} intensity={0.6} />
+			<T.DirectionalLight color="#ff33cc" position={[-10, 10, -5]} intensity={1.2} />
+			<T.DirectionalLight color="#ff33cc" position={[0, 15, 0]} intensity={0.8} />
+		</Canvas>
+	</div>
 </div>

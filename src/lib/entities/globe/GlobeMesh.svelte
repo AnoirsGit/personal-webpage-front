@@ -24,6 +24,7 @@
 	import PlacePointer from '$lib/entities/globe/PlacePointer.svelte';
 
 	export let placePointers = [];
+	export let rotationY = 0;
 	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
 
 	let globeRotation = { x: 0, y: 0, z: 0 };
@@ -92,7 +93,7 @@
 
 	const animate = () => {
 		updateImpacts(impacts, stackImpactEvents);
-		globeRotation.y += 0.003;
+		globeRotation.y += 0.002;
 
 		requestAnimationFrame(animate);
 	};
@@ -124,7 +125,12 @@
 
 		<T.Mesh
 			on:click={({ point }) => {
-				const { x, y, z } = calcNewPositionFromRotation(point, globeRotation);
+				const newRotation = {
+					x: globeRotation.x,
+					y: rotationY + globeRotation.y,
+					z: globeRotation.z
+				};
+				const { x, y, z } = calcNewPositionFromRotation(point, newRotation);
 				const impact = createImpactFromPosition({ x, y, z, shouldRepeat: false });
 				stackImpactEvents.push(impact);
 			}}
