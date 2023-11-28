@@ -12,10 +12,11 @@
 	import globePoints from '$lib/shared/mocks/globe-points.json';
 	import { arrayOfCoordinatesToPosition } from '$lib/shared/helpers/tree/globePositionHelper';
 	import {
-		createImpactGenerator,
+		addImpact,
 		updateImpacts,
 		createEmptyImpacts,
-		addImpact
+		createImpactGenerator,
+		calcNewPositionFromRotation
 	} from '$lib/shared/helpers/globe/impact';
 
 	import fragmentShader from '$lib/shared/shaders/globeFragment.glsl?raw';
@@ -25,6 +26,7 @@
 	export let placePointers = [];
 	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
 
+	let globeRotation = { x: 0, y: 0, z: 0 };
 	let geometry;
 	const stackImpactEvents = [];
 	const impacts = createEmptyImpacts(MAX_IMPACTS_COUNT);
@@ -90,6 +92,7 @@
 
 	const animate = () => {
 		updateImpacts(impacts, stackImpactEvents);
+		globeRotation.y += 0.003;
 
 		requestAnimationFrame(animate);
 	};
@@ -103,7 +106,7 @@
 </script>
 
 {#if geometry}
-	<T.Group>
+	<T.Group rotation={[globeRotation.x, globeRotation.y, globeRotation.z]}>
 		<T.Mesh {geometry}>
 			<T.ShaderMaterial
 				{vertexShader}
@@ -121,13 +124,13 @@
 
 		<T.Mesh
 			on:click={({ point }) => {
-				const { x, y, z } = point;
+				const { x, y, z } = calcNewPositionFromRotation(point, globeRotation);
 				const impact = createImpactFromPosition({ x, y, z, shouldRepeat: false });
 				stackImpactEvents.push(impact);
 			}}
 			position={[0, 0, 0]}
 			geometry={new Three.SphereGeometry(GLOBE_RADIUS, 50, 50)}
-			material={new Three.MeshStandardMaterial({ color: '#3366ff' })}
+			material={new Three.MeshStandardMaterial({ color: '#6666ff' })}
 		/>
 
 		{#each placePointers as placePointer}

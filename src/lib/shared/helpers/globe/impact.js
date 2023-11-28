@@ -72,3 +72,29 @@ export const updateImpacts = (impacts, stackImpactEvents) => {
 
     deleteUnrepeatedImpacts(impacts);
 };
+
+export const calcNewPositionFromRotation = (originalPoint, globeRotation = { x: 0, y: 0, z: 0 }) => {
+    const { x, y, z } = originalPoint;
+    const { x: globeRotationX, y: globeRotationY, z: globeRotationZ } = globeRotation;
+
+    // Convert rotations to radians
+    const thetaX = globeRotationX;
+    const thetaY = globeRotationY;
+    const thetaZ = globeRotationZ;
+
+    // Rotation around the x-axis
+    const newY1 = y * Math.cos(thetaX) - z * Math.sin(thetaX);
+    const newZ1 = y * Math.sin(thetaX) + z * Math.cos(thetaX);
+
+    // Rotation around the y-axis
+    const newX2 = x * Math.cos(thetaY) - newZ1 * Math.sin(thetaY);
+    const newY2 = newY1;
+    const newZ2 = x * Math.sin(thetaY) + newZ1 * Math.cos(thetaY);
+
+    // Rotation around the z-axis
+    const newX3 = newX2 * Math.cos(thetaZ) + newY2 * Math.sin(thetaZ);
+    const newY3 = -newX2 * Math.sin(thetaZ) + newY2 * Math.cos(thetaZ);
+    const newZ3 = newZ2;
+
+    return { x: newX3, y: newY3, z: newZ3 };
+};

@@ -24,7 +24,12 @@
 
 {#if placePointer}
 	<T.Group>
-		<T.Mesh position={pointerPosition} on:create={({ ref }) => ref.translateY(0.25)}>
+		<T.Mesh
+			position={pointerPosition}
+			on:create={({ ref }) => {
+				ref.translateY(0.25);
+			}}
+		>
 			<T.CylinderGeometry args={[0.01, 0.01, 0.5, 8]} />
 			<T.MeshBasicMaterial color={'#bfbfbf'} />
 		</T.Mesh>
