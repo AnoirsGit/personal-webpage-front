@@ -11,12 +11,13 @@
 	import TreeActionBar from '$lib/features/tree/TreeActionBar.svelte';
 	import NodeTooltip from '$lib//features/tree/NodeTooltip.svelte';
 
-	export let isEditMode = true;
 	export let nodes = nodesMock;
+	export let isEditMode = false;
 	export let treeId = 1;
 
 	let tree;
 	let wrapperZoomScroll = { x: 0, y: 0, scale: 1 };
+	let mouseOnTreePosition = { x: 0, y: 0 };
 
 	let nodesToConnect = [{ sourceNodeId: 1, targetNodeId: 2 }];
 
@@ -44,9 +45,7 @@
 		nodes = nodes.map((node) => (node.id !== nodeId ? node : { ...node, position }));
 	};
 
-	const handleNodeDragDone = () => {
-		allowTreeDrag = true;
-	};
+	const handleNodeDragDone = () => (allowTreeDrag = true);
 
 	const handleNewEdgeClick = (event, sourceNodeId) => {
 		isNewEdgeDragging = true;
@@ -99,12 +98,14 @@
 
 	const handleNodeAdd = () => {
 		const newNode = addNodeToTree(nodes, wrapperZoomScroll, tree, treeId);
-
 		nodes = [...nodes, newNode];
 	};
 
-	const handleMouseEnter = () => setTimeout(() => (allowActions = true), 500);
-	const handleMouseLeave = () => (allowActions = false);
+	const handleMouseEnterTree = () => setTimeout(() => (allowActions = true), 500);
+	const handleMouseLeaveTree = () => (allowActions = false);
+	const handleMouseMoveTree = (event) => {
+		mouseOnTreePosition = { x: event.clientX - 100, y: event.clientY - 100 };
+	};
 
 	const handleMouseMoveNode = (nodeId) => {
 		const node = nodes.find((tempNode) => tempNode.id === nodeId);
@@ -126,12 +127,13 @@
 <div class="flex flex-col lg:flex-row gap-3 mb-32">
 	<div
 		bind:this={tree}
-		on:mouseenter={handleMouseEnter}
-		on:mouseleave={handleMouseLeave}
-		class="relative bg-main-blue-90 rounded {isEditMode ? 'w-3/5' : 'w-full'}"
+		on:mouseenter={handleMouseEnterTree}
+		on:mousemove={handleMouseMoveTree}
+		on:mouseleave={handleMouseLeaveTree}
+		class="relative rounded {isEditMode ? 'w-3/5' : 'w-full'}"
 	>
 		{#if nodeTooltip}
-			<NodeTooltip {nodeTooltip} />
+			<NodeTooltip {nodeTooltip} mousePosition={mouseOnTreePosition} />
 		{/if}
 		<TreeActionBar onNodeAdd={handleNodeAdd} />
 		<TreeWrapper {allowActions} {allowTreeDrag} onZoomScrollChange={handleWrapperZoomScrollChange}>
@@ -141,6 +143,7 @@
 				<Node
 					{node}
 					{allowActions}
+					{isEditMode}
 					onMouseMoveNode={handleMouseMoveNode}
 					onMouseLeaveNode={handleMouseLeaveNode}
 					active={edgeToConnectId === node.id}

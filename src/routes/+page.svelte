@@ -5,7 +5,6 @@
 	import Tree from '$lib/widgets/skill-tree/SkillTree.svelte';
 
 	import { fps } from '@sveu/browser';
-	import GlobeMerged from '$lib/widgets/globe/globe.svelte';
 
 	const _fps = fps();
 </script>
@@ -37,7 +36,7 @@
 	</div>
 </section>
 <section>
-	<Tree isEditMode={true} />
+	<Tree isEditMode={false} />
 </section>
 <section class="h-128">
 	<Globe />

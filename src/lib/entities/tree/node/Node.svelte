@@ -2,9 +2,11 @@
 	import GiMove from 'svelte-icons/gi/GiMove.svelte';
 	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
+	import MdEdit from 'svelte-icons/md/MdEdit.svelte';
 	import '$lib/app/styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
 
+	export let isEditMode;
 	export let node = () => {};
 	export let allowActions = false;
 	export let onNewEdge = () => {};
@@ -67,8 +69,11 @@
 	};
 
 	const handleNodeClick = () => {
-		onNodeSelect(node.id);
 		showTooltip = !showTooltip;
+	};
+
+	const handleEditClick = () => {
+		onNodeSelect(node.id);
 	};
 
 	const onMouseMove = (event) => onMouseMoveNode(node.id, event);
@@ -98,17 +103,23 @@
 	</div>
 {/if}
 
-<button
-	class="absolute m-0 w-20 h-20 z-node bg-white border-4 border-main-blue-50 rotate-45 overflow-hidden"
-	{style}
-	on:click={handleNodeClick}
-	on:mousemove={onMouseMove}
-	on:mouseleave={onMouseLeave}
->
-	<img
-		class="-rotate-45 w-full h-full"
-		src={node.imageUrl}
-		crossorigin="anonymous"
-		alt={node.title}
-	/>
-</button>
+<div class="absolute w-20 h-20 m-0 z-node" {style}>
+	<button
+		class="w-20 h-20 bg-white border-4 border-main-blue-50 rotate-45 overflow-hidden"
+		on:click={handleNodeClick}
+		on:mousemove={onMouseMove}
+		on:mouseleave={onMouseLeave}
+	>
+		<img
+			class="-rotate-45 w-full h-full"
+			src={node.imageUrl}
+			crossorigin="anonymous"
+			alt={node.title}
+		/>
+	</button>
+	{#if isEditMode}
+		<button on:click={handleEditClick} class="absolute z-node -top-3 -right-3">
+			<div class="w-5 h-5"><MdEdit /></div></button
+		>
+	{/if}
+</div>

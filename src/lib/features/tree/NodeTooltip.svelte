@@ -2,6 +2,7 @@
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
 
+	export let mousePosition = { x: 0, y: 0 };
 	export let nodeTooltip = null;
 
 	let description;
@@ -19,7 +20,10 @@
 	});
 </script>
 
-<div class="tooltip-data flex flex-col gap-2 w-60 h-max right-2 top-2" >
+<div
+	class="tooltip-data flex flex-col gap-2 w-60 h-max"
+	style={`top: ${mousePosition.y}px; left: ${mousePosition.x}px`}
+>
 	<div class="flex flex-col gap-3 h-max pb-3 border-b border-slate-500">
 		<div class="w-full flex-center gap-3">
 			{#if nodeTooltip.imageUrl && nodeTooltip.imageUrl !== ''}
@@ -30,15 +34,17 @@
 					alt={nodeTooltip.title}
 				/>
 			{/if}
-			<h1 class="text-xl text-bold">{nodeTooltip.title}</h1>
+			<h1 class="text-xl text-bold">{nodeTooltip?.title}</h1>
 		</div>
 
 		<div class="flex flex-wrap gap-3">
-			{#each nodeTooltip.tags as tag}
-				<div class="py-2 px-3 rounded bg-[rgba(255,255,255,0.1)]">
-					{tag}
-				</div>
-			{/each}
+			{#if nodeTooltip?.tags}
+				{#each nodeTooltip?.tags as tag}
+					<div class="py-2 px-3 rounded bg-[rgba(255,255,255,0.1)]">
+						{tag}
+					</div>
+				{/each}
+			{/if}
 		</div>
 	</div>
 
