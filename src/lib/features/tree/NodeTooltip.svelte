@@ -1,29 +1,16 @@
 <script>
-	import { marked } from 'marked';
-	import { onMount } from 'svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
 	export let mousePosition = { x: 0, y: 0 };
 	export let nodeTooltip = null;
-
-	let description;
-
-	onMount(() => {
-		const renderer = new marked.Renderer();
-
-		renderer.text = function (text) {
-			return '<span class="custom-text">' + text + '</span>';
-		};
-
-		description.innerHTML = marked(nodeTooltip?.description || '', renderer);
-	});
 </script>
 
 <div
 	class="tooltip-data flex flex-col gap-2 w-60 h-max -translate-y-full -translate-x-1/2"
 	style={`top: ${mousePosition.y - 16}px; left: ${mousePosition.x}px`}
 >
-	<div class="flex flex-col gap-3 h-max pb-3 border-b border-slate-500">
-		<div class="w-full flex-center gap-3">
+	<div class="flex flex-col gap-3 h-max border-b border-slate-500">
+		<div class="w-full flex items-center gap-3">
 			{#if nodeTooltip.imageUrl && nodeTooltip.imageUrl !== ''}
 				<img
 					class="w-10 h-10"
@@ -45,6 +32,7 @@
 			{/if}
 		</div>
 	</div>
-
-	<div class="markdown-output" bind:this={description} />
+	<div class="markdown-reader small">
+		<SvelteMarkdown source={nodeTooltip?.description} />
+	</div>
 </div>

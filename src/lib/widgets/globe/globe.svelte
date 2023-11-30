@@ -43,9 +43,9 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="relative w-100% h-192">
+<div class="relative w-100% h-full">
 	<div
-		class="absolute w-screen h-192 left-1/2 -translate-x-1/2"
+		class="absolute w-screen h-full left-1/2 -translate-x-1/2"
 		on:mousedown={handleMouseDown}
 		on:mousemove={handleMouseMove}
 		on:mouseup={handleMouseUp}

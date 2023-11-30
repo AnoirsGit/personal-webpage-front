@@ -128,9 +128,9 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="relative flex flex-col lg:flex-row gap-3">
+<div class="w-full flex flex-col lg:flex-row gap-3">
 	<div
-		class=" relative rounded {isEditMode ? 'w-3/5' : 'w-full'}"
+		class="relative {isEditMode ? 'w-3/5' : 'w-full'}"
 		bind:this={tree}
 		on:mousemove={handleMouseMoveTree}
 		on:mouseenter={handleMouseEnterTree}

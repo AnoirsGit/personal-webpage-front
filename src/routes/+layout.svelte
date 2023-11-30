@@ -1,5 +1,7 @@
 <script>
 	import '$lib/app/styles/app.css';
+	import '$lib/app/styles/markdown-reader.css';
+
 	import Header from '$lib/widgets/Header.svelte';
 </script>
 

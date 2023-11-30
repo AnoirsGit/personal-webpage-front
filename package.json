@@ -35,8 +35,8 @@
 		"@tweenjs/tween.js": "^21.0.0",
 		"@types/three": "^0.156.0",
 		"axios": "^1.4.0",
-		"marked": "^8.0.0",
 		"svelte-icons": "^2.1.0",
+		"svelte-markdown": "^0.4.0",
 		"three": "^0.156.1",
 		"troika-three-text": "^0.49.0"
 	}

@@ -33,30 +33,30 @@ body {
   @apply w-full px-8 lg:mx-auto lg:w-240 xl:w-320;
 }
 
-a{
+a {
   @apply underline text-amber-600
 }
 
-.flex-center{
+.flex-center {
   @apply flex justify-center items-center
 }
 
-.abs-center{
+.abs-center {
   @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
 }
 
-.abs-center-x{
+.abs-center-x {
   @apply absolute left-1/2 -translate-x-1/2
 }
 
-.abs-center-y{
+.abs-center-y {
   @apply absolute top-1/2 -translate-x-1/2 -translate-y-1/2
 }
 
-.tooltip{
+.tooltip {
   @apply absolute z-tooltip bg-black/40 text-slate-800 p-2 border rounded-lg text-xs text-white;
 }
 
-.tooltip-data{
+.tooltip-data {
   @apply fixed z-tooltip bg-black/80 text-slate-800 p-4 border rounded-lg text-xs text-white;
 }

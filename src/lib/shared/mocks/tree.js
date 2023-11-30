@@ -5,7 +5,7 @@ export const nodesMock = [
         size: 80,
         position: { y: 80, x: 500 },
         isActive: false,
-        description: " # Node.js ***is*** a \n runtime environment that executes JavaScript code on the server side.\n  -  It's non-blocking, event-driven, and ideal for building scalable, \n  - real-time applications.",
+        description: " #### Node.js ***is*** a \n runtime environment **that** executes JavaScript code on the server side.\n  -  It's non-blocking, event-driven, and ideal for building scalable, \n  - real-time applications.",
         imageUrl: "https://static-00.iconduck.com/assets.00/node-js-icon-227x256-913nazt0.png",
         title: "NodeJs",
         tags: [],
