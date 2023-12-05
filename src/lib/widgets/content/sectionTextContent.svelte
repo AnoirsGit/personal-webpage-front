@@ -1,7 +1,7 @@
 <script>
 	import SvelteMarkdown from 'svelte-markdown';
 
-	export let bgTitle = `web developer`;
+	export let bgTitle = `web\ndeveloper`;
 	export let bgTitleClass = '-translate-y-1/4';
 
 	export let preTitle = `Hi, it's me`;

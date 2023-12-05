@@ -23,13 +23,10 @@
 	let showTooltip = false;
 	let style = '';
 	let toolTipPosition;
+	let activeStyle = ` ${active ? 'box-shadow: 0 0 50px 20px #fff; background: white;' : ''}`;
 
 	$: nodePosition = getNodeCenter(node.position, node.size);
-	$: {
-		style = `
-		${active ? 'box-shadow: 0 0 50px 20px #fff; background: white;' : ''}
-		${getNodePositionStyle(nodePosition)}`;
-	}
+	$: style = getNodePositionStyle(nodePosition);
 
 	$: toolTipPosition = {
 		y: nodePosition.y,
@@ -106,6 +103,7 @@
 <div class="absolute w-20 h-20 m-0 z-node" {style}>
 	<button
 		class="w-20 h-20 bg-white border-4 border-main-blue-50 rotate-45 overflow-hidden"
+		style={activeStyle}
 		on:click={handleNodeClick}
 		on:mousemove={onMouseMove}
 		on:mouseleave={onMouseLeave}

@@ -1,5 +1,6 @@
 <script>
 	import { Canvas, T } from '@threlte/core';
+	import '$lib/app/styles/globe.css';
 
 	import GlobeMesh from '$lib/entities/globe/GlobeMesh.svelte';
 	import Atmosphere from '$lib/entities/globe/Atmosphere.svelte';
@@ -43,17 +44,17 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="relative w-100% h-full">
-	<div
-		class="absolute w-screen h-full left-1/2 -translate-x-1/2"
-		on:mousedown={handleMouseDown}
-		on:mousemove={handleMouseMove}
-		on:mouseup={handleMouseUp}
-	>
+<div
+	class="absolute w-screen h-full left-1/2 -translate-x-1/2"
+	on:mousedown={handleMouseDown}
+	on:mousemove={handleMouseMove}
+	on:mouseup={handleMouseUp}
+>
+	<div class="w-240 h-240 xl-globe-margin">
 		<Canvas>
 			<T.PerspectiveCamera
 				makeDefault
-				position={[-1, 5, 13]}
+				position={[-1, 5, 12]}
 				on:create={({ ref }) => ref.lookAt(0, 0, 0)}
 			/>
 			<T.Group rotation.y={x * 0.003}>
