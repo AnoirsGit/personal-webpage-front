@@ -9,7 +9,9 @@ export default {
 				white: '#ffffff',
 				'main-blue': '#000C1D',
 				'main-blue-50': '#003580',
-				'main-blue-90': '#001533'
+				'main-blue-90': '#001533',
+				'deep-dark': '#1B1B25',
+				'dark-grey': '#2d2d39'
 			},
 			spacing: {
 				96: '24rem',

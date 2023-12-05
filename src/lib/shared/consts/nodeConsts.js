@@ -1,5 +1,1 @@
-export const DEFAULT_NODE_SIZES = {
-  small: 40,
-  default: 80,
-  big: 120
-}
+export const NODE_DEFAULT_SIZE = 56;

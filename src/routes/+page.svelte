@@ -33,5 +33,5 @@
 	</div>
 </section>
 <section>
-	<SkillTree isEditMode={false} />
+	<SkillTree isEditMode={true} />
 </section>

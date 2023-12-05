@@ -9,3 +9,15 @@
 .button {
     @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
 }
+
+.node-wrapper {
+    @apply absolute border bg-dark-grey rounded-full z-node overflow-hidden;
+}
+
+.node-element {
+    @apply w-14 h-14 flex justify-center items-center;
+}
+
+.node-image {
+    @apply w-8 h-8;
+}

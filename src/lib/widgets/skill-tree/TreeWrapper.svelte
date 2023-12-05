@@ -31,8 +31,8 @@
 	};
 
 	$: handleMouseMove = (event) => {
-		if(!allowActions) isDragging = false
-		if (!isDragging || !allowTreeDrag ) return;
+		if (!allowActions) isDragging = false;
+		if (!isDragging || !allowTreeDrag) return;
 
 		const deltaX = event.clientX - offsetX;
 		const deltaY = event.clientY - offsetY;
@@ -52,7 +52,9 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="draggable-container w-full h-144 overflow-hidden {isDragging && allowActions? 'cursor-grab' : ''}"
+	class="draggable-container w-full h-144 overflow-hidden {isDragging && allowActions
+		? 'cursor-grab'
+		: ''}"
 	bind:this={container}
 	on:wheel={handleWheel}
 	on:mousedown={handleMouseDown}
@@ -61,8 +63,10 @@
 	style="position: relative;"
 >
 	<div
-		class="draggable-content  w-screen h-320"
+		class="draggable-content bg-deep-dark"
 		style="
+		width: 4000px;
+		height: 2000px;
         transform-origin: top left;
         transform: scale({scale});
         overflow: hidden;

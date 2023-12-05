@@ -1,7 +1,7 @@
 import { generateRandomID } from '../helper';
-import { DEFAULT_NODE_SIZES } from '$lib/shared/consts/nodeConsts';
+import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
 
-export const getNodeCenter = (position, size) => {
+export const getNodeCenter = (position, size = NODE_DEFAULT_SIZE) => {
 	const center = { x: position.x - size / 2, y: position.y - size / 2 };
 	return center;
 };
@@ -27,7 +27,7 @@ export const getNodeUnderMouse = ({ nodes, node, x, y }) => {
 	return null; // Return null outside of the loop if no node is found
 };
 
-export const calculateCenterOfTreeToAddNode = (wrapperZoomScroll, tree, nodeSize = 80) => {
+export const calculateCenterOfTreeToAddNode = (wrapperZoomScroll, tree, nodeSize = NODE_DEFAULT_SIZE) => {
 	const parentCenterWidth = tree.offsetWidth / 2;
 	const parentCenterHeight = tree.offsetHeight / 2;
 
@@ -41,7 +41,7 @@ export const calculateCenterOfTreeToAddNode = (wrapperZoomScroll, tree, nodeSize
 };
 
 export const addNodeToTree = (nodes, wrapperZoomScroll, tree, treeId, params) => {
-	const size = params?.size || DEFAULT_NODE_SIZES.default;
+	const size = params?.size;
 	const nodePosition = calculateCenterOfTreeToAddNode(wrapperZoomScroll, tree, size);
 	let mockId;
 

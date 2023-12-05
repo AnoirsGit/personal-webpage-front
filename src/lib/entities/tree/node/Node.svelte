@@ -5,6 +5,8 @@
 	import MdEdit from 'svelte-icons/md/MdEdit.svelte';
 	import '$lib/app/styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
+	import { checkAndConvertToRGB } from '$lib/shared/helpers/helper';
+	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
 
 	export let isEditMode;
 	export let node = () => {};
@@ -21,16 +23,18 @@
 
 	let isDragging = false;
 	let showTooltip = false;
-	let style = '';
-	let toolTipPosition;
-	let activeStyle = ` ${active ? 'box-shadow: 0 0 50px 20px #fff; background: white;' : ''}`;
+
+	const colorArray = checkAndConvertToRGB(node.color);
+	const rgbaColor = colorArray ? `rgba(${colorArray.join(',')}, 0.1)` : 'rgba(255, 255, 255, 0.1)';
+	const backgroundStyle = `background: ${active ? 'rgba(255, 255, 255, 0.8)' : rgbaColor};`;
+	const borderColor = `border-color: ${colorArray ? 'rgb(' + colorArray.join(',') + ')' : 'white'}`;
 
 	$: nodePosition = getNodeCenter(node.position, node.size);
-	$: style = getNodePositionStyle(nodePosition);
+	$: style = getNodePositionStyle(nodePosition) + borderColor;
 
 	$: toolTipPosition = {
 		y: nodePosition.y,
-		x: nodePosition.x + node.size + 8
+		x: nodePosition.x + NODE_DEFAULT_SIZE + 8
 	};
 
 	const handleMouseDown = (event) => {
@@ -100,24 +104,26 @@
 	</div>
 {/if}
 
-<div class="absolute w-20 h-20 m-0 z-node" {style}>
+{#if isEditMode}
 	<button
-		class="w-20 h-20 bg-white border-4 border-main-blue-50 rotate-45 overflow-hidden"
-		style={activeStyle}
+		on:click={handleEditClick}
+		class="absolute z-node"
+		style="top: {nodePosition.y + -12}px; left: {nodePosition.x + NODE_DEFAULT_SIZE}px"
+	>
+		<div class="w-4 h-4"><MdEdit /></div></button
+	>
+{/if}
+
+<div class="node-wrapper" {style}>
+	<button
+		class="node-element"
+		style={backgroundStyle}
 		on:click={handleNodeClick}
 		on:mousemove={onMouseMove}
 		on:mouseleave={onMouseLeave}
 	>
-		<img
-			class="-rotate-45 w-full h-full"
-			src={node.imageUrl}
-			crossorigin="anonymous"
-			alt={node.title}
-		/>
+		{#if node.imageUrl && node.imageUrl != ''}
+			<img class="node-image" src={node.imageUrl} crossorigin="anonymous" alt={node.title} />
+		{/if}
 	</button>
-	{#if isEditMode}
-		<button on:click={handleEditClick} class="absolute z-node -top-3 -right-3">
-			<div class="w-5 h-5"><MdEdit /></div></button
-		>
-	{/if}
 </div>
