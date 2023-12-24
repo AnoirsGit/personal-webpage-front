@@ -48,7 +48,7 @@
 					<div class="flex flex-wrap gap-3">
 						{#each node.tags as tag, index}
 							<div
-								class="flex-center gap-2 px-3 py-1 border border-main-blue rounded text-slate-700"
+								class="flex-center gap-2 px-3 py-1 border border-deep-dark-bg rounded text-slate-700"
 							>
 								<p>{tag}</p>
 								<button class="w-4 h-4" on:click={() => handleRemoveTag(index)}><MdClose /></button>

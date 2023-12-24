@@ -1,36 +1,47 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Import all fonts using @font-face */
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('../../static/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
-  font-weight: normal;
+  font-family: 'Poppins Mono';
+  src: url('/fonts/ttf/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  /* Adjusted font-weight to 400 for regular */
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('../../static/fonts/ttf/JetBrainsMono-Bold.ttf') format('truetype');
-  font-weight: bold;
+  font-family: 'Poppins Mono';
+  src: url('/fonts/ttf/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
   font-style: normal;
 }
 
-/* Add similar @font-face rules for each font variation */
+@font-face {
+  font-family: 'Poppins Mono';
+  src: url('/fonts/ttf/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins Mono';
+  src: url('/fonts/ttf/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
 
 /* Apply fonts to specific elements */
 body {
-  font-family: 'mono', sans-serif;
-  @apply overflow-x-hidden bg-main-blue;
+  font-family: 'Poppins Mono', sans-serif;
+  @apply overflow-x-hidden bg-deep-dark-bg;
 }
 
+
 .app {
-  @apply font-mono w-screen h-full min-h-screen text-white;
+  @apply w-screen h-full min-h-screen text-white;
 }
 
 .app-content {
-  @apply w-full px-8 lg:mx-auto lg:w-240 xl:w-320;
+  @apply w-full relative px-10 lg:mx-auto lg:w-240 xl:w-320 2xl:w-360;
 }
 
 a {

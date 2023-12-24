@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header-wrapper {
+    @apply fixed inset-0 z-60 h-20 w-full font-semibold box-border bg-deep-dark-bg border-b-2 border-dark;
+
+}
+
+.nav-item {
+    @apply h-full box-content px-2 font-normal text-lg hover:text-main-dark-purple hover:border-b-2 border-main-dark-purple;
+    /* Overlapping the header's border */
+}
+
+.nav-item.active {
+    @apply px-2 border-b-2 text-main-purple border-main-purple
+}

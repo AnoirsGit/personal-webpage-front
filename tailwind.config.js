@@ -7,11 +7,11 @@ export default {
 				transparent: 'transparent',
 				current: 'currentColor',
 				white: '#ffffff',
-				'main-blue': '#000C1D',
-				'main-blue-50': '#003580',
-				'main-blue-90': '#001533',
-				'deep-dark': '#1B1B25',
-				'dark-grey': '#2d2d39'
+				'deep-dark-bg': '#0D0D13',
+				'dark': '#1B1B25',
+				'dark-grey': '#2d2d39',
+				'main-purple': '#9122FF',
+				'main-dark-purple': '#6600cc'
 			},
 			spacing: {
 				96: '24rem',
@@ -42,7 +42,12 @@ export default {
 				296: '74rem',
 				304: '76rem',
 				312: '78rem',
-				320: '80rem'
+				320: '80rem',
+				328: '82rem',
+				336: '84rem',
+				344: '86rem',
+				352: '88rem',
+				360: '90rem'
 			},
 			zIndex: {
 				0: '0',
@@ -58,7 +63,8 @@ export default {
 				100: '100',
 				edge: '40',
 				node: '50',
-				tooltip: '55'
+				tooltip: '55',
+				max: '999'
 			}
 		}
 	},

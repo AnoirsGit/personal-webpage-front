@@ -6,9 +6,8 @@
 </script>
 
 <main class="app">
+	<Header />
 	<div class="app-content">
-		<Header />
-
 		<slot />
 
 		<footer>
