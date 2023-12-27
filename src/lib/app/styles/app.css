@@ -71,3 +71,11 @@ a {
 .tooltip-data {
   @apply fixed z-tooltip bg-black/80 text-slate-800 p-4 border rounded-lg text-xs text-white;
 }
+
+.hidden-sm {
+  @apply hidden lg:block
+}
+
+.hidden-lg {
+  @apply block lg:hidden;
+}

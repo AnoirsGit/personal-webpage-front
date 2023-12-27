@@ -9,6 +9,7 @@ export default {
 				white: '#ffffff',
 				'deep-dark-bg': '#0D0D13',
 				'dark': '#1B1B25',
+				'text-1': '#8A8AAB',
 				'dark-grey': '#2d2d39',
 				'main-purple': '#9122FF',
 				'main-dark-purple': '#6600cc'

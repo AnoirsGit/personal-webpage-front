@@ -1,16 +1,12 @@
 <script>
 	import SvelteMarkdown from 'svelte-markdown';
 
-	export let bgTitle = `web\ndeveloper`;
+	export let bgTitle = ``;
 	export let bgTitleClass = '-translate-y-1/4';
 
-	export let preTitle = `Hi, it's me`;
-	export let title = 'Anuar';
-	export let content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et aliquam justo, vel
-                tincidunt purus. Vivamus elementum tristique libero, nec bibendum justo consectetur vel.
-                Vestibulum id sem eget nisi vestibulum finibus. Quisque bibendum euismod eros, eget luctus
-                eros hendrerit eu. Curabitur ultrices scelerisque lacus in feugiat. Nunc non lectus mi.
-                Integer sit amet velit eget ex hendrerit laoreet.`;
+	export let preTitle = ``;
+	export let title = '';
+	export let content = ``;
 
 	const bgTitleArray = bgTitle.toUpperCase().split('\n');
 </script>

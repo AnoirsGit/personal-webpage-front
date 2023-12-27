@@ -11,11 +11,13 @@
 	const sizes = {
 		small: ['px-3', 'py-2'],
 		default: ['px-4', 'py-3'],
-		big: ['px-6', 'py-4']
+		big: ['px-6', 'py-4'],
+		no: []
 	};
 
 	const colors = {
 		dark: ['bg-dark', 'hover:opacity-60', 'text-white'],
+		transparent: ['text-main-purple', 'hover:text-dark-purple'],
 		purple: ['bg-main-purple', 'hover:bg-main-dark-purple', 'text-white']
 	};
 
@@ -24,7 +26,10 @@
 		return obj['default'].join(' ');
 	};
 
-	const classNames = `w-max rounded-xl ${findClasses(sizes, size)} ${findClasses(colors, color)}`;
+	const classNames = `w-max rounded-xl font-normal ${findClasses(sizes, size)} ${findClasses(
+		colors,
+		color
+	)}`;
 
 	function handleClick() {
 		if (!disabled && onClick) {
