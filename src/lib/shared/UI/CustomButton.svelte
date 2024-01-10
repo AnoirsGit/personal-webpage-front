@@ -4,6 +4,7 @@
 	export let type = 'button';
 	export let disabled = false;
 	export let size = 'default';
+	export let length = 'default';
 	export let color = 'purple';
 	export let href = '#';
 	export let onClick;
@@ -14,6 +15,8 @@
 		big: ['px-6', 'py-4'],
 		no: []
 	};
+
+	const lengths = { default: ['w-max'], full: ['w-full'] };
 
 	const colors = {
 		dark: ['bg-dark', 'hover:opacity-60', 'text-white'],
@@ -26,10 +29,8 @@
 		return obj['default'].join(' ');
 	};
 
-	const classNames = `w-max rounded-xl font-normal ${findClasses(sizes, size)} ${findClasses(
-		colors,
-		color
-	)}`;
+	const classNames = `${findClasses(lengths, length)} rounded-xl font-normal 
+	${findClasses(sizes, size)} ${findClasses(colors, color)}`;
 
 	function handleClick() {
 		if (!disabled && onClick) {

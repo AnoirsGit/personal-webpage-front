@@ -15,6 +15,7 @@ export default {
 				'main-dark-purple': '#6600cc'
 			},
 			spacing: {
+				'0.75': '0.1875rem',
 				96: '24rem',
 				104: '26rem',
 				112: '28rem',
