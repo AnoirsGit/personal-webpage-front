@@ -7,7 +7,7 @@
 <div class="about-me">
 	<div class="left-block">
 		<h1 class="header-1">Hi, <br /> I'm <span class="text-main-purple">Anuar</span></h1>
-		<p>Full Stack developer</p>
+		<p>FullStack developer</p>
 		<CustomButton size="no">
 			<div class="lets-chat-btn">
 				<p>Let's chat</p>
@@ -36,5 +36,22 @@
 				</div>
 			</div>
 		</CustomButton>
+	</div>
+</div>
+
+<div class="about-me-2">
+	<div class="flex-center">
+		<h1 class="header-1">About me</h1>
+	</div>
+	<div class="content-block">
+		<div class="lg:w-120 flex flex-col gap-6">
+			<div class="description-block">
+				Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
+				lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
+				vivamus sapien vulputate non elementum leo massa vitae.
+			</div>
+			<CustomButton>Hire me</CustomButton>
+		</div>
+		<img src="/images/chibi.png" alt="" />
 	</div>
 </div>

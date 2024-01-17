@@ -79,3 +79,7 @@ a {
 .hidden-lg {
   @apply block lg:hidden;
 }
+
+.section-header {
+  @apply text-4xl
+}
