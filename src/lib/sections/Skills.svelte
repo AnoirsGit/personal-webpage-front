@@ -7,9 +7,9 @@
 	<div class="flex-center">
 		<h1 class="section-header">Skills</h1>
 	</div>
-	<div class="flex-center">
+	<div class="flex-center skills-tab-wrapper">
 		<div class="tabs">
-			<div class="tab-item">Back End</div>
+			<div class="tab-item active">Back End</div>
 			<div class="tab-item">Front End</div>
 			<div class="tab-item">Dev Ops</div>
 		</div>

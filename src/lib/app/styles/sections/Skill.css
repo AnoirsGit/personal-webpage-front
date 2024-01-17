@@ -2,14 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.skills-tab-wrapper {
+    @apply box-border;
+}
+
 .skills {
-    @apply w-full pt-12 flex flex-col gap-10
+    @apply w-full pt-12 flex flex-col gap-10;
 }
 
 .skills .tabs {
-    @apply flex gap-10 w-max border-b-2 border-dark
+    @apply flex gap-10 w-max border-b-2 border-dark;
 }
 
 .skills .tabs .tab-item {
-    @apply px-6 pb-6
+    @apply box-border px-6 pb-6
+}
+
+.tab-item.active {
+    @apply border-b-2 text-main-purple border-main-purple
+}
+
+.skills-bg-color {
+    background-color: #1B1B25;
+}
+
+.skills-section-border {
+    border-color: #20202B;
+    @apply border border-double
 }

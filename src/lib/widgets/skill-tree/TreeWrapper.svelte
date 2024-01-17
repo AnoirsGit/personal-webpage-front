@@ -1,4 +1,6 @@
 <script>
+	import '$lib/app/styles/sections/Skill.css';
+
 	export let minZoom = 1;
 	export let maxZoom = 2;
 	export let allowActions = false;
@@ -10,6 +12,8 @@
 	let offsetY = 0;
 	let isDragging = false;
 	let container;
+	const widthInSections = 15;
+	const heightInSections = 15;
 
 	const handleWheel = (event) => {
 		event.preventDefault();
@@ -52,7 +56,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="draggable-container w-full h-144 overflow-hidden {isDragging && allowActions
+	class="draggable-container w-full h-144 overflow-hidden rounded-xl {isDragging && allowActions
 		? 'cursor-grab'
 		: ''}"
 	bind:this={container}
@@ -63,16 +67,24 @@
 	style="position: relative;"
 >
 	<div
-		class="draggable-content bg-deep-dark"
+		class="draggable-content skills-bg-color"
 		style="
-		width: 4000px;
-		height: 2000px;
-        transform-origin: top left;
-        transform: scale({scale});
-        overflow: hidden;
-        position: absolute;
-      "
+width: {widthInSections * 100}px;
+height: {heightInSections * 100}px;
+transform-origin: top left;
+transform: scale({scale});
+overflow: hidden;
+position: absolute;
+"
 	>
+		{#each Array(widthInSections) as _, i (i)}
+			{#each Array(heightInSections) as _, j (j)}
+				<div
+					class="absolute skills-section-border"
+					style={`width: 100px; height: 100px; top:${i * 100}px; left:${j * 100}px`}
+				/>
+			{/each}
+		{/each}
 		<slot />
 	</div>
 </div>

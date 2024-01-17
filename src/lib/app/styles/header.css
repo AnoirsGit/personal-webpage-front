@@ -11,7 +11,7 @@
 }
 
 .nav-item {
-    @apply h-full box-content px-2 font-normal text-lg hover:text-main-dark-purple hover:border-b-2 border-main-dark-purple;
+    @apply h-full px-2 font-normal text-lg hover:text-main-dark-purple hover:border-b-2 border-main-dark-purple;
 }
 
 .nav-item.active {
