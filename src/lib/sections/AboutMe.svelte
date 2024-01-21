@@ -1,6 +1,7 @@
 <script>
 	import '$lib/app/styles/sections/AboutMe.css';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
+	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import Icon from '@iconify/svelte';
 </script>
 
@@ -39,19 +40,18 @@
 	</div>
 </div>
 
-<div class="about-me-2">
-	<div class="flex-center">
-		<h1 class="header-1">About me</h1>
-	</div>
-	<div class="content-block">
-		<div class="lg:w-120 flex flex-col gap-6">
-			<div class="description-block">
-				Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
-				lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
-				vivamus sapien vulputate non elementum leo massa vitae.
+<SectionLayout title="About me">
+	<div class="about-me-2">
+		<div class="content-block">
+			<div class="lg:w-120 flex flex-col gap-6">
+				<div class="description-block">
+					Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
+					lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
+					vivamus sapien vulputate non elementum leo massa vitae.
+				</div>
+				<CustomButton>Hire me</CustomButton>
 			</div>
-			<CustomButton>Hire me</CustomButton>
+			<img src="/images/chibi.png" alt="" />
 		</div>
-		<img src="/images/chibi.png" alt="" />
 	</div>
-</div>
+</SectionLayout>

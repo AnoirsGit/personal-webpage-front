@@ -6,9 +6,6 @@
     @apply lg:h-240 mb-20 lg:mb-32 relative flex flex-col lg:flex-row lg:justify-between text-3xl;
 }
 
-.about-me-2 {
-    @apply flex flex-col pt-12
-}
 
 .about-me-2 .content-block {
     @apply flex justify-around items-center

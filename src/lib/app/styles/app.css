@@ -80,6 +80,10 @@ a {
   @apply block lg:hidden;
 }
 
-.section-header {
-  @apply text-4xl
+.section {
+  @apply w-full py-12 flex flex-col gap-10;
+}
+
+.section .section-header {
+  @apply text-white text-4xl;
 }

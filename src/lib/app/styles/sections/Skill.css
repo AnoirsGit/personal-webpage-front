@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 
+.skills-tab {
+    @apply mb-10;
+}
+
 .skills-tab-wrapper {
     @apply box-border;
 }
 
-.skills {
-    @apply w-full pt-12 flex flex-col gap-10;
-}
-
-.skills .tabs {
+.skills-tab .tabs {
     @apply flex gap-10 w-max border-b-2 border-dark;
 }
 
-.skills .tabs .tab-item {
+.skills-tab .tabs .tab-item {
     @apply box-border px-6 pb-6
 }
 
