@@ -1,19 +1,13 @@
 <script>
 	import SkillTree from '$lib/widgets/skill-tree/SkillTree.svelte';
-	import '$lib/app/styles/sections/Skill.css';
+	import '$lib/app/styles/sections/Skills.css';
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
+	import CustomTab from '$lib/shared/UI/CustomTab.svelte';
+
+	const skillCategories = ['BackEnd', 'FrontEnd', 'DevOps'];
 </script>
 
 <SectionLayout title="Skills">
-	<div class="skills-tab">
-		<div class="flex-center skills-tab-wrapper">
-			<div class="tabs">
-				<div class="tab-item">Back End</div>
-				<div class="tab-item">Front End</div>
-				<div class="tab-item">Dev Ops</div>
-			</div>
-		</div>
-	</div>
-
+	<CustomTab items={skillCategories} />
 	<SkillTree />
 </SectionLayout>

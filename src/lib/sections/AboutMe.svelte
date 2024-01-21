@@ -22,7 +22,7 @@
 		<img class="picture" src="/images/about-me-bg.webp" alt="" />
 	</div>
 	<div class="right-block">
-		<h3>Based in Kazakhstan. I’m Frontend and Backend developer.</h3>
+		<h3>Based in Kazakhstan. I’m FullStack developer.</h3>
 		<p class="description">
 			Passionate developer with experience in both frontend and backend, dedicated to creating
 			innovative and efficient web applications. My skills include not only technical depth but also

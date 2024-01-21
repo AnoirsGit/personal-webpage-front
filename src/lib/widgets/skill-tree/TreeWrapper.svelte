@@ -1,5 +1,5 @@
 <script>
-	import '$lib/app/styles/sections/Skill.css';
+	import '$lib/app/styles/sections/Skills.css';
 
 	export let minZoom = 1;
 	export let maxZoom = 2;
