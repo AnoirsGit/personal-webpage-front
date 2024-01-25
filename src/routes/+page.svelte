@@ -24,6 +24,9 @@
 	<Works />
 </section>
 
+<!-- <Globe></Globe> -->
+<ParticleImage></ParticleImage>
+
 <!-- 
 <section class="flex gap-4">
 	<div class="flex flex-col lg:flex-row gap-12 items-center justify-between w-full">
