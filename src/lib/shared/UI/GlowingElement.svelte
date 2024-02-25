@@ -1,5 +1,5 @@
 <script>
-	export let color = '#48abe0';
+	export let color = '#ffffff';
 	export let size = 5;
 	export let isWrapper = false;
 	export let isInner = false;
@@ -17,4 +17,6 @@
 		color.slice(1, 3),
 		16
 	)}, {parseInt(color.slice(3, 5), 16)}, {parseInt(color.slice(5, 7), 16)}, 1)"
-/>
+>
+<slot></slot>
+</div>

@@ -12,7 +12,8 @@ export const getNodePositionStyle = (position) => {
 
 export const getNodeUnderMouse = ({ nodes, node, x, y }) => {
 	for (const tempNode of nodes) {
-		const { position, size, id } = tempNode;
+		const { position, id } = tempNode;
+		const size = tempNode.size | NODE_DEFAULT_SIZE;
 		const center = getNodeCenter(position, size);
 		const isMouseOverNode =
 			x >= center.x &&

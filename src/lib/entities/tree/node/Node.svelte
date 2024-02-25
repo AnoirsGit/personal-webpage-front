@@ -11,6 +11,7 @@
 	export let isEditMode;
 	export let node = () => {};
 	export let allowActions = false;
+	export let allowShowTooltip = true;
 	export let onNewEdge = () => {};
 	export let onNodeDrag = () => {};
 	export let onDragDone = () => {};
@@ -26,11 +27,14 @@
 
 	const colorArray = checkAndConvertToRGB(node.color);
 	const rgbaColor = colorArray ? `rgba(${colorArray.join(',')}, 0.1)` : 'rgba(255, 255, 255, 0.1)';
-	const backgroundStyle = `background: ${active ? 'rgba(255, 255, 255, 0.8)' : rgbaColor};`;
-	const borderColor = `border-color: ${colorArray ? 'rgb(' + colorArray.join(',') + ')' : 'white'}`;
+	const backgroundStyle = `background: ${rgbaColor};`;
+	const borderColor = `border-color: ${
+		colorArray ? 'rgb(' + colorArray.join(',') + ')' : 'white'
+	};`;
 
+	$: glow = active ? 'box-shadow: 0 0 24px 0px rgba(255,255,255,0.5)' : '';
 	$: nodePosition = getNodeCenter(node.position, node.size);
-	$: style = getNodePositionStyle(nodePosition) + borderColor;
+	$: style = getNodePositionStyle(nodePosition) + borderColor + glow;
 
 	$: toolTipPosition = {
 		y: nodePosition.y,
@@ -66,11 +70,12 @@
 	};
 
 	const handleNewEdgeClick = (event) => {
+		console.log('onNewEdgeClick');
 		onNewEdge(event, node.id);
 	};
 
 	const handleNodeClick = () => {
-		showTooltip = !showTooltip;
+		if (allowShowTooltip) showTooltip = !showTooltip;
 	};
 
 	const handleEditClick = () => {

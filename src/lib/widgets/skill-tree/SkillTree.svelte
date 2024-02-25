@@ -11,6 +11,8 @@
 	import TreeActionBar from '$lib/features/tree/TreeActionBar.svelte';
 	import NodeTooltip from '$lib//features/tree/NodeTooltip.svelte';
 
+	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
+
 	export let nodes = nodesMock;
 	export let isEditMode = false;
 	export let treeId = 1;
@@ -25,7 +27,7 @@
 	let allowTreeDrag = true;
 	let isNewEdgeDragging = false;
 	let newEdge;
-	let edgeToConnectId = 0;
+	let edgeToConnectId = -1;
 	let nodeToEdit;
 	let nodeTooltip = null;
 	let nodeTooltipDebounceTimer = null;
@@ -50,27 +52,27 @@
 	const handleNewEdgeClick = (event, sourceNodeId) => {
 		isNewEdgeDragging = true;
 		const sourceNode = nodes.find((node) => node.id === sourceNodeId);
-
 		if (!sourceNode) return;
 
 		const sourceNodePosition = sourceNode.position;
 		const initialY = event.clientY - sourceNodePosition.y;
 		const initialX = event.clientX - sourceNodePosition.x;
+		const nodeSize = sourceNode.size | NODE_DEFAULT_SIZE;
 
 		const handleMouseMove = (event) => {
 			if (isNewEdgeDragging) {
 				const y = event.clientY - initialY;
-				const x = event.clientX - initialX + sourceNode.size;
+				const x = event.clientX - initialX + nodeSize;
 				newEdge = { sourcePoint: sourceNodePosition, targetPoint: { y, x } };
 				edgeToConnectId = getNodeUnderMouse({ nodes, node: sourceNode, x, y })?.id;
 			}
 		};
 
 		const handleMouseUp = () => {
-			if (edgeToConnectId) addNewEdge(sourceNodeId, edgeToConnectId);
+			if (edgeToConnectId > 0) addNewEdge(sourceNodeId, edgeToConnectId);
 
 			newEdge = null;
-			edgeToConnectId = null;
+			edgeToConnectId = -1;
 			isNewEdgeDragging = false;
 
 			window.removeEventListener('mousemove', handleMouseMove);
@@ -104,7 +106,7 @@
 	const handleMouseEnterTree = () => setTimeout(() => (allowActions = true), 500);
 	const handleMouseLeaveTree = () => (allowActions = false);
 	const handleMouseMoveTree = (event) => {
-		var bounds = event.target.getBoundingClientRect();
+		// var bounds = event.target.getBoundingClientRect();
 
 		mouseOnTreePosition = {
 			x: event.clientX,
@@ -113,7 +115,7 @@
 	};
 	const handleMouseMoveNode = (nodeId) => {
 		const node = nodes.find((tempNode) => tempNode.id === nodeId);
-		nodeTooltip = node;
+		if (!isNewEdgeDragging) nodeTooltip = node;
 	};
 	const handleMouseLeaveNode = () => {
 		clearTimeout(nodeTooltipDebounceTimer);
@@ -151,6 +153,7 @@
 					onMouseMoveNode={handleMouseMoveNode}
 					onMouseLeaveNode={handleMouseLeaveNode}
 					active={edgeToConnectId === node.id}
+					allowShowTooltip={!isNewEdgeDragging}
 					onNodeDrag={handleNodeDrag}
 					onDragDone={handleNodeDragDone}
 					onNewEdge={handleNewEdgeClick}
