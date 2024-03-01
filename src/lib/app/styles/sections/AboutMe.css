@@ -8,11 +8,11 @@
 
 
 .about-me-2 .content-block {
-    @apply flex justify-around items-center
+    @apply flex flex-col lg:flex-row justify-around items-center
 }
 
 .about-me-2 .description-block {
-    @apply lg:w-120 flex flex-col gap-6
+    @apply lg:w-160 flex flex-col gap-6
 }
 
 .about-me .header-1 {

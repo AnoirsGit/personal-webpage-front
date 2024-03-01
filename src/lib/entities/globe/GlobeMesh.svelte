@@ -18,7 +18,6 @@
 		createImpactGenerator,
 		calcNewPositionFromRotation
 	} from '$lib/shared/helpers/globe/impact';
-
 	import fragmentShader from '$lib/shared/shaders/globeFragment.glsl?raw';
 	import vertexShader from '$lib/shared/shaders/globeVertex.glsl?raw';
 	import PlacePointer from '$lib/entities/globe/PlacePointer.svelte';

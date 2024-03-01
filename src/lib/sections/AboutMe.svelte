@@ -2,6 +2,7 @@
 	import '$lib/app/styles/sections/AboutMe.css';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
+	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
 	import Icon from '@iconify/svelte';
 </script>
 
@@ -43,7 +44,7 @@
 <SectionLayout title="About me">
 	<div class="about-me-2">
 		<div class="content-block">
-			<div class="lg:w-120 flex flex-col gap-6">
+			<div class="flex flex-col gap-6">
 				<div class="description-block">
 					Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
 					lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
@@ -51,7 +52,7 @@
 				</div>
 				<CustomButton>Hire me</CustomButton>
 			</div>
-			<img src="/images/chibi.png" alt="" />
+			<Typing3D />
 		</div>
 	</div>
 </SectionLayout>
