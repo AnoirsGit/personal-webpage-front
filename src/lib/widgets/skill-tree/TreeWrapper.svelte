@@ -1,5 +1,6 @@
 <script>
 	import '$lib/app/styles/sections/Skills.css';
+	import { onMount } from 'svelte';
 
 	export let minZoom = 1;
 	export let maxZoom = 2;
@@ -12,18 +13,15 @@
 	let offsetY = 0;
 	let isDragging = false;
 	let container;
-	const widthInSections = 15;
-	const heightInSections = 15;
+	const widthInSections = 20;
+	const heightInSections = 20;
 
 	const handleWheel = (event) => {
 		event.preventDefault();
 		const deltaY = event.deltaY;
 
-		if (deltaY > 0) {
-			scale = Math.max(minZoom, scale - 0.1);
-		} else {
-			scale = Math.min(maxZoom, scale + 0.1);
-		}
+		if (deltaY > 0) scale = Math.max(minZoom, scale - 0.1);
+		else scale = Math.min(maxZoom, scale + 0.1);
 
 		onZoomScrollChange({ x: container.scrollLeft, y: container.scrollTop, scale });
 	};
@@ -34,7 +32,7 @@
 		offsetY = event.clientY;
 	};
 
-	$: handleMouseMove = (event) => {
+	$: handleDragging = (event) => {
 		if (!allowActions) isDragging = false;
 		if (!isDragging || !allowTreeDrag) return;
 
@@ -52,30 +50,37 @@
 	const handleMouseUp = () => {
 		isDragging = false;
 	};
+
+	onMount(() => {
+		if (container.offsetWidth < 768) (minZoom = 0.25), (scale = 0.4);
+		else if (container.offsetWidth < 1024) (minZoom = 0.5), (scale = 0.7);
+		onZoomScrollChange({ x: container.scrollLeft, y: container.scrollTop, scale });
+	});
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="draggable-container w-full h-144 overflow-hidden rounded-xl {isDragging && allowActions
+	class="draggable-container w-full h-96 lg:h-144 overflow-hidden rounded-xl {isDragging &&
+	allowActions
 		? 'cursor-grab'
 		: ''}"
 	bind:this={container}
 	on:wheel={handleWheel}
 	on:mousedown={handleMouseDown}
-	on:mousemove={handleMouseMove}
+	on:mousemove={handleDragging}
 	on:mouseup={handleMouseUp}
 	style="position: relative;"
 >
 	<div
 		class="draggable-content skills-bg-color"
 		style="
-width: {widthInSections * 100}px;
-height: {heightInSections * 100}px;
-transform-origin: top left;
-transform: scale({scale});
-overflow: hidden;
-position: absolute;
-"
+		width: {widthInSections * 100}px;
+		height: {heightInSections * 100}px;
+		transform-origin: top left;
+		transform: scale({scale});
+		overflow: hidden;
+		position: absolute;
+		"
 	>
 		{#each Array(widthInSections) as _, i (i)}
 			{#each Array(heightInSections) as _, j (j)}

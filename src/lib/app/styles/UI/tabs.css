@@ -12,11 +12,11 @@
 }
 
 .custom-tab .tabs {
-    @apply flex gap-10 w-max border-b-2 border-dark;
+    @apply flex gap-0 lg:gap-10 w-max border-b-2 border-dark;
 }
 
 .custom-tab .tabs .tab-item {
-    @apply box-border px-6 pb-6 hover:text-main-purple
+    @apply box-border text-sm lg:text-base px-4 pb-3 lg:px-6 lg:pb-6 hover:text-main-purple
 }
 
 .tab-item.active {

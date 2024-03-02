@@ -1,3 +1,10 @@
 .xl-globe-margin {
     margin-left: calc((100vw - 60rem)/2 - 30rem);
 }
+
+@media screen and (max-width: 1024px) {
+    .xl-globe-margin {
+        margin-left: 0;
+    }
+        
+  }

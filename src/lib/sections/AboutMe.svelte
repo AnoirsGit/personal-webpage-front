@@ -50,7 +50,7 @@
 					lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
 					vivamus sapien vulputate non elementum leo massa vitae.
 				</div>
-				<CustomButton>Hire me</CustomButton>
+				<div class="mx-auto"><CustomButton>Hire me</CustomButton></div>
 			</div>
 			<Typing3D />
 		</div>

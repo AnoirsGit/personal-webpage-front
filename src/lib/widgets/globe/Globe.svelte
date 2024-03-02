@@ -5,7 +5,7 @@
 	import GlobeMesh from '$lib/entities/globe/GlobeMesh.svelte';
 	import Atmosphere from '$lib/entities/globe/Atmosphere.svelte';
 
-	let x = 0;
+	let x = -800;
 	let isDragging = false;
 	let startCoords = { x: 0 };
 	let velocity = { x: 0 };
@@ -45,20 +45,20 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="absolute w-screen h-full left-1/2 -translate-x-1/2"
+	class="absolute w-screen h-72 lg:h-240 left-1/2 -translate-x-1/2"
 	on:mousedown={handleMouseDown}
 	on:mousemove={handleMouseMove}
 	on:mouseup={handleMouseUp}
 >
-	<div class="w-240 h-240 xl-globe-margin">
+	<div class="w-100vw h-72 md:h-192 lg:w-240 lg:h-240 xl-globe-margin">
 		<Canvas>
 			<T.PerspectiveCamera
 				makeDefault
-				position={[-1, 5, 12]}
+				position={[1, 5, 12]}
 				on:create={({ ref }) => ref.lookAt(0, 0, 0)}
 			/>
 			<T.Group rotation.y={x * 0.003}>
-				<GlobeMesh rotationY={x * 0.003} />
+				<GlobeMesh />
 			</T.Group>
 			<Atmosphere />
 

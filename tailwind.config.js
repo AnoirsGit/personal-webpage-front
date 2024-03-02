@@ -67,6 +67,9 @@ export default {
 				node: '50',
 				tooltip: '55',
 				max: '999'
+			},
+			fontSize: {
+				xxs: '0.625rem'
 			}
 		}
 	},

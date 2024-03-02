@@ -13,7 +13,7 @@ Command: npx @threlte/gltf@2.0.3 /home/noir/Desktop/Projects/personal-webpage-fr
 
 	const gltf = useGltf('/models/typing-person.glb');
 	export const { actions, mixer } = useGltfAnimations(gltf, ref);
-  export const allowGreet = () => {}
+	export const allowGreet = () => {};
 
 	const animateAction = (action = $actions['Action']) => {
 		if (action) {
@@ -31,7 +31,7 @@ Command: npx @threlte/gltf@2.0.3 /home/noir/Desktop/Projects/personal-webpage-fr
 		else {
 			const animation = animationQueue.shift();
 			animateAction($actions[animation]);
-      allowGreet()
+			allowGreet();
 		}
 	});
 

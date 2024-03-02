@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .header-wrapper {
-    @apply fixed inset-0 z-60 h-max lg:p-0 lg:h-20 w-full font-semibold box-border bg-deep-dark-bg border-b-2 border-dark;
+    @apply fixed inset-0 z-80 h-max lg:p-0 lg:h-20 w-screen font-semibold box-border bg-deep-dark-bg border-b-2 border-dark;
 }
 
 .header-item {

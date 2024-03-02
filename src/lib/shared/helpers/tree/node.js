@@ -28,14 +28,13 @@ export const getNodeUnderMouse = ({ nodes, node, x, y }) => {
 	return null; // Return null outside of the loop if no node is found
 };
 
-export const calculateCenterOfTreeToAddNode = (wrapperZoomScroll, tree, nodeSize = NODE_DEFAULT_SIZE) => {
-	const parentCenterWidth = tree.offsetWidth / 2;
-	const parentCenterHeight = tree.offsetHeight / 2;
-
+export const calculateCenterOfTreeToAddNode = (wrapperZoomScroll, tree, ) => {
+	const parentCenterWidth = (tree.offsetWidth / 2)/ wrapperZoomScroll.scale;
+	const parentCenterHeight = (tree.offsetHeight / 2)/ wrapperZoomScroll.scale;
 	// Calculate the adjusted center position
 	const center = {
-		x: wrapperZoomScroll.x / wrapperZoomScroll.scale + parentCenterWidth - nodeSize / 2,
-		y: wrapperZoomScroll.y / wrapperZoomScroll.scale + parentCenterHeight - nodeSize / 2
+		x: wrapperZoomScroll.x / wrapperZoomScroll.scale + parentCenterWidth ,
+		y: wrapperZoomScroll.y / wrapperZoomScroll.scale + parentCenterHeight
 	};
 
 	return center;
