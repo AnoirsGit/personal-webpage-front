@@ -5,7 +5,7 @@
 	import GlobeMesh from '$lib/entities/globe/GlobeMesh.svelte';
 	import Atmosphere from '$lib/entities/globe/Atmosphere.svelte';
 
-	let x = -800;
+	let x = 0;
 	let isDragging = false;
 	let startCoords = { x: 0 };
 	let velocity = { x: 0 };
@@ -54,7 +54,7 @@
 		<Canvas>
 			<T.PerspectiveCamera
 				makeDefault
-				position={[1, 5, 12]}
+				position={[1, 5, -12]}
 				on:create={({ ref }) => ref.lookAt(0, 0, 0)}
 			/>
 			<T.Group rotation.y={x * 0.003}>

@@ -6,8 +6,8 @@
 	import vertexShader from '$lib/shared/shaders/atmosphereVertex.glsl?raw';
 </script>
 
-<T.Mesh rotation={[-0.25, 0.1, 0]}>
-	<T.SphereGeometry args={[5.3, 50, 50]} position={[0.1, 0.1, 0]} />
+<T.Mesh rotation={[0.1, 2.9, 0]}>
+	<T.SphereGeometry args={[5.2, 50, 50]} position={[0.1, 0.1, 0]} />
 	<T.ShaderMaterial
 		{vertexShader}
 		{fragmentShader}

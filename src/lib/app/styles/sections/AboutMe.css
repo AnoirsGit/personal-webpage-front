@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .about-me {
-    @apply lg:h-240 mb-20 lg:mb-32 relative flex flex-col lg:flex-row lg:justify-between text-3xl;
+    @apply lg:h-240 mb-20 lg:mb-16 relative flex flex-col lg:flex-row lg:justify-between text-3xl;
 }
 
 
@@ -12,7 +12,7 @@
 }
 
 .about-me-2 .description-block {
-    @apply lg:w-160 text-sm lg:text-base flex flex-col gap-6
+    @apply w-full xl:w-160 text-sm lg:text-base flex flex-col gap-6
 }
 
 .about-me .header-1 {
