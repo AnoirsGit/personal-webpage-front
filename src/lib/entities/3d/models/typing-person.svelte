@@ -12,11 +12,10 @@ Command: npx @threlte/gltf@2.0.3 /home/noir/Desktop/Projects/personal-webpage-fr
 	export let animationQueue = [];
 
 	const gltf = useGltf('/models/typing-person.glb');
-	export const { actions, mixer } = useGltfAnimations(gltf, ref);
-	export const allowGreet = () => {};
+	export let { actions, mixer } = useGltfAnimations(gltf, ref);
+	export let allowGreet = () => {};
 
-	const animateAction = (action = $actions['typing'], actionse) => {
-		console.log(actionse);
+	const animateAction = (action = $actions['typing']) => {
 		if (action) {
 			action.clampWhenFinished = true;
 			action.reset();
@@ -25,18 +24,17 @@ Command: npx @threlte/gltf@2.0.3 /home/noir/Desktop/Projects/personal-webpage-fr
 		}
 	};
 
-	$: animateAction($actions['Action'], $actions);
+	$: animateAction($actions['Action']);
 
 	mixer.addEventListener('finished', () => {
 		for (const key in $actions) {
 			if (Object.hasOwnProperty.call($actions, key)) $actions[key].stop();
 		}
-
 		if (animationQueue.length === 0) animateAction();
 		else {
 			const animation = animationQueue.shift();
 			animateAction($actions[animation]);
-			allowGreet();
+			setTimeout(allowGreet, 1000);
 		}
 	});
 

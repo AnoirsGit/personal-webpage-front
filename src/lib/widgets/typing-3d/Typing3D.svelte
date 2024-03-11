@@ -7,6 +7,7 @@
 	const animationQueue = [];
 
 	const greet = () => {
+		console.log(canGreet);
 		if (canGreet) {
 			canGreet = false;
 			animationQueue.push('greeting');
