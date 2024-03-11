@@ -32,11 +32,20 @@
 /* Apply fonts to specific elements */
 body {
   font-family: 'Poppins Mono', sans-serif;
-  @apply overflow-x-hidden bg-deep-dark-bg;
+  background: rgb(0, 9, 26);
+  background: linear-gradient(90deg, rgba(0, 9, 26, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(0, 9, 26, 1) 100%);
+  @apply overflow-x-hidden
 }
 
+.app-loader-wrapper {
+  z-index: 999999;
+  background: rgb(0, 9, 26);
+  background: linear-gradient(90deg, rgba(0, 9, 26, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(0, 9, 26, 1) 100%);
+  @apply fixed inset-0 w-screen h-screen
+}
 
 .app {
+
   @apply w-screen h-full min-h-screen text-white;
 }
 
