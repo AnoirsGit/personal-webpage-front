@@ -32,20 +32,38 @@
 /* Apply fonts to specific elements */
 body {
   font-family: 'Poppins Mono', sans-serif;
-  background: rgb(0, 9, 26);
-  background: linear-gradient(90deg, rgba(0, 9, 26, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(0, 9, 26, 1) 100%);
+  background: rgb(10, 5, 22);
+  background: linear-gradient(90deg, rgba(10, 5, 22, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(10, 5, 22, 1) 100%);
   @apply overflow-x-hidden
 }
 
 .app-loader-wrapper {
   z-index: 999999;
-  background: rgb(0, 9, 26);
-  background: linear-gradient(90deg, rgba(0, 9, 26, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(0, 9, 26, 1) 100%);
+  background: rgb(10, 5, 22);
+  background: linear-gradient(90deg, rgba(10, 5, 22, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(10, 5, 22, 1) 100%);
   @apply fixed inset-0 w-screen h-screen
 }
 
-.app {
+.app-loader-second-wrapper {
+  z-index: 999998;
+  background: #1d0e3e;
+  @apply fixed inset-0 w-screen h-screen
+}
 
+.app-loader-third-wrapper {
+  z-index: 999997;
+  background: #301868;
+  @apply fixed inset-0 w-screen h-screen
+}
+
+.app-loader-fourth-wrapper {
+  z-index: 999996;
+  background: #391c7d;
+  @apply fixed inset-0 w-screen h-screen
+}
+
+
+.app {
   @apply w-screen h-full min-h-screen text-white;
 }
 

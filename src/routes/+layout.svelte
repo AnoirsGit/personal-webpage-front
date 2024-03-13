@@ -1,4 +1,7 @@
 <script>
+	import { linear } from 'svelte/easing';
+	import { fly, slide } from 'svelte/transition';
+
 	import '$lib/app/styles/app.css';
 	import '$lib/app/styles/markdown-reader.css';
 
@@ -13,7 +16,22 @@
 </script>
 
 {#if !isLoaded}
-	<div class="app-loader-wrapper"><PageLoader /></div>
+	<div transition:slide={{ duration: 500, axis: 'x' }} class="app-loader-wrapper">
+		<PageLoader />
+	</div>
+
+	<div
+		out:fly={{ delay: 1100, duration: 500, opacity: 1, x: '100vw' }}
+		class="app-loader-second-wrapper"
+	/>
+	<div
+		out:fly={{ delay: 1300, duration: 450, opacity: 1, x: '100vw' }}
+		class="app-loader-third-wrapper"
+	/>
+	<div
+		out:fly={{ delay: 1450, duration: 400, opacity: 1, x: '100vw' }}
+		class="app-loader-fourth-wrapper"
+	/>
 {/if}
 
 <main class="app">
