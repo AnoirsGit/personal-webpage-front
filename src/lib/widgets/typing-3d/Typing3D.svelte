@@ -1,13 +1,14 @@
 <script>
 	import { Canvas, T } from '@threlte/core';
 
-	import TypingPerson from '$lib/entities/3d/models/typing-person.svelte';
+	import { Suspense } from '@threlte/extras';
+	import { onLoaded } from '$lib/shared/stores/globalStore';
+	import TypingPerson from '$lib/entities/3d/models/typingPerson.svelte';
 
 	let canGreet = true;
 	const animationQueue = [];
 
 	const greet = () => {
-		console.log(canGreet);
 		if (canGreet) {
 			canGreet = false;
 			animationQueue.push('greeting');
@@ -27,6 +28,8 @@
 		/>
 		<T.DirectionalLight castShadow color="white" position={[2, 4, 4]} intensity={2} />
 		<T.DirectionalLight castShadow color="white" position={[10, 1, 4]} intensity={2} />
-		<TypingPerson {animationQueue} {allowGreet} />
+		<Suspense on:load={onLoaded}>
+			<TypingPerson {animationQueue} {allowGreet} />
+		</Suspense>
 	</Canvas>
 </div>

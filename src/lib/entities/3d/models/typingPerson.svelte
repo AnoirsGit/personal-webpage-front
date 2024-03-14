@@ -6,12 +6,12 @@ Command: npx @threlte/gltf@2.0.3 /home/noir/Desktop/Projects/personal-webpage-fr
 <script>
 	import { Group, LoopOnce } from 'three';
 	import { T, forwardEventHandlers } from '@threlte/core';
-	import { useGltf, useGltfAnimations } from '@threlte/extras';
+	import { useGltf, useGltfAnimations, useSuspense } from '@threlte/extras';
 
 	export const ref = new Group();
 	export let animationQueue = [];
-
-	const gltf = useGltf('/models/typing-person.glb');
+	const suspend = useSuspense();
+	const gltf = suspend(useGltf('/models/typing-person.glb'));
 	export let { actions, mixer } = useGltfAnimations(gltf, ref);
 	export let allowGreet = () => {};
 
