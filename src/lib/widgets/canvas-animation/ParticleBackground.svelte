@@ -10,8 +10,6 @@
 	let mounted = false;
 	const density = 1 / (50 * 50 * 3);
 
-	const mouseMove = () => {};
-
 	const initContent = () => {
 		const ctx = canvas.getContext('2d');
 		canvas.width = clientWidth;
@@ -25,8 +23,18 @@
 	onMount(() => (mounted = true));
 
 	$: if ($isLoaded && mounted) initContent();
+
+	const mouseMoveHandler = (event) => {
+		effect?.mouseMoveHandler(event.pageX, event.pageY);
+	};
+
+	const mouseLeaveHandler = () => {
+		effect?.mouseLeaveHandler();
+	};
 </script>
 
+<svelte:window on:mousemove={mouseMoveHandler} on:mouseleave={mouseLeaveHandler} />
+
 <div class="absolute w-full h-full" bind:clientHeight bind:clientWidth>
-	<canvas on:mousemove={mouseMove} bind:this={canvas} />
+	<canvas bind:this={canvas} />
 </div>

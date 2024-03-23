@@ -49,18 +49,78 @@ export const createEffect = (ctx, canvas, image) => {
 export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
     const particles = [];
     const particleCount = Math.floor(canvas.width * canvas.height * density);
-    console.log(particleCount)
-    let mouse = { r: 1000, x: null, y: null };
+    let connected = [];
+    let mouse = { r: 200 , x: null, y: null };
 
     const init = () => {
         for (let i = 0; i < particleCount; i++) {
-            particles.push(StarParticle({ canvas, ctx, mouse }));
+            particles.push(StarParticle({ id: i, canvas, ctx }));
         }
     };
 
-    const draw = () => particles.forEach((particle) => particle.draw());
-    const update = () => particles.forEach((particle) => particle.update());
-    return { init, draw, update };
+    const sortParticles = () => particles.sort((a, b) => {
+        if (a.y === b.y) return a.x - b.x;
+        return a.y - b.y;
+    });
+
+    const calculateActiveHoveredParticles = () => {
+        const tempConnected = []
+        for (const { x,y, opacity, size, id, onShine, unShine} of particles) {
+            if(y < mouse.y + mouse.r && y < mouse.y + mouse.r) {
+                const distance = Math.sqrt((mouse.y - y) ** 2 + (mouse.x - x) ** 2);
+                if (distance <= mouse.r) {
+                    tempConnected.push({id, x, y, opacity, size})                 
+                    onShine();
+                }
+                else unShine()
+                
+            }
+        }
+        connected = tempConnected;
+    }
+
+    const connect = () => {
+        for (const connA of connected) {
+            for (const connB of connected) {
+                const distance = Math.sqrt((connA.y - connB.y) ** 2 + (connA.x - connB.x) ** 2)
+                if(distance < 100) {
+                    if( connA.id === connB.id) continue
+                    const opacity = (Math.min(connA.opacity, connB.opacity)) * 0.8
+                    const width = Math.min(connA.size, connB.size) * 0.7
+                    ctx.strokeStyle =`rgba(255,255,255,${opacity}`
+                    ctx.lineWidth = width;
+                    ctx.beginPath();
+                    ctx.moveTo(connA.x, connA.y);
+                    ctx.lineTo(connB.x, connB.y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    const draw = () => {
+        particles.forEach((particle) => particle.draw())
+        connect()
+        sortParticles()
+    };
+
+    const update = () => {
+        calculateActiveHoveredParticles()
+        particles.forEach((particle) => particle.update())
+        sortParticles()
+    };
+
+   const mouseMoveHandler = (mouseX, mouseY) => {
+        mouse.x = mouseX;
+        mouse.y = mouseY;
+    };
+
+    const mouseLeaveHandler = () => {
+        mouse.x = null;
+        mouse.y = null;
+    };
+
+    return { init, draw, update, mouseMoveHandler, mouseLeaveHandler };
 };
 
 
