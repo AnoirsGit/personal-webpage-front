@@ -1,4 +1,4 @@
-import { Particle } from './particle';
+import { Particle,StarParticle } from './particle';
 
 export const createEffect = (ctx, canvas, image) => {
     const particles = [];
@@ -45,6 +45,24 @@ export const createEffect = (ctx, canvas, image) => {
 
     return { draw, update, init, mouseLeaveHandler, mouseMoveHandler };
 };
+
+export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
+    const particles = [];
+    const particleCount = Math.floor(canvas.width * canvas.height * density);
+    console.log(particleCount)
+    let mouse = { r: 1000, x: null, y: null };
+
+    const init = () => {
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(StarParticle({ canvas, ctx, mouse }));
+        }
+    };
+
+    const draw = () => particles.forEach((particle) => particle.draw());
+    const update = () => particles.forEach((particle) => particle.update());
+    return { init, draw, update };
+};
+
 
 export const animate = ({ctx, canvas, effect}) => {
     if (!canvas) {

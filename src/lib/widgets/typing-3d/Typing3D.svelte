@@ -26,8 +26,8 @@
 			position={[2, 1, 1.5]}
 			on:create={({ ref }) => ref.lookAt(-0.5, 0.5, 0)}
 		/>
-		<T.DirectionalLight castShadow color="white" position={[2, 4, 4]} intensity={2} />
-		<T.DirectionalLight castShadow color="white" position={[10, 1, 4]} intensity={2} />
+		<T.DirectionalLight castShadow color="white" position={[2, 4, 4]} intensity={1.4} />
+		<T.DirectionalLight castShadow color="white" position={[10, 1, 4]} intensity={0.5} />
 		<Suspense on:load={onLoaded}>
 			<TypingPerson {animationQueue} {allowGreet} />
 		</Suspense>

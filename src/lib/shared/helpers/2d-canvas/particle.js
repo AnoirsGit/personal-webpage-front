@@ -84,3 +84,79 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
 
     return { draw, drawRect, update };
 };
+
+
+function randomSmoothBySinCurve(x, startDeg) {
+    const randomNum = x * Math.random();
+    const ratio = randomNum / x;
+    const currSinDeg = Math.asin(ratio)
+    const radStartDeg = startDeg * Math.PI/180
+    const resultSin = radStartDeg + currSinDeg;
+
+    if(Math.random() * 10 * Math.sin(resultSin) < 5) return Math.random * Math.random()
+    return randomNum
+
+}
+
+export const StarParticle = ({ canvas, ctx, mouse }) => {
+    const size = Math.floor(Math.random() * 2 + 1);
+    let x = Math.random() * canvas.width;
+    let y = randomSmoothBySinCurve(canvas.height, 30);
+    let [velocityX, velocityY] = [Math.random() * 0.5 - 0.25, Math.random() * 0.5 - 0.25];
+    let opacity = Math.random() * 0.5 + 0.5;
+    let opacityVelocity = 1 / (60 * (Math.random() * 3 + 0.5))
+
+    const draw = () => {
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2, false);
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + opacity + ')';
+        ctx.fill();
+    };
+
+    const handleBorderCollision = () => {
+        if (x <= 0 || x >= canvas.width) velocityX *= -1;
+        if (y <= 0 || y >= canvas.height) velocityY *= -1;
+    };
+
+    const handleOpacityCollision = () => {
+        if (opacity <= 0 || opacity >= 1) opacityVelocity *= -1;
+    };
+
+    const updateParticle = () => {
+        x += velocityX;
+        y += velocityY;
+    };
+
+    const updateOpacity = () => (opacity += opacityVelocity);
+
+    const update = () => {
+        if (mouse.x && mouse.y) {
+            console.log(mouse);
+        }
+
+        handleBorderCollision();
+        handleOpacityCollision();
+        updateParticle();
+        updateOpacity();
+    };
+    return { update, draw };
+};
+
+export const  generateNonEvenlySpacedNumbers = (count, rangeStart, rangeEnd) =>{
+    let numbers = [];
+    const minDiff = Math.floor((rangeEnd - rangeStart) / count / 2);
+    const maxDiff = Math.floor((rangeEnd - rangeStart) / count * 2);
+    for (let i = 0; i < count; i++) {
+        numbers.push(Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart);
+    }
+    numbers.sort((a, b) => a - b);
+
+    // Adjust the differences between consecutive numbers
+    for (let i = 1; i < numbers.length; i++) {
+        let diff = Math.floor(Math.random() * (maxDiff - minDiff + 1)) + minDiff;
+        numbers[i] = Math.min(numbers[i], numbers[i - 1] + diff);
+    }
+
+    return numbers;
+}
+

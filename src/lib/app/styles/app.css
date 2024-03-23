@@ -33,6 +33,7 @@
 body {
   font-family: 'Poppins Mono', sans-serif;
   background: rgb(10, 5, 22);
+  position: relative;
   background: linear-gradient(90deg, rgba(10, 5, 22, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(10, 5, 22, 1) 100%);
   @apply overflow-x-hidden
 }
@@ -61,7 +62,6 @@ body {
   background: #391c7d;
   @apply fixed inset-0 w-screen h-screen
 }
-
 
 .app {
   @apply w-screen h-full min-h-screen text-white;

@@ -1,5 +1,9 @@
 import { writable } from 'svelte/store';
 
 export const isLoaded = writable(false);
+export const isCloseLoader = writable(false);
 
-export const onLoaded = () => setTimeout(() => isLoaded.set(true), 500)
+export const onLoaded = () => {
+    isLoaded.set(true)
+    setTimeout(() => isCloseLoader.set(true), 500)
+}

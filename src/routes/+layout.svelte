@@ -1,23 +1,26 @@
 <script>
 	import '$lib/app/styles/app.css';
 	import '$lib/app/styles/markdown-reader.css';
-	import { isLoaded } from '$lib/shared/stores/globalStore';
+	import { isCloseLoader } from '$lib/shared/stores/globalStore';
 
 	import Header from '$lib/widgets/Header.svelte';
 	import PageLoader from '$lib/widgets/page-loader/PageLoader.svelte';
+	import ParticleBackground from '$lib/widgets/canvas-animation/ParticleBackground.svelte';
 
 	let isStart = false;
 
 	const startLoad = () => (isStart = true);
-	const onLoaded = () => ($isLoaded = true);
+	const closeLoader = () => ($isCloseLoader = true);
 
 	setTimeout(startLoad, 1);
-	setTimeout(onLoaded, 2500);
+	setTimeout(closeLoader, 2500);
 </script>
 
-{#if !$isLoaded}
+{#if !$isCloseLoader}
 	<PageLoader />
 {/if}
+
+<ParticleBackground />
 
 <main class="app">
 	<Header />
