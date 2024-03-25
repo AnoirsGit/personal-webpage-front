@@ -145,5 +145,8 @@ export const StarParticle = ({ canvas, ctx, id }) => {
         updateParticle();
         updateOpacity();
     };
-    return { update, draw, id, x, y, opacity, size, onShine, unShine };
+    
+    const getOpacityAndSize = () => ({opacity, size})
+    const getCoordinates = () => ({x, y})
+    return { id, update, draw, getCoordinates, getOpacityAndSize,onShine, unShine };
 };

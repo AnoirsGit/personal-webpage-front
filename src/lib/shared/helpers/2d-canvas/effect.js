@@ -65,7 +65,10 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
 
     const calculateActiveHoveredParticles = () => {
         const tempConnected = []
-        for (const { x,y, opacity, size, id, onShine, unShine} of particles) {
+        for (const { id, getCoordinates, getOpacityAndSize, onShine, unShine} of particles) {
+            const {x, y} = getCoordinates()
+            const {opacity, size } = getOpacityAndSize()
+            
             if(y < mouse.y + mouse.r && y < mouse.y + mouse.r) {
                 const distance = Math.sqrt((mouse.y - y) ** 2 + (mouse.x - x) ** 2);
                 if (distance <= mouse.r) {
