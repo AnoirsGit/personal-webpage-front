@@ -4,47 +4,41 @@
 	import '$lib/app/styles/globe.css';
 	import '$lib/app/styles/contacts.css';
 
-	import WiTime5 from 'svelte-icons/wi/WiTime5.svelte';
-	import MdEmail from 'svelte-icons/md/MdEmail.svelte';
-	import MdCall from 'svelte-icons/md/MdCall.svelte';
-	import MdLocationOn from 'svelte-icons/md/MdLocationOn.svelte';
-	import DiGithubBadge from 'svelte-icons/di/DiGithubBadge.svelte';
-	import IoLogoLinkedin from 'svelte-icons/io/IoLogoLinkedin.svelte';
-	import FaTelegramPlane from 'svelte-icons/fa/FaTelegramPlane.svelte';
+	import Icon from '@iconify/svelte';
 </script>
 
 <SectionLayout title="Contacts">
 	<Globe />
 	<div class="absolute flex items-center gap-1 right-24">
-		<div class="w-8 h-8"><WiTime5 /></div>
+		<Icon class="text-2xl" icon="wi:time-5" />
 		<p class="text-sm lg:text-base pt-1">Asia / Almaty ( UTC+5 )</p>
 	</div>
 	<div class="flex">
 		<div class="contacts">
 			<ul class="contact-list">
 				<li class="contact-item">
-					<div class="contact-item-icon"><MdEmail /></div>
+					<Icon class="text-3xl" icon="ic:baseline-email" />
 					<p class="contact-link">anoirsmail@gmail.com</p>
 				</li>
 
 				<li class="contact-item">
-					<div class="contact-item-icon"><MdCall /></div>
+					<Icon class="text-3xl" icon="material-symbols:call" />
 					<p class="contact-link">+ 8 (707)-911-69-92</p>
 				</li>
 				<li class="contact-item">
-					<div class="contact-item-icon"><MdLocationOn /></div>
+					<Icon class="text-3xl" icon="gridicons:location" />
 					<p class="contact-link">Almaty/Kazakhstan</p>
 				</li>
 				<li class="contact-item">
-					<div class="contact-item-icon"><DiGithubBadge /></div>
+					<Icon class="text-3xl" icon="mdi:github" />
 					<p class="contact-link">AnoirsGit</p>
 				</li>
 				<li class="contact-item">
-					<div class="contact-item-icon"><IoLogoLinkedin /></div>
+					<Icon class="text-3xl" icon="mdi:linkedin" />
 					<a href="https://www.linkedin.com/in/anoir-beibit-73218a215/">Anoir Beibit</a>
 				</li>
 				<li class="contact-item">
-					<div class="contact-item-icon"><FaTelegramPlane /></div>
+					<Icon class="text-3xl" icon="basil:telegram-solid" />
 					<p class="contact-link">@NiorBegula</p>
 				</li>
 			</ul>

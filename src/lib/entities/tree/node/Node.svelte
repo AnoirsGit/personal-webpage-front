@@ -1,8 +1,5 @@
 <script>
-	import GiMove from 'svelte-icons/gi/GiMove.svelte';
-	import FaSlash from 'svelte-icons/fa/FaSlash.svelte';
-	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import MdEdit from 'svelte-icons/md/MdEdit.svelte';
+	import Icon from '@iconify/svelte';
 	import '$lib/app/styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
 	import { checkAndConvertToRGB } from '$lib/shared/helpers/helper';
@@ -92,19 +89,16 @@
 		class="tooltip flex flex-col gap-2"
 		style="top: {toolTipPosition.y}px; left: {toolTipPosition.x}px"
 	>
-		<button class="flex items-center gap-2" on:mousedown={handleMouseDown}>
-			<div class="w-3 h-3"><GiMove /></div>
-			move
+		<button class="flex items-center gap-1" on:mousedown={handleMouseDown}>
+			<Icon icon="mingcute:move-line" /> move
 		</button>
 
-		<button class="flex items-center gap-2" on:click={handleNewEdgeClick}>
-			<div class="w-3 h-3"><FaSlash /></div>
-			connect
+		<button class="flex items-center gap-1" on:click={handleNewEdgeClick}>
+			<Icon icon="carbon:connect" /> connect
 		</button>
 
-		<button class="flex items-center gap-2" on:click={() => onDeleteNode(node.id)}>
-			<div class="w-3 h-3"><MdDelete /></div>
-			delete
+		<button class="flex items-center gap-1" on:click={() => onDeleteNode(node.id)}>
+			<Icon icon="material-symbols:delete" /> delete
 		</button>
 	</div>
 {/if}
@@ -115,7 +109,7 @@
 		class="absolute z-node"
 		style="top: {nodePosition.y + -12}px; left: {nodePosition.x + NODE_DEFAULT_SIZE}px"
 	>
-		<div class="w-4 h-4"><MdEdit /></div></button
+		<Icon icon="material-symbols:edit" /></button
 	>
 {/if}
 

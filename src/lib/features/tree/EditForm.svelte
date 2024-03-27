@@ -1,6 +1,7 @@
 <script>
 	import '$lib/app/styles/node.css';
-	import MdClose from 'svelte-icons/md/MdClose.svelte';
+	import Icon from '@iconify/svelte';
+
 	export let node;
 	export let onSaveNode;
 
@@ -51,7 +52,9 @@
 								class="flex-center gap-2 px-3 py-1 border border-deep-dark-bg rounded text-slate-700"
 							>
 								<p>{tag}</p>
-								<button class="w-4 h-4" on:click={() => handleRemoveTag(index)}><MdClose /></button>
+								<button class="w-4 h-4" on:click={() => handleRemoveTag(index)}>
+									<Icon icon="material-symbols:edit" /><button />
+								</button>
 							</div>
 						{/each}
 					</div>

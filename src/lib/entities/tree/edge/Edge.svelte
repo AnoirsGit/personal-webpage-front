@@ -1,5 +1,5 @@
 <script>
-	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
+	import Icon from '@iconify/svelte';
 	import { getEdgeData } from '$lib/shared/helpers/tree/edge';
 	import GlowingElement from '$lib/shared/UI/GlowingElement.svelte';
 
@@ -34,9 +34,9 @@
 
 {#if showTooltip && isDeletable}
 	<div class="tooltip" style="top: {toolTipPosition.y}px; left: {toolTipPosition.x}px">
-		<GlowingElement></GlowingElement>
-		<button class="flex items-center gap-2" on:click={() => onDelete(index)}>
-			<div class="w-3 h-3"><MdDelete /></div>
+		<GlowingElement />
+		<button class="flex items-center gap-1" on:click={() => onDelete(index)}>
+			<Icon icon="material-symbols:delete" />
 			delete
 		</button>
 	</div>
