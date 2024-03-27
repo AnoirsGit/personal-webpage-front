@@ -3,9 +3,16 @@
 }
 
 .globe-wrapper-h {
-    @apply h-72 lg:h-152 xl:h-176 2xl:h-200
+    height: 100vw;
+    @apply lg:h-152 xl:h-176 2xl:h-200
 }
 
 .globe-size {
-    @apply w-72 h-72 lg:w-152 lg:h-152 xl:w-176 xl:h-176 2xl:w-200 2xl:h-200
+    height: 100vw;
+    @apply w-screen lg:w-152 lg:h-152 xl:w-176 xl:h-176 2xl:w-200 2xl:h-200
+}
+
+.globe-canvas {
+    overflow-x: hidden;
+    @apply absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:right-0;
 }

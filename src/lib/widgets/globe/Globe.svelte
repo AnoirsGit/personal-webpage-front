@@ -51,7 +51,7 @@
 	on:mouseup={handleMouseUp}
 >
 	<div class="app-content relative top-5">
-		<div class="globe-size absolute right-0">
+		<div class="globe-size globe-canvas">
 			<Canvas>
 				<T.PerspectiveCamera
 					makeDefault

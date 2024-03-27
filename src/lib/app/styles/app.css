@@ -34,6 +34,7 @@ body {
   font-family: 'Poppins Mono', sans-serif;
   background: rgb(10, 5, 22);
   position: relative;
+  overflow-x: hidden;
   background: linear-gradient(90deg, rgba(10, 5, 22, 1) 0%, rgba(13, 13, 19, 1) 50%, rgba(10, 5, 22, 1) 100%);
   @apply overflow-x-hidden
 }

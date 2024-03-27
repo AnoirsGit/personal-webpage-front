@@ -6,6 +6,7 @@
 	import Header from '$lib/widgets/Header.svelte';
 	import PageLoader from '$lib/widgets/page-loader/PageLoader.svelte';
 	import ParticleBackground from '$lib/widgets/canvas-animation/ParticleBackground.svelte';
+	import Messages from '$lib/shared/Messages.svelte';
 
 	let isStart = false;
 
@@ -20,6 +21,7 @@
 	<PageLoader />
 {/if}
 
+<Messages />
 <ParticleBackground />
 
 <main class="app">

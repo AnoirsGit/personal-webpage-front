@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.contacts {
+    @apply flex mt-96 lg:mt-40 z-10
+}
+
+.contact-list {
+    @apply text-lg flex flex-col gap-4
+}
+
+.contact-item {
+    @apply cursor-pointer flex gap-2 items-center
+}
+
+.contact-link {
+    @apply hover:underline text-sm lg:text-base
+}
+
+.contact-item-icon {
+    @apply w-8 h-8 mr-2
+}
