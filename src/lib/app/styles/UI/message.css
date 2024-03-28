@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.messages-wrapper {
+    @apply z-100 fixed right-12 top-28;
+}
+
+.messages-wrapper .message {
+    @apply py-2 px-4 bg-deep-dark-bg rounded-lg border border-slate-700 flex items-center w-32 justify-center text-white text-lg
+}

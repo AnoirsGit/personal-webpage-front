@@ -4,6 +4,7 @@
 	import '$lib/app/styles/header.css';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
 	import MobileHamburgerButton from '$lib/shared/UI/MobileHamburgerButton.svelte';
+	import { addMessage } from '$lib/shared/stores/messageStore';
 
 	let isActive = false;
 	export let navLinks = [
