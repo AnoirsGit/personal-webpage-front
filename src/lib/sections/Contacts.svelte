@@ -5,6 +5,10 @@
 	import '$lib/app/styles/contacts.css';
 
 	import Icon from '@iconify/svelte';
+	import Clipboard from '$lib/shared/UI/Clipboard.svelte';
+	import { addMessage } from '$lib/shared/stores/messageStore';
+
+	const onCopy = () => addMessage({ icon: 'fa:copy', text: 'Copied' });
 </script>
 
 <SectionLayout title="Contacts">
@@ -18,28 +22,40 @@
 			<ul class="contact-list">
 				<li class="contact-item">
 					<Icon class="text-3xl" icon="ic:baseline-email" />
-					<p class="contact-link">anoirsmail@gmail.com</p>
+					<Clipboard text="anoirsmail@gmail.com" let:copy on:copy={() => onCopy()}>
+						<button on:click={copy} class="contact-link">anoirsmail@gmail.com</button>
+					</Clipboard>
 				</li>
 
 				<li class="contact-item">
 					<Icon class="text-3xl" icon="material-symbols:call" />
-					<p class="contact-link">+ 8 (707)-911-69-92</p>
+					<Clipboard text="87079116992" let:copy on:copy={() => onCopy()}>
+						<button on:click={copy} class="contact-link">+ 8 (707)-911-69-92</button>
+					</Clipboard>
 				</li>
 				<li class="contact-item">
 					<Icon class="text-3xl" icon="gridicons:location" />
-					<p class="contact-link">Almaty/Kazakhstan</p>
+					<a
+						href="http://www.google.com/search?q=almaty+kazakhstan"
+						target="_blank"
+						class="contact-link">Almaty/Kazakhstan</a
+					>
 				</li>
 				<li class="contact-item">
 					<Icon class="text-3xl" icon="mdi:github" />
-					<p class="contact-link">AnoirsGit</p>
+					<a href="https://github.com/AnoirsGit" target="_blank" class="contact-link">AnoirsGit</a>
 				</li>
 				<li class="contact-item">
 					<Icon class="text-3xl" icon="mdi:linkedin" />
-					<a href="https://www.linkedin.com/in/anoir-beibit-73218a215/">Anoir Beibit</a>
+					<a href="https://www.linkedin.com/in/anoir-beibit-73218a215/" target="_blank">
+						Anoir Beibit
+					</a>
 				</li>
 				<li class="contact-item">
 					<Icon class="text-3xl" icon="basil:telegram-solid" />
-					<p class="contact-link">@NiorBegula</p>
+					<Clipboard text="@NiorBegula" let:copy on:copy={() => onCopy()}>
+						<button on:click={copy} class="contact-link">@NiorBegula</button>
+					</Clipboard>
 				</li>
 			</ul>
 		</div>

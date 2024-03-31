@@ -11,7 +11,7 @@
 	<div class="flex flex-col gap-3">
 		{#each $messageQueue as message}
 			<div class="message" in:slide={{ duration: 400, axis: 'y' }} out:fade={{ duration: 400 }}>
-				<Icon class="text-2xl mr-1" icon="mdi:check-bold" />
+				<Icon class="text-2xl mr-1" icon={message.icon || 'mdi:check-bold'} />
 				{message.text.charAt(0).toUpperCase() + message.text.slice(1)}
 			</div>
 		{/each}
