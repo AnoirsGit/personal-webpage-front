@@ -22,7 +22,7 @@
 
 	onMount(() => (mounted = true));
 
-	$: if ($isLoaded && mounted) initContent();
+	$: if ($isLoaded && mounted) setTimeout(initContent(), 300);
 
 	const mouseMoveHandler = (event) => {
 		effect?.mouseMoveHandler(event.pageX, event.pageY);
@@ -35,6 +35,6 @@
 
 <svelte:window on:mousemove={mouseMoveHandler} on:mouseleave={mouseLeaveHandler} />
 
-<div class="absolute w-full h-full" bind:clientHeight bind:clientWidth>
+<div class="absolute w-full" style="height: 110%;" bind:clientHeight bind:clientWidth>
 	<canvas bind:this={canvas} />
 </div>
