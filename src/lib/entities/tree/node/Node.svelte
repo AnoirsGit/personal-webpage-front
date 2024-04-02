@@ -4,6 +4,7 @@
 	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
 	import { checkAndConvertToRGB } from '$lib/shared/helpers/helper';
 	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
+	import { onMount, onDestroy } from 'svelte';
 
 	export let isEditMode;
 	export let node = () => {};
@@ -18,6 +19,8 @@
 	export let onMouseLeaveNode = () => {};
 	export let editMode = true;
 	export let active = false;
+
+	let nodeRef;
 
 	let isDragging = false;
 	let showTooltip = false;
@@ -82,6 +85,14 @@
 	const onMouseMove = (event) => onMouseMoveNode(node.id, event);
 
 	const onMouseLeave = () => onMouseLeaveNode();
+
+	onMount(() => {
+		if (isEditMode) nodeRef.addEventListener('click', handleNodeClick);
+	});
+
+	onDestroy(() => {
+		if (isEditMode) nodeRef.removeEventListener('click', handleNodeClick);
+	});
 </script>
 
 {#if showTooltip}
@@ -117,7 +128,7 @@
 	<button
 		class="node-element"
 		style={backgroundStyle}
-		on:click={handleNodeClick}
+		bind:this={nodeRef}
 		on:mousemove={onMouseMove}
 		on:mouseleave={onMouseLeave}
 	>

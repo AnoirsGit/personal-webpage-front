@@ -1,6 +1,7 @@
 <script>
 	import Edge from './Edge.svelte';
 
+	export let isEditMode;
 	export let onEdgeDelete;
 	export let nodesToConnect = [];
 	export let nodes = [];
@@ -18,15 +19,13 @@
 </script>
 
 {#each edges as edge, index}
-	{#if edge}
-
 	<Edge
-		isDeletable={true}
 		{index}
-		width=2
+		width="2"
+		{isEditMode}
+		isDeletable={true}
 		onDelete={onEdgeDelete}
 		sourcePoint={edge.p1}
 		targetPoint={edge.p2}
 	/>
-	{/if}
 {/each}

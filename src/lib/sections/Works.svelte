@@ -2,7 +2,7 @@
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import '$lib/app/styles/sections/Works.css';
 	import ImageCard from '$lib/shared/UI/ImageCard.svelte';
-	import CustomTab from '$lib/shared/UI/CustomTab.svelte';
+	import CustomTab from '$lib/shared/UI/CustomTab/index.svelte';
 </script>
 
 <SectionLayout title="Works">

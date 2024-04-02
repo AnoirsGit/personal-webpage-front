@@ -12,9 +12,10 @@
 	import NodeTooltip from '$lib//features/tree/NodeTooltip.svelte';
 
 	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
+	import { onMount } from 'svelte';
 
 	export let nodes = nodesMock;
-	export let isEditMode = false;
+	export let isEditMode = true;
 	export let treeId = 1;
 
 	let tree;
@@ -105,14 +106,8 @@
 
 	const handleMouseEnterTree = () => setTimeout(() => (allowActions = true), 500);
 	const handleMouseLeaveTree = () => (allowActions = false);
-	const handleMouseMoveTree = (event) => {
-		// var bounds = event.target.getBoundingClientRect();
-
-		mouseOnTreePosition = {
-			x: event.clientX,
-			y: event.clientY
-		};
-	};
+	const handleMouseMoveTree = (event) =>
+		(mouseOnTreePosition = { x: event.clientX, y: event.clientY });
 	const handleMouseMoveNode = (nodeId) => {
 		const node = nodes.find((tempNode) => tempNode.id === nodeId);
 		if (!isNewEdgeDragging) nodeTooltip = node;
@@ -143,8 +138,6 @@
 		{/if}
 		<TreeActionBar onNodeAdd={handleNodeAdd} />
 		<TreeWrapper {allowActions} {allowTreeDrag} onZoomScrollChange={handleWrapperZoomScrollChange}>
-			<Edges onEdgeDelete={handleEdgeDelete} {nodesToConnect} {nodes} />
-
 			{#each nodes as node}
 				<Node
 					{node}
@@ -162,6 +155,7 @@
 				/>
 			{/each}
 
+			<Edges {isEditMode} onEdgeDelete={handleEdgeDelete} {nodesToConnect} {nodes} />
 			{#if newEdge && isNewEdgeDragging}
 				<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
 			{/if}
