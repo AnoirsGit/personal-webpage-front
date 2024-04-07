@@ -39,7 +39,7 @@
 		"@threlte/gltf": "^2.0.3",
 		"axios": "^1.4.0",
 		"rxjs": "^7.8.1",
-		"svelte-markdown": "^0.4.0",
+		"svelte-markdown": "^0.4.1",
 		"three": "^0.156.1",
 		"troika-three-text": "^0.49.0"
 	}

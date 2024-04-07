@@ -1,5 +1,6 @@
 <script>
 	import Icon from '@iconify/svelte';
+	import { fade } from 'svelte/transition';
 	import '$lib/app/styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
 	import { checkAndConvertToRGB } from '$lib/shared/helpers/helper';
@@ -124,7 +125,7 @@
 	>
 {/if}
 
-<div class="node-wrapper" {style}>
+<div transition:fade={{ duration: 400 }} class="node-wrapper" {style}>
 	<button
 		class="node-element"
 		style={backgroundStyle}

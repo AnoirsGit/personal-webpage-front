@@ -11,22 +11,12 @@
 
 <div class="fixed top-24 right-4 text-lg text-white">{$_fps}</div>
 
-<section class="mt-24">
+<section class="mt-24" id="about-me">
 	<AboutMe />
 </section>
 
-<section>
-	<Skills />
-</section>
+<Skills />
 
-<section>
-	<Works />
-</section>
+<Works />
 
-<section>
-	<Contacts />
-</section>
-
-<section>
-	<!-- <ParticleImage/> -->
-</section>
+<Contacts />

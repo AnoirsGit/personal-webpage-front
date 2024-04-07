@@ -36,6 +36,11 @@
     @apply lg:mt-48 w-full xl:mt-72 lg:w-64 xl:w-96 flex flex-col gap-5 text-xl lg:text-2xl xl:text-3xl z-20;
 }
 
+.about-me .right-block .description h1 {
+    @apply text-xl lg:text-2xl xl:text-3xl mb-5 text-white
+}
+
+
 .about-me .right-block .description {
     @apply text-text-1 text-sm
 }

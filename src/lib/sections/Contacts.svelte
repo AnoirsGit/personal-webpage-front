@@ -11,7 +11,7 @@
 	const onCopy = () => addMessage({ icon: 'fa:copy', text: 'Copied' });
 </script>
 
-<SectionLayout title="Contacts">
+<SectionLayout title="Contacts" name="contacts">
 	<Globe />
 	<div class="absolute flex items-center gap-1 right-24">
 		<Icon class="text-2xl" icon="wi:time-5" />

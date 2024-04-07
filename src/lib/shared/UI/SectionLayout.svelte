@@ -1,8 +1,9 @@
 <script>
 	export let title;
+	export let name;
 </script>
 
-<div class="section">
+<div class="section" id={name}>
 	<div class="flex-center">
 		<h1 class="section-header">{title}</h1>
 	</div>

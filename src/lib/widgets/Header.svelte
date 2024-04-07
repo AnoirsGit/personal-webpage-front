@@ -7,11 +7,11 @@
 
 	let isActive = false;
 	export let navLinks = [
-		{ label: 'About me', link: '' },
-		{ label: 'Skills', link: '' },
-		{ label: 'Works', link: '' },
-		{ label: 'Contacts', link: '' },
-		{ label: 'Entertainment', link: '' }
+		{ label: 'About me', link: '#about-me' },
+		{ label: 'Skills', link: '#skills' },
+		{ label: 'Works', link: '#works' },
+		{ label: 'Contacts', link: '#contacts' }
+		// { label: 'Entertainment', link: '' }
 	];
 
 	const toggle = () => (isActive = !isActive);

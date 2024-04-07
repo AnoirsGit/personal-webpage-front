@@ -1,5 +1,6 @@
 <script>
 	import Icon from '@iconify/svelte';
+	import { fade } from 'svelte/transition';
 	import { getEdgeData } from '$lib/shared/helpers/tree/edge';
 	import GlowingElement from '$lib/shared/UI/GlowingElement.svelte';
 	import { onMount, onDestroy } from 'svelte';
@@ -44,6 +45,7 @@
 <button
 	bind:this={edgeRef}
 	on:click={handleEdgeClick}
+	transition:fade={{ duration: 400 }}
 	class="absolute z-edge origin-top-left bg-white"
 	{style}
 />

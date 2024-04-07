@@ -2,10 +2,11 @@
 	import '$lib/app/styles/imageCard.css';
 	import Icon from '@iconify/svelte';
 	import CustomButton from './CustomButton.svelte';
+	import MarkdownWrapper from '../MarkdownWrapper.svelte';
 	export let imageUrl;
 	export let imageAlt;
 	export let tags = ['dorime', 'ameno'];
-	export let description = 'Sync - Landing page design for the CRM platform';
+	export let description = ``;
 </script>
 
 <div class="image-card group">
@@ -19,7 +20,7 @@
 					</div>
 				{/each}
 			</div>
-			<p>{description}</p>
+			<MarkdownWrapper source={description} />
 			<CustomButton color="transparent" size="no" type="link">
 				<div class="flex gap-1 px-4 py-1 border-b-2 border-main-purple">
 					<p>Open</p>

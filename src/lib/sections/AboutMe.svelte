@@ -4,6 +4,18 @@
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
 	import Icon from '@iconify/svelte';
+	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
+
+	export let firstBlockDescription = `# Based in Kazakhstan. I’m FullStack developer.
+
+Passionate developer with experience in both frontend and backend, dedicated to creating
+			innovative and efficient web applications. My skills include not only technical depth but also
+			the ability to understand and solve business challenges, making me the ideal candidate for
+			your project.`;
+
+	export let secondBlockDescription = `Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
+					lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
+					vivamus sapien vulputate non elementum leo massa vitae.`;
 </script>
 
 <div class="about-me">
@@ -23,13 +35,7 @@
 		<img class="picture" src="/images/about-me-bg.webp" alt="" />
 	</div>
 	<div class="right-block">
-		<h3>Based in Kazakhstan. I’m FullStack developer.</h3>
-		<p class="description">
-			Passionate developer with experience in both frontend and backend, dedicated to creating
-			innovative and efficient web applications. My skills include not only technical depth but also
-			the ability to understand and solve business challenges, making me the ideal candidate for
-			your project.
-		</p>
+		<MarkdownWrapper source={firstBlockDescription} mdClasses="sm text-text-1 description" />
 		<CustomButton color="transparent">
 			<div class="download-btn">
 				<p>Download</p>
@@ -46,9 +52,7 @@
 		<div class="content-block">
 			<div class="flex flex-col gap-6">
 				<div class="description-block">
-					Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
-					lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
-					vivamus sapien vulputate non elementum leo massa vitae.
+					<MarkdownWrapper source={secondBlockDescription} />
 				</div>
 				<div class="mx-auto"><CustomButton>Hire me</CustomButton></div>
 			</div>

@@ -28,6 +28,9 @@
   font-style: normal;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 /* Apply fonts to specific elements */
 body {
