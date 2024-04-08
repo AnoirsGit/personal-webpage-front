@@ -1,6 +1,11 @@
 .md {
   font-size: 1rem;
   line-height: 1.5rem;
+  padding-bottom: 0.25rem;
+}
+
+.md p {
+  margin-bottom: 1rem;
 }
 
 .md h1 {
@@ -74,7 +79,7 @@
 
 .md.xs {
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 1.25rem;
 }
 
 .md.xs h1 {
@@ -114,7 +119,7 @@
 
 .md.sm {
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: 1.5rem;
 }
 
 .md.sm h1 {
@@ -194,7 +199,7 @@
 
 .md.xl h2 {
   font-size: 1.875rem;
-  line-height: 2.25rem;
+  line-height: 2.5rem;
 }
 
 .md.xl h3 {

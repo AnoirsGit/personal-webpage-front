@@ -7,22 +7,24 @@
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 
 	export let firstBlockDescription = `# Based in Kazakhstan. I’m FullStack developer.
+With 4+ years as a team lead full stack developer, my forte lies in tackling intricate technical challenges and resolving a problem with an analytical way.
 
-Passionate developer with experience in both frontend and backend, dedicated to creating
-			innovative and efficient web applications. My skills include not only technical depth but also
-			the ability to understand and solve business challenges, making me the ideal candidate for
-			your project.`;
+But my true strength shines in fostering open communication within the team.
 
-	export let secondBlockDescription = `Lorem ipsum dolor sit amet consectetur. Leo cum a pellentesque morbi vel amet velit. Quam
-					lacinia ut eu enim porta turpis a hendrerit. Sed interdum elementum donec sit. Tortor
-					vivamus sapien vulputate non elementum leo massa vitae.`;
+My full-stack expertise bridges the front-end and back-end, guaranteeing exceptional web applications, intuitive and user-friendly for clients, and streamlined for efficient B2B interactions.`;
+
+	export let secondBlockDescription = `Coding isn't just a job for me, it's a source of pure joy.
+Unraveling complex problems and crafting solutions.  The thrill of the "aha!" moment and seeing my 
+creations come to life fuels my passion for development.
+
+My ultimate goal?  A fulfilling career built around the things that bring me the most joy: coding and problem-solving.`;
 </script>
 
 <div class="about-me">
 	<div class="left-block">
 		<h1 class="header-1">Hi, <br /> I'm <span class="text-main-purple">Anuar</span></h1>
 		<p>FullStack developer</p>
-		<CustomButton size="no">
+		<CustomButton type="link" href="https://t.me/NoirBegula" size="no">
 			<div class="lets-chat-btn">
 				<p>Let's chat</p>
 				<div class="icon-wrapper">
@@ -36,7 +38,11 @@ Passionate developer with experience in both frontend and backend, dedicated to 
 	</div>
 	<div class="right-block">
 		<MarkdownWrapper source={firstBlockDescription} mdClasses="sm text-text-1 description" />
-		<CustomButton color="transparent">
+		<CustomButton
+			type="link"
+			href="https://drive.google.com/file/d/1gj_nk1-2wxgSTNRRjcgmthXNmFQlIwyd/view?usp=sharing"
+			color="transparent"
+		>
 			<div class="download-btn">
 				<p>Download</p>
 				<div class="text-2xl">

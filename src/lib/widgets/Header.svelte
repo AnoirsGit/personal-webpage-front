@@ -27,7 +27,7 @@
 				{/each}
 			</div>
 			<div class="hidden lg:block">
-				<CustomButton color="dark">Hire me</CustomButton>
+				<!-- <CustomButton color="dark">Hire me</CustomButton> -->
 			</div>
 			<div class="lg:hidden">
 				<MobileHamburgerButton onClick={toggle} {isActive} />
@@ -38,7 +38,8 @@
 				{#each navLinks as { label, link }}
 					<div class="font-regular text-text-1 hover:text-white"><a href={link}> {label}</a></div>
 				{/each}
-				<CustomButton color="dark" length="full">Hire me</CustomButton>
+				<div class="" />
+				<!-- <CustomButton color="dark" length="full">Hire me</CustomButton> -->
 			</div>
 		{/if}
 	</div>

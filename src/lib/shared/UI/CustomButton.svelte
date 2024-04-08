@@ -40,7 +40,7 @@
 </script>
 
 {#if type === 'link'}
-	<a class={classNames} {href} on:click={handleClick} {disabled}>
+	<a class={classNames} {href} target="_blank" {disabled}>
 		<slot />
 	</a>
 {:else}

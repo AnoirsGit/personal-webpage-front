@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .about-me {
-    @apply lg:h-240 mb-20 lg:mb-16 relative flex flex-col lg:flex-row lg:justify-between text-3xl;
+    @apply lg:h-264 mb-20 lg:mb-16 relative flex flex-col lg:flex-row lg:justify-between text-3xl;
 }
 
 
@@ -42,7 +42,7 @@
 
 
 .about-me .right-block .description {
-    @apply text-text-1 text-sm
+    @apply text-text-1
 }
 
 .about-me .picture-wrapper {

@@ -1,5 +1,5 @@
 <script>
-	import SvelteMarkdown from 'svelte-markdown';
+	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 
 	export let mousePosition = { x: 0, y: 0 };
 	export let nodeTooltip = null;
@@ -32,7 +32,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="markdown-reader small">
-		<SvelteMarkdown source={nodeTooltip?.description} />
+	<div class="my-2">
+		<MarkdownWrapper source={nodeTooltip?.description} mdClasses="sm" />
 	</div>
 </div>
