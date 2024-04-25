@@ -1,9 +1,9 @@
 .image-card {
-    @apply relative w-full h-full rounded-xl overflow-hidden bg-slate-200;
+    @apply relative w-full h-full rounded-xl overflow-hidden bg-slate-200 flex justify-center items-center;
 }
 
 
 
 .image-card .card-hover-content {
-    @apply h-1/2 w-full p-4 bg-black bg-opacity-80 absolute bottom-0 transition ease-in-out duration-500 translate-y-full;
+    @apply h-2/3 w-full p-4 bg-black bg-opacity-80 absolute bottom-0 transition ease-in-out duration-500 translate-y-full;
 }

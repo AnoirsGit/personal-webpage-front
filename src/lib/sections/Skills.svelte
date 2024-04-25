@@ -15,5 +15,5 @@
 			activeTab = tab;
 		}}
 	/>
-	<SkillTree isEditMode={false} section={activeTab} />
+	<SkillTree isEditMode={true} section={activeTab} />
 </SectionLayout>

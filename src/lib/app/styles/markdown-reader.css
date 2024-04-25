@@ -44,7 +44,7 @@
 }
 
 .md strong {
-  font-weight: bolder;
+  font-weight: 600;
 }
 
 .md hr {
@@ -160,21 +160,26 @@
 .md.lg h1 {
   font-size: 1.875rem;
   line-height: 2.25rem;
+  margin-bottom: 1rem;
 }
 
 .md.lg h2 {
   font-size: 1.75rem;
   line-height: 2rem;
+  margin-bottom: 1rem;
 }
 
 .md.lg h3 {
   font-size: 1.625rem;
   line-height: 2rem;
+  margin-bottom: 0.75rem;
 }
 
 .md.lg h4 {
   font-size: 1.5rem;
   line-height: 2rem;
+  margin-bottom: 0.75rem;
+
 }
 
 .md.lg h5 {
