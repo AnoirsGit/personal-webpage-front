@@ -6,7 +6,7 @@
 	import Contacts from '$lib/sections/Contacts.svelte';
 </script>
 
-<section class="mt-24" id="about-me">
+<section class="pt-24" id="about-me">
 	<AboutMe />
 </section>
 

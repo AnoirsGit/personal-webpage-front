@@ -45,7 +45,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="globe-wrapper globe-wrapper-h"
+	class="globe-wrapper h-full"
 	on:mousedown={handleMouseDown}
 	on:mousemove={handleMouseMove}
 	on:mouseup={handleMouseUp}

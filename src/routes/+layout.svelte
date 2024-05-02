@@ -21,12 +21,11 @@
 	<PageLoader />
 {/if}
 
-<Messages />
-<ParticleBackground />
-
-<main class="app">
+<main>
+	<Messages />
 	<Header />
-	<div class="app-content">
+	<ParticleBackground />
+	<main class="app-content">
 		{#if isStart}
 			<slot />
 			<!-- </Suspense> -->
@@ -35,5 +34,5 @@
 		<footer>
 			<!-- Footer content goes here -->
 		</footer>
-	</div>
+	</main>
 </main>

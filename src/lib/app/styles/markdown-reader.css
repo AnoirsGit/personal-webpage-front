@@ -4,6 +4,10 @@
   padding-bottom: 0.25rem;
 }
 
+.md code {
+  text-wrap: wrap;
+}
+
 .md p {
   margin-bottom: 1rem;
 }

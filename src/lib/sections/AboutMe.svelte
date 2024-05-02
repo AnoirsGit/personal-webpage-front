@@ -20,7 +20,7 @@ creations come to life fuels my passion for development.
 My ultimate goal?  A fulfilling career built around the things that bring me the most joy: coding and problem-solving.`;
 </script>
 
-<div class="about-me">
+<section class="about-me">
 	<div class="left-block">
 		<h1 class="header-1">Hi, <br /> I'm <span class="text-main-purple">Anuar</span></h1>
 		<p>FullStack developer</p>
@@ -51,7 +51,7 @@ My ultimate goal?  A fulfilling career built around the things that bring me the
 			</div>
 		</CustomButton>
 	</div>
-</div>
+</section>
 
 <SectionLayout title="About me">
 	<div class="about-me-2">
