@@ -2,7 +2,7 @@
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import '$lib/app/styles/sections/Works.css';
 	// import ImageCard from '$lib/shared/UI/ImageCard.svelte';
-	import ProfessionalExpTimelineItem from '$lib/entities/professionalExp/ProfessionalExpTimelineItem.svelte';
+	import ProfessionalExpTimelineItem from '$lib/entities/professionalExp/ExperienceTimelineItem.svelte';
 
 	import '$lib/app/styles/sections/Works.css';
 

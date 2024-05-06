@@ -230,3 +230,57 @@
   font-size: 1.375rem;
   line-height: 1.875rem;
 }
+
+.md.mh-1 h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.25rem;
+}
+
+.md.mh-2 h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.5rem;
+}
+
+.md.mh-3 h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.75rem;
+}
+
+.md.mh-4 h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1rem;
+}
+
+.md.mh-5 h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1.25rem;
+}
+
+.md.mh-6 h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1.5rem;
+}

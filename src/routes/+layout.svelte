@@ -25,7 +25,7 @@
 	<Messages />
 	<Header />
 	<ParticleBackground />
-	<main class="app-content">
+	<main class="app-content pb-10">
 		{#if isStart}
 			<slot />
 			<!-- </Suspense> -->
