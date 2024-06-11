@@ -1,4 +1,4 @@
-import { Particle,StarParticle } from './particle';
+import { Particle, StarParticle } from './particle';
 
 export const createEffect = (ctx, canvas, image) => {
     const particles = [];
@@ -46,15 +46,15 @@ export const createEffect = (ctx, canvas, image) => {
     return { draw, update, init, mouseLeaveHandler, mouseMoveHandler };
 };
 
-export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
+export const createStarEffect = ({ ctx, canvas, density = 1 / 2500, velocity = 0.5 }) => {
     const particles = [];
     const particleCount = Math.floor(canvas.width * canvas.height * density);
     let connected = [];
-    let mouse = { r: 200 , x: null, y: null };
+    let mouse = { r: 200, x: null, y: null };
 
     const init = () => {
         for (let i = 0; i < particleCount; i++) {
-            particles.push(StarParticle({ id: i, canvas, ctx }));
+            particles.push(StarParticle({ id: i, canvas, ctx, velocity }));
         }
     };
 
@@ -65,18 +65,18 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
 
     const calculateActiveHoveredParticles = () => {
         const tempConnected = []
-        for (const { id, getCoordinates, getOpacityAndSize, onShine, unShine} of particles) {
-            const {x, y} = getCoordinates()
-            const {opacity, size } = getOpacityAndSize()
-            
-            if(y < mouse.y + mouse.r && y < mouse.y + mouse.r) {
+        for (const { id, getCoordinates, getOpacityAndSize, onShine, unShine } of particles) {
+            const { x, y } = getCoordinates()
+            const { opacity, size } = getOpacityAndSize()
+
+            if (y < mouse.y + mouse.r && y < mouse.y + mouse.r) {
                 const distance = Math.sqrt((mouse.y - y) ** 2 + (mouse.x - x) ** 2);
                 if (distance <= mouse.r) {
-                    tempConnected.push({id, x, y, opacity, size})                 
+                    tempConnected.push({ id, x, y, opacity, size })
                     onShine();
                 }
                 else unShine()
-                
+
             }
         }
         connected = tempConnected;
@@ -86,11 +86,11 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
         for (const connA of connected) {
             for (const connB of connected) {
                 const distance = Math.sqrt((connA.y - connB.y) ** 2 + (connA.x - connB.x) ** 2)
-                if(distance < 100) {
-                    if( connA.id === connB.id) continue
+                if (distance < 100) {
+                    if (connA.id === connB.id) continue
                     const opacity = (Math.min(connA.opacity, connB.opacity)) * 0.8
                     const width = Math.min(connA.size, connB.size) * 0.7
-                    ctx.strokeStyle =`rgba(255,255,255,${opacity}`
+                    ctx.strokeStyle = `rgba(255,255,255,${opacity}`
                     ctx.lineWidth = width;
                     ctx.beginPath();
                     ctx.moveTo(connA.x, connA.y);
@@ -113,7 +113,7 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
         sortParticles()
     };
 
-   const mouseMoveHandler = (mouseX, mouseY) => {
+    const mouseMoveHandler = (mouseX, mouseY) => {
         mouse.x = mouseX;
         mouse.y = mouseY;
     };
@@ -126,14 +126,14 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500 }) => {
     return { init, draw, update, mouseMoveHandler, mouseLeaveHandler };
 };
 
-
-export const animate = ({ctx, canvas, effect}) => {
+export const animate = ({ ctx, canvas, effect }) => {
     if (!canvas) {
-        requestAnimationFrame(() => animate({ctx, canvas, effect}));
+        requestAnimationFrame(() => animate({ ctx, canvas, effect }));
         return
     }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     effect.draw();
     effect.update();
-    requestAnimationFrame(() => animate({ctx, canvas, effect}));
+    requestAnimationFrame(() => animate({ ctx, canvas, effect }));
 };

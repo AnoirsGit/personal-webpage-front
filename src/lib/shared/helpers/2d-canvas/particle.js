@@ -46,11 +46,11 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
             const dx = x - mouse.x;
             const dy = y - mouse.y;
             const distance = dx * dx + dy * dy;
-            
+
             if (distance < mouse.r) { // Apply the effect only within mouse.r
                 const angle = Math.atan2(dy, dx);
-                const force = (mouse.r ) / mouse.r; // Gradually decrease force with distance
-                
+                const force = (mouse.r) / mouse.r; // Gradually decrease force with distance
+
                 velocityX += force * Math.cos(angle);
                 velocityY += force * Math.sin(angle);
             }
@@ -61,7 +61,7 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
             x += (originX - x) * ease;
             y += (originY - y) * ease;
         }
-    
+
         // Ensure particles stay within canvas bounds
         if (x < canvas.width * 0.1) {
             x = canvas.width * 0.1;
@@ -70,7 +70,7 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
             x = canvas.width * 0.9;
             velocityX *= -1; // Reflect velocity
         }
-    
+
         if (y < canvas.height * 0.1) {
             y = canvas.height * 0.1;
             velocityY *= -1; // Reflect velocity
@@ -78,7 +78,7 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
             y = canvas.height * 0.9;
             velocityY *= -1; // Reflect velocity
         }
-    
+
         rotationDeg += rotateVelocity;
     };
 
@@ -90,20 +90,20 @@ function randomSmoothBySinCurve(x, startDeg) {
     const randomNum = x * Math.random();
     const ratio = randomNum / x;
     const currSinDeg = Math.asin(ratio)
-    const radStartDeg = startDeg * Math.PI/180
+    const radStartDeg = startDeg * Math.PI / 180
     const resultSin = radStartDeg + currSinDeg;
 
-    if(Math.random() * 10 * Math.sin(resultSin) < 5) return Math.random * Math.random()
+    if (Math.random() * 10 * Math.sin(resultSin) < 5) return Math.random * Math.random()
     return randomNum
 
 }
 
-export const StarParticle = ({ canvas, ctx, id }) => {
+export const StarParticle = ({ canvas, ctx, id, velocity = 0.5 }) => {
     const size = Math.floor(Math.random() * 2 + 1);
     let x = Math.random() * canvas.width;
     let y = randomSmoothBySinCurve(canvas.height, 30);
     let shine = false;
-    let [velocityX, velocityY] = [Math.random() * 0.5 - 0.25, Math.random() * 0.5 - 0.25];
+    let [velocityX, velocityY] = [Math.random() * velocity - (velocity / 2), Math.random() * velocity - (velocity / 2)];
     let opacity = Math.random() * 0.5 + 0.5;
     let opacityVelocity = 1 / (60 * (Math.random() * 3 + 0.5))
 
@@ -112,10 +112,10 @@ export const StarParticle = ({ canvas, ctx, id }) => {
         ctx.arc(x, y, size, 0, Math.PI * 2, false);
         ctx.fillStyle = 'rgba(255, 255, 255, ' + opacity + ')';
         ctx.fill();
-        if(shine) {
+        if (shine) {
             ctx.beginPath();
             ctx.arc(x, y, size * 2.4, 0, Math.PI * 2, false);
-            ctx.fillStyle = 'rgba(255, 255, 255, ' + opacity/2 + ')';
+            ctx.fillStyle = 'rgba(255, 255, 255, ' + opacity / 2 + ')';
             ctx.fill();
         }
     };
@@ -145,8 +145,8 @@ export const StarParticle = ({ canvas, ctx, id }) => {
         updateParticle();
         updateOpacity();
     };
-    
-    const getOpacityAndSize = () => ({opacity, size})
-    const getCoordinates = () => ({x, y})
-    return { id, update, draw, getCoordinates, getOpacityAndSize,onShine, unShine };
+
+    const getOpacityAndSize = () => ({ opacity, size })
+    const getCoordinates = () => ({ x, y })
+    return { id, update, draw, getCoordinates, getOpacityAndSize, onShine, unShine };
 };

@@ -92,7 +92,7 @@
 
 	const animate = () => {
 		updateImpacts(impacts, stackImpactEvents);
-		globeRotation.y += 0.002;
+		globeRotation.y += 0.001;
 
 		requestAnimationFrame(animate);
 	};

@@ -58,8 +58,8 @@
 					position={[1, 4.5, -12]}
 					on:create={({ ref }) => ref.lookAt(0, 0, 0)}
 				/>
-				<T.Group rotation.y={x * 0.003}>
-					<GlobeMesh rotationY={x * 0.003} />
+				<T.Group rotation.y={x * 0.001}>
+					<GlobeMesh rotationY={x * 0.001} />
 				</T.Group>
 				<Atmosphere />
 

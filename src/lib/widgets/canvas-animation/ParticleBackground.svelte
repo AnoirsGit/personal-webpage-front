@@ -15,7 +15,7 @@
 		canvas.width = clientWidth;
 		canvas.height = clientHeight;
 
-		effect = createStarEffect({ ctx, canvas, density });
+		effect = createStarEffect({ ctx, canvas, density, velocity: 0.15 });
 		effect.init();
 		animate({ ctx, canvas, effect });
 	};
