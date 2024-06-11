@@ -51,9 +51,13 @@
 		isDragging = false;
 	};
 
+	
+
 	onMount(() => {
-		if (container.offsetWidth < 768) (minZoom = 0.25), (scale = 0.4);
-		else if (container.offsetWidth < 1024) (minZoom = 0.5), (scale = 0.7);
+		minZoom = container.offsetWidth/(widthInSections * 99);
+		if (container.offsetWidth < 768) scale = 0.4;
+		else if (container.offsetWidth < 1024) scale = 0.7;
+		container.scrollLeft = ((widthInSections * 100)/2) * scale - container.offsetWidth/2
 		onZoomScrollChange({ x: container.scrollLeft, y: container.scrollTop, scale });
 	});
 </script>

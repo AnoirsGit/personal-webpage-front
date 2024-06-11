@@ -35,6 +35,6 @@
 
 <svelte:window on:mousemove={mouseMoveHandler} on:mouseleave={mouseLeaveHandler} />
 
-<div class="absolute w-full h-full" bind:clientHeight bind:clientWidth>
+<div class="absolute w-full h-full z-[-1]" bind:clientHeight bind:clientWidth>
 	<canvas bind:this={canvas} />
 </div>
