@@ -19,8 +19,8 @@
 
 <div class="timeline-card {card.variant !== 3 ? 'overflow-hidden' : ''}">
 	{#if card.variant === 1}
-		<div class="flex flex-col gap-12 w-2/5">
-			<MarkdownWrapper mdClasses="xl mh-3" source={card.text} />
+		<div class="flex flex-col gap-24 w-2/5">
+			<MarkdownWrapper mdClasses="xl mh-4" source={card.text} />
 			<CustomButton type="link" size="no" href={card.link.src} color="transparent">
 				<div class="flex items-center text-lg gap-1">
 					<p>{card.link.label}</p>
@@ -30,7 +30,7 @@
 		</div>
 		<img
 			crossorigin="anonymous"
-			class="absolute left-1/2 top-12 w-3/5 h-auto"
+			class="absolute rounded-lg left-1/2 top-12 w-3/5 h-auto"
 			src={card.imageUrls[0]}
 			alt=""
 		/>

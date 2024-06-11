@@ -17,9 +17,7 @@
 	<TimelineDatePoint color={colors[0]} dates={professionalExperienceObject.dates} />
 	<div class="relative mt-3">
 		<TimelineLine color={colors[0]} />
-		<div class="ml-14 mb-4">
-			<MarkdownWrapper mdClasses="lg" source={professionalExperienceObject?.description} />
-		</div>
+			<!-- <MarkdownWrapper mdClasses="lg" source={professionalExperienceObject?.description} /> -->
 	</div>
 	{#each professionalExperienceObject.cards as card, index}
 		<TimelineCard {card} />

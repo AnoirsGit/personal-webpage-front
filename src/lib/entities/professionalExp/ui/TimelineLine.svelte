@@ -15,4 +15,4 @@
 	};
 </script>
 
-<div class="timeline-line" style={gradientFade(color, deg)} />
+<div class="timeline-line h-16 w-1 ml-[1.375rem]" style={gradientFade(color, deg)} />

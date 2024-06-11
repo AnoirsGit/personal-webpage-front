@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 
-.timeline-line {
-    @apply absolute left-[1.375rem] rounded-full w-1 h-full
-}
-
 .timeline-point {
     @apply w-4 h-4 relative rounded-full
 }

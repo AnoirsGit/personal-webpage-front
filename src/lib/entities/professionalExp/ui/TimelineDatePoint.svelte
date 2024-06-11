@@ -18,5 +18,5 @@
 	<div class="timeline-point" style="background: {color}">
 		<GlowingElement size="4" intensity="2" {color} />
 	</div>
-	<div class="text-lg">{datesToString()}</div>
+	<div class="text-xl font-semibold">{datesToString()}</div>
 </div>
