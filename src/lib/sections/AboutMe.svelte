@@ -55,8 +55,8 @@ My ultimate goal?  A fulfilling career built around the things that bring me the
 
 <SectionLayout title="About me">
 	<div class="about-me-2">
-		<div class="content-block">
-			<div class="flex flex-col gap-6">
+		<div class="content-block -mt-8">
+			<div class="h-full flex flex-col gap-24">
 				<div class="description-block">
 					<MarkdownWrapper source={secondBlockDescription} />
 				</div>

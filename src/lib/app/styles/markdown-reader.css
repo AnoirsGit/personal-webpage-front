@@ -8,6 +8,24 @@
   text-wrap: wrap;
 }
 
+.md.white-code code {
+  font-family: 'Poppins Mono', sans-serif;
+  color: white !important;
+  text-wrap: wrap;
+}
+
+.md.highlited-code code {
+  font-family: 'Poppins Mono', sans-serif;
+  color: #9122FF !important;
+  text-wrap: wrap;
+}
+
+.md code {
+  color: #ffa31a !important;
+  text-wrap: wrap;
+}
+
+
 .md p {
   margin-bottom: 1rem;
 }
@@ -283,4 +301,160 @@ h4,
 h5,
 h6 {
   margin-bottom: 1.5rem !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .md.mobile {
+    font-size: 1rem;
+  }
+
+  .md.mobile p {
+    font-size: 1rem;
+  }
+  
+  .md.mobile h1 {
+    font-size: 1.625rem;
+    line-height: 2rem;
+  }
+  
+  .md.mobile h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  
+  .md.mobile h3 {
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+  }
+  
+  .md.mobile h4 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+  
+  .md.mobile h5 {
+    font-size: 1.125rem;
+    line-height: 1.75rem
+  }
+  
+  .md.mobile h6 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .md.mobile-xs {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+
+  .md.mobile-xs h1 {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+
+  .md.mobile-xs h2 {
+    font-size: 1.375rem;
+    line-height: 1.625rem;
+  }
+
+  .md.mobile-xs h3 {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+
+  .md.mobile-xs h3 {
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+  }
+
+  .md.mobile-xs h4 {
+    font-size: 1rem;
+    line-height: 1.25rem;
+  }
+
+  .md.mobile-xs h5 {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+
+  .md.mobile-xs h6 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .md.mobile-sm {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .md.mobile-sm h1 {
+    font-size: 1.5;
+    line-height: 2rem;
+  }
+
+  .md.mobile-sm h2 {
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+  }
+
+  .md.mobile-sm h3 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .md.mobile-sm h4 {
+    font-size: 1.125rem;
+    line-height: 1.75rem
+  }
+
+  .md.mobile-sm h5 {
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+
+  .md.mobile-sm h6 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .md.mobile-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .md.mobile-lg h1 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .md.mobile-lg h2 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .md.mobile-lg h3 {
+    font-size: 1.625rem;
+    line-height: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .md.mobile-lg h4 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-bottom: 0.75rem;
+
+  }
+
+  .md.mobile-lg h5 {
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+  }
+
+  .md.mobile-lg h6 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
 }

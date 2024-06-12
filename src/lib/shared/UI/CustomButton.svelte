@@ -21,6 +21,7 @@
 	const colors = {
 		dark: ['bg-dark', 'hover:opacity-60', 'text-white'],
 		transparent: ['text-main-purple', 'hover:text-dark-purple'],
+		transparentWhite: ['text-white', 'hover:text-slate-300'],
 		purple: ['bg-main-purple', 'hover:bg-main-dark-purple', 'text-white']
 	};
 

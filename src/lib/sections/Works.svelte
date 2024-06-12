@@ -8,5 +8,7 @@
 
 <SectionLayout title="Works" name="works">
 	<h1 class="text-2xl mb-5">Professional Experience</h1>
-	<ProfessionalExpTimeline />
+	<div class="font-medium">
+		<ProfessionalExpTimeline />
+	</div>
 </SectionLayout>

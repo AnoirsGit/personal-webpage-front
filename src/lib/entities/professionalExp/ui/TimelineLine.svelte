@@ -3,6 +3,7 @@
 
 	export let position = 'start';
 	export let color = '#FFFFFFF';
+	export let heghtClass = 'h-16';
 	let deg = 0;
 
 	if (position === 'end') deg = 180;
@@ -15,4 +16,4 @@
 	};
 </script>
 
-<div class="timeline-line h-16 w-1 ml-[1.375rem]" style={gradientFade(color, deg)} />
+<div class="timeline-line {heghtClass} w-1 ml-[1.375rem]" style={gradientFade(color, deg)} />

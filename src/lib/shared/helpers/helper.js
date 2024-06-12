@@ -60,3 +60,34 @@ export const checkAndConvertToRGB = (color) => {
     if (isRGB(color)) return isRGB(color);
     else return hexColorToRGB(color)
 }
+
+export const mixColors = (color1, color2) => {
+    // Helper function to convert RGB values to hex string
+    const rgbToHex = (r, g, b) => {
+        const toHex = (n) => {
+            const hex = n.toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        };
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    };
+
+    // Convert both colors to RGB arrays
+    const rgb1 = checkAndConvertToRGB(color1);
+    const rgb2 = checkAndConvertToRGB(color2);
+
+    // If either color is invalid, return null
+    if (!rgb1 || !rgb2) {
+        console.error('Invalid color input');
+        return null;
+    }
+
+    // Mix the RGB values by averaging the components
+    const mixedRGB = [
+        Math.round((rgb1[0] + rgb2[0]) / 2),
+        Math.round((rgb1[1] + rgb2[1]) / 2),
+        Math.round((rgb1[2] + rgb2[2]) / 2),
+    ];
+
+    // Convert the mixed RGB values to a hex color
+    return rgbToHex(mixedRGB[0], mixedRGB[1], mixedRGB[2]);
+};

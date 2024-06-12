@@ -9,6 +9,13 @@
 
 @font-face {
   font-family: 'Poppins Mono';
+  src: url('/fonts/ttf/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins Mono';
   src: url('/fonts/ttf/Poppins-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
@@ -89,7 +96,7 @@ a {
 }
 
 .abs-center-y {
-  @apply absolute top-1/2 -translate-x-1/2 -translate-y-1/2
+  @apply absolute top-1/2 -translate-y-1/2
 }
 
 .tooltip {
