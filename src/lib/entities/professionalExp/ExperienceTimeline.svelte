@@ -5,6 +5,6 @@
 
 </script>
 
-<div class="flex flex-col relative">
+<div class="flex flex-col relative timeline">
 	<TimelineItem></TimelineItem>	
 </div>
