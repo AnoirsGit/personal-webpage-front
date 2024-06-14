@@ -6,6 +6,7 @@
     import CustomButton from '$lib/shared/UI/CustomButton.svelte';
     import '$lib/app/styles/sections/Works.css';
     import GlowingElement from '$lib/shared/UI/GlowingElement.svelte';
+	import MovableGlow from '$lib/shared/UI/MovableGlow.svelte';
 
     export let position = 'center';
     export let color = '#FF0000';
@@ -18,10 +19,35 @@
             'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/Vegetables.webp'
         ]
     };
+
+    let glowPosition = null;
+
+    const onMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        glowPosition = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    const onMouseEnter = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        glowPosition = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    const onMouseLeave = (e) => {
+        console.log('KAVO')
+        glowPosition = null;
+    }
 </script>
 
 {#if card.variant === 1}
-    <div class="timeline-card variant-1 overflow-hidden" use:tilt={{ scale: 1, reverse: true, max: 1 }}>
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div
+        class="timeline-card variant-1 overflow-hidden"
+        use:tilt={{ scale: 1, reverse: true, max: 1 }}
+        on:mouseenter={onMouseEnter}
+        on:mousemove={onMouseMove}
+        on:mouseleave={onMouseLeave}
+        >
+        <MovableGlow size={1000} intensity={0.3} {color} position={glowPosition} />
         <div class="content">
             <MarkdownWrapper isInline mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
             <CustomButton type="link" size="no" href={card.link.src} color="transparentWhite">
