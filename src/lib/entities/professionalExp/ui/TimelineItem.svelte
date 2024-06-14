@@ -42,14 +42,17 @@
 	};
 
 	const giveCorrectColor = (colors, index) => {
-		if( index < experienceItem.cards.length -1) return mixColors(...colors)
+		if( index < experienceItem.cards.length -1) {
+			const percent = ((index + 1) / experienceItem.cards.length) * 100;
+			return mixColors(...colors, percent)
+		}
 		return colors[1]
 	} 
 
 </script>
 
 <TimelineDatePoint color={experienceItem.colors[0]} dates={experienceItem.dates} />
-<div class="relative mt-3 flex gap-8">
+<div class="flex gap-8">
 	<TimelineLine color={experienceItem.colors[0]} />
 	<MarkdownWrapper mdClasses="lg" source={experienceItem.baseDescription} />
 </div>

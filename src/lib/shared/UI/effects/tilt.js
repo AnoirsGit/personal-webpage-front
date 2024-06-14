@@ -2,7 +2,7 @@ function getSettings(settings = {}) {
     return { scale: 1, max: 15, reverse: false, ...settings };
 }
 
-const TRANSITION_MS = 300;
+const TRANSITION_MS = 500;
 
 export default function tilt(node, settingsObj) {
     let settings = getSettings(settingsObj);

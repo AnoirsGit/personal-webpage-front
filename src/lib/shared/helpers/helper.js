@@ -61,7 +61,7 @@ export const checkAndConvertToRGB = (color) => {
     else return hexColorToRGB(color)
 }
 
-export const mixColors = (color1, color2) => {
+export const mixColors = (color1, color2, percent = 50) => {
     // Helper function to convert RGB values to hex string
     const rgbToHex = (r, g, b) => {
         const toHex = (n) => {
@@ -81,11 +81,17 @@ export const mixColors = (color1, color2) => {
         return null;
     }
 
-    // Mix the RGB values by averaging the components
+    // Ensure percent is within range [0, 100]
+    percent = Math.min(100, Math.max(0, percent));
+
+    // Calculate the mixing ratio based on percent
+    const ratio = 1 - percent / 100;
+
+    // Mix the RGB values using the weighted average
     const mixedRGB = [
-        Math.round((rgb1[0] + rgb2[0]) / 2),
-        Math.round((rgb1[1] + rgb2[1]) / 2),
-        Math.round((rgb1[2] + rgb2[2]) / 2),
+        Math.round(rgb1[0] * ratio + rgb2[0] * (1 - ratio)),
+        Math.round(rgb1[1] * ratio + rgb2[1] * (1 - ratio)),
+        Math.round(rgb1[2] * ratio + rgb2[2] * (1 - ratio)),
     ];
 
     // Convert the mixed RGB values to a hex color

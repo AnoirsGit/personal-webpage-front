@@ -1,6 +1,7 @@
 <script>
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
+    import {fade} from 'svelte/transition'
     
     export let color = '#ffffff';
     export let size = 5;
@@ -14,7 +15,7 @@
 
     const boxShadows = [];
     for (let i = 0; i < shadowLayers; i++) {
-        const opacity = intensity * (shadowLayers - i) / (2 * shadowLayers); // Adjust opacity for a smoother gradient
+        const opacity = (intensity * (shadowLayers - i)) / (2 * shadowLayers); // Adjust opacity for a smoother gradient
         const blurSize = baseShadowSize * (i + 1); // Gradually increase blur size
         boxShadows.push(`0 0 ${blurSize}px ${innerShadowIntensity}px rgba(
             ${parseInt(color.slice(1, 3), 16)},
@@ -22,7 +23,6 @@
             ${parseInt(color.slice(5, 7), 16)}, ${opacity})`);
     }
     const boxShadow = boxShadows.join(', ');
-    console.log(boxShadows)
 
     const posX = tweened(0, {
         duration: 400,
@@ -48,7 +48,10 @@
     }
 </style>
 
+{#if position }
 <div
+    transition:fade={{duration: 500}}
     class="absolute glow border-1"
     style="z-index: {zetIndex}; width: 0; height: 0; box-shadow: {position ? boxShadow : 'none'}; top: {$posY}px; left: {$posX}px;">
 </div>
+{/if}

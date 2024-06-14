@@ -1,8 +1,8 @@
 <script>
 	import * as dayjs from 'dayjs';
 
-	import GlowingElement from '$lib/shared/UI/GlowingElement.svelte';
 	import '$lib/app/styles/sections/Works.css';
+	import TimelinePoint from './TimelinePoint.svelte';
 
 	export let dates = [new Date(), new Date()];
 	export let color = '#FFFFFFF';
@@ -14,9 +14,7 @@
 	};
 </script>
 
-<div class="flex items-center gap-6 ml-4">
-	<div class="timeline-point" style="background: {color}">
-		<GlowingElement size="4" intensity="2" {color} />
-	</div>
+<div class="flex items-center gap-6 ml-4 my-4">
+	<TimelinePoint {color} />
 	<div class="text-xl font-semibold">{datesToString()}</div>
 </div>

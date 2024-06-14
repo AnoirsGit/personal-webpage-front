@@ -47,8 +47,8 @@
         on:mousemove={onMouseMove}
         on:mouseleave={onMouseLeave}
         >
-        <MovableGlow size={1000} intensity={0.3} {color} position={glowPosition} />
-        <div class="content">
+        <MovableGlow size={1600} intensity={0.2} {color} position={glowPosition} zetIndex={-1} />
+        <div class="content z-20">
             <MarkdownWrapper isInline mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
             <CustomButton type="link" size="no" href={card.link.src} color="transparentWhite">
                 <div class="btn-content">
@@ -66,11 +66,19 @@
     </div>
 {:else if card.variant === 2}
     <div class="relative">
-        <div class="absolute bottom-1/3" style="right: calc(20% - 1.5rem);">
+        <div class="absolute bottom-1/3"style="right: calc(20% - 1.5rem);">
             <GlowingElement {color} intensity={0.3} isDot size={400} />
         </div>
-        <div class="timeline-card variant-2 relative" use:tilt={{ scale: 1, reverse: true, max: 1 }}>
-            <div class="variant-2 image-2">
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div 
+            class="timeline-card variant-2 md:overflow-hidden relative"
+            use:tilt={{ scale: 1, reverse: true, max: 1 }}
+            on:mouseenter={onMouseEnter}
+            on:mousemove={onMouseMove}
+            on:mouseleave={onMouseLeave}
+            >
+            <MovableGlow size={1600} intensity={0.2} {color} position={glowPosition} zetIndex={-1} />
+            <div class="variant-2 image-2 z-10">
                 <img crossorigin="anonymous" src={card.imageUrls[1]} alt="" />
             </div>
             <div class="image-1">
@@ -88,7 +96,15 @@
         </div>
     </div>
 {:else}
-    <div class="timeline-card variant-3 overflow-hidden" use:tilt={{ scale: 1, reverse: true, max: 1 }}>
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div class="timeline-card variant-3 overflow-hidden" 
+    use:tilt={{ scale: 1, reverse: true, max: 1 }}
+    on:mouseenter={onMouseEnter}
+    on:mousemove={onMouseMove}
+    on:mouseleave={onMouseLeave}
+    >
+    <MovableGlow size={1600} intensity={0.2} {color} position={glowPosition} zetIndex={-1} />
+
         <div class="wrapper">
             <div class="content">
                 <MarkdownWrapper mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
