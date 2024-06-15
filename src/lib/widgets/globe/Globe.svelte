@@ -11,6 +11,7 @@
 	let velocity = { x: 0 };
 
 	const handleMouseDown = (event) => {
+		event.preventDefault()
 		isDragging = true;
 		startCoords.x = event.clientX;
 		velocity.x = 0;
@@ -49,6 +50,7 @@
 	on:mousedown={handleMouseDown}
 	on:mousemove={handleMouseMove}
 	on:mouseup={handleMouseUp}
+	on:mouseleave={handleMouseUp}
 >
 	<div class="app-content relative top-5">
 		<div class="globe-size globe-canvas">

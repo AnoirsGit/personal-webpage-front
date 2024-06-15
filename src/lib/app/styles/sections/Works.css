@@ -9,13 +9,13 @@
 }
 
 .timeline-point {
-    @apply w-4 h-4 relative rounded-full
+    @apply w-4 h-4 relative rounded-full;
 }
 
 .timeline-card {
     transform-style: preserve-3d;
 
-    @apply flex flex-col gap-12 bg-dark text-card-gray rounded-xl border-slate-600 border w-full h-max p-8 md:p-12 relative
+    @apply flex flex-col gap-12 bg-dark text-card-gray rounded-xl border-slate-600 border w-full h-max p-8 md:p-12 relative;
 }
 
 .timeline-card.variant-1 .content {
@@ -34,7 +34,7 @@
     max-width: none;
     transform-style: preserve-3d;
     transform: perspective(1100px);
-    @apply absolute w-96 md:w-3/5 h-auto rounded-lg md:left-1/2 md:top-12
+    @apply absolute w-96 md:w-3/5 h-auto rounded-lg md:left-1/2 md:top-12;
 }
 
 .timeline-card.variant-2 .image-1 {
@@ -49,14 +49,14 @@
 }
 
 .timeline-card .variant-2.image-2 {
-    @apply block md:hidden md:absolute -right-12 top-1/3 w-full md:w-2/5 z-10 md:z-20 max-h-96 max-h-152 overflow-hidden rounded-lg
+    @apply block md:hidden md:absolute -right-12 top-1/3 w-full md:w-2/5 z-10 md:z-20 max-h-96 max-h-152 overflow-hidden rounded-lg;
 }
 
 .variant-2.image-2 {
     -webkit-box-shadow: 0px 0px 24px 6px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 24px 6px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 24px 6px rgba(0, 0, 0, 0.75);
-    @apply hidden md:block md:absolute -right-12 top-1/3 w-full md:w-2/5 z-10 md:z-20 max-h-96 max-h-152 overflow-hidden rounded-lg
+    @apply hidden md:block md:absolute -right-12 top-1/3 w-full md:w-2/5 z-10 md:z-20 max-h-96 max-h-152 overflow-hidden rounded-lg;
 }
 
 .variant-2.image-2 img {
@@ -64,15 +64,15 @@
     transform: perspective(1100px);
 
     max-width: none;
-    @apply object-cover w-full rounded-lg
+    @apply object-cover w-full rounded-lg;
 }
 
 .variant-2.content {
-    @apply flex gap-8 h-104 md:h-96
+    @apply flex gap-8 h-104 md:h-96;
 }
 
 .variant-2.content .md-wrapper {
-    @apply mt-60 md:mt-12 w-full md:w-1/2 text-card-gray
+    @apply mt-60 md:mt-12 w-full md:w-1/2 text-card-gray;
 }
 
 .timeline-card.variant-3 .wrapper {
