@@ -35,7 +35,7 @@
 	{#if isActive}
 		<div class="py-12 px-8 flex flex-col gap-5 items-center" transition:slide={{ duration: 400 }}>
 			{#each navLinks as { label, link }}
-				<div class="font-regular text-text-1 hover:text-white"><a href={link}> {label}</a></div>
+				<div class="font-regular text-card-grey hover:text-white"><a href={link}> {label}</a></div>
 			{/each}
 			<div class="" />
 			<!-- <CustomButton color="dark" length="full">Hire me</CustomButton> -->

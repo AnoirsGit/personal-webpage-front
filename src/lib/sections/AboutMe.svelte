@@ -9,10 +9,7 @@
 	export let firstBlockDescription = `# Based in Kazakhstan. I’m FullStack developer.
 With 4+ years as a team lead full stack developer, my forte lies in tackling intricate technical challenges and resolving a problem with an analytical way.
 
-But my true strength shines in fostering open communication within the team.
-
-My full-stack expertise bridges the front-end and back-end, guaranteeing exceptional web applications, intuitive and user-friendly for clients, and streamlined for efficient B2B interactions.`;
-
+But my true strength shines in fostering open communication within the team.`
 	export let secondBlockDescription = `Coding isn't just a job for me, it's a source of pure joy.
 Unraveling complex problems and crafting solutions.  The thrill of the "aha!" moment and seeing my 
 creations come to life fuels my passion for development.
@@ -37,7 +34,8 @@ My ultimate goal?  A fulfilling career built around the things that bring me the
 		<img class="picture" src="/images/about-me-bg.webp" alt="" />
 	</div>
 	<div class="right-block">
-		<MarkdownWrapper source={firstBlockDescription} mdClasses="sm text-text-1 description" />
+		<MarkdownWrapper mdClasses="lg mh-4 mobile-lg white-code text-card-gray description" source={firstBlockDescription} />
+
 		<CustomButton
 			type="link"
 			href="https://drive.google.com/file/d/1gj_nk1-2wxgSTNRRjcgmthXNmFQlIwyd/view?usp=sharing"
@@ -58,7 +56,7 @@ My ultimate goal?  A fulfilling career built around the things that bring me the
 		<div class="content-block -mt-8">
 			<div class="h-full flex flex-col gap-24">
 				<div class="description-block">
-					<MarkdownWrapper source={secondBlockDescription} />
+					<MarkdownWrapper mdClasses="lg mh-4 mobile-lg white-code text-card-grey description" source={secondBlockDescription} />
 				</div>
 				<div class="mx-auto"><CustomButton>Hire me</CustomButton></div>
 			</div>

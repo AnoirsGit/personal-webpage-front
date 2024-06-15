@@ -3,7 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import '$lib/app/styles/node.css';
 	import { getNodeCenter, getNodePositionStyle } from '$lib/shared/helpers/tree/node';
-	import { checkAndConvertToRGB } from '$lib/shared/helpers/helper';
+	import { checkAndConvertToRGB } from '$lib/shared/helpers/color-helper';
 	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
 	import { onMount, onDestroy } from 'svelte';
 

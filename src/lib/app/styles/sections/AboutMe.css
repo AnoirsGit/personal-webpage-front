@@ -37,13 +37,9 @@
 }
 
 .about-me .right-block .description h1 {
-    @apply text-xl lg:text-2xl xl:text-3xl mb-5 text-white
+    @apply text-2xl lg:text-2xl xl:text-3xl mb-5 text-white
 }
 
-
-.about-me .right-block .description {
-    @apply text-text-1
-}
 
 .about-me .picture-wrapper {
     @apply w-full lg:w-3/5 lg:absolute lg:left-1/2 lg:-translate-x-1/2

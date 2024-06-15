@@ -32,8 +32,7 @@
         glowPosition = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     }
 
-    const onMouseLeave = (e) => {
-        console.log('KAVO')
+    const onMouseLeave = () => {
         glowPosition = null;
     }
 </script>

@@ -120,5 +120,5 @@ a {
 }
 
 .section .section-header {
-  @apply text-white text-2xl lg:text-4xl;
+  @apply text-white text-3xl lg:text-4xl;
 }

@@ -1,4 +1,4 @@
-import { generateRandomID } from '../helper';
+import { generateRandomID } from '../color-helper';
 import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
 
 export const getNodeCenter = (position, size = NODE_DEFAULT_SIZE) => {

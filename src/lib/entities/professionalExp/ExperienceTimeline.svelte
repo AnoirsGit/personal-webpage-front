@@ -112,7 +112,6 @@
 	];
 
 	works = works.map((work, i) => {
-		
 		let colors = ['#FFFFFF', '#000000'];
 		if (i < works.length - 1) colors = [work.color, works[i + 1].color];
 		else {
@@ -123,11 +122,11 @@
 	});
 </script>
 
-<div class="flex flex-col relative timeline">
+<div class="flex flex-col relative timeline text-card-grey">
 	{#each works as work}
 		<TimelineItem experienceItem={work} />
 	{/each}
 	<div class="ml-4 my-4">
-		<TimelinePoint color={works[length - 1].color} />
+		<TimelinePoint color={works[works.length - 1].color} />
 	</div>
 </div>

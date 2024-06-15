@@ -44,6 +44,7 @@ export const isRGB = (color) => {
     if (typeof color === 'string') {
         const matches = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
         if (matches) {
+            // eslint-disable-next-line no-unused-vars
             const [_, r, g, b] = matches.map(Number);
             if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
                 return [r, g, b];

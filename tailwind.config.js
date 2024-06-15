@@ -12,7 +12,9 @@ export default {
 				'text-1': '#8A8AAB',
 				'dark-grey': '#2d2d39',
 				'main-purple': '#9122FF',
-				'main-dark-purple': '#6600cc'
+				'main-dark-purple': '#6600cc',
+				'card-gray': 'rgba(235, 245, 255, 0.5)',
+				'card-grey': 'rgba(235, 245, 255, 0.8)'
 			},
 			spacing: {
 				'0.75': '0.1875rem',
