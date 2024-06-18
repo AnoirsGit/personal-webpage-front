@@ -62,7 +62,7 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->`
 <div
 	class="draggable-container w-full h-96 lg:h-144 overflow-hidden rounded-xl
 	{isDragging && allowActions ? 'cursor-grab' : ''}"

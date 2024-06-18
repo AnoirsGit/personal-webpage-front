@@ -1,20 +1,15 @@
 <script>
+	import Icon from '@iconify/svelte';
+
 	import '$lib/app/styles/sections/AboutMe.css';
+	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
-	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
-	import Icon from '@iconify/svelte';
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
+	import { aboutMe } from '$lib/shared/mocks/about-me.json';
 
-	export let firstBlockDescription = `# Based in Kazakhstan. I’m FullStack developer.
-With 4+ years as a team lead full stack developer, my forte lies in tackling intricate technical challenges and resolving a problem with an analytical way.
-
-But my true strength shines in fostering open communication within the team.`
-	export let secondBlockDescription = `Coding isn't just a job for me, it's a source of pure joy.
-Unraveling complex problems and crafting solutions.  The thrill of the "aha!" moment and seeing my 
-creations come to life fuels my passion for development.
-
-My ultimate goal?  A fulfilling career built around the things that bring me the most joy: coding and problem-solving.`;
+	export let firstSection = aboutMe.firstBlock;
+	export let secondSection = aboutMe.secondBlock;
 </script>
 
 <section class="about-me">
@@ -34,7 +29,10 @@ My ultimate goal?  A fulfilling career built around the things that bring me the
 		<img class="picture" src="/images/about-me-bg.webp" alt="" />
 	</div>
 	<div class="right-block">
-		<MarkdownWrapper mdClasses="lg mh-4 mobile-lg white-code text-card-gray description" source={firstBlockDescription} />
+		<MarkdownWrapper
+			mdClasses="lg mh-4 mobile-lg white-code text-card-gray description"
+			source={firstSection}
+		/>
 
 		<CustomButton
 			type="link"
@@ -51,16 +49,19 @@ My ultimate goal?  A fulfilling career built around the things that bring me the
 	</div>
 </section>
 
-<SectionLayout title="About me">
-	<div class="about-me-2">
-		<div class="content-block -mt-8">
-			<div class="h-full flex flex-col gap-24">
-				<div class="description-block">
-					<MarkdownWrapper mdClasses="lg mh-4 mobile-lg white-code text-card-grey description" source={secondBlockDescription} />
-				</div>
-				<div class="mx-auto"><CustomButton>Hire me</CustomButton></div>
+<div class="about-me-2">
+	<div class="content-block -mt-8">
+		<div class="h-full flex flex-col gap-24">
+			<div class="description-block">
+				<MarkdownWrapper
+					mdClasses="lg mh-4 mobile-lg white-code text-card-grey description"
+					source={secondSection}
+				/>
 			</div>
-			<Typing3D />
+			<div class="mx-auto">
+				<CustomButton additionalClasses='flex gap-3 items-center' type="link" href="https://github.com/AnoirsGit/personal-webpage-front"><Icon class="text-3xl" icon="mdi:github" /> Repository</CustomButton>
+			</div>
 		</div>
+		<Typing3D />
 	</div>
-</SectionLayout>
+</div>

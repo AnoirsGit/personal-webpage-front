@@ -1,5 +1,6 @@
 <script>
 	import '$lib/app/styles/node.css';
+	import ColorPicker from 'svelte-awesome-color-picker';
 	import Icon from '@iconify/svelte';
 
 	export let node;
@@ -7,41 +8,42 @@
 
 	let newTag = '';
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		onSaveNode(node);
-	};
+	$: if (node) onSaveNode(node);
 
 	const handleAddTag = () => {
 		if (newTag.trim() !== '') {
-			node.tags = [...node.tags, newTag];
+			node = { ...node, tags: [...node.tags, newTag] };
 			newTag = '';
 		}
 	};
 
 	const handleRemoveTag = (index) => {
-		node.tags = node.tags.filter((_, i) => i !== index);
+		node = { ...node, tags: node.tags.filter((_, i) => i !== index) };
 	};
 </script>
 
 <div class="form-container p-4 text-sm">
 	{#if node}
-		<form on:submit={handleSubmit}>
-			<div class="mb-4">
-				<p class="block text-gray-700 text-sm font-bold">Title</p>
-				<input type="text" class="input" bind:value={node.title} />
-			</div>
-			<div class="mb-4">
-				<p class="block text-gray-700 text-sm font-bold">Size</p>
-				<input type="number" class="input" bind:value={node.size} />
-			</div>
+		<div class="mb-4">
+			<p class="block text-gray-700 text-sm font-bold">Title</p>
+			<input type="text" class="input" bind:value={node.title} />
+		</div>
+		<div class="mb-4 flex">
+			<p class="block text-gray-700 text-sm font-bold mr-2">Is Node</p>
+			<input type="checkbox"  bind:checked={node.isNode} />
+		  </div>
+		<div class="mb-4 flex gap-3 items-center">
+			<p class="block text-gray-700 text-sm font-bold">Color:</p>
+			<ColorPicker bind:hex={node.color} />
+		</div>
+		{#if node.isNode}
 			<div class="mb-4">
 				<p class="block text-gray-700 text-sm font-bold">Image URL</p>
 				<input type="text" class="input" bind:value={node.imageUrl} />
 			</div>
 			<div class="mb-4">
 				<p class="block text-gray-700 text-sm font-bold">Description (Markdown)</p>
-				<textarea class="input" bind:value={node.description} rows="5" />
+				<textarea class="input" bind:value={node.description} rows="10" />
 			</div>
 
 			{#if node.tags.length > 0}
@@ -52,8 +54,8 @@
 								class="flex-center gap-2 px-3 py-1 border border-deep-dark-bg rounded text-slate-700"
 							>
 								<p>{tag}</p>
-								<button class="w-4 h-4" on:click={() => handleRemoveTag(index)}>
-									<Icon icon="material-symbols:edit" /><button />
+								<button type="button" on:click={() => handleRemoveTag(index)}>
+									<Icon icon="material-symbols:close" />
 								</button>
 							</div>
 						{/each}
@@ -65,14 +67,10 @@
 				<p class="block text-gray-700 text-sm font-bold">Tags</p>
 				<div class="flex gap-3">
 					<input type="text" class="input" bind:value={newTag} />
-					<button class="button w-32" on:click={handleAddTag}>Add Tag</button>
+					<button type="button" class="button w-32" on:click={handleAddTag}>Add Tag</button>
 				</div>
 			</div>
-
-			<div class="mb-4">
-				<button type="submit" class="button"> Save </button>
-			</div>
-		</form>
+		{/if}
 	{/if}
 </div>
 

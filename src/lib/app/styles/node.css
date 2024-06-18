@@ -14,10 +14,12 @@
     @apply absolute border bg-dark-grey rounded-full z-node overflow-hidden;
 }
 
+
+
 .node-element {
     @apply w-14 h-14 flex justify-center items-center;
 }
 
 .node-image {
-    @apply w-8 h-8;
+    @apply w-9 h-9 object-contain ;
 }

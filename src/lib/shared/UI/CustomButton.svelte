@@ -8,6 +8,7 @@
 	export let color = 'purple';
 	export let href = '#';
 	export let onClick;
+	export let additionalClasses = '';
 
 	const sizes = {
 		small: ['px-3', 'py-2'],
@@ -31,7 +32,7 @@
 	};
 
 	const classNames = `${findClasses(lengths, length)} rounded-xl font-normal 
-	${findClasses(sizes, size)} ${findClasses(colors, color)}`;
+	${findClasses(sizes, size)} ${findClasses(colors, color)} ${additionalClasses}`;
 
 	function handleClick() {
 		if (!disabled && onClick) {
@@ -45,7 +46,7 @@
 		<slot />
 	</a>
 {:else}
-	<button class={classNames} on:click={handleClick} {disabled}>
+	<button class={classNames} {type} on:click={handleClick} {disabled}>
 		<slot />
 	</button>
 {/if}

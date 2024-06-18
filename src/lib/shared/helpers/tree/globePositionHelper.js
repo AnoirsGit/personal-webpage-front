@@ -23,8 +23,8 @@ export const getPositionOnFromCoordinates = (radius, latitude, longitude, isInde
 
 export const arrayOfCoordinatesToPosition = (arrOfCoordinates, radius) => {
     return arrOfCoordinates.map(coordinates => {
-        const radLatitude = (coordinates.latitude / 180) * Math.PI;
-        const radLongitude = (coordinates.longitude / 180) * Math.PI;
+        const radLatitude = (coordinates.lat / 180) * Math.PI;
+        const radLongitude = (coordinates.lon / 180) * Math.PI;
         return [
             radius * Math.cos(radLatitude) * Math.sin(radLongitude),
             radius * Math.sin(radLatitude),

@@ -52,7 +52,11 @@ export const addNodeToTree = (nodes, wrapperZoomScroll, tree, treeId, params) =>
 	return {
 		size,
 		treeId,
+		title: '',
+		description: '',
+		isNode: true,
 		id: mockId,
+		tags: [],
 		isActive: false,
 		position: nodePosition
 	};
