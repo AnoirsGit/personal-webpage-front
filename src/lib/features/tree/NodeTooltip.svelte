@@ -12,12 +12,14 @@
 	<div class="flex flex-col gap-3 h-max border-b border-slate-500">
 		<div class="w-full flex items-center gap-3">
 			{#if nodeTooltip.imageUrl && nodeTooltip.imageUrl !== ''}
-				<img
-					class="w-10 h-10 object-contain"
+				<div class="w-12 h-12 rounded-full overflow-hidden bg-slate-500">
+					<img
+					class="m-1 w-10 h-10 object-contain"
 					crossorigin="anonymous"
 					src={nodeTooltip.imageUrl}
 					alt={nodeTooltip.title}
-				/>
+					/>
+				</div>
 			{/if}
 			<h1 class="text-xl text-bold">{nodeTooltip?.title}</h1>
 		</div>

@@ -4,6 +4,7 @@
 
 	export let minZoom = 1;
 	export let maxZoom = 2;
+	export let isEditMode = false;
 	export let allowActions = false;
 	export let allowTreeDrag = true;
 	export let onZoomScrollChange = () => {};
@@ -84,6 +85,10 @@
 		position: absolute;
 		"
 	>
+		{#if isEditMode}
+			<div class="w-1 h-full abs-center-x bg-red-500"></div>
+			<div class="w-full h-1 abs-center-y bg-blue-500"></div>
+		{/if}
 		{#each Array(widthInSections) as _, i (i)}
 			{#each Array(heightInSections) as _, j (j)}
 				<div

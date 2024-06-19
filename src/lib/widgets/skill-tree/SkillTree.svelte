@@ -5,7 +5,6 @@
 	import TreeWrapper from '$lib/widgets/skill-tree/TreeWrapper.svelte';
 
 	import { getNodeUnderMouse, addNodeToTree } from '$lib/shared/helpers/tree/node';
-	import { treeMock } from '$lib/shared/mocks/tree';
 
 	import EditForm from '$lib/features/tree/EditForm.svelte';
 	import TreeActionBar from '$lib/features/tree/TreeActionBar.svelte';
@@ -14,8 +13,8 @@
 	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
 
-	export let nodes = [...treeMock.nodes];
-	export let nodesToConnect = [...treeMock.edges];
+	export let nodes = [];
+	export let edges = [];
 	export let isEditMode = true;
 	export let treeId = 1;
 
@@ -34,14 +33,14 @@
 	let nodeTooltipDebounceTimer = null;
 
 	const addNewEdge = (sourceNodeId, targetNodeId) => {
-		const edgeExists = nodesToConnect.some(
+		const edgeExists = edges.some(
 			(edge) => edge.sourceNodeId === sourceNodeId && edge.targetNodeId === targetNodeId
 		);
 
 		if (!edgeExists) {
-			nodesToConnect = [...nodesToConnect, { sourceNodeId, targetNodeId }];
+			edges = [...edges, { sourceNodeId, targetNodeId }];
 		}
-		console.log(nodesToConnect)
+		console.log(edges)
 	};
 
 	const handleNodeDrag = (position, nodeId) => {
@@ -88,12 +87,12 @@
 	};
 
 	const handleEdgeDelete = (index) => {
-		nodesToConnect = nodesToConnect.filter((_, i) => index !== i);
+		edges = edges.filter((_, i) => index !== i);
 	};
 
 	const handleNodeDelete = (nodeId) => {
 		nodes = nodes.filter((node) => node.id !== nodeId);
-		nodesToConnect = nodesToConnect.filter(edge => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId)
+		edges = edges.filter(edge => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId)
 	};
 
 	const handleNodeSelect = (nodeId) => {
@@ -130,7 +129,7 @@
 	};
 
 	const saveSkills = () => {
-		console.log(JSON.stringify({nodes, edges: nodesToConnect}));
+		console.log(JSON.stringify({nodes, edges: edges}));
 	}
 </script>
 
@@ -147,7 +146,7 @@
 			<NodeTooltip {nodeTooltip} mousePosition={mouseOnTreePosition} />
 		{/if}
 		<TreeActionBar onNodeAdd={handleNodeAdd} />
-		<TreeWrapper {allowActions} {allowTreeDrag} onZoomScrollChange={handleWrapperZoomScrollChange}>
+		<TreeWrapper {allowActions} {allowTreeDrag} {isEditMode} onZoomScrollChange={handleWrapperZoomScrollChange}>
 			{#each nodes as node}
 				<Node
 					{node}
@@ -165,7 +164,7 @@
 				/>
 			{/each}
 
-			<Edges {isEditMode} onEdgeDelete={handleEdgeDelete} {nodesToConnect} {nodes} />
+			<Edges {isEditMode} onEdgeDelete={handleEdgeDelete} {edges} {nodes} />
 			
 			{#if newEdge && isNewEdgeDragging}
 				<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />

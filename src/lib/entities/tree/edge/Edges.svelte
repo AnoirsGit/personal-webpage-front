@@ -3,12 +3,12 @@
 
 	export let isEditMode;
 	export let onEdgeDelete;
-	export let nodesToConnect = [];
+	export let edges = [];
 	export let nodes = [];
 
-	let edges;
+	let updatedEdges;
 	$: {
-		edges = nodesToConnect.map((nodesPair) => {
+		updatedEdges = edges.map((nodesPair) => {
 			const p1 = nodes.find((node) => node.id === nodesPair.sourceNodeId)?.position;
 			const p2 = nodes.find((node) => node.id === nodesPair.targetNodeId)?.position;
 
@@ -18,7 +18,7 @@
 	}
 </script>
 
-{#each edges as edge, index}
+{#each updatedEdges as edge, index}
 	<Edge
 		{index}
 		width="2"

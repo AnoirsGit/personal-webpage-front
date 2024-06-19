@@ -3,13 +3,13 @@
 	import '$lib/app/styles/sections/Skills.css';
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import CustomTab from '$lib/shared/UI/CustomTab.svelte';
+	import tree from '$lib/shared/mocks/tree.json'
 
 	const skillCategories = [
 		{ key: 'back-end', label: 'BackEnd' },
 		{ key: 'front-end', label: 'FrontEnd' },
-		{ key: 'dev-ops', label: 'DevOps' }
+		// { key: 'dev-ops', label: 'DevOps' }
 	];
-	const nodes = [];
 	let activeTab = skillCategories[0].key;
 </script>
 
@@ -23,5 +23,5 @@
 			activeTab = tab;
 		}}
 	/>
-	<SkillTree isEditMode={true} nodes={activeTab === 'back-end' ? undefined : nodes} />
+	<SkillTree isEditMode={true} nodes={tree[activeTab].nodes} edges={tree[activeTab].edges} />
 </SectionLayout>
