@@ -65,7 +65,7 @@
     </div>
 {:else if card.variant === 2}
     <div class="relative">
-        <div class="absolute bottom-1/3"style="right: calc(20% - 1.5rem);">
+        <div class="absolute bottom-1/2 md:bottom-1/3"style="right: calc(20% - 1.5rem);">
             <GlowingElement {color} intensity={0.3} isDot size={400} />
         </div>
         <!-- svelte-ignore a11y-no-static-element-interactions -->

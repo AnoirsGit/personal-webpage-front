@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.timeline img {
+/* .timeline img {
     -webkit-box-shadow: 0px 0px 24px 6px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 24px 6px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 24px 6px rgba(0, 0, 0, 0.75);
-}
+} */
 
 .timeline-point {
     @apply w-4 h-4 relative rounded-full;
@@ -68,7 +68,7 @@
 }
 
 .variant-2.content {
-    @apply flex gap-8 h-104 md:h-96;
+    @apply flex gap-8 h-168 md:h-96;
 }
 
 .variant-2.content .md-wrapper {

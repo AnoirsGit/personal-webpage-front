@@ -1,0 +1,125 @@
+[
+  {
+    "color": "#80d4ff",
+    "dates": [
+      "2020-06-01",
+      "2021-07-01"
+    ],
+    "title": "NCRM GROUP",
+    "position": "Front-End Developer",
+    "place": "Almaty, Kazakhstan",
+    "baseDescription": "NCRM - Simple CRM for Systematic Sales",
+    "cards": [
+      {
+        "text": "`Developed` the `front-end infrastructure` and `prototype` for a CRM project. The `MVP` was used by a company with over `2000+ employees`. ",
+        "link": {
+          "src": "https://ncrm.kz/",
+          "label": "NCRM.KZ"
+        },
+        "variant": 1,
+        "imageUrls": [
+          "https://anoirs-personal-page.com/ncrm.webp"
+        ]
+      },
+      {
+        "text": "Significantly increased `code maintainability` and support by writing the project documentation. \n\n Integrated `web chat` inside CRM with popular messengers, such as `Whatsapp` and `Telegram`. Utilized free and premium APIs of those messengers for companies to communicate with their customers through our chat interface.",
+        "link": {
+          "src": "asdf",
+          "label": "asdfasdf"
+        },
+        "variant": 2,
+        "imageUrls": [
+          "https://anoirs-personal-page.com/ncrm-desktop.webp",
+          "https://anoirs-personal-page.com/ncrm-mobile.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "color": "#003d99",
+    "dates": [
+      "2021-07-01T",
+      "2022-12-01T"
+    ],
+    "title": "Powr.io",
+    "position": "Full-stack Developer",
+    "place": "Remote (Based San Francisco, CA)",
+    "baseDescription": "`POWR.io` offers customizable plugins for websites, including forms, galleries, social media feeds, and timers. It enhances user engagement and site functionality across platforms like WordPress and Shopify, making it accessible for users seeking to improve their online presence.",
+    "cards": [
+      {
+        "text": "Worked with a team of developers to `add features`, `fix bugs`, `internal integrations`, and make upgrades to existing applications. \n\nHelped the company increase customer traffic by writing `customizable 1 billion landing pages` with 12 languages to `improve Web Crawling and SEO.`",
+        "link": {
+          "src": "https://www.powr.io/form-builder-website-app",
+          "label": "POWR.io Form builder"
+        },
+        "variant": 3,
+        "imageUrls": ["https://anoirs-personal-page.com/powr-logo.webp"]
+      },
+      {
+        "text": "`Developed an integration system` to `automate interaction` between developers and team members, providing `chat notifications`, `ticket movements`, and `automatic documentation` of completed tickets and `CI/CD` providing the company with a full development lifecycle.",
+        "link": {
+          "src": "https://powr.io/",
+          "label": "POWR.io"
+        },
+        "variant": 1,
+        "imageUrls": ["https://anoirs-personal-page.com/powrio.webp"]
+      }
+    ]
+  },
+  {
+    "color": "#FF824C",
+    "dates": [
+      "2023-03-01T",
+      "2023-10-01T"
+    ],
+    "title": "Careerist",
+    "position": "Full-stack Developer",
+    "place": "Remote (Based Miami, FL)",
+    "baseDescription": "`Careerist`is a `Learning Management System ( LMS ) platform` designed to facilitate online learning and professional development. Features such as courses, certifications, and tools for managing and tracking learning progress, aimed at both individual learners and organizations seeking to enhance employee skills and knowledge.",
+    "cards": [
+      {
+        "text": "`Developed` new pages on the website using `React.js` and `Moleculer.js` (backend), maintained and enhanced functionality, implemented a client chat, and optimized the search system, `improving` its `performance by 4 times`.",
+        "link": {
+          "src": "https://www.careerist.com/",
+          "label": "Careerist.com"
+        },
+        "variant": 3,
+        "imageUrls": ["https://anoirs-personal-page.com/careerist.webp"]
+      }
+    ]
+  },
+  {
+    "color": "#00ff99",
+    "dates": [
+      "2023-11-01",
+      "2024-06-01"
+    ],
+    "title": "DEMETRA SYSTEMS",
+    "position": "Team Lead  Full-stack Software Engineer",
+    "place": "Almaty, Kazakhstan",
+    "baseDescription": "NCRM - Simple CRM for Systematic Sales",
+    "cards": [
+      {
+        "text": "Oversaw the `scaling of databases` and `Redis` using master-slave configurations, and `multiplied instances` of code blocks using `PM2` for enhanced performance and reliability.",
+        "link": {
+          "src": "https://demetra.systems/",
+          "label": "DEMETRA SYSTEMS"
+        },
+        "variant": 2,
+        "imageUrls": [
+          "https://anoirs-personal-page.com/demetra-desktop.webp",
+          "https://anoirs-personal-page.com/demetra-mobile.webp"
+        ]
+      },
+      {
+        "text": "`Implemented` and `streamlined` the `development lifecycle` from ClickUp ticket creation, Git branch management, and pull request descriptions for QA, through to `dockerized CI/CD` pipeline setup and `load balancing`. This involved managing ticket workflows, automating documentation for completed tickets, and `ensured seamless integration`.",
+        "link": {
+          "src": "https://demetra.systems/",
+          "label": "DEMETRA SYSTEMS"
+        },
+        "variant": 1,
+        "imageUrls": ["https://anoirs-personal-page.com/demetra-pipeline.webp"]
+      }
+    ]
+  }
+]

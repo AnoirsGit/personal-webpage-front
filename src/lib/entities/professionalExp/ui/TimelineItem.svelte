@@ -5,41 +5,7 @@
 	import TimelineDatePoint from './TimelineDatePoint.svelte';
 	import TimelineCard from './TimelineCard.svelte';
 
-	export let experienceItem = {
-		colors: ['#FF0000', '#0000FF'],
-		dates: [new Date(), new Date()],
-		baseDescription:
-			'My full-stack expertise bridges the front-end and back-end, guaranteeing exceptional web applications, intuitive and user-friendly for clients, and streamlined for efficient B2B interactions.',
-		cards: [
-			{
-				text: '`GitHub Copilot` empowers developers to complete tasks 55% faster with contextualized AI coding assistance across workflows.',
-				link: { src: 'asdf', label: 'asdfasdf' },
-				variant: 1,
-				imageUrls: [
-					'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/powr-logo.webp',
-					'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/Vegetables.webp'
-				]
-			},
-			{
-				text: '`GitHub Copilot` empowers developers to complete tasks 55% faster with contextualized AI coding assistance across workflows.',
-				link: { src: 'asdf', label: 'asdfasdf' },
-				variant: 2,
-				imageUrls: [
-					'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/powr-logo.webp',
-					'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/Vegetables.webp'
-				]
-			},
-			{
-				text: '`GitHub Copilot` empowers developers to complete tasks 55% faster with contextualized AI coding assistance across workflows.',
-				link: { src: 'asdf', label: 'asdfasdf' },
-				variant: 3,
-				imageUrls: [
-					'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/powr-logo.webp',
-					'https://pub-7d59f46641c04ed49f0b1dca351dc6b9.r2.dev/Vegetables.webp'
-				]
-			},
-		]
-	};
+	export let experienceItem;
 
 	const giveCorrectColor = (colors, index) => {
 		if( index < experienceItem.cards.length -1) {
@@ -51,10 +17,14 @@
 
 </script>
 
-<TimelineDatePoint color={experienceItem.colors[0]} dates={experienceItem.dates} />
+<TimelineDatePoint color={experienceItem.colors[0]} dates={experienceItem.dates} place={experienceItem.place} />
 <div class="flex gap-8">
-	<TimelineLine color={experienceItem.colors[0]} />
+	<TimelineLine heghtClass='' color={experienceItem.colors[0]}  />
 	<div class="md-wrapper">
+		<div class="flex items-center gap-5 mb-3">
+			<div class="mb-2 text-2xl md:text-3xl text-white">{experienceItem.title}</div>
+			<div class="mb-2 text-base md:text-2xl text-main-purple m-0">{experienceItem.position}</div>
+		</div>
 		<MarkdownWrapper mdClasses="xl mh-4 mobile-lg white-code" source={experienceItem.baseDescription} />
 	</div>
 	<!-- <MarkdownWrapper mdClasses="lg" source={experienceItem.baseDescription} /> -->
