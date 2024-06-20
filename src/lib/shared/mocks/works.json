@@ -97,7 +97,7 @@
     "title": "DEMETRA SYSTEMS",
     "position": "Team Lead  Full-stack Software Engineer",
     "place": "Almaty, Kazakhstan",
-    "baseDescription": "NCRM - Simple CRM for Systematic Sales",
+    "baseDescription": "DEMETRA SYSTEMS automates pricing adjustments for marketplace sellers",
     "cards": [
       {
         "text": "Oversaw the `scaling of databases` and `Redis` using master-slave configurations, and `multiplied instances` of code blocks using `PM2` for enhanced performance and reliability.",

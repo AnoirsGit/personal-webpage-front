@@ -1,5 +1,5 @@
 <script>
-	import * as dayjs from 'dayjs';
+	import dayjs from 'dayjs';
 
 	import '$lib/app/styles/sections/Works.css';
 	import TimelinePoint from './TimelinePoint.svelte';

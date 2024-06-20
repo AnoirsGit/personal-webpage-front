@@ -4,7 +4,6 @@
 	import '$lib/app/styles/sections/AboutMe.css';
 	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
-	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 	import { aboutMe } from '$lib/shared/mocks/about-me.json';
 
