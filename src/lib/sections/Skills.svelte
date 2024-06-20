@@ -23,5 +23,5 @@
 			activeTab = tab;
 		}}
 	/>
-	<SkillTree isEditMode={true} nodes={tree[activeTab].nodes} edges={tree[activeTab].edges} />
+	<SkillTree isEditMode={false} nodes={tree[activeTab].nodes} edges={tree[activeTab].edges} />
 </SectionLayout>

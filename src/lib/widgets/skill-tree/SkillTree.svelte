@@ -145,7 +145,9 @@
 		{#if nodeTooltip}
 			<NodeTooltip {nodeTooltip} mousePosition={mouseOnTreePosition} />
 		{/if}
-		<TreeActionBar onNodeAdd={handleNodeAdd} />
+		{#if isEditMode}
+			<TreeActionBar onNodeAdd={handleNodeAdd} />
+		{/if}
 		<TreeWrapper {allowActions} {allowTreeDrag} {isEditMode} onZoomScrollChange={handleWrapperZoomScrollChange}>
 			{#each nodes as node}
 				<Node

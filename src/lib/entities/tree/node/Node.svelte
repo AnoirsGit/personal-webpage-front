@@ -9,7 +9,6 @@
 	export let isEditMode;
 	export let node = {};
 	export let allowActions = false;
-	export let allowShowTooltip = true;
 	export let onNewEdge = () => {};
 	export let onNodeDrag = () => {};
 	export let onDragDone = () => {};
@@ -68,12 +67,11 @@
 	};
 
 	const handleNewEdgeClick = (event) => {
-		console.log('onNewEdgeClick');
 		onNewEdge(event, node.id);
 	};
 
 	const handleNodeClick = () => {
-		if (allowShowTooltip) showTooltip = !showTooltip;
+		showTooltip = !showTooltip;
 	};
 
 	const handleEditClick = () => {

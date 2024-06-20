@@ -752,80 +752,43 @@
         "nodes": [
             {
                 "treeId": 1,
-                "title": "",
+                "title": "Contributing UI projects",
                 "description": "",
-                "isNode": true,
-                "id": "mock-706270",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1259.126245847176,
-                    "y": 369.6843853820598
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "",
-                "description": "",
-                "isNode": true,
-                "id": "mock-353708",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1129.3750000000002,
-                    "y": 375.00000000000006
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "",
-                "description": "",
-                "isNode": true,
-                "id": "mock-835105",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1300.3750000000002,
-                    "y": 658
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "",
-                "description": "",
-                "isNode": true,
+                "isNode": false,
                 "id": "mock-547485",
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 828.3750000000002,
-                    "y": 571
+                    "x": 353,
+                    "y": 455
                 }
             },
             {
                 "treeId": 1,
-                "title": "",
-                "description": "",
+                "title": "JavaScript",
+                "description": "#### JavaScript ***is*** a \nversatile programming language **that** runs in web browsers.\n  - It allows developers to create interactive web pages.\n  - Supports event-driven, functional, and imperative programming styles.\n  - Widely used for front-end development, often alongside HTML and CSS.\n  - Can also be used for server-side development with environments like Node.js.",
                 "isNode": true,
                 "id": "mock-372944",
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1072.3750000000002,
-                    "y": 572
-                }
+                    "x": 663,
+                    "y": 166
+                },
+                "imageUrl": "https://anoirs-personal-page.com/js.webp",
+                "color": "#ff5900"
             },
             {
                 "treeId": 1,
-                "title": "",
+                "title": "JS Frameworks",
                 "description": "",
-                "isNode": true,
+                "isNode": false,
                 "id": "mock-511549",
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1360.3750000000002,
-                    "y": 524
+                    "x": 1130,
+                    "y": 525
                 }
             },
             {
@@ -837,8 +800,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1066.3750000000002,
-                    "y": 177.00000000000006
+                    "x": 450,
+                    "y": 340
                 },
                 "color": "#ff5900",
                 "imageUrl": "https://anoirs-personal-page.com/html.webp"
@@ -846,49 +809,577 @@
             {
                 "treeId": 1,
                 "title": "CSS",
-                "description": "",
+                "description": "#### CSS ***is*** a \nstylesheet language **that** is used for describing the presentation of a document written in HTML or XML.\n  - Stands for Cascading Style Sheets.\n  - Controls the layout, colors, fonts, and overall visual appearance of web pages.\n  - Enables the separation of content (HTML) from presentation (CSS), improving maintainability.\n  - Supports responsive design, allowing web pages to adapt to different screen sizes and devices.\n  - Provides various features like selectors, box model, flexbox, grid, animations, and transitions.\n  - Enhances user experience by enabling rich, visually appealing designs.\n",
                 "isNode": true,
                 "id": "mock-913781",
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 918.3750000000002,
-                    "y": 282.00000000000006
+                    "x": 551,
+                    "y": 216
                 },
                 "color": "#78bbff",
                 "imageUrl": "https://anoirs-personal-page.com/css.webp"
             },
             {
                 "treeId": 1,
-                "title": "",
-                "description": "",
+                "title": "TailwindCSS",
+                "description": "#### Tailwind CSS ***is*** a \nutility-first CSS framework **that** provides a set of classes for quickly styling your web pages.\n  - Enables fast development by applying classes directly in your HTML.\n  - Highly customizable through a configuration file.\n  - Supports responsive design with built-in utilities.\n  - Avoids common CSS issues like specificity conflicts.\n  - Ideal for building custom designs efficiently.\n",
                 "isNode": true,
                 "id": "mock-886210",
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1201.3750000000002,
-                    "y": 562
-                }
+                    "x": 404,
+                    "y": 216
+                },
+                "imageUrl": "https://anoirs-personal-page.com/tailwind.svg",
+                "color": "#00fff2"
             },
             {
                 "treeId": 1,
-                "title": "",
-                "description": "",
+                "title": "NPM",
+                "description": "#### NPM ***is*** a \npackage manager for JavaScript **that** is used to install, share, and manage dependencies for projects.\n  - Stands for Node Package Manager.\n  - Comes bundled with Node.js, making it an essential tool for JavaScript developers.\n  - Provides a vast registry of packages, enabling code reuse and modular development.\n  - Allows developers to publish their own packages and collaborate with others.\n  - Supports semantic versioning, ensuring compatibility and stability of dependencies.\n  - Facilitates scripts for automating tasks like testing, building, and deploying applications.\n",
                 "isNode": true,
                 "id": "mock-635590",
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 917.3750000000002,
-                    "y": 526
+                    "x": 548,
+                    "y": 451
+                },
+                "color": "#ff0000",
+                "imageUrl": "https://anoirs-personal-page.com/npm.webp"
+            },
+            {
+                "treeId": 1,
+                "title": "Basics",
+                "description": "",
+                "isNode": false,
+                "id": "mock-658400",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 662,
+                    "y": 339
+                }
+            },
+            {
+                "treeId": 1,
+                "title": " React",
+                "description": "#### React.js ***is*** a \nJavaScript library **that** is used for building user interfaces, particularly single-page applications.\n  - Developed and maintained by Facebook.\n  - Uses a component-based architecture, allowing for reusable and modular UI components.\n  - Implements a virtual DOM to optimize rendering and improve performance.\n  - Supports JSX, a syntax extension that allows writing HTML-like code within JavaScript.\n  - Manages application state effectively with hooks and context.\n  - Integrates well with other libraries and frameworks, making it versatile for various projects.\n  - Ideal for creating fast, interactive, and scalable front-end applications.\n",
+                "isNode": true,
+                "id": "mock-224980",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1346.5909090909092,
+                    "y": 527.3181818181819
+                },
+                "imageUrl": "https://anoirs-personal-page.com/react.webp",
+                "color": "#00aacc"
+            },
+            {
+                "treeId": 1,
+                "title": "Vue",
+                "description": "#### Vue.js ***is*** a \nprogressive JavaScript framework **that** is used for building user interfaces and single-page applications.\n  - Designed to be incrementally adoptable, integrating easily with other projects and libraries.\n  - Utilizes a component-based architecture for building reusable UI components.\n  - Supports reactive data binding and a virtual DOM for efficient updates.\n  - Includes features like directives, computed properties, and watchers for handling complex UI logic.\n  - Provides a CLI and a rich ecosystem of tools and libraries for enhancing development.\n  - Ideal for developing dynamic and interactive web applications with ease.\n",
+                "isNode": true,
+                "id": "mock-899665",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1272.5909090909092,
+                    "y": 393.31818181818187
+                },
+                "imageUrl": "https://anoirs-personal-page.com/vue.webp",
+                "color": "#00891b"
+            },
+            {
+                "treeId": 1,
+                "title": "JQuery",
+                "description": "#### jQuery ***is*** a \nfast, small, and feature-rich JavaScript library **that** simplifies HTML document traversal, event handling, and animation.\n  - Makes it easier to use JavaScript on your website.\n  - Provides a simple syntax for selecting elements and manipulating the DOM.\n  - Includes features for handling events, making AJAX requests, and creating animations.\n  - Compatible with all major browsers, ensuring cross-browser compatibility.\n  - Extensible with plugins, allowing for additional functionality.\n  - Ideal for adding interactivity and dynamic behavior to web pages with minimal code.\n",
+                "isNode": true,
+                "id": "mock-489009",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 559.5909090909092,
+                    "y": 33.31818181818187
+                },
+                "imageUrl": "https://anoirs-personal-page.com/jquery.webp",
+                "color": "#0084cc"
+            },
+            {
+                "treeId": 1,
+                "title": "Angular",
+                "description": "#### Angular ***is*** a \nplatform and framework for building single-page client applications using HTML and TypeScript.\n  - Developed and maintained by Google.\n  - Uses a component-based architecture for building scalable and maintainable applications.\n  - Includes features like data binding, dependency injection, and routing.\n  - Supports development of complex applications with a rich set of built-in tools and libraries.\n  - Provides a CLI for efficient project setup, development, and deployment.\n  - Ideal for developing dynamic, high-performance web applications.\n",
+                "isNode": true,
+                "id": "mock-461636",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1069.5909090909092,
+                    "y": 353.31818181818187
+                },
+                "imageUrl": "https://anoirs-personal-page.com/angular.png",
+                "color": "#cc0000"
+            },
+            {
+                "treeId": 1,
+                "title": "Svelte",
+                "description": "",
+                "isNode": true,
+                "id": "mock-842626",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1268.8636363636365,
+                    "y": 680.2272727272727
+                },
+                "imageUrl": "https://anoirs-personal-page.com/svelte.svg"
+            },
+            {
+                "treeId": 1,
+                "title": "Next js",
+                "description": "#### Next.js ***is*** a \nReact framework **that** enables server-side rendering and static site generation for building web applications.\n  - Developed and maintained by Vercel.\n  - Supports both server-side rendering (SSR) and static site generation (SSG), improving performance and SEO.\n  - Provides an intuitive file-based routing system.\n  - Includes built-in CSS and Sass support, with options for CSS-in-JS solutions.\n  - Features API routes to create API endpoints as part of the application.\n  - Ideal for building fast, SEO-friendly, and scalable web applications.\n",
+                "isNode": true,
+                "id": "mock-798128",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1518.2857142857142,
+                    "y": 531.5714285714287
+                },
+                "color": "#ffffff",
+                "imageUrl": "https://anoirs-personal-page.com/next-js.svg"
+            },
+            {
+                "treeId": 1,
+                "title": "Vuex",
+                "description": "#### Vuex ***is*** a \nstate management library **that** is used for managing and centralizing state in Vue.js applications.\n  - Serves as a single source of truth for the application's state.\n  - Facilitates communication between components by storing and managing state in a centralized store.\n  - Supports reactive data binding and ensures that state changes are efficiently propagated to components.\n  - Integrates seamlessly with Vue.js, leveraging its reactivity system.\n  - Includes features like mutations, actions, getters, and modules for organizing state management logic.\n  - Ideal for large-scale applications where managing state across multiple components can be complex.\n",
+                "isNode": true,
+                "id": "mock-789823",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1367.2727272727275,
+                    "y": 248.18181818181824
+                },
+                "color": "#000000",
+                "imageUrl": "https://anoirs-personal-page.com/vuex.svg"
+            },
+            {
+                "treeId": 1,
+                "title": "Build Tools",
+                "description": "",
+                "isNode": false,
+                "id": "mock-505573",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 721.1363636363637,
+                    "y": 695.4545454545455
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "Vite",
+                "description": "#### Vite ***is*** a \nnext-generation front-end build tool **that** offers an extremely fast development experience.\n  - Developed by Evan You, the creator of Vue.js.\n  - Uses native ES modules for development, enabling instant server start and fast hot module replacement (HMR).\n  - Bundles code with Rollup for production, ensuring optimized builds.\n  - Supports out-of-the-box configuration for popular frameworks like Vue, React, and Svelte.\n  - Provides a rich plugin API for extending functionality.\n  - Ideal for modern web development, improving efficiency and reducing build times. \n",
+                "isNode": true,
+                "id": "mock-383641",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 494.13636363636374,
+                    "y": 696
+                },
+                "color": "#b300ff",
+                "imageUrl": "https://anoirs-personal-page.com/vite.webp"
+            },
+            {
+                "treeId": 1,
+                "title": "Webpack",
+                "description": "#### Webpack ***is*** a \npowerful module bundler **that** is used for bundling JavaScript files and other assets for web applications.\n  - Transforms front-end assets such as HTML, CSS, and images, as well as JavaScript.\n  - Allows developers to use modular code and bundle it into a single file or smaller files.\n  - Supports code splitting, lazy loading, and dynamic imports for optimized performance.\n  - Utilizes loaders to preprocess files and plugins to extend its capabilities.\n  - Provides a robust ecosystem of plugins and loaders for various tasks.\n  - Ideal for building complex web applications with optimized performance and maintainable code. \n",
+                "isNode": true,
+                "id": "mock-139869",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 582.5,
+                    "y": 566.8846153846154
+                },
+                "imageUrl": "https://anoirs-personal-page.com/webpack.webp",
+                "color": "#80e1ff"
+            },
+            {
+                "treeId": 1,
+                "title": "Testing",
+                "description": "",
+                "isNode": false,
+                "id": "mock-102782",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1125.6153846153845,
+                    "y": 932.3846153846155
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "Jest",
+                "description": "#### Jest ***is*** a \nJavaScript testing framework **that** is built for simplicity and speed.\n  - Developed by Facebook and maintained by the community.\n  - Known for its zero-configuration setup, requiring minimal setup to start writing tests.\n  - Supports testing of JavaScript code, including React, Vue, Angular, and Node.js applications.\n  - Includes built-in assertion library and mocking capabilities for testing dependencies.\n  - Provides parallel test execution, making it fast and scalable.\n  - Integrates easily with CI/CD pipelines and other tools for automated testing.\n  - Ideal for writing unit tests, integration tests, and snapshot tests with ease.\n",
+                "isNode": true,
+                "id": "mock-629931",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1201.6538461538462,
+                    "y": 798.3846153846155
+                },
+                "color": "#7c0040",
+                "imageUrl": "https://anoirs-personal-page.com/Jest.svg"
+            },
+            {
+                "treeId": 1,
+                "title": "Jasmine",
+                "description": "#### Jasmine ***is*** a \nbehavior-driven development (BDD) framework **that** is used for testing JavaScript code.\n  - Provides a clean syntax for defining tests with descriptive names and expectations.\n  - Supports testing asynchronous code with built-in mechanisms like `async` and `await`.\n  - Includes a built-in assertion library for writing expectations.\n  - Integrates with various test runners and frameworks.\n  - Generates detailed and readable test reports.\n  - Ideal for writing clear and maintainable tests for JavaScript applications.\n",
+                "isNode": true,
+                "id": "mock-883489",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1307,
+                    "y": 908.5769230769231
+                },
+                "imageUrl": "https://anoirs-personal-page.com/jasmine-js.webp",
+                "color": "#ae4898"
+            },
+            {
+                "treeId": 1,
+                "title": "Cypress",
+                "description": "#### Cypress ***is*** a \nmodern end-to-end testing framework **that** is built for the web.\n  - Provides a fast, reliable, and easy-to-use testing experience.\n  - Allows developers to write tests using JavaScript or TypeScript.\n  - Offers automatic waiting and retrying for elements, making tests more resilient to timing issues.\n  - Provides real-time test execution with interactive debugging and snapshots.\n  - Supports testing across different browsers and devices.\n  - Integrates seamlessly with CI/CD pipelines for continuous testing.\n  - Ideal for testing web applications comprehensively, from UI interactions to backend integrations.\n",
+                "isNode": true,
+                "id": "mock-183392",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1032.3076923076922,
+                    "y": 785.5384615384614
+                },
+                "color": "#00967b",
+                "imageUrl": "https://anoirs-personal-page.com/cypress.webp"
+            },
+            {
+                "treeId": 1,
+                "title": "Rendering Strategies",
+                "description": "",
+                "isNode": false,
+                "id": "mock-864844",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1300.4528419737665,
+                    "y": 1132.575265459088
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "SPA",
+                "description": "",
+                "isNode": false,
+                "id": "mock-120994",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1492.8750780762025,
+                    "y": 1018.9725171767645
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "SSR",
+                "description": "",
+                "isNode": false,
+                "id": "mock-119159",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1485.8750780762025,
+                    "y": 1253.9725171767645
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "SSG",
+                "description": "",
+                "isNode": false,
+                "id": "mock-667413",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1574.329169269207,
+                    "y": 1134.9725171767645
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "Animations and Visual Effects",
+                "description": "",
+                "isNode": false,
+                "id": "mock-146709",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 816.4285714285714,
+                    "y": 1208.1428571428573
+                },
+                "color": "#ffffff"
+            },
+            {
+                "treeId": 1,
+                "title": "Three js",
+                "description": "#### Three.js ***is*** a \nJavaScript library **that** is used for creating 3D graphics and animations in web browsers.\n  - Provides a simple API for working with WebGL, allowing developers to create complex 3D scenes.\n  - Includes a wide range of features such as geometries, materials, lights, textures, and animations.\n  - Supports virtual reality (VR) and augmented reality (AR) applications through WebXR.\n  - Offers a large community and ecosystem with numerous examples and extensions.\n  - Ideal for building interactive 3D visualizations, games, simulations, and virtual environments on the web.\n",
+                "isNode": true,
+                "id": "mock-438202",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 682.6428571428572,
+                    "y": 1032.1428571428573
+                },
+                "color": "#ffffff",
+                "imageUrl": "https://anoirs-personal-page.com/three-js.webp"
+            },
+            {
+                "treeId": 1,
+                "title": "WebGL",
+                "description": "#### WebGL ***is*** a \nJavaScript API **that** allows rendering interactive 3D and 2D graphics within any compatible web browser.\n  - Based on OpenGL ES, providing high-performance graphics rendering capabilities.\n  - Enables hardware-accelerated rendering using the GPU for improved performance.\n  - Utilizes shaders written in GLSL (OpenGL Shading Language) for customizing rendering pipelines.\n  - Supports complex visual effects, animations, and interactive experiences directly in web applications.\n  - Widely used for creating games, simulations, data visualizations, and virtual reality (VR) applications on the web.\n",
+                "isNode": true,
+                "id": "mock-637701",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 485.6428571428572,
+                    "y": 893.1428571428573
+                },
+                "imageUrl": "https://anoirs-personal-page.com/webgl.webp",
+                "color": "#ffffff"
+            },
+            {
+                "treeId": 1,
+                "title": "CSS animations",
+                "description": "",
+                "isNode": false,
+                "id": "mock-227406",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 455.6428571428572,
+                    "y": 1212.1428571428573
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "Canvas animations",
+                "description": "",
+                "isNode": false,
+                "id": "mock-494290",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 684.6428571428572,
+                    "y": 1357.1428571428573
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "Frontend Architectures",
+                "description": "",
+                "isNode": false,
+                "id": "mock-342728",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1358.7500000000002,
+                    "y": 1410.0000000000002
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "FSD ( Feature Sliced Design )",
+                "description": "",
+                "isNode": false,
+                "id": "mock-546691",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1170.5000000000002,
+                    "y": 1606.7500000000002
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "DDD ( Domain Driven Development )",
+                "description": "",
+                "isNode": false,
+                "id": "mock-945235",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1494.5000000000002,
+                    "y": 1607.5000000000002
+                }
+            },
+            {
+                "treeId": 1,
+                "title": "Clean Architecture",
+                "description": "",
+                "isNode": false,
+                "id": "mock-316457",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1707.7500000000002,
+                    "y": 1449.7500000000002
                 }
             }
         ],
         "edges": [
             {
+                "sourceNodeId": "mock-913781",
+                "targetNodeId": "mock-658400"
+            },
+            {
                 "sourceNodeId": "mock-173254",
+                "targetNodeId": "mock-658400"
+            },
+            {
+                "sourceNodeId": "mock-635590",
+                "targetNodeId": "mock-658400"
+            },
+            {
+                "sourceNodeId": "mock-547485",
+                "targetNodeId": "mock-635590"
+            },
+            {
+                "sourceNodeId": "mock-886210",
                 "targetNodeId": "mock-913781"
+            },
+            {
+                "sourceNodeId": "mock-372944",
+                "targetNodeId": "mock-658400"
+            },
+            {
+                "sourceNodeId": "mock-511549",
+                "targetNodeId": "mock-658400"
+            },
+            {
+                "sourceNodeId": "mock-489009",
+                "targetNodeId": "mock-372944"
+            },
+            {
+                "sourceNodeId": "mock-842626",
+                "targetNodeId": "mock-511549"
+            },
+            {
+                "sourceNodeId": "mock-224980",
+                "targetNodeId": "mock-511549"
+            },
+            {
+                "sourceNodeId": "mock-899665",
+                "targetNodeId": "mock-511549"
+            },
+            {
+                "sourceNodeId": "mock-461636",
+                "targetNodeId": "mock-511549"
+            },
+            {
+                "sourceNodeId": "mock-798128",
+                "targetNodeId": "mock-224980"
+            },
+            {
+                "sourceNodeId": "mock-789823",
+                "targetNodeId": "mock-899665"
+            },
+            {
+                "sourceNodeId": "mock-505573",
+                "targetNodeId": "mock-511549"
+            },
+            {
+                "sourceNodeId": "mock-383641",
+                "targetNodeId": "mock-505573"
+            },
+            {
+                "sourceNodeId": "mock-139869",
+                "targetNodeId": "mock-505573"
+            },
+            {
+                "sourceNodeId": "mock-102782",
+                "targetNodeId": "mock-505573"
+            },
+            {
+                "sourceNodeId": "mock-629931",
+                "targetNodeId": "mock-102782"
+            },
+            {
+                "sourceNodeId": "mock-883489",
+                "targetNodeId": "mock-102782"
+            },
+            {
+                "sourceNodeId": "mock-183392",
+                "targetNodeId": "mock-102782"
+            },
+            {
+                "sourceNodeId": "mock-864844",
+                "targetNodeId": "mock-102782"
+            },
+            {
+                "sourceNodeId": "mock-864844",
+                "targetNodeId": "mock-120994"
+            },
+            {
+                "sourceNodeId": "mock-119159",
+                "targetNodeId": "mock-864844"
+            },
+            {
+                "sourceNodeId": "mock-667413",
+                "targetNodeId": "mock-864844"
+            },
+            {
+                "sourceNodeId": "mock-146709",
+                "targetNodeId": "mock-864844"
+            },
+            {
+                "sourceNodeId": "mock-438202",
+                "targetNodeId": "mock-146709"
+            },
+            {
+                "sourceNodeId": "mock-637701",
+                "targetNodeId": "mock-438202"
+            },
+            {
+                "sourceNodeId": "mock-227406",
+                "targetNodeId": "mock-146709"
+            },
+            {
+                "sourceNodeId": "mock-494290",
+                "targetNodeId": "mock-146709"
+            },
+            {
+                "sourceNodeId": "mock-342728",
+                "targetNodeId": "mock-146709"
+            },
+            {
+                "sourceNodeId": "mock-316457",
+                "targetNodeId": "mock-342728"
+            },
+            {
+                "sourceNodeId": "mock-945235",
+                "targetNodeId": "mock-342728"
+            },
+            {
+                "sourceNodeId": "mock-546691",
+                "targetNodeId": "mock-342728"
             }
         ]
     }
