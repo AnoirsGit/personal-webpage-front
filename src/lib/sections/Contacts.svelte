@@ -16,7 +16,7 @@
 		<Globe />
 		<div class="absolute flex items-center gap-1 right-24">
 			<Icon class="text-2xl" icon="wi:time-5" />
-			<p class="text-sm lg:text-base pt-1">Asia / Almaty ( UTC+5 )</p>
+			<p class="text-xs md:text-sm lg:text-base pt-1">Asia / Almaty ( UTC+5 )</p>
 		</div>
 		<div class="flex">
 			<div class="contacts">
