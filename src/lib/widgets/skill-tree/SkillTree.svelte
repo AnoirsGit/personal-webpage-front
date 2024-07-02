@@ -10,8 +10,12 @@
 	import TreeActionBar from '$lib/features/tree/TreeActionBar.svelte';
 	import NodeTooltip from '$lib//features/tree/NodeTooltip.svelte';
 
+	import { deviceWidth } from '$lib/shared/stores/globalStore';
 	import { NODE_DEFAULT_SIZE } from '$lib/shared/consts/nodeConsts';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
+	import MobileTreeWrapper from './MobileTreeWrapper.svelte';
+
+	$: isMobile = $deviceWidth < 768;
 
 	export let nodes = [];
 	export let edges = [];
@@ -21,7 +25,6 @@
 	let tree;
 	let wrapperZoomScroll = { x: 0, y: 0, scale: 1 };
 	let mouseOnTreePosition = { x: 0, y: 0 };
-
 
 	let allowActions = false;
 	let allowTreeDrag = true;
@@ -40,7 +43,7 @@
 		if (!edgeExists) {
 			edges = [...edges, { sourceNodeId, targetNodeId }];
 		}
-		console.log(edges)
+		console.log(edges);
 	};
 
 	const handleNodeDrag = (position, nodeId) => {
@@ -62,16 +65,16 @@
 
 		const handleMouseMove = (event) => {
 			if (isNewEdgeDragging) {
-				const y = event.clientY  - initialY;
-				const x = event.clientX  - initialX + nodeSize;
+				const y = event.clientY - initialY;
+				const x = event.clientX - initialX + nodeSize;
 				newEdge = { sourcePoint: sourceNodePosition, targetPoint: { y, x } };
 				edgeToConnectId = getNodeUnderMouse({ nodes, node: sourceNode, x, y })?.id;
-				console.log()
+				console.log();
 			}
 		};
 
 		const handleMouseUp = () => {
-			console.log(sourceNode,edgeToConnectId)
+			console.log(sourceNode, edgeToConnectId);
 			if (edgeToConnectId) addNewEdge(sourceNodeId, edgeToConnectId);
 
 			newEdge = null;
@@ -92,7 +95,7 @@
 
 	const handleNodeDelete = (nodeId) => {
 		nodes = nodes.filter((node) => node.id !== nodeId);
-		edges = edges.filter(edge => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId)
+		edges = edges.filter((edge) => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId);
 	};
 
 	const handleNodeSelect = (nodeId) => {
@@ -123,14 +126,14 @@
 	};
 
 	const handleSaveNode = (node) => {
-		const prevNode = nodes.find(tempNode => tempNode.id === node.id);
+		const prevNode = nodes.find((tempNode) => tempNode.id === node.id);
 		const updatedNode = { ...node, position: prevNode.position };
-		nodes = nodes.map(tempNode => (tempNode.id === node.id ? updatedNode : tempNode));
+		nodes = nodes.map((tempNode) => (tempNode.id === node.id ? updatedNode : tempNode));
 	};
 
 	const saveSkills = () => {
-		console.log(JSON.stringify({nodes, edges: edges}));
-	}
+		console.log(JSON.stringify({ nodes, edges: edges }));
+	};
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -148,30 +151,62 @@
 		{#if isEditMode}
 			<TreeActionBar onNodeAdd={handleNodeAdd} />
 		{/if}
-		<TreeWrapper {allowActions} {allowTreeDrag} {isEditMode} onZoomScrollChange={handleWrapperZoomScrollChange}>
-			{#each nodes as node}
-				<Node
-					{node}
-					{allowActions}
-					{isEditMode}
-					onMouseMoveNode={handleMouseMoveNode}
-					onMouseLeaveNode={handleMouseLeaveNode}
-					active={edgeToConnectId === node.id}
-					allowShowTooltip={!isNewEdgeDragging}
-					onNodeDrag={handleNodeDrag}
-					onDragDone={handleNodeDragDone}
-					onNewEdge={handleNewEdgeClick}
-					onDeleteNode={handleNodeDelete}
-					onNodeSelect={handleNodeSelect}
-				/>
-			{/each}
 
-			<Edges {isEditMode} onEdgeDelete={handleEdgeDelete} {edges} {nodes} />
-			
-			{#if newEdge && isNewEdgeDragging}
-				<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
-			{/if}
-		</TreeWrapper>
+		{#if !isMobile}
+			<TreeWrapper
+				{allowActions}
+				{allowTreeDrag}
+				{isEditMode}
+				onZoomScrollChange={handleWrapperZoomScrollChange}
+			>
+				{#each nodes as node}
+					<Node
+						{node}
+						{allowActions}
+						{isEditMode}
+						onMouseMoveNode={handleMouseMoveNode}
+						onMouseLeaveNode={handleMouseLeaveNode}
+						active={edgeToConnectId === node.id}
+						allowShowTooltip={!isNewEdgeDragging}
+						onNodeDrag={handleNodeDrag}
+						onDragDone={handleNodeDragDone}
+						onNewEdge={handleNewEdgeClick}
+						onDeleteNode={handleNodeDelete}
+						onNodeSelect={handleNodeSelect}
+					/>
+				{/each}
+
+				<Edges {isEditMode} onEdgeDelete={handleEdgeDelete} {edges} {nodes} />
+
+				{#if newEdge && isNewEdgeDragging}
+					<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
+				{/if}
+			</TreeWrapper>
+		{:else}
+			<MobileTreeWrapper>
+				{#each nodes as node}
+					<Node
+						{node}
+						{allowActions}
+						onMouseMoveNode={handleMouseMoveNode}
+						onMouseLeaveNode={handleMouseLeaveNode}
+						active={edgeToConnectId === node.id}
+						allowShowTooltip={!isNewEdgeDragging}
+						onNodeDrag={handleNodeDrag}
+						onDragDone={handleNodeDragDone}
+						onNewEdge={handleNewEdgeClick}
+						onDeleteNode={handleNodeDelete}
+						onNodeSelect={handleNodeSelect}
+					/>
+				{/each}
+
+				<Edges onEdgeDelete={handleEdgeDelete} {edges} {nodes} />
+
+				{#if newEdge && isNewEdgeDragging}
+					<Edge width={4} sourcePoint={newEdge.sourcePoint} targetPoint={newEdge.targetPoint} />
+				{/if}
+			</MobileTreeWrapper>
+		{/if}
 	</div>
 	{#if isEditMode}
 		<div class="w-2/5 bg-white rounded-xl">
