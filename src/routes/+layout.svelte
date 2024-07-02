@@ -1,7 +1,7 @@
 <script>
 	import '$lib/app/styles/app.css';
 	import '$lib/app/styles/markdown-reader.css';
-	import { isCloseLoader } from '$lib/shared/stores/globalStore';
+	import { deviceWidth, isCloseLoader } from '$lib/shared/stores/globalStore';
 
 	import Header from '$lib/widgets/Header.svelte';
 	import PageLoader from '$lib/widgets/page-loader/PageLoader.svelte';
@@ -17,6 +17,8 @@
 	setTimeout(closeLoader, 2500);
 </script>
 
+<svelte:window bind:innerWidth={$deviceWidth} ></svelte:window>
+
 {#if !$isCloseLoader}
 	<PageLoader />
 {/if}
@@ -25,7 +27,7 @@
 	<Messages />
 	<Header />
 	<ParticleBackground />
-	<main class="app-content pb-10">
+	<main b class="app-content pb-10">
 		{#if isStart}
 			<slot />
 			<!-- </Suspense> -->

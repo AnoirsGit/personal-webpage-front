@@ -7,7 +7,7 @@
 }
 
 .header-item {
-    @apply h-16 lg:h-20 flex items-center justify-between relative border-b-2 border-dark lg:border-none;
+    @apply h-16 mb-0 lg:h-20 flex items-center justify-between relative border-b-2 border-dark lg:border-none;
 }
 
 .nav-item {

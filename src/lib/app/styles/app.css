@@ -76,7 +76,7 @@ body {
 
 
 .app-content {
-  @apply w-full h-full mb-4 px-10 lg:mx-auto lg:w-240 xl:w-320 2xl:w-360 text-white;
+  @apply w-full h-full mb-4 px-6 lg:mx-auto lg:w-240 xl:w-320 2xl:w-360 text-white;
 }
 
 a {
