@@ -14,8 +14,8 @@
 		let translateX = 0;
 
 		if (mousePosition.y < 500) translateY = 110;
-		if ( $deviceWidth * 0.6 < mousePosition.x)  translateX = -54;
-		if ( $deviceWidth * 0.3 > mousePosition.x)  translateX = 54;
+		if ( $deviceWidth * 0.75 < mousePosition.x)  translateX = -54;
+		if ( $deviceWidth * 0.25 > mousePosition.x)  translateX = 54;
 		
 		translate = `translate: ${translateX}% ${translateY}%`;
 	}
