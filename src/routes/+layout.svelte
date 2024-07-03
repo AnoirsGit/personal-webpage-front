@@ -9,6 +9,7 @@
 	import Messages from '$lib/shared/Messages.svelte';
 
 	let isStart = false;
+	$: isMobile = $deviceWidth < 768;
 
 	const startLoad = () => (isStart = true);
 	const closeLoader = () => ($isCloseLoader = true);
@@ -26,7 +27,9 @@
 <main>
 	<Messages />
 	<Header />
-	<ParticleBackground />
+	{#if !isMobile}
+		<ParticleBackground />
+	{/if}
 	<main b class="app-content pb-10">
 		{#if isStart}
 			<slot />
