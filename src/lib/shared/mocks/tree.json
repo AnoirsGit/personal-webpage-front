@@ -56,7 +56,7 @@
                 "isActive": false,
                 "tags": [],
                 "description": "#### Docker Hub ***is*** a \ncloud-based repository service **that** allows developers to store, share, and manage Docker container images.\n  - Provides a central location for finding and accessing container images.\n  - Supports public and private repositories.\n  - Enables collaboration and sharing of containerized applications.\n  - Integrates with CI/CD pipelines for automated builds and deployments.\n  - Offers official images maintained by Docker and community-contributed images.\n",
-                "imageUrl": "https://anoirs-personal-page.com/docker-hub.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/docker-hub.webp",
                 "title": "Docker-hub",
                 "color": "#ffffff",
                 "isNode": true
@@ -71,7 +71,7 @@
                 "isActive": false,
                 "tags": [],
                 "description": "#### Ruby ***is*** a \ndynamic, open-source programming language **that** focuses on simplicity and productivity.\n  - It's known for its elegant syntax, which is natural to read and easy to write.\n  - Ideal for web development, Ruby has a rich ecosystem of libraries and frameworks, including the popular Ruby on Rails.",
-                "imageUrl": "https://anoirs-personal-page.com/ruby.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/ruby.webp",
                 "title": "Ruby",
                 "color": "#ff0000",
                 "isNode": true
@@ -86,7 +86,7 @@
                 },
                 "isActive": false,
                 "description": " #### Node.js ***is*** a \n runtime environment **that** executes JavaScript code on the server side.\n  -  It's non-blocking, event-driven, and ideal for building scalable, \n  - real-time applications.",
-                "imageUrl": "https://anoirs-personal-page.com/node-js.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/node-js.webp",
                 "title": "NodeJs",
                 "tags": [],
                 "isNode": true
@@ -101,7 +101,7 @@
                 "isActive": false,
                 "description": "#### Ruby on Rails ***is*** a \nweb application framework **that** uses Ruby.\n  - It follows the MVC (Model-View-Controller) pattern for organized code.\n  - Emphasizes convention over configuration and the DRY (Don't Repeat Yourself) principle.\n  - Includes many tools to simplify tasks like database management and routing.\n  - Ideal for quickly building and deploying web applications.",
                 "tags": [],
-                "imageUrl": "https://anoirs-personal-page.com/rails.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/rails.webp",
                 "title": "Ruby on Rails",
                 "color": "#cc0000",
                 "isNode": true
@@ -115,7 +115,7 @@
                     "y": 297
                 },
                 "description": "#### GitLab ***is*** a \nweb-based DevOps lifecycle tool **that** provides a Git repository manager providing CI/CD pipeline features and more.\n  - Offers version control, issue tracking, CI/CD pipelines, and more.\n  - Supports collaboration with features like code review and merge requests.\n  - Provides built-in CI/CD pipelines for automating builds, tests, and deployments.\n  - Includes container registry, Kubernetes integration, and monitoring tools.\n  - Available in both self-managed and SaaS versions, catering to various development needs.\n",
-                "imageUrl": "https://anoirs-personal-page.com/gitlab.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/gitlab.webp",
                 "title": "GitLab",
                 "tags": [],
                 "color": "#ff7700",
@@ -132,7 +132,7 @@
                     "x": 564,
                     "y": 155
                 },
-                "imageUrl": "https://anoirs-personal-page.com/webhook.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/webhook.webp",
                 "color": "#000000",
                 "isNode": true
             },
@@ -147,7 +147,7 @@
                     "x": 1337,
                     "y": 547
                 },
-                "imageUrl": "https://anoirs-personal-page.com/mysql.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/mysql.webp",
                 "color": "#006faa",
                 "isNode": true
             },
@@ -162,7 +162,7 @@
                     "x": 923,
                     "y": 232
                 },
-                "imageUrl": "https://anoirs-personal-page.com/js.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/js.webp",
                 "color": "#ffd900",
                 "isNode": true
             },
@@ -178,7 +178,7 @@
                     "y": 389
                 },
                 "color": "#ff5900",
-                "imageUrl": "https://anoirs-personal-page.com/git.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/git.webp",
                 "isNode": true
             },
             {
@@ -193,7 +193,7 @@
                     "y": 549
                 },
                 "color": "#00e5ff",
-                "imageUrl": "https://anoirs-personal-page.com/sql.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/sql.webp",
                 "isNode": true
             },
             {
@@ -207,7 +207,7 @@
                     "x": 1159.0909090909092,
                     "y": 398.909090909091
                 },
-                "imageUrl": "https://anoirs-personal-page.com/postgre.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/postgre.webp",
                 "color": "#0093a0",
                 "isNode": true
             },
@@ -224,7 +224,7 @@
                 },
                 "color": "#727272",
                 "isNode": true,
-                "imageUrl": "https://anoirs-personal-page.com/github.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/github.webp"
             },
             {
                 "treeId": 1,
@@ -251,7 +251,7 @@
                     "y": 480.50733998825604
                 },
                 "isNode": true,
-                "imageUrl": "https://anoirs-personal-page.com/redis.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/redis.webp",
                 "color": "#ff0000"
             },
             {
@@ -267,7 +267,7 @@
                 },
                 "isNode": true,
                 "color": "#00aeff",
-                "imageUrl": "https://anoirs-personal-page.com/docker.png"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/docker.png"
             },
             {
                 "treeId": 1,
@@ -282,7 +282,7 @@
                 },
                 "color": "#ffffff",
                 "isNode": true,
-                "imageUrl": "https://anoirs-personal-page.com/gitlab-cicd.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/gitlab-cicd.webp"
             },
             {
                 "treeId": 1,
@@ -297,7 +297,7 @@
                 },
                 "isNode": true,
                 "color": "#006696",
-                "imageUrl": "https://anoirs-personal-page.com/github-actions.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/github-actions.webp"
             },
             {
                 "treeId": 1,
@@ -324,7 +324,7 @@
                     "x": 558.2935995302407,
                     "y": 660.5261303581915
                 },
-                "imageUrl": "https://anoirs-personal-page.com/nginx.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/nginx.webp",
                 "color": "#007f04"
             },
             {
@@ -484,7 +484,7 @@
                     "x": 908,
                     "y": 48.33333333333337
                 },
-                "imageUrl": "https://anoirs-personal-page.com/nest-js.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/nest-js.webp",
                 "color": "#ff2c57"
             },
             {
@@ -500,7 +500,7 @@
                     "y": 58.44444444444446
                 },
                 "color": "#ffffff",
-                "imageUrl": "https://anoirs-personal-page.com/koa.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/koa.webp"
             },
             {
                 "treeId": 1,
@@ -775,7 +775,7 @@
                     "x": 663,
                     "y": 166
                 },
-                "imageUrl": "https://anoirs-personal-page.com/js.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/js.webp",
                 "color": "#ff5900"
             },
             {
@@ -804,7 +804,7 @@
                     "y": 340
                 },
                 "color": "#ff5900",
-                "imageUrl": "https://anoirs-personal-page.com/html.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/html.webp"
             },
             {
                 "treeId": 1,
@@ -819,7 +819,7 @@
                     "y": 216
                 },
                 "color": "#78bbff",
-                "imageUrl": "https://anoirs-personal-page.com/css.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/css.webp"
             },
             {
                 "treeId": 1,
@@ -833,7 +833,7 @@
                     "x": 404,
                     "y": 216
                 },
-                "imageUrl": "https://anoirs-personal-page.com/tailwind.svg",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/tailwind.svg",
                 "color": "#00fff2"
             },
             {
@@ -849,7 +849,7 @@
                     "y": 451
                 },
                 "color": "#ff0000",
-                "imageUrl": "https://anoirs-personal-page.com/npm.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/npm.webp"
             },
             {
                 "treeId": 1,
@@ -876,7 +876,7 @@
                     "x": 1346.5909090909092,
                     "y": 527.3181818181819
                 },
-                "imageUrl": "https://anoirs-personal-page.com/react.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/react.webp",
                 "color": "#00aacc"
             },
             {
@@ -891,7 +891,7 @@
                     "x": 1272.5909090909092,
                     "y": 393.31818181818187
                 },
-                "imageUrl": "https://anoirs-personal-page.com/vue.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/vue.webp",
                 "color": "#00891b"
             },
             {
@@ -906,7 +906,7 @@
                     "x": 559.5909090909092,
                     "y": 33.31818181818187
                 },
-                "imageUrl": "https://anoirs-personal-page.com/jquery.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/jquery.webp",
                 "color": "#0084cc"
             },
             {
@@ -921,7 +921,7 @@
                     "x": 1069.5909090909092,
                     "y": 353.31818181818187
                 },
-                "imageUrl": "https://anoirs-personal-page.com/angular.png",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/angular.png",
                 "color": "#cc0000"
             },
             {
@@ -936,7 +936,7 @@
                     "x": 1268.8636363636365,
                     "y": 680.2272727272727
                 },
-                "imageUrl": "https://anoirs-personal-page.com/svelte.svg"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/svelte.svg"
             },
             {
                 "treeId": 1,
@@ -951,7 +951,7 @@
                     "y": 531.5714285714287
                 },
                 "color": "#ffffff",
-                "imageUrl": "https://anoirs-personal-page.com/next-js.svg"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/next-js.svg"
             },
             {
                 "treeId": 1,
@@ -966,7 +966,7 @@
                     "y": 248.18181818181824
                 },
                 "color": "#000000",
-                "imageUrl": "https://anoirs-personal-page.com/vuex.svg"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/vuex.svg"
             },
             {
                 "treeId": 1,
@@ -994,7 +994,7 @@
                     "y": 696
                 },
                 "color": "#b300ff",
-                "imageUrl": "https://anoirs-personal-page.com/vite.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/vite.webp"
             },
             {
                 "treeId": 1,
@@ -1008,7 +1008,7 @@
                     "x": 582.5,
                     "y": 566.8846153846154
                 },
-                "imageUrl": "https://anoirs-personal-page.com/webpack.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/webpack.webp",
                 "color": "#80e1ff"
             },
             {
@@ -1037,7 +1037,7 @@
                     "y": 798.3846153846155
                 },
                 "color": "#7c0040",
-                "imageUrl": "https://anoirs-personal-page.com/Jest.svg"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/Jest.svg"
             },
             {
                 "treeId": 1,
@@ -1051,7 +1051,7 @@
                     "x": 1307,
                     "y": 908.5769230769231
                 },
-                "imageUrl": "https://anoirs-personal-page.com/jasmine-js.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/jasmine-js.webp",
                 "color": "#ae4898"
             },
             {
@@ -1067,7 +1067,7 @@
                     "y": 785.5384615384614
                 },
                 "color": "#00967b",
-                "imageUrl": "https://anoirs-personal-page.com/cypress.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/cypress.webp"
             },
             {
                 "treeId": 1,
@@ -1148,7 +1148,7 @@
                     "y": 1032.1428571428573
                 },
                 "color": "#ffffff",
-                "imageUrl": "https://anoirs-personal-page.com/three-js.webp"
+                "imageUrl": "https://cdn.anoirs-personal-page.com/three-js.webp"
             },
             {
                 "treeId": 1,
@@ -1162,7 +1162,7 @@
                     "x": 485.6428571428572,
                     "y": 893.1428571428573
                 },
-                "imageUrl": "https://anoirs-personal-page.com/webgl.webp",
+                "imageUrl": "https://cdn.anoirs-personal-page.com/webgl.webp",
                 "color": "#ffffff"
             },
             {

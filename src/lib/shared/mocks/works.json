@@ -18,7 +18,7 @@
         },
         "variant": 1,
         "imageUrls": [
-          "https://anoirs-personal-page.com/ncrm.webp"
+          "https://cdn.anoirs-personal-page.com/ncrm.webp"
         ]
       },
       {
@@ -29,8 +29,8 @@
         },
         "variant": 2,
         "imageUrls": [
-          "https://anoirs-personal-page.com/ncrm-desktop.webp",
-          "https://anoirs-personal-page.com/ncrm-mobile.webp"
+          "https://cdn.anoirs-personal-page.com/ncrm-desktop.webp",
+          "https://cdn.anoirs-personal-page.com/ncrm-mobile.webp"
         ]
       }
     ]
@@ -53,7 +53,7 @@
           "label": "POWR.io Form builder"
         },
         "variant": 3,
-        "imageUrls": ["https://anoirs-personal-page.com/powr-logo.webp"]
+        "imageUrls": ["https://cdn.anoirs-personal-page.com/powr-logo.webp"]
       },
       {
         "text": "`Developed an integration system` to `automate interaction` between developers and team members, providing `chat notifications`, `ticket movements`, and `automatic documentation` of completed tickets and `CI/CD` providing the company with a full development lifecycle.",
@@ -62,7 +62,7 @@
           "label": "POWR.io"
         },
         "variant": 1,
-        "imageUrls": ["https://anoirs-personal-page.com/powrio.webp"]
+        "imageUrls": ["https://cdn.anoirs-personal-page.com/powrio.webp"]
       }
     ]
   },
@@ -84,7 +84,7 @@
           "label": "Careerist.com"
         },
         "variant": 3,
-        "imageUrls": ["https://anoirs-personal-page.com/careerist.webp"]
+        "imageUrls": ["https://cdn.anoirs-personal-page.com/careerist.webp"]
       }
     ]
   },
@@ -107,8 +107,8 @@
         },
         "variant": 2,
         "imageUrls": [
-          "https://anoirs-personal-page.com/demetra-desktop.webp",
-          "https://anoirs-personal-page.com/demetra-mobile.webp"
+          "https://cdn.anoirs-personal-page.com/demetra-desktop.webp",
+          "https://cdn.anoirs-personal-page.com/demetra-mobile.webp"
         ]
       },
       {
@@ -118,7 +118,7 @@
           "label": "DEMETRA SYSTEMS"
         },
         "variant": 1,
-        "imageUrls": ["https://anoirs-personal-page.com/demetra-pipeline.webp"]
+        "imageUrls": ["https://cdn.anoirs-personal-page.com/demetra-pipeline.webp"]
       }
     ]
   }
