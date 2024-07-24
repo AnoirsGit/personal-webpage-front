@@ -11,7 +11,7 @@
 	let velocity = { x: 0 };
 
 	const handleMouseDown = (event) => {
-		event.preventDefault()
+		event.preventDefault();
 		isDragging = true;
 		startCoords.x = event.clientX;
 		velocity.x = 0;
@@ -21,7 +21,7 @@
 	const handleMouseMove = (event) => {
 		if (!isDragging) return;
 
-		const deltaX = event.clientX - startCoords.x;
+		const deltaX = (event.clientX - startCoords.x) * 2;
 
 		x += deltaX;
 
