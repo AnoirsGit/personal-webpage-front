@@ -5,10 +5,30 @@
 	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
+	import { onLoaded } from '$lib/shared/stores/globalStore';
 	import { aboutMe } from '$lib/shared/mocks/about-me.json';
 
 	export let firstSection = aboutMe.firstBlock;
 	export let secondSection = aboutMe.secondBlock;
+
+	let imageLoaded = false;
+	let typing3DLoaded = false;
+
+	const checkAllLoaded = () => {
+		if (imageLoaded && typing3DLoaded) {
+			onLoaded('aboutMe');
+		}
+	};
+
+	const handleImageLoad = () => {
+		imageLoaded = true;
+		checkAllLoaded();
+	};
+
+	const handleTyping3DLoad = () => {
+		typing3DLoaded = true;
+		checkAllLoaded();
+	};
 </script>
 
 <section class="about-me">
@@ -25,7 +45,7 @@
 		</CustomButton>
 	</div>
 	<div class="picture-wrapper">
-		<img class="picture" src="/images/about-me-bg.webp" alt="" />
+		<img on:load|once={handleImageLoad} class="picture" src="/images/about-me-bg.webp" alt="" />
 	</div>
 	<div class="right-block">
 		<MarkdownWrapper
@@ -58,9 +78,14 @@
 				/>
 			</div>
 			<div class="mx-auto">
-				<CustomButton additionalClasses='flex gap-3 items-center' type="link" href="https://github.com/AnoirsGit/personal-webpage-front"><Icon class="text-3xl" icon="mdi:github" /> Repository</CustomButton>
+				<CustomButton
+					additionalClasses="flex gap-3 items-center"
+					type="link"
+					href="https://github.com/AnoirsGit/personal-webpage-front"
+					><Icon class="text-3xl" icon="mdi:github" /> Repository</CustomButton
+				>
 			</div>
 		</div>
-		<Typing3D />
+		<Typing3D onLoaded={handleTyping3DLoad} />
 	</div>
 </div>

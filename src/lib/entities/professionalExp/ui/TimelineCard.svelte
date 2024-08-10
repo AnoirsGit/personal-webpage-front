@@ -1,5 +1,6 @@
 <script>
 	import Icon from '@iconify/svelte';
+	import { onMount } from 'svelte';
 	import '$lib/app/styles/sections/Works.css';
 
 	import TimelineLine from './TimelineLine.svelte';
@@ -10,6 +11,10 @@
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 	import GlowingElement from '$lib/shared/UI/GlowingElement.svelte';
 
+	let glowPosition = null;
+	let imagesCount = 0;
+	let imagesLoaded = 0;
+	export let onImagesLoaded = () => console.log(`Loaded cards:  ${imagesLoaded}/${imagesCount}`);
 	export let position = 'center';
 	export let color = '#FF0000';
 	export let card = {
@@ -22,7 +27,9 @@
 		]
 	};
 
-	let glowPosition = null;
+	onMount(() => {
+		imagesCount = card.imageUrls.length;
+	});
 
 	const onMouseMove = (e) => {
 		const rect = e.currentTarget.getBoundingClientRect();
@@ -36,6 +43,16 @@
 
 	const onMouseLeave = () => {
 		glowPosition = null;
+	};
+
+	const handleImageLoad = () => {
+		imagesLoaded++;
+		if (imagesLoaded === imagesCount) onImagesLoaded();
+	};
+
+	const handleImageError = () => {
+		imagesLoaded++;
+		if (imagesLoaded === imagesCount) onImagesLoaded();
 	};
 </script>
 
@@ -59,7 +76,7 @@
 			</CustomButton>
 		</div>
 		<div class="image-wrapper">
-			<img crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
+			<img on:load={handleImageLoad} on:error={handleImageError} crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
 		</div>
 	</div>
 	<div class="relative h-16">
@@ -79,12 +96,24 @@
 			on:mouseleave={onMouseLeave}
 		>
 			<MovableGlow size={1600} intensity={0.2} {color} position={glowPosition} zetIndex={-1} />
-			<img class="image-1" crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
+			<img
+				on:load={handleImageLoad}
+				class="image-1"
+				crossorigin="anonymous"
+				src={card.imageUrls[0]}
+				alt=""
+			/>
 		</div>
 
-		<img class="image-2" crossorigin="anonymous" src={card.imageUrls[1]} alt="" />
-		
-        <div class="content">
+		<img
+			on:load={handleImageLoad}
+			class="image-2"
+			crossorigin="anonymous"
+			src={card.imageUrls[1]}
+			alt=""
+		/>
+
+		<div class="content">
 			<TimelineLine heghtClass="h-full" {color} {position} />
 			<div class="markdown-wrapper">
 				<MarkdownWrapper mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
@@ -112,7 +141,7 @@
 					</div>
 				</CustomButton>
 			</div>
-			<img crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
+			<img on:load={handleImageLoad} on:error={handleImageError} crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
 		</div>
 	</div>
 	<div class="relative h-16">

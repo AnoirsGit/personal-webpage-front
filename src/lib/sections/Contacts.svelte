@@ -7,13 +7,15 @@
 	import Icon from '@iconify/svelte';
 	import Clipboard from '$lib/shared/UI/Clipboard.svelte';
 	import { addMessage } from '$lib/shared/stores/messageStore';
+	import { onLoaded } from '$lib/shared/stores/globalStore';
 
 	const onCopy = () => addMessage({ icon: 'fa:copy', text: 'Copied' });
+	const handleGlobeLoad = () => onLoaded('contacts');
 </script>
 
 <SectionLayout title="Contacts" name="contacts">
 	<div class="relative globe-wrapper-h">
-		<Globe />
+		<Globe onGlobeLoaded={handleGlobeLoad} />
 		<div class="absolute flex items-center gap-1 right-24">
 			<Icon class="text-2xl" icon="wi:time-5" />
 			<p class="text-xs md:text-sm lg:text-base pt-1">Asia / Almaty ( UTC+5 )</p>

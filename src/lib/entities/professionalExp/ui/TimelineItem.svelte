@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 	import { mixColors } from '$lib/shared/helpers/color-helper';
 	import TimelineLine from './TimelineLine.svelte';
@@ -6,8 +7,12 @@
 	import TimelineCard from './TimelineCard.svelte';
 	import MobileTimelineCard from './MobileTimelineCard.svelte';
 
+	let cardsLoaded = 0;
+	let cardsCount = 0;
+
 	export let experienceItem;
 	export let isMobile = false;
+	export let onCardsLoaded = () => console.log(`Loaded images:  ${cardsLoaded}/${cardsCount}`);
 
 	const giveCorrectColor = (colors, index) => {
 		if (index < experienceItem.cards.length - 1) {
@@ -15,6 +20,15 @@
 			return mixColors(...colors, percent);
 		}
 		return colors[1];
+	};
+
+	onMount(() => {
+		cardsCount = experienceItem.cards.length
+	});
+
+	const handleCardLoad = () => {
+		cardsLoaded++;
+		if (cardsLoaded === cardsCount) onCardsLoaded();
 	};
 </script>
 
@@ -47,6 +61,7 @@
 	{:else}
 		<TimelineCard
 			{card}
+			onImagesLoaded={handleCardLoad}
 			color={giveCorrectColor(experienceItem.colors, index)}
 			position={index === experienceItem.cards.length - 1 ? 'end' : 'center'}
 		/>

@@ -10,12 +10,12 @@
 
 	let isStart = false;
 	$: isMobile = $deviceWidth < 768;
-
+	
 	const startLoad = () => (isStart = true);
 	const closeLoader = () => ($isCloseLoader = true);
 
 	setTimeout(startLoad, 1);
-	setTimeout(closeLoader, 2500);
+	setTimeout(closeLoader, 3500);
 </script>
 
 <svelte:window bind:innerWidth={$deviceWidth} ></svelte:window>
@@ -33,7 +33,6 @@
 	<main b class="app-content pb-10">
 		{#if isStart}
 			<slot />
-			<!-- </Suspense> -->
 		{/if}
 
 		<footer>

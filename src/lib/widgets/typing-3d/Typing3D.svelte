@@ -2,10 +2,10 @@
 	import { Canvas, T } from '@threlte/core';
 
 	import { Suspense }  from '@threlte/extras'
-	import { onLoaded } from '$lib/shared/stores/globalStore';
 	import TypingPerson from '$lib/entities/3d/models/typingPerson.svelte';
 
 	let canGreet = true;
+	export let onLoaded;
 	const animationQueue = [];
 
 	const greet = () => {
