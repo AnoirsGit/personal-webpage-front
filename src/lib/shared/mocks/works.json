@@ -1,37 +1,57 @@
 [
   {
-    "color": "#80d4ff",
+    "color": "#00ff99",
     "dates": [
-      "2020-06-01",
-      "2021-07-01"
+      "2023-11-01",
+      "2024-06-01"
     ],
-    "title": "NCRM GROUP",
-    "position": "Front-End Developer",
+    "title": "DEMETRA SYSTEMS",
+    "position": "Team Lead  Full-stack Software Engineer",
     "place": "Almaty, Kazakhstan",
-    "baseDescription": "NCRM - Simple CRM for Systematic Sales",
+    "baseDescription": "DEMETRA SYSTEMS automates pricing adjustments for marketplace sellers",
     "cards": [
       {
-        "text": "`Developed` the `front-end infrastructure` and `prototype` for a CRM project. The `MVP` was used by a company with over `2000+ employees`. ",
+        "text": "Oversaw the `scaling of databases` and `Redis` using master-slave configurations, and `multiplied instances` of code blocks using `PM2` for enhanced performance and reliability.",
         "link": {
-          "src": "https://ncrm.kz/",
-          "label": "NCRM.KZ"
-        },
-        "variant": 1,
-        "imageUrls": [
-          "https://cdn.anoirs-personal-page.com/ncrm.webp"
-        ]
-      },
-      {
-        "text": "Significantly increased `code maintainability` and support by writing the project documentation. \n\n Integrated `web chat` inside CRM with popular messengers, such as `Whatsapp` and `Telegram`. Utilized free and premium APIs of those messengers for companies to communicate with their customers through our chat interface.",
-        "link": {
-          "src": "asdf",
-          "label": "asdfasdf"
+          "src": "https://demetra.systems/",
+          "label": "DEMETRA SYSTEMS"
         },
         "variant": 2,
         "imageUrls": [
-          "https://cdn.anoirs-personal-page.com/ncrm-desktop.webp",
-          "https://cdn.anoirs-personal-page.com/ncrm-mobile.webp"
+          "https://cdn.anoirs-personal-page.com/demetra-desktop.webp",
+          "https://cdn.anoirs-personal-page.com/demetra-mobile.webp"
         ]
+      },
+      {
+        "text": "`Implemented` and `streamlined` the `development lifecycle` from ClickUp ticket creation, Git branch management, and pull request descriptions for QA, through to `dockerized CI/CD` pipeline setup and `load balancing`. This involved managing ticket workflows, automating documentation for completed tickets, and `ensured seamless integration`.",
+        "link": {
+          "src": "https://demetra.systems/",
+          "label": "DEMETRA SYSTEMS"
+        },
+        "variant": 1,
+        "imageUrls": ["https://cdn.anoirs-personal-page.com/demetra-pipeline.webp"]
+      }
+    ]
+  },
+  {
+    "color": "#FF824C",
+    "dates": [
+      "2023-03-01T",
+      "2023-10-01T"
+    ],
+    "title": "Careerist",
+    "position": "Full-stack Developer",
+    "place": "Remote (Based Miami, FL)",
+    "baseDescription": "`Careerist`is a `Learning Management System ( LMS ) platform` designed to facilitate online learning and professional development. Features such as courses, certifications, and tools for managing and tracking learning progress, aimed at both individual learners and organizations seeking to enhance employee skills and knowledge.",
+    "cards": [
+      {
+        "text": "`Developed` new pages on the website using `React.js` and `Moleculer.js` (backend), maintained and enhanced functionality, implemented a client chat, and optimized the search system, `improving` its `performance by 4 times`.",
+        "link": {
+          "src": "https://www.careerist.com/",
+          "label": "Careerist.com"
+        },
+        "variant": 3,
+        "imageUrls": ["https://cdn.anoirs-personal-page.com/careerist.webp"]
       }
     ]
   },
@@ -67,58 +87,38 @@
     ]
   },
   {
-    "color": "#FF824C",
+    "color": "#80d4ff",
     "dates": [
-      "2023-03-01T",
-      "2023-10-01T"
+      "2020-06-01",
+      "2021-07-01"
     ],
-    "title": "Careerist",
-    "position": "Full-stack Developer",
-    "place": "Remote (Based Miami, FL)",
-    "baseDescription": "`Careerist`is a `Learning Management System ( LMS ) platform` designed to facilitate online learning and professional development. Features such as courses, certifications, and tools for managing and tracking learning progress, aimed at both individual learners and organizations seeking to enhance employee skills and knowledge.",
-    "cards": [
-      {
-        "text": "`Developed` new pages on the website using `React.js` and `Moleculer.js` (backend), maintained and enhanced functionality, implemented a client chat, and optimized the search system, `improving` its `performance by 4 times`.",
-        "link": {
-          "src": "https://www.careerist.com/",
-          "label": "Careerist.com"
-        },
-        "variant": 3,
-        "imageUrls": ["https://cdn.anoirs-personal-page.com/careerist.webp"]
-      }
-    ]
-  },
-  {
-    "color": "#00ff99",
-    "dates": [
-      "2023-11-01",
-      "2024-06-01"
-    ],
-    "title": "DEMETRA SYSTEMS",
-    "position": "Team Lead  Full-stack Software Engineer",
+    "title": "NCRM GROUP",
+    "position": "Front-End Developer",
     "place": "Almaty, Kazakhstan",
-    "baseDescription": "DEMETRA SYSTEMS automates pricing adjustments for marketplace sellers",
+    "baseDescription": "NCRM - Simple CRM for Systematic Sales",
     "cards": [
       {
-        "text": "Oversaw the `scaling of databases` and `Redis` using master-slave configurations, and `multiplied instances` of code blocks using `PM2` for enhanced performance and reliability.",
+        "text": "`Developed` the `front-end infrastructure` and `prototype` for a CRM project. The `MVP` was used by a company with over `2000+ employees`. ",
         "link": {
-          "src": "https://demetra.systems/",
-          "label": "DEMETRA SYSTEMS"
+          "src": "https://ncrm.kz/",
+          "label": "NCRM.KZ"
         },
-        "variant": 2,
+        "variant": 1,
         "imageUrls": [
-          "https://cdn.anoirs-personal-page.com/demetra-desktop.webp",
-          "https://cdn.anoirs-personal-page.com/demetra-mobile.webp"
+          "https://cdn.anoirs-personal-page.com/ncrm.webp"
         ]
       },
       {
-        "text": "`Implemented` and `streamlined` the `development lifecycle` from ClickUp ticket creation, Git branch management, and pull request descriptions for QA, through to `dockerized CI/CD` pipeline setup and `load balancing`. This involved managing ticket workflows, automating documentation for completed tickets, and `ensured seamless integration`.",
+        "text": "Significantly increased `code maintainability` and support by writing the project documentation. \n\n Integrated `web chat` inside CRM with popular messengers, such as `Whatsapp` and `Telegram`. Utilized free and premium APIs of those messengers for companies to communicate with their customers through our chat interface.",
         "link": {
-          "src": "https://demetra.systems/",
-          "label": "DEMETRA SYSTEMS"
+          "src": "asdf",
+          "label": "asdfasdf"
         },
-        "variant": 1,
-        "imageUrls": ["https://cdn.anoirs-personal-page.com/demetra-pipeline.webp"]
+        "variant": 2,
+        "imageUrls": [
+          "https://cdn.anoirs-personal-page.com/ncrm-desktop.webp",
+          "https://cdn.anoirs-personal-page.com/ncrm-mobile.webp"
+        ]
       }
     ]
   }

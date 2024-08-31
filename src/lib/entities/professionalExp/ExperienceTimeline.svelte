@@ -4,13 +4,13 @@
 	import TimelineItem from './ui/TimelineItem.svelte';
 	import TimelinePoint from './ui/TimelinePoint.svelte';
 	import worksMock from '$lib/shared/mocks/works.json';
-	import {deviceWidth} from '$lib/shared/stores/globalStore'
-
+	import { deviceWidth } from '$lib/shared/stores/globalStore';
 
 	let experiencesLoaded = 0;
 	let experiencesCount = 0;
 	export let works = worksMock;
-	export let onExperiencesLoaded = () => console.log(`Loaded experiences:  ${experiencesLoaded}/${experiencesCount}`);
+	export let onExperiencesLoaded = () =>
+		console.log(`Loaded experiences:  ${experiencesLoaded}/${experiencesCount}`);
 
 	$: isMobile = $deviceWidth < 768;
 
@@ -37,7 +37,7 @@
 	{#each works as work}
 		<TimelineItem onCardsLoaded={handleExperienceLoad} {isMobile} experienceItem={work} />
 	{/each}
-	<div class="mx-2 my-6  md:m-4">
+	<div class="mx-2 my-6 md:m-4">
 		<TimelinePoint color={works[works.length - 1].color} />
 	</div>
 </div>
