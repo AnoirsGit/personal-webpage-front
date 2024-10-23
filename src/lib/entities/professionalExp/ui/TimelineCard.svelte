@@ -68,15 +68,23 @@
 		<MovableGlow size={1600} intensity={0.2} {color} position={glowPosition} zetIndex={-1} />
 		<div class="content z-20">
 			<MarkdownWrapper isInline mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
-			<CustomButton type="link" size="no" href={card.link.src} color="transparent">
-				<div class="flex items-center text-lg gap-1">
-					<p>{card.link.label}</p>
-					<Icon class="text-2xl" icon="mingcute:right-line" />
-				</div>
-			</CustomButton>
+			{#if card.link}
+				<CustomButton type="link" size="no" href={card.link.src} color="transparent">
+					<div class="flex items-center text-lg gap-1">
+						<p>{card.link.label}</p>
+						<Icon class="text-2xl" icon="mingcute:right-line" />
+					</div>
+				</CustomButton>
+			{/if}
 		</div>
 		<div class="image-wrapper">
-			<img on:load={handleImageLoad} on:error={handleImageError} crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
+			<img
+				on:load={handleImageLoad}
+				on:error={handleImageError}
+				crossorigin="anonymous"
+				src={card.imageUrls[0]}
+				alt=""
+			/>
 		</div>
 	</div>
 	<div class="relative h-16">
@@ -134,14 +142,22 @@
 		<div class="wrapper">
 			<div class="content">
 				<MarkdownWrapper mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
-				<CustomButton type="link" size="no" href={card.link.src} color="transparent">
-					<div class="flex items-center text-lg gap-1">
-						<p>{card.link.label}</p>
-						<Icon class="text-2xl" icon="mingcute:right-line" />
-					</div>
-				</CustomButton>
+				{#if card.link}
+					<CustomButton type="link" size="no" href={card.link.src} color="transparent">
+						<div class="flex items-center text-lg gap-1">
+							<p>{card.link.label}</p>
+							<Icon class="text-2xl" icon="mingcute:right-line" />
+						</div>
+					</CustomButton>
+				{/if}
 			</div>
-			<img on:load={handleImageLoad} on:error={handleImageError} crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
+			<img
+				on:load={handleImageLoad}
+				on:error={handleImageError}
+				crossorigin="anonymous"
+				src={card.imageUrls[0]}
+				alt=""
+			/>
 		</div>
 	</div>
 	<div class="relative h-16">

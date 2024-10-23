@@ -23,7 +23,7 @@
 	};
 
 	onMount(() => {
-		cardsCount = experienceItem.cards.length
+		cardsCount = experienceItem.cards.length;
 	});
 
 	const handleCardLoad = () => {
@@ -40,9 +40,19 @@
 <div class="flex gap-8">
 	<TimelineLine heghtClass="" color={experienceItem.colors[0]} />
 	<div class="md-wrapper">
-		<div class="flex flex-col md:flex-row md:items-center md:gap-5 mb-3">
+		<div class="flex flex-col md:flex-row md:items-center md:gap-5">
 			<div class="mb-2 text-2xl md:text-3xl text-white">{experienceItem.title}</div>
 			<div class="mb-2 text-base md:text-2xl text-main-purple m-0">{experienceItem.position}</div>
+		</div>
+		<div class="mb-3 flex gap-2 flex-wrap items-center">
+			<p class="text-base md:text-xl font-semibold">Skills:</p>
+			{#each experienceItem.skills as skill}
+				<div
+					class="rounded border border-main-purple px-2 py-0.5 text-xs lg:text-sm text-white bg-main-purple/20"
+				>
+					{skill}
+				</div>
+			{/each}
 		</div>
 		<MarkdownWrapper
 			mdClasses="xl mh-4 mobile-lg white-code"
