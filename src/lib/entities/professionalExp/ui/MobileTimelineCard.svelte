@@ -24,12 +24,14 @@
 		<div class="timeline-card variant-1">
 			<div class="content z-20">
 				<MarkdownWrapper isInline mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
-				<CustomButton type="link" size="no" href={card.link.src} color="transparent">
-					<div class="flex items-center text-lg gap-1">
-						<p>{card.link.label}</p>
-						<Icon class="text-2xl" icon="mingcute:right-line" />
-					</div>
-				</CustomButton>
+				{#if card.link}
+					<CustomButton type="link" size="no" href={card.link.src} color="transparent">
+						<div class="flex items-center text-lg gap-1">
+							<p>{card.link.label}</p>
+							<Icon class="text-2xl" icon="mingcute:right-line" />
+						</div>
+					</CustomButton>
+				{/if}
 			</div>
 			<div class="image-wrapper">
 				<img crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
@@ -41,8 +43,18 @@
 	{:else if card.variant === 2}
 		<div class="variant-2-wrapper">
 			<div class="relative">
-				<img class="image-2 rounded-lg border border-slate-600" crossorigin="anonymous" src={card.imageUrls[1]} alt="" />
-				<img class="absolute -bottom-32 left-12" crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
+				<img
+					class="image-2 rounded-lg border border-slate-600"
+					crossorigin="anonymous"
+					src={card.imageUrls[1]}
+					alt=""
+				/>
+				<img
+					class="absolute -bottom-32 left-12"
+					crossorigin="anonymous"
+					src={card.imageUrls[0]}
+					alt=""
+				/>
 			</div>
 			<div class="content">
 				<TimelineLine heghtClass="" {color} {position} />
@@ -56,12 +68,14 @@
 			<div class="wrapper">
 				<div class="content">
 					<MarkdownWrapper mdClasses="xl mh-4 mobile-lg white-code" source={card.text} />
-					<CustomButton type="link" size="no" href={card.link.src} color="transparent">
-						<div class="flex items-center text-lg gap-1">
-							<p>{card.link.label}</p>
-							<Icon class="text-2xl" icon="mingcute:right-line" />
-						</div>
-					</CustomButton>
+					{#if card.link}
+						<CustomButton type="link" size="no" href={card.link.src} color="transparent">
+							<div class="flex items-center text-lg gap-1">
+								<p>{card.link.label}</p>
+								<Icon class="text-2xl" icon="mingcute:right-line" />
+							</div>
+						</CustomButton>
+					{/if}
 				</div>
 				<img crossorigin="anonymous" src={card.imageUrls[0]} alt="" />
 			</div>
