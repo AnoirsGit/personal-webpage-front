@@ -8,7 +8,7 @@ export default {
 				current: 'currentColor',
 				white: '#ffffff',
 				'deep-dark-bg': '#0D0D13',
-				'dark': '#1B1B25',
+				dark: '#1B1B25',
 				'text-1': '#8A8AAB',
 				'dark-grey': '#2d2d39',
 				'main-purple': '#9122FF',
@@ -17,7 +17,7 @@ export default {
 				'card-grey': 'rgba(235, 245, 255, 0.8)'
 			},
 			spacing: {
-				'0.75': '0.1875rem',
+				0.75: '0.1875rem',
 				96: '24rem',
 				104: '26rem',
 				112: '28rem',
@@ -72,6 +72,13 @@ export default {
 			},
 			fontSize: {
 				xxs: '0.625rem'
+			},
+			aspectRatio: {
+				'16/9': '16 / 9',
+				'9/20': '9 / 20',
+				'9/16': '9 / 16',
+				'4/3': '4 / 3',
+				'3/2': '3 / 2'
 			}
 		}
 	},
