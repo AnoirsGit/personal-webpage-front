@@ -14,7 +14,7 @@
 		const ctx = canvas.getContext('2d');
 		canvas.width = clientWidth;
 		canvas.height = clientHeight;
-		console.log(clientHeight)
+		console.log('client height: '+ clientHeight)
 
 		effect = createStarEffect({ ctx, canvas, density, velocity: 0.15 });
 		effect.init();

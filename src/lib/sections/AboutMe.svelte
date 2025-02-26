@@ -45,7 +45,7 @@
 		</CustomButton>
 	</div>
 	<div class="picture-wrapper">
-		<img on:load|once={handleImageLoad} class="picture" src="/images/about-me-bg.webp" alt="" />
+		<img on:load|once={handleImageLoad} class="picture" crossorigin="anonymous" src="images/about-me-bg.webp" alt="" />
 	</div>
 	<div class="right-block">
 		<MarkdownWrapper

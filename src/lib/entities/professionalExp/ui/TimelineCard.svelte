@@ -77,42 +77,37 @@
 				</CustomButton>
 			{/if}
 		</div>
-		<div class="image-wrapper">
-			<img
-				on:load={handleImageLoad}
-				on:error={handleImageError}
-				crossorigin="anonymous"
-				src={card.imageUrls[0]}
-				alt=""
-			/>
-		</div>
+		<img
+			on:load={handleImageLoad}
+			on:error={handleImageError}
+			crossorigin="anonymous"
+			src={card.imageUrls[0]}
+			alt=""
+		/>
 	</div>
 	<div class="relative h-16">
 		<TimelineLine {color} {position} />
 	</div>
 {:else if card.variant === 2}
 	<div class="variant-2-wrapper desktop">
-		<div class="glow" style="right: calc(20% - 1.5rem);">
-			<GlowingElement {color} intensity={0.3} isDot size={400} />
-		</div>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
-			class="timeline-card variant-2"
 			use:tilt={{ scale: 1, reverse: true, max: 1 }}
 			on:mouseenter={onMouseEnter}
 			on:mousemove={onMouseMove}
 			on:mouseleave={onMouseLeave}
 		>
-			<MovableGlow size={1600} intensity={0.2} {color} position={glowPosition} zetIndex={-1} />
 			<img
 				on:load={handleImageLoad}
-				class="image-1"
+				class="aspect-[16/9]"
 				crossorigin="anonymous"
 				src={card.imageUrls[0]}
 				alt=""
 			/>
 		</div>
-
+		<div class="glow" style="right: calc(20% - 1.5rem);">
+			<GlowingElement {color} intensity={0.3} isDot size={400} />
+		</div>
 		<img
 			on:load={handleImageLoad}
 			class="image-2"

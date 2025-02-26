@@ -1,7 +1,7 @@
 /* Import all fonts using @font-face */
 @font-face {
   font-family: 'Poppins Mono';
-  src: url('/fonts/ttf/Poppins-Regular.ttf') format('truetype');
+  src: url('fonts/Poppins-Regular.ttf') format('truetype');
   font-weight: 400;
   /* Adjusted font-weight to 400 for regular */
   font-style: normal;
@@ -9,28 +9,28 @@
 
 @font-face {
   font-family: 'Poppins Mono';
-  src: url('/fonts/ttf/Poppins-Medium.ttf') format('truetype');
+  src: url('fonts/Poppins-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Poppins Mono';
-  src: url('/fonts/ttf/Poppins-SemiBold.ttf') format('truetype');
+  src: url('fonts/Poppins-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Poppins Mono';
-  src: url('/fonts/ttf/Poppins-Bold.ttf') format('truetype');
+  src: url('fonts/Poppins-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Poppins Mono';
-  src: url('/fonts/ttf/Poppins-ExtraBold.ttf') format('truetype');
+  src: url('fonts/Poppins-ExtraBold.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
 }

@@ -10,7 +10,10 @@
 
 	const datesToString = () => {
 		const datesTemp = [];
-		for (const date of dates) datesTemp.push(dayjs(date).format('MMMM YYYY'));
+		for (const date of dates) {
+			const tempDate = date === '' || date === 'Present'? new Date() : date;
+			datesTemp.push(dayjs(tempDate).format('MMMM YYYY'));
+		}
 		return datesTemp.join(' - ');
 	};
 </script>

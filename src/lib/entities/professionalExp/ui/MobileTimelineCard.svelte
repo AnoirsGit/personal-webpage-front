@@ -44,7 +44,7 @@
 		<div class="variant-2-wrapper">
 			<div class="relative">
 				<img
-					class="image-2 rounded-lg border border-slate-600"
+					class="w-full aspect-[9/16]"
 					crossorigin="anonymous"
 					src={card.imageUrls[1]}
 					alt=""

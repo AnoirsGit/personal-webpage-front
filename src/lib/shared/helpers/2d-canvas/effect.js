@@ -56,6 +56,7 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500, velocity = 0
         for (let i = 0; i < particleCount; i++) {
             particles.push(StarParticle({ id: i, canvas, ctx, velocity }));
         }
+    	console.log('particles count: '+ particles.length)
     };
 
     const sortParticles = () => particles.sort((a, b) => {
