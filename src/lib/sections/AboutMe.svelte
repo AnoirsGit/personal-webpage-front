@@ -55,7 +55,7 @@
 
 		<CustomButton
 			type="link"
-			href="https://drive.google.com/file/d/1kq_k19j_w_TIPGk-7Dm1BrYMb-n7xJxf/view?usp=sharing"
+			href="https://docs.google.com/document/d/1AlX-mhyNl8OYVJvX5fUnEdkYC3HJmZEtf0ScIYJ6z4A/edit?usp=drive_link"
 			color="transparent"
 		>
 			<div class="download-btn">
