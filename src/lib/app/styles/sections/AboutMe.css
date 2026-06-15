@@ -1,39 +1,110 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .about-me {
     @apply lg:h-264 mb-20 lg:mb-16 relative flex flex-col lg:flex-row lg:justify-between text-3xl;
 }
 
 
+.about-me-2 {
+    @apply mb-8;
+}
+
 .about-me-2 .content-block {
-    @apply flex flex-col-reverse lg:flex-row justify-around items-center
+    @apply flex flex-col-reverse gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16;
+}
+
+.about-me-2 .about-copy {
+    @apply w-full lg:max-w-xl flex flex-col gap-8;
 }
 
 .about-me-2 .description-block {
-    @apply w-full xl:w-160 text-sm lg:text-base flex flex-col gap-6
+    @apply text-sm lg:text-base flex flex-col gap-6;
+}
+
+.about-me-2 .about-cta {
+    @apply w-max;
+}
+
+/* ===== Framed 3D model stage ===== */
+.model-stage {
+    @apply relative w-full lg:w-1/2 flex-shrink-0 flex items-center justify-center rounded-2xl overflow-hidden;
+    height: 26rem;
+    background:
+        radial-gradient(80% 70% at 50% 16%, rgba(145, 34, 255, 0.09) 0%, rgba(145, 34, 255, 0) 60%),
+        linear-gradient(160deg, rgba(31, 31, 44, 0.6) 0%, rgba(13, 13, 19, 0.7) 100%);
+    border: 1px solid rgba(235, 235, 255, 0.08);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05), 0 30px 70px -40px rgba(0, 0, 0, 0.9);
+}
+
+@media (min-width: 1024px) {
+    .model-stage {
+        height: 30rem;
+    }
+}
+
+.model-glow {
+    @apply absolute pointer-events-none;
+    width: 60%;
+    height: 60%;
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(145, 34, 255, 0.14) 0%, rgba(145, 34, 255, 0) 70%);
+    filter: blur(40px);
+}
+
+/* soft floor ellipse so the model doesn't float in the void */
+.model-floor {
+    @apply absolute pointer-events-none;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 52%;
+    height: 26px;
+    border-radius: 9999px;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.model-stage :global(canvas) {
+    position: relative;
+    z-index: 1;
+}
+
+.model-caption {
+    @apply absolute bottom-4 right-5 text-xs tracking-wide pointer-events-none;
+    color: #8a8aab;
 }
 
 .about-me .header-1 {
-    @apply text-5xl lg:text-6xl xl:text-8xl
+    @apply text-5xl lg:text-6xl xl:text-8xl font-extrabold tracking-tight leading-[1.05];
+    letter-spacing: -0.03em;
+}
+
+.about-me .left-block > p {
+    @apply text-base lg:text-lg font-medium tracking-[0.25em] uppercase text-text-1;
 }
 
 .lets-chat-btn {
-    @apply flex items-center gap-3 pl-4 pr-1.5 py-1.5 text-base font-semibold;
+    @apply flex items-center gap-3 pl-5 pr-1.5 py-1.5 text-base font-semibold;
 }
 
 .lets-chat-btn .icon-wrapper {
-    background: rgba(255, 255, 255, 0.35);
-    @apply rounded-lg p-3 text-2xl
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    @apply rounded-lg p-3 text-2xl transition-all duration-300 ease-premium;
+}
+
+.lets-chat-btn:hover .icon-wrapper {
+    background: rgba(255, 255, 255, 0.24);
 }
 
 .about-me .left-block {
     @apply lg:mt-16 w-max flex flex-col gap-5 z-20;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .about-me .right-block {
-    @apply lg:mt-48 w-full xl:mt-72 lg:w-64 xl:w-96 flex flex-col gap-5 text-xl lg:text-2xl xl:text-3xl z-20;
+    @apply lg:mt-32 w-full xl:mt-44 lg:w-64 xl:w-96 flex flex-col gap-5 text-xl lg:text-2xl xl:text-3xl z-20;
 }
 
 .about-me .right-block .description h1 {
@@ -42,13 +113,193 @@
 
 
 .about-me .picture-wrapper {
-    @apply w-full lg:w-3/5 lg:absolute lg:left-1/2 lg:-translate-x-1/2
+    @apply w-full relative lg:w-3/5 lg:absolute lg:left-1/2 lg:-translate-x-1/2
+}
+
+/* soft purple aura behind the portrait */
+.about-me .picture-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 8% 4% 18% 4%;
+    border-radius: 9999px;
+    background: radial-gradient(50% 50% at 50% 45%, rgba(145, 34, 255, 0.3) 0%, rgba(145, 34, 255, 0) 70%);
+    filter: blur(48px);
+    pointer-events: none;
 }
 
 .about-me .picture {
     @apply relative z-10;
+    /* feather the portrait into the page on the bottom AND the sides so the
+       hard right edge stops fighting the soft bottom fade */
+    -webkit-mask-image:
+        linear-gradient(to bottom, #000 74%, transparent 100%),
+        linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to bottom, #000 74%, transparent 100%),
+        linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-composite: intersect;
 }
 
 .download-btn {
-    @apply p-4 flex items-center gap-3 text-lg font-semibold border-b-2 border-main-purple
+    @apply px-4 py-3 flex items-center gap-3 text-lg font-semibold relative transition-colors duration-300 ease-premium;
+    border-bottom: 2px solid transparent;
+    background-image: linear-gradient(90deg, #9122ff, #e8c77e);
+    background-position: 0 100%;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+}
+
+.download-btn:hover {
+    @apply text-white;
+}
+/* ===== Hero entrance (plays once the loader curtain opens) ===== */
+.about-me .left-block > *,
+.about-me .right-block > *,
+.about-me .picture {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-me.hero-in .left-block > *,
+.about-me.hero-in .right-block > *,
+.about-me.hero-in .picture {
+    opacity: 1;
+    transform: none;
+}
+
+.about-me.hero-in .left-block > :nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.about-me.hero-in .left-block > :nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.about-me.hero-in .left-block > :nth-child(3) {
+    transition-delay: 0.25s;
+}
+
+.about-me.hero-in .picture {
+    transition-delay: 0.2s;
+}
+
+.about-me.hero-in .right-block > :nth-child(1) {
+    transition-delay: 0.35s;
+}
+
+.about-me.hero-in .right-block > :nth-child(2) {
+    transition-delay: 0.45s;
+}
+
+/* the indicator only fades (it carries its own centering transform) */
+.about-me .scroll-indicator {
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s, color 0.3s;
+}
+
+.about-me.hero-in .scroll-indicator {
+    opacity: 1;
+}
+
+/* ===== Scroll indicator ===== */
+.scroll-indicator {
+    @apply absolute left-1/2 -translate-x-1/2 bottom-2 hidden lg:flex flex-col items-center gap-2 no-underline z-20;
+    color: rgba(235, 245, 255, 0.45);
+}
+
+.scroll-indicator:hover {
+    color: rgba(235, 245, 255, 0.85);
+}
+
+.scroll-mouse {
+    width: 24px;
+    height: 38px;
+    border-radius: 999px;
+    border: 2px solid currentColor;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+}
+
+.scroll-wheel {
+    width: 3px;
+    height: 7px;
+    border-radius: 999px;
+    background: currentColor;
+    animation: scroll-wheel 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    will-change: transform, opacity;
+}
+
+.scroll-hint {
+    @apply text-xxs uppercase;
+    letter-spacing: 0.35em;
+}
+
+@keyframes scroll-wheel {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(12px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+}
+
+/* ===== Stats strip ===== */
+.stats-strip {
+    @apply grid grid-cols-2 lg:grid-cols-4 gap-y-8 rounded-2xl px-6 py-8 lg:py-10 mb-20;
+}
+
+.stats-cell {
+    @apply relative flex flex-col items-center gap-2 text-center;
+}
+
+.stats-value {
+    @apply text-4xl lg:text-5xl font-extrabold;
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-label {
+    @apply text-xs lg:text-sm uppercase tracking-widest;
+    color: #8a8aab;
+}
+
+@media (min-width: 1024px) {
+    .stats-cell + .stats-cell::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60%;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(235, 235, 255, 0.14), transparent);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-me .left-block > *,
+    .about-me .right-block > *,
+    .about-me .picture,
+    .about-me .scroll-indicator {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .scroll-wheel {
+        animation: none;
+    }
 }

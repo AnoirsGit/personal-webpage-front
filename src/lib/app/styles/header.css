@@ -1,19 +1,85 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .header-wrapper {
-    @apply fixed inset-0 z-80 h-max lg:p-0 lg:h-20 w-screen font-semibold box-border bg-deep-dark-bg border-b-2 border-dark;
+    @apply fixed inset-0 z-80 h-max lg:p-0 lg:h-20 w-screen font-semibold box-border;
+    background: rgba(13, 13, 19, 0.55);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid rgba(235, 235, 255, 0.07);
+    box-shadow: 0 8px 40px -16px rgba(0, 0, 0, 0.8);
+}
+
+/* gradient hairline glow under header */
+.header-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(145, 34, 255, 0), rgba(145, 34, 255, 0.5) 35%, rgba(232, 199, 126, 0.35) 65%, rgba(145, 34, 255, 0));
 }
 
 .header-item {
-    @apply h-16 mb-0 lg:h-20 flex items-center justify-between relative border-b-2 border-dark lg:border-none;
+    @apply h-16 mb-0 lg:h-20 flex items-center justify-between relative border-b border-hairline lg:border-none;
 }
 
 .nav-item {
-    @apply h-full px-2 font-normal text-lg hover:text-main-dark-purple hover:border-b-2 border-main-dark-purple;
+    @apply h-full px-2 font-normal text-lg relative transition-colors duration-300 ease-premium hover:text-white;
+}
+
+/* animated underline */
+.nav-item::after {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 1.25rem;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #9122ff, #e8c77e);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-item:hover::after {
+    transform: scaleX(1);
 }
 
 .nav-item.active {
-    @apply px-2 border-b-2 text-main-purple border-main-purple
+    @apply px-2 text-main-purple;
+}
+
+.nav-item.active::after {
+    transform: scaleX(1);
+}
+
+.nav-item.active a {
+    color: #ffffff;
+}
+
+.header-wrapper .brand {
+    @apply flex items-center gap-3 no-underline;
+}
+
+.header-wrapper .brand img {
+    @apply w-8 h-8 transition-transform duration-300 ease-premium;
+}
+
+.header-wrapper .brand:hover img {
+    transform: rotate(-8deg) scale(1.06);
+}
+
+/* reading progress bar pinned to the header's bottom edge */
+.scroll-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(90deg, #9122ff, #e8c77e);
+    box-shadow: 0 0 12px rgba(145, 34, 255, 0.5);
+    will-change: transform;
+    pointer-events: none;
 }

@@ -3,6 +3,7 @@
 	import '$lib/app/styles/sections/Skills.css';
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import CustomTab from '$lib/shared/UI/CustomTab.svelte';
+	import Deferred from '$lib/shared/UI/Deferred.svelte';
 	import tree from '$lib/shared/mocks/tree.json'
 
 	const skillCategories = [
@@ -23,5 +24,7 @@
 			activeTab = tab;
 		}}
 	/>
-	<SkillTree isEditMode={false} nodes={tree[activeTab].nodes} edges={tree[activeTab].edges} />
+	<Deferred minHeight="600px">
+		<SkillTree isEditMode={false} nodes={tree[activeTab].nodes} edges={tree[activeTab].edges} />
+	</Deferred>
 </SectionLayout>

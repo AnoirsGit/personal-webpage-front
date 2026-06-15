@@ -1,43 +1,57 @@
 <script>
-	import { onMount } from 'svelte';
+	import dayjs from 'dayjs';
 	import '$lib/app/styles/sections/Works.css';
-	import TimelineItem from './ui/TimelineItem.svelte';
-	import TimelinePoint from './ui/TimelinePoint.svelte';
+
+	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
+	import WorkCard from './ui/WorkCard.svelte';
+	import reveal from '$lib/shared/UI/effects/reveal';
 	import worksMock from '$lib/shared/mocks/works.json';
-	import { deviceWidth } from '$lib/shared/stores/globalStore';
 
-	let experiencesLoaded = 0;
-	let experiencesCount = 0;
 	export let works = worksMock;
-	export let onExperiencesLoaded = () =>
-		console.log(`Loaded experiences:  ${experiencesLoaded}/${experiencesCount}`);
 
-	$: isMobile = $deviceWidth < 768;
-
-	works = works.map((work, i) => {
-		let colors = ['#FFFFFF', '#000000'];
-		if (i < works.length - 1) colors = [work.color, works[i + 1].color];
-		else {
-			colors = [work.color, work.color];
-		}
-		return { ...work, colors };
-	});
-
-	onMount(() => {
-		experiencesCount = works.length;
-	});
-
-	const handleExperienceLoad = () => {
-		experiencesLoaded++;
-		if (experiencesLoaded === experiencesCount) onExperiencesLoaded();
+	const formatDate = (date) => {
+		if (!date || date === 'Present') return 'Present';
+		return dayjs(date.replace(/T$/, '')).format('MMM YYYY');
 	};
+
+	const formatRange = (dates) => dates.map(formatDate).join(' — ');
 </script>
 
-<div class="flex flex-col relative timeline text-card-grey">
-	{#each works as work}
-		<TimelineItem onCardsLoaded={handleExperienceLoad} {isMobile} experienceItem={work} />
+<div class="works-timeline">
+	{#each works as work, workIndex}
+		<article class="work-entry" style="--work-color: {work.color}">
+			<div class="work-head" use:reveal>
+				<span class="work-node" />
+				<p class="work-dates">
+					<span class="work-range">{formatRange(work.dates)}</span>
+					<span class="work-place">{work.place}</span>
+				</p>
+				<h3 class="work-title">
+					{work.title}
+					<span class="work-position">{work.position}</span>
+				</h3>
+				<div class="work-skills">
+					{#each work.skills as skill, i}
+						<span class="skill-chip" use:reveal={{ delay: 80 + i * 45, y: 10, duration: 450 }}>
+							{skill}
+						</span>
+					{/each}
+				</div>
+				<div class="work-description">
+					<MarkdownWrapper mdClasses="lg mobile-lg white-code" source={work.baseDescription} />
+				</div>
+			</div>
+
+			<div class="work-cards">
+				{#each work.cards as card, cardIndex}
+					<WorkCard {card} flip={(workIndex + cardIndex) % 2 === 1} />
+				{/each}
+			</div>
+		</article>
 	{/each}
-	<div class="mx-2 my-6 md:m-4">
-		<TimelinePoint color={works[works.length - 1].color} />
+
+	<div class="work-end" use:reveal={{ y: 12 }}>
+		<span class="work-end-node" />
+		<p>…and the journey continues</p>
 	</div>
 </div>

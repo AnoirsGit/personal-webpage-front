@@ -1,17 +1,14 @@
 <script>
 	import { Canvas, T } from '@threlte/core';
 	import '$lib/app/styles/globe.css';
-	import { onReveal } from '@threlte/extras';
 
 	import GlobeMesh from '$lib/entities/globe/GlobeMesh.svelte';
 	import Atmosphere from '$lib/entities/globe/Atmosphere.svelte';
-	import { onLoaded } from '$lib/shared/stores/globalStore';
 
 	let x = 0;
 	let isDragging = false;
 	let startCoords = { x: 0 };
 	let velocity = { x: 0 };
-	export let onGlobeLoaded = () => console.log('Globe loaded');
 
 	const handleMouseDown = (event) => {
 		event.preventDefault();
@@ -45,8 +42,6 @@
 		}
 		requestAnimationFrame(updatePosition);
 	};
-
-	onReveal(() => onGlobeLoaded());
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->

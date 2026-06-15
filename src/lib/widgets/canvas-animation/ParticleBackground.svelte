@@ -5,16 +5,14 @@
 
 	let mounted = false;
 	let canvas;
-	let clientWidth;
-	let clientHeight;
 	let effect;
+	let resizeTimer;
 	const density = 1 / (50 * 50 * 3);
 
 	const initContent = () => {
 		const ctx = canvas.getContext('2d');
-		canvas.width = clientWidth;
-		canvas.height = clientHeight;
-		console.log('client height: '+ clientHeight)
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
 
 		effect = createStarEffect({ ctx, canvas, density, velocity: 0.15 });
 		effect.init();
@@ -23,10 +21,20 @@
 
 	onMount(() => (mounted = true));
 
-	$: if ($isLoaded && mounted) setTimeout(initContent(), 500);
+	$: if ($isLoaded && mounted) setTimeout(initContent, 500);
+
+	const resizeHandler = () => {
+		if (!effect) return;
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			effect.resize();
+		}, 200);
+	};
 
 	const mouseMoveHandler = (event) => {
-		effect?.mouseMoveHandler(event.pageX, event.pageY);
+		effect?.mouseMoveHandler(event.clientX, event.clientY);
 	};
 
 	const mouseLeaveHandler = () => {
@@ -34,8 +42,13 @@
 	};
 </script>
 
-<svelte:window on:mousemove={mouseMoveHandler} on:mouseleave={mouseLeaveHandler} />
+<svelte:window
+	on:mousemove={mouseMoveHandler}
+	on:mouseleave={mouseLeaveHandler}
+	on:resize={resizeHandler}
+/>
 
-<div class="absolute w-full h-full z-[-1]" bind:clientHeight bind:clientWidth>
+<!-- fixed star field: covers the viewport no matter how tall the page grows -->
+<div class="fixed inset-0 z-[-1] pointer-events-none">
 	<canvas bind:this={canvas} />
 </div>

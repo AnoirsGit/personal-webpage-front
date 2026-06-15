@@ -1,23 +1,118 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.contacts-stage {
+    position: relative;
+    /* keep the globe glow from crowding the "journey continues" tail above */
+    padding-top: 2rem;
+}
 
-.contacts {
-    @apply flex mt-96 lg:mt-40 z-10
+/* ===== Contacts panel ===== */
+.contacts-panel-wrap {
+    @apply relative z-10 w-full flex justify-center;
+    margin-top: 86vw;
+}
+
+@media (min-width: 1024px) {
+    .contacts-panel-wrap {
+        @apply absolute left-0 justify-start w-auto;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-top: 0;
+    }
+}
+
+.contacts-panel {
+    @apply w-full max-w-md rounded-2xl p-6 lg:p-8 flex flex-col gap-6;
+    box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.95);
+}
+
+.contacts-head {
+    @apply flex flex-col gap-1.5;
+}
+
+.contacts-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.25em];
+    color: #e8c77e;
+}
+
+.contacts-title {
+    @apply text-2xl lg:text-3xl font-bold tracking-tight text-white;
 }
 
 .contact-list {
-    @apply text-lg flex flex-col gap-4
+    @apply flex flex-col gap-2;
 }
 
+/* ===== Single contact row — icon plate + label/value + action ===== */
 .contact-item {
-    @apply cursor-pointer flex gap-2 items-center
+    @apply flex items-center gap-4 rounded-xl px-3 py-2.5 border border-transparent transition-all duration-300 ease-premium;
 }
 
-.contact-link {
-    @apply hover:underline text-sm lg:text-base
+.contact-item:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+    border-color: rgba(235, 235, 255, 0.1);
+    transform: translateX(4px);
 }
 
-.contact-item-icon {
-    @apply w-8 h-8 mr-2
+.contact-plate {
+    @apply flex items-center justify-center flex-shrink-0 rounded-xl text-xl;
+    width: 44px;
+    height: 44px;
+    color: #b9a9e8;
+    background: rgba(145, 34, 255, 0.12);
+    border: 1px solid rgba(145, 34, 255, 0.25);
+    transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-item:hover .contact-plate {
+    color: #e8c77e;
+    background: rgba(145, 34, 255, 0.22);
+    border-color: rgba(232, 199, 126, 0.45);
+    box-shadow: 0 0 24px -6px rgba(145, 34, 255, 0.6);
+}
+
+.contact-plate svg {
+    @apply text-xl;
+}
+
+/* body is a button OR an anchor — normalize both */
+.contact-body {
+    @apply flex flex-col items-start gap-0.5 flex-1 min-w-0 text-left no-underline bg-transparent;
+}
+
+.contact-label {
+    @apply text-xs uppercase tracking-widest;
+    color: #8a8aab;
+}
+
+.contact-value {
+    @apply text-sm lg:text-base font-medium truncate max-w-full;
+    color: rgba(235, 245, 255, 0.82);
+    transition: color 0.3s;
+}
+
+.contact-item:hover .contact-value {
+    @apply text-white;
+}
+
+.contact-action {
+    @apply flex-shrink-0 text-lg opacity-0 transition-all duration-300 ease-premium;
+    color: #8a8aab;
+    transform: translateX(-4px);
+}
+
+.contact-item:hover .contact-action {
+    @apply opacity-100;
+    color: #e8c77e;
+    transform: translateX(0);
+}
+
+/* ===== Local time chip ===== */
+.contacts-time {
+    @apply flex items-center gap-2 mt-1 px-3 py-2 rounded-lg text-sm w-max;
+    color: #b9a9e8;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(235, 235, 255, 0.07);
+}
+
+.contacts-time svg {
+    @apply text-lg;
 }

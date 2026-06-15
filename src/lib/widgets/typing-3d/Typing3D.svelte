@@ -5,7 +5,7 @@
 	import TypingPerson from '$lib/entities/3d/models/typingPerson.svelte';
 
 	let canGreet = true;
-	export let onLoaded;
+	export let onLoaded = () => {};
 	const animationQueue = [];
 
 	const greet = () => {
@@ -19,7 +19,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="w-full lg:w-1/2 h-104 lg:h-120" on:mouseenter={greet}>
+<div class="w-full h-full min-h-104" on:mouseenter={greet}>
 	<Canvas>
 		<T.PerspectiveCamera
 			makeDefault

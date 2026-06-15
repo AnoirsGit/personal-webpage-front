@@ -16,28 +16,23 @@
 	
 </script>
 
-<div bind:this={container}
-	class="w-full h-96 overflow-scroll rounded-xl relative"
->
-	<div
-		class="draggable-content skills-bg-color"
-		style="
-		width: {widthInSections * 100}px;
-		height: {heightInSections * 100}px;
-		transform-origin: top left;
-		transform: scale({scale});
-		overflow: hidden;
-		position: absolute;
-		"
+<div class="skills-stage rounded-xl">
+	<div bind:this={container}
+		class="w-full h-96 overflow-scroll rounded-xl relative"
 	>
-		{#each Array(widthInSections) as _, i (i)}
-			{#each Array(heightInSections) as _, j (j)}
-				<div
-					class="absolute skills-section-border"
-					style={`width: 100px; height: 100px; top:${i * 100}px; left:${j * 100}px`}
-				/>
-			{/each}
-		{/each}
-		<slot />
+		<div
+			class="draggable-content skills-bg-color skills-grid"
+			style="
+			width: {widthInSections * 100}px;
+			height: {heightInSections * 100}px;
+			transform-origin: top left;
+			transform: scale({scale});
+			overflow: hidden;
+			position: absolute;
+			"
+		>
+			<slot />
+		</div>
 	</div>
+	<span class="skills-vignette" />
 </div>

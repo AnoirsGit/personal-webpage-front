@@ -13,8 +13,31 @@ export default {
 				'dark-grey': '#2d2d39',
 				'main-purple': '#9122FF',
 				'main-dark-purple': '#6600cc',
-				'card-gray': 'rgba(235, 245, 255, 0.5)',
-				'card-grey': 'rgba(235, 245, 255, 0.8)'
+				'card-gray': 'rgba(235, 245, 255, 0.74)',
+				'card-grey': 'rgba(235, 245, 255, 0.82)',
+				'light-purple': '#B57BFF',
+				'accent-gold': '#E8C77E',
+				'accent-gold-soft': '#F3E3BC',
+				'surface-1': '#15151E',
+				'surface-2': '#1F1F2C',
+				hairline: 'rgba(235, 235, 255, 0.08)'
+			},
+			boxShadow: {
+				glow: '0 0 40px -8px rgba(145, 34, 255, 0.45)',
+				'glow-lg': '0 10px 60px -12px rgba(145, 34, 255, 0.55)',
+				'glow-gold': '0 0 32px -6px rgba(232, 199, 126, 0.35)',
+				'card-premium':
+					'0 24px 60px -24px rgba(0, 0, 0, 0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.06)',
+				'inset-hairline': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.08)'
+			},
+			backgroundImage: {
+				'gradient-purple': 'linear-gradient(135deg, #A24BFF 0%, #7A18E0 55%, #5B0FB0 100%)',
+				'gradient-gold': 'linear-gradient(135deg, #F3E3BC 0%, #E8C77E 45%, #C9A24B 100%)',
+				'gradient-heading': 'linear-gradient(180deg, #FFFFFF 0%, #E7E2FF 55%, #B9A9E8 100%)',
+				glass: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)'
+			},
+			transitionTimingFunction: {
+				premium: 'cubic-bezier(0.22, 1, 0.36, 1)'
 			},
 			spacing: {
 				0.75: '0.1875rem',

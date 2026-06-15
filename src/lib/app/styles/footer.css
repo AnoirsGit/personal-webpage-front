@@ -1,0 +1,68 @@
+.app-footer {
+    border-top: 1px solid rgba(235, 235, 255, 0.07);
+    background:
+        radial-gradient(60% 140% at 50% 0%, rgba(145, 34, 255, 0.08) 0%, rgba(145, 34, 255, 0) 60%),
+        rgba(13, 13, 19, 0.6);
+}
+
+.app-footer .footer-inner {
+    @apply w-full px-6 lg:mx-auto lg:w-240 xl:w-320 2xl:w-360 text-white py-12 flex flex-col gap-10;
+}
+
+.footer-top {
+    @apply flex flex-col lg:flex-row justify-between gap-10;
+}
+
+.footer-brand {
+    @apply flex flex-col gap-3 max-w-sm;
+}
+
+.footer-brand .brand-row {
+    @apply flex items-center gap-3;
+}
+
+.footer-brand img {
+    @apply w-9 h-9;
+}
+
+.footer-tagline {
+    @apply text-sm;
+    color: #8a8aab;
+}
+
+.footer-nav {
+    @apply flex flex-col gap-3;
+}
+
+.footer-heading {
+    @apply text-sm font-semibold uppercase tracking-widest;
+    color: #8a8aab;
+}
+
+.footer-nav a {
+    @apply no-underline text-card-grey hover:text-white transition-colors duration-300 text-sm w-max;
+}
+
+.footer-socials {
+    @apply flex gap-3;
+}
+
+.footer-social-link {
+    @apply flex justify-center items-center w-11 h-11 rounded-xl text-2xl no-underline transition-all duration-300 ease-premium;
+    color: #b9a9e8;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(235, 235, 255, 0.08);
+}
+
+.footer-social-link:hover {
+    color: #ffffff;
+    border-color: rgba(145, 34, 255, 0.45);
+    box-shadow: 0 0 24px -6px rgba(145, 34, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    @apply flex flex-col md:flex-row items-center justify-between gap-3 pt-6 text-xs;
+    color: #8a8aab;
+    border-top: 1px solid rgba(235, 235, 255, 0.06);
+}

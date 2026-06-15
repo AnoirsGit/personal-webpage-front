@@ -1,42 +1,37 @@
 <script>
 	import '$lib/app/styles/app.css';
 	import '$lib/app/styles/markdown-reader.css';
-	import { deviceWidth, isCloseLoader } from '$lib/shared/stores/globalStore';
+	import { onMount } from 'svelte';
+	import { deviceWidth, isCloseLoader, startLoader } from '$lib/shared/stores/globalStore';
 
 	import Header from '$lib/widgets/Header.svelte';
+	import Footer from '$lib/widgets/Footer.svelte';
 	import PageLoader from '$lib/widgets/page-loader/PageLoader.svelte';
 	import ParticleBackground from '$lib/widgets/canvas-animation/ParticleBackground.svelte';
 	import Messages from '$lib/shared/Messages.svelte';
+	import BackToTop from '$lib/shared/UI/BackToTop.svelte';
 
-	let isStart = false;
 	$: isMobile = $deviceWidth < 768;
-	
-	const startLoad = () => (isStart = true);
-	const closeLoader = () => ($isCloseLoader = true);
 
-	setTimeout(startLoad, 1);
-	setTimeout(closeLoader, 3500);
+	onMount(startLoader);
 </script>
 
-<svelte:window bind:innerWidth={$deviceWidth} ></svelte:window>
+<svelte:window bind:innerWidth={$deviceWidth} />
 
 {#if !$isCloseLoader}
 	<PageLoader />
 {/if}
 
-<main>
-	<Messages />
-	<Header />
+<Messages />
+<Header />
+<BackToTop />
+
+<div class="app-shell">
 	{#if !isMobile}
 		<ParticleBackground />
 	{/if}
-	<main b class="app-content pb-10">
-		{#if isStart}
-			<slot />
-		{/if}
-
-		<footer>
-			<!-- Footer content goes here -->
-		</footer>
+	<main class="app-content pb-10">
+		<slot />
 	</main>
-</main>
+	<Footer />
+</div>

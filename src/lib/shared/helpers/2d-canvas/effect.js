@@ -48,16 +48,21 @@ export const createEffect = (ctx, canvas, image) => {
 
 export const createStarEffect = ({ ctx, canvas, density = 1 / 2500, velocity = 0.5 }) => {
     const particles = [];
-    const particleCount = Math.floor(canvas.width * canvas.height * density);
     let connected = [];
     let mouse = { r: 200, x: null, y: null };
 
-    const init = () => {
+    const populate = () => {
+        particles.length = 0;
+        const particleCount = Math.floor(canvas.width * canvas.height * density);
         for (let i = 0; i < particleCount; i++) {
             particles.push(StarParticle({ id: i, canvas, ctx, velocity }));
         }
-    	console.log('particles count: '+ particles.length)
     };
+
+    const init = () => populate();
+
+    // re-seed particles for the current canvas size (e.g. after a window resize)
+    const resize = () => populate();
 
     const sortParticles = () => particles.sort((a, b) => {
         if (a.y === b.y) return a.x - b.x;
@@ -124,7 +129,7 @@ export const createStarEffect = ({ ctx, canvas, density = 1 / 2500, velocity = 0
         mouse.y = null;
     };
 
-    return { init, draw, update, mouseMoveHandler, mouseLeaveHandler };
+    return { init, resize, draw, update, mouseMoveHandler, mouseLeaveHandler };
 };
 
 export const animate = ({ ctx, canvas, effect }) => {

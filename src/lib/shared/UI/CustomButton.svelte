@@ -20,10 +20,26 @@
 	const lengths = { default: ['w-max'], full: ['w-full'] };
 
 	const colors = {
-		dark: ['bg-dark', 'hover:opacity-60', 'text-white'],
-		transparent: ['text-main-purple', 'hover:text-dark-purple'],
+		dark: [
+			'bg-surface-2',
+			'text-white',
+			'border',
+			'border-hairline',
+			'shadow-inset-hairline',
+			'hover:border-light-purple/40',
+			'hover:shadow-glow'
+		],
+		transparent: ['text-main-purple', 'hover:text-light-purple'],
 		transparentWhite: ['text-white', 'hover:text-slate-300'],
-		purple: ['bg-main-purple', 'hover:bg-main-dark-purple', 'text-white']
+		purple: [
+			'bg-gradient-purple',
+			'text-white',
+			'shadow-glow',
+			'border',
+			'border-light-purple/30',
+			'hover:shadow-glow-lg',
+			'hover:-translate-y-0.5'
+		]
 	};
 
 	const findClasses = (obj, key) => {
@@ -31,7 +47,7 @@
 		return obj['default'].join(' ');
 	};
 
-	const classNames = `${findClasses(lengths, length)} rounded-xl font-normal 
+	const classNames = `${findClasses(lengths, length)} inline-flex items-center justify-center no-underline rounded-xl font-medium tracking-wide transition-all duration-300 ease-premium will-change-transform
 	${findClasses(sizes, size)} ${findClasses(colors, color)} ${additionalClasses}`;
 
 	function handleClick() {

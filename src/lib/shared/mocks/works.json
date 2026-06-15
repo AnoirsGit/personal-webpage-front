@@ -1,105 +1,162 @@
 [
-	{
-		"color": "#66ff99",
-		"dates": ["2024-09-01", "Present"],
-		"title": "Solution Architects",
-		"position": "Backend Software Engineer",
-		"place": "Remote (Astana, Kazakhstan)",
-		"baseDescription": "`Company specializing in scalable backend solutions and infrastructure optimization.`",
-		"skills": [
-			"Node.js",
-			"Fastify.js",
-			"AWS",
-			"Redis",
-			"Docker",
-			"PostgreSQL",
-			"Kysely.js",
-			"Prometheus"
-		],
-		"cards": [
-			{
-				"text": "`Built `architecture` from scratch for multiple projects, ensuring scalability and reliability. `Implemented architectural patterns` for efficient `database transactions`, improving consistency and simplifying system usage.",
-				"variant": 3,
-				"imageUrls": [ "images/solution-architects.webp"]
-			},
-			{
-				"text": "`Developed` a fully functional `marketing calendar` for scheduling advertising campaigns across `time zones` and `implemented architectural patterns` for efficient, reliable `database transactions`.",
-				"variant": 2,
-				"imageUrls": ["images/mobivity-desktop.webp", "images/mobivity-panel.webp"]
-			}
-		]
-	},
-	{
-		"color": "#003d99",
-		"dates": ["2021-07-01T", "2024-08-01T"],
-		"title": "POWR.io",
-		"position": "Backend Software Engineer",
-		"place": "Remote (Based San Francisco, CA)",
-		"baseDescription": "`POWR.io offers customizable website plugins to enhance small businesses’ online presence.`",
-		"skills": [
-			"Node.js",
-			"Next.js",
-			"Redis",
-			"Docker",
-			"PostgreSQL",
-			"Ruby on Rails",
-			"React.js",
-			"SEO",
-			"Bash",
-			"Linux"
-		],
-		"cards": [
-			{
-				"text": "`Developed` customizable `website plugins` that increased sales by `40%` and boosted `customer engagement` by creating `1 billion localized landing pages` in `12 languages` for enhanced `SEO`.",
-				"variant": 3,
-				"link": {
-					"src": "https://www.powr.io/form-builder-website-app",
-					"label": "POWR.io Form builder"
-				},
-				"imageUrls": ["images/powr-logo.webp"]
-			},
-			{
-				"text": "`Designed` an `automation system` for `internal workflows`—including `chat notifications`, `ticket updates`, `Git branch documentation`, and `CI/CD tracking`—while `conducting code reviews` and `mentoring junior developers`.",
-				"variant": 1,
-				"link": {
-					"src": "https://powr.io/",
-					"label": "POWR.io"
-				},
-				"imageUrls": ["images/powrio.webp"]
-			}
-		]
-	},
-	{
-		"color": "#80d4ff",
-		"dates": ["2020-01-01", "2021-07-01"],
-		"title": "NCRM GROUP",
-		"position": "Front-end Engineer and Project Manager",
-		"place": "Almaty, Kazakhstan",
-		"baseDescription": "NCRM - Simple CRM for Systematic Sales",
-		"skills": ["Angular 10", "Jasmine.js", "Vue.js", "Vite", "Docker"],
-		"cards": [
-			{
-				"text": "`Developed` the `front-end infrastructure` and `prototype` for a CRM project. The `MVP` was used by a company with over `2000+ employees`. ",
-				"link": {
-					"src": "https://ncrm.kz/",
-					"label": "NCRM.KZ"
-				},
-				"variant": 1,
-				"imageUrls": ["images/ncrm.webp"]
-			},
-			{
-				"text": "Significantly increased `code maintainability` and support by writing the project documentation. \n\n Integrated `web chat` inside CRM with popular messengers, such as `Whatsapp` and `Telegram`. Utilized free and premium APIs of those messengers for companies to communicate with their customers through our chat interface.",
-				"link": {
-					"src": "asdf",
-					"label": "asdfasdf"
-				},
-				"variant": 2,
-				"imageUrls": [
-					"images/ncrm-desktop.webp",
-					"images/ncrm-mobile.webp"
-				]
-			}
-		]
-	}
-	
+    {
+        "color": "#66ff99",
+        "dates": [
+            "2024-09-01",
+            "Present"
+        ],
+        "title": "Solution Architects",
+        "position": "Backend Software Engineer",
+        "place": "Remote (Astana, Kazakhstan)",
+        "baseDescription": "`Company specializing in scalable backend solutions and infrastructure optimization.`",
+        "skills": [
+            "Node.js",
+            "Fastify.js",
+            "AWS",
+            "Redis",
+            "Docker",
+            "PostgreSQL",
+            "Kysely.js",
+            "Prometheus"
+        ],
+        "cards": [
+            {
+                "text": "`Built `architecture` from scratch for multiple projects, ensuring scalability and reliability. `Implemented architectural patterns` for efficient `database transactions`, improving consistency and simplifying system usage.",
+                "role": "Backend Architecture",
+                "stack": ["Node.js", "PostgreSQL", "Redis", "Docker"],
+                "metrics": [
+                    { "value": "From scratch", "label": "system design" },
+                    { "value": "Multi-project", "label": "scale" }
+                ],
+                "variant": 3,
+                "imageUrls": [
+                    "images/solution-architects.webp"
+                ]
+            },
+            {
+                "text": "`Developed` a fully functional `marketing calendar` for scheduling advertising campaigns across `time zones` and `implemented architectural patterns` for efficient, reliable `database transactions`.",
+                "role": "Scheduling Platform",
+                "stack": ["Fastify.js", "PostgreSQL", "AWS", "Kysely.js"],
+                "metrics": [
+                    { "value": "Multi-TZ", "label": "campaign scheduling" }
+                ],
+                "variant": 2,
+                "imageUrls": [
+                    "images/mobivity-desktop.webp",
+                    "images/mobivity-panel.webp"
+                ]
+            }
+        ]
+    },
+    {
+        "color": "#003d99",
+        "dates": [
+            "2021-07-01T",
+            "2024-08-01T"
+        ],
+        "title": "POWR.io",
+        "position": "Backend Software Engineer",
+        "place": "Remote (Based San Francisco, CA)",
+        "baseDescription": "`POWR.io offers customizable website plugins to enhance small businesses’ online presence.`",
+        "skills": [
+            "Node.js",
+            "Next.js",
+            "Redis",
+            "Docker",
+            "PostgreSQL",
+            "Ruby on Rails",
+            "React.js",
+            "SEO",
+            "Bash",
+            "Linux"
+        ],
+        "cards": [
+            {
+                "text": "`Developed` customizable `website plugins` that increased sales by `40%` and boosted `customer engagement` by creating `1 billion localized landing pages` in `12 languages` for enhanced `SEO`.",
+                "role": "Plugin Platform · SEO",
+                "stack": ["Node.js", "Next.js", "Ruby on Rails"],
+                "metrics": [
+                    { "value": "+40%", "label": "sales" },
+                    { "value": "1B+", "label": "landing pages" },
+                    { "value": "12", "label": "languages" }
+                ],
+                "variant": 3,
+                "link": {
+                    "src": "https://www.powr.io/form-builder-website-app",
+                    "label": "POWR.io Form builder"
+                },
+                "imageUrls": [
+                    "images/powr-logo.webp"
+                ]
+            },
+            {
+                "text": "`Designed` an `automation system` for `internal workflows`—including `chat notifications`, `ticket updates`, `Git branch documentation`, and `CI/CD tracking`—while `conducting code reviews` and `mentoring junior developers`.",
+                "role": "Internal Automation",
+                "stack": ["Node.js", "Bash", "CI/CD", "Linux"],
+                "metrics": [
+                    { "value": "CI/CD", "label": "workflow automation" },
+                    { "value": "Mentoring", "label": "junior devs" }
+                ],
+                "variant": 1,
+                "link": {
+                    "src": "https://powr.io/",
+                    "label": "POWR.io"
+                },
+                "imageUrls": [
+                    "images/powrio.webp"
+                ]
+            }
+        ]
+    },
+    {
+        "color": "#80d4ff",
+        "dates": [
+            "2020-01-01",
+            "2021-07-01"
+        ],
+        "title": "NCRM GROUP",
+        "position": "Front-end Engineer and Project Manager",
+        "place": "Almaty, Kazakhstan",
+        "baseDescription": "NCRM - Simple CRM for Systematic Sales",
+        "skills": [
+            "Angular 10",
+            "Jasmine.js",
+            "Vue.js",
+            "Vite",
+            "Docker"
+        ],
+        "cards": [
+            {
+                "text": "`Developed` the `front-end infrastructure` and `prototype` for a CRM project. The `MVP` was used by a company with over `2000+ employees`. ",
+                "role": "Front-end Lead · CRM",
+                "stack": ["Angular 10", "Vue.js", "Vite"],
+                "metrics": [
+                    { "value": "2000+", "label": "users" },
+                    { "value": "MVP", "label": "shipped" }
+                ],
+                "link": {
+                    "src": "https://ncrm.kz/",
+                    "label": "NCRM.KZ"
+                },
+                "variant": 1,
+                "imageUrls": [
+                    "images/ncrm.webp"
+                ]
+            },
+            {
+                "text": "Significantly increased `code maintainability` and support by writing the project documentation. \n\n Integrated `web chat` inside CRM with popular messengers, such as `Whatsapp` and `Telegram`. Utilized free and premium APIs of those messengers for companies to communicate with their customers through our chat interface.",
+                "role": "Integrations · Docs",
+                "stack": ["Angular 10", "WebSockets", "REST APIs"],
+                "metrics": [
+                    { "value": "WhatsApp", "label": "+ Telegram chat" }
+                ],
+                "link": null,
+                "variant": 2,
+                "imageUrls": [
+                    "images/ncrm-desktop.webp",
+                    "images/ncrm-mobile.webp"
+                ]
+            }
+        ]
+    }
 ]

@@ -1,58 +1,120 @@
+/*
+ * Loader animations intentionally use ONLY transform / opacity:
+ * they run on the compositor thread and keep playing even while
+ * the main thread is busy hydrating or compiling WebGL shaders.
+ */
+
 .page-loader {
-    svg {
-        overflow: visible;
-        width: 100px;
-        height: 150px;
-    }
+    @apply w-full h-full flex flex-col items-center justify-center gap-10;
+}
 
-    svg g {
-        animation: slide 2s linear infinite;
-    }
+.loader-emblem {
+    @apply relative flex justify-center items-center;
+    width: 148px;
+    height: 148px;
+}
 
-    svg g:nth-child(2) {
-        animation-delay: calc(2s / 4);
-    }
+.loader-logo {
+    width: 76px;
+    height: 76px;
+    border-radius: 20px;
+    filter: drop-shadow(0 0 28px rgba(145, 34, 255, 0.45));
+    animation: loader-breathe 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    will-change: transform;
+}
 
-    svg g:nth-child(2) path {
-        animation-delay: calc(2s / 4);
-        stroke-dasharray: 0px calc(300px + 1);
-        stroke-dashoffset: 1px;
-    }
+.loader-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: conic-gradient(from 0deg,
+            rgba(145, 34, 255, 0) 0%,
+            rgba(145, 34, 255, 0.9) 55%,
+            rgba(232, 199, 126, 0.9) 78%,
+            rgba(145, 34, 255, 0) 82%);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
+    animation: loader-spin 1.5s linear infinite;
+    will-change: transform;
+}
 
-    svg path {
-        stroke: url(#gradient);
-        stroke-width: 20px;
-        stroke-linecap: round;
-        fill: none;
-        stroke-dasharray: 0 calc(300px);
-        stroke-dashoffset: 0;
-        animation: escalade 2s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+.loader-ring-secondary {
+    inset: 16px;
+    opacity: 0.45;
+    animation: loader-spin 2.4s linear infinite reverse;
+}
+
+.loader-caption {
+    @apply flex items-end gap-1.5;
+}
+
+.loader-name {
+    @apply text-lg font-semibold;
+    letter-spacing: 0.45em;
+    margin-left: 0.45em; /* visually re-centers the tracked-out text */
+    background: linear-gradient(180deg, #ffffff 0%, #e7e2ff 55%, #b9a9e8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.loader-dots {
+    @apply flex gap-1 pb-1.5;
+}
+
+.loader-dots i {
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background: #e8c77e;
+    opacity: 0.2;
+    animation: loader-dot 1.2s ease-in-out infinite;
+    will-change: opacity;
+}
+
+.loader-dots i:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loader-dots i:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loader-spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 
-@keyframes slide {
-    0% {
-        transform: translateY(-50px);
-    }
+@keyframes loader-breathe {
 
+    0%,
     100% {
-        transform: translateY(50px);
-    }
-}
-
-@keyframes escalade {
-    0% {
-        stroke-dasharray: 0 300px;
-        stroke-dashoffset: 0;
+        transform: scale(1);
     }
 
     50% {
-        stroke-dasharray: 300px 300px;
-        stroke-dashoffset: 0;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes loader-dot {
+
+    0%,
+    100% {
+        opacity: 0.2;
     }
 
-    100% {
-        stroke-dasharray: 300px 300px;
-        stroke-dashoffset: -159;
+    50% {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .loader-logo,
+    .loader-ring,
+    .loader-dots i {
+        animation: none;
     }
 }

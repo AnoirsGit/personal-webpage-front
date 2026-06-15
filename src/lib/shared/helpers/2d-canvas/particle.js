@@ -86,22 +86,10 @@ export const Particle = ({ canvas, ctx, particle, groupSize, mouse }) => {
 };
 
 
-function randomSmoothBySinCurve(x, startDeg) {
-    const randomNum = x * Math.random();
-    const ratio = randomNum / x;
-    const currSinDeg = Math.asin(ratio)
-    const radStartDeg = startDeg * Math.PI / 180
-    const resultSin = radStartDeg + currSinDeg;
-
-    if (Math.random() * 10 * Math.sin(resultSin) < 5) return Math.random * Math.random()
-    return randomNum
-
-}
-
 export const StarParticle = ({ canvas, ctx, id, velocity = 0.5 }) => {
     const size = Math.floor(Math.random() * 2 + 1);
     let x = Math.random() * canvas.width;
-    let y = randomSmoothBySinCurve(canvas.height, 30);
+    let y = Math.random() * canvas.height;
     let shine = false;
     let [velocityX, velocityY] = [Math.random() * velocity - (velocity / 2), Math.random() * velocity - (velocity / 2)];
     let opacity = Math.random() * 0.5 + 0.5;
