@@ -1,46 +1,135 @@
 [
     {
+        "color": "#00d8a0",
+        "dates": [
+            "2024-05-01",
+            "Present"
+        ],
+        "title": "Mercury Properties",
+        "position": "Senior Frontend Engineer",
+        "place": "Almaty, Kazakhstan",
+        "baseDescription": "`Kazakhstan's largest commercial real-estate holding — 51+ properties and 1M+ m² under management` — now building its own digital products for business.",
+        "skills": [
+            "Vue 3",
+            "Nuxt 3",
+            "TypeScript",
+            "Pinia",
+            "Vite",
+            "Tailwind CSS",
+            "Feature-Sliced Design",
+            "SSR",
+            "Docker"
+        ],
+        "cards": [
+            {
+                "text": "`MercuryX` — a turnkey `B2B platform` for sourcing and importing from China, part of the `Halyk ecosystem`.\n\n`Built the full Halyk Market integration`, rewrote the `business logic` behind it, and owned `product pricing` and `cost calculation` across `supplier price`, `logistics` and `customs` — the numbers the entire import flow runs on.",
+                "role": "MercuryX · Halyk Market Integration",
+                "stack": ["Nuxt 3", "TypeScript", "Pinia", "SSR"],
+                "metrics": [
+                    { "value": "Halyk", "label": "Market integration" },
+                    { "value": "End-to-end", "label": "pricing & cost engine" }
+                ],
+                "link": {
+                    "src": "https://mercuryx.kz/shop",
+                    "label": "MercuryX marketplace"
+                },
+                "imageUrls": [
+                    "images/mercuryx-shop.webp",
+                    "images/mercuryx-mobile.webp"
+                ]
+            },
+            {
+                "text": "`Rebuilt a barely viable MVP` into a platform that scales: `modular feature-based architecture`, no more shipping the whole app up front.\n\n`Initial load: 2.5 MB → 650 KB.` Set up the `code-review system` and automated the routine out of the developer workflow.",
+                "role": "MercuryX · Architecture & Performance",
+                "stack": ["Vue 3", "Vite", "Feature-Sliced Design", "Docker"],
+                "metrics": [
+                    { "value": "−74%", "label": "initial load" },
+                    { "value": "2.5 MB → 650 KB", "label": "first paint budget" }
+                ],
+                "link": {
+                    "src": "https://mercuryx.kz",
+                    "label": "mercuryx.kz"
+                },
+                "imageUrls": [
+                    "images/mercuryx-landing.webp"
+                ]
+            },
+            {
+                "text": "`CarCity` — an `auto-parts e-commerce marketplace` with delivery across Kazakhstan.\n\n`Cut SSR incidents` and emergency hotfixes `4× in two months`, then `documented` architecture, features and business logic — `onboarding stopped running on tribal knowledge`.",
+                "role": "CarCity · SSR Reliability",
+                "stack": ["Nuxt 3", "SSR", "TypeScript", "Docker"],
+                "metrics": [
+                    { "value": "4×", "label": "fewer SSR incidents" },
+                    { "value": "2 months", "label": "to stabilise" }
+                ],
+                "link": {
+                    "src": "https://carcity.kz",
+                    "label": "CarCity.kz"
+                },
+                "imageUrls": [
+                    "images/carcity-home.webp",
+                    "images/carcity-mobile.webp"
+                ]
+            },
+            {
+                "text": "`Migrated the whole project` from stock `Nuxt` to `Feature-Sliced Design`: less boilerplate, clear module boundaries, and `+120% feature velocity` for the team.",
+                "role": "CarCity · Feature-Sliced Design",
+                "stack": ["Nuxt 3", "Feature-Sliced Design", "Pinia", "Vite"],
+                "metrics": [
+                    { "value": "+120%", "label": "feature velocity" },
+                    { "value": "Full", "label": "architecture migration" }
+                ],
+                "link": {
+                    "src": "https://carcity.kz/merchant-landing",
+                    "label": "CarCity for sellers"
+                },
+                "imageUrls": [
+                    "images/carcity-merchant.webp"
+                ]
+            }
+        ]
+    },
+    {
         "color": "#66ff99",
         "dates": [
             "2024-09-01",
-            "Present"
+            "2025-02-01"
         ],
         "title": "Solution Architects",
-        "position": "Backend Software Engineer",
+        "position": "Full-Stack Software Engineer",
         "place": "Remote (Astana, Kazakhstan)",
         "baseDescription": "`Company specializing in scalable backend solutions and infrastructure optimization.`",
         "skills": [
             "Node.js",
             "Fastify.js",
+            "Vue 3",
+            "TypeScript",
             "AWS",
-            "Redis",
-            "Docker",
             "PostgreSQL",
-            "Kysely.js",
-            "Prometheus"
+            "Docker",
+            "GitHub Actions"
         ],
         "cards": [
             {
-                "text": "`Built `architecture` from scratch for multiple projects, ensuring scalability and reliability. `Implemented architectural patterns` for efficient `database transactions`, improving consistency and simplifying system usage.",
+                "text": "`Delivered several MVPs` with a team of senior engineers — `architecture`, `code review`, `data model` and `service layer` through to `UI`. `Implemented architectural patterns` for efficient `database transactions`, improving consistency and simplifying system usage.",
                 "role": "Backend Architecture",
                 "stack": ["Node.js", "PostgreSQL", "Redis", "Docker"],
                 "metrics": [
                     { "value": "From scratch", "label": "system design" },
                     { "value": "Multi-project", "label": "scale" }
                 ],
-                "variant": 3,
                 "imageUrls": [
                     "images/solution-architects.webp"
                 ]
             },
             {
-                "text": "`Developed` a fully functional `marketing calendar` for scheduling advertising campaigns across `time zones` and `implemented architectural patterns` for efficient, reliable `database transactions`.",
-                "role": "Scheduling Platform",
-                "stack": ["Fastify.js", "PostgreSQL", "AWS", "Kysely.js"],
+                "text": "`Built admin panels` on internal APIs, a `multi-time-zone marketing calendar` with its `scheduling logic`, and the `CI/CD pipeline on AWS` that ships them.\n\n`Wired Jira to GitHub` — linked environments, `ticket → branch → PR`, automated checks — and deleted the manual steps from the team's day.",
+                "role": "Scheduling Platform · DevOps",
+                "stack": ["Fastify.js", "PostgreSQL", "AWS", "GitHub Actions"],
                 "metrics": [
-                    { "value": "Multi-TZ", "label": "campaign scheduling" }
+                    { "value": "Multi-TZ", "label": "campaign scheduling" },
+                    { "value": "Jira → GitHub", "label": "automated" }
                 ],
-                "variant": 2,
                 "imageUrls": [
                     "images/mobivity-desktop.webp",
                     "images/mobivity-panel.webp"
@@ -51,36 +140,35 @@
     {
         "color": "#003d99",
         "dates": [
-            "2021-07-01T",
-            "2024-08-01T"
+            "2021-07-01",
+            "2024-08-01"
         ],
         "title": "POWR.io",
-        "position": "Backend Software Engineer",
+        "position": "Full-Stack Software Engineer",
         "place": "Remote (Based San Francisco, CA)",
-        "baseDescription": "`POWR.io offers customizable website plugins to enhance small businesses’ online presence.`",
+        "baseDescription": "`POWR.io offers customizable website plugins to enhance small businesses' online presence.`",
         "skills": [
-            "Node.js",
+            "React.js",
             "Next.js",
+            "Node.js",
+            "Ruby on Rails",
             "Redis",
             "Docker",
-            "PostgreSQL",
-            "Ruby on Rails",
-            "React.js",
+            "Kubernetes",
             "SEO",
             "Bash",
             "Linux"
         ],
         "cards": [
             {
-                "text": "`Developed` customizable `website plugins` that increased sales by `40%` and boosted `customer engagement` by creating `1 billion localized landing pages` in `12 languages` for enhanced `SEO`.",
+                "text": "`Built customizable website plugins` and dynamic UI in `React` on a `Node.js` and `Ruby on Rails` backend — a `40% lift in plugin sales`.\n\n`Generated 1M+ localized landing pages` in `12 languages`: `SEO` rankings up, inbound engagement doubled.",
                 "role": "Plugin Platform · SEO",
-                "stack": ["Node.js", "Next.js", "Ruby on Rails"],
+                "stack": ["React.js", "Next.js", "Node.js", "Ruby on Rails"],
                 "metrics": [
-                    { "value": "+40%", "label": "sales" },
-                    { "value": "1B+", "label": "landing pages" },
+                    { "value": "+40%", "label": "plugin sales" },
+                    { "value": "1M+", "label": "landing pages" },
                     { "value": "12", "label": "languages" }
                 ],
-                "variant": 3,
                 "link": {
                     "src": "https://www.powr.io/form-builder-website-app",
                     "label": "POWR.io Form builder"
@@ -90,14 +178,13 @@
                 ]
             },
             {
-                "text": "`Designed` an `automation system` for `internal workflows`—including `chat notifications`, `ticket updates`, `Git branch documentation`, and `CI/CD tracking`—while `conducting code reviews` and `mentoring junior developers`.",
-                "role": "Internal Automation",
-                "stack": ["Node.js", "Bash", "CI/CD", "Linux"],
+                "text": "`Moved image resizing to serverless` — faster responses, smaller hosting bill.\n\n`Built the integration system` that automated `chat notifications`, `ticket updates` and `CI/CD docs`, and `mentored` mid and junior engineers in a fully remote US team.",
+                "role": "Serverless · Internal Automation",
+                "stack": ["Node.js", "Kubernetes", "Bash", "Linux"],
                 "metrics": [
-                    { "value": "CI/CD", "label": "workflow automation" },
-                    { "value": "Mentoring", "label": "junior devs" }
+                    { "value": "Serverless", "label": "image pipeline" },
+                    { "value": "Mentoring", "label": "mid & junior devs" }
                 ],
-                "variant": 1,
                 "link": {
                     "src": "https://powr.io/",
                     "label": "POWR.io"
@@ -109,6 +196,25 @@
         ]
     },
     {
+        "color": "#c084fc",
+        "dates": [
+            "2022-12-01",
+            "2023-04-01"
+        ],
+        "title": "WoCards.app",
+        "position": "CTO · Side project",
+        "place": "Almaty, Kazakhstan",
+        "baseDescription": "`MVP mobile app for learning English by a flashcard system.` Led a small team, chose the stack and set up CI/CD from scratch.",
+        "skills": [
+            "Node.js",
+            "Flutter",
+            "React Native",
+            "Linux",
+            "CI/CD"
+        ],
+        "cards": []
+    },
+    {
         "color": "#80d4ff",
         "dates": [
             "2020-01-01",
@@ -117,17 +223,18 @@
         "title": "NCRM GROUP",
         "position": "Front-end Engineer and Project Manager",
         "place": "Almaty, Kazakhstan",
-        "baseDescription": "NCRM - Simple CRM for Systematic Sales",
+        "baseDescription": "`NCRM — a simple CRM for systematic sales.` Started as `Project Manager`, leading the sales-conversion and productivity statistics module now used by `50+ companies`, then moved into engineering.",
         "skills": [
             "Angular 10",
-            "Jasmine.js",
             "Vue.js",
             "Vite",
-            "Docker"
+            "Jasmine.js",
+            "Docker",
+            "OpenVPN"
         ],
         "cards": [
             {
-                "text": "`Developed` the `front-end infrastructure` and `prototype` for a CRM project. The `MVP` was used by a company with over `2000+ employees`. ",
+                "text": "`Built the front-end infrastructure` and `prototype` for a CRM project. The `MVP` is used by a company with over `2000+ employees`, and standardized practices kept the codebase consistent as the team grew.",
                 "role": "Front-end Lead · CRM",
                 "stack": ["Angular 10", "Vue.js", "Vite"],
                 "metrics": [
@@ -138,7 +245,6 @@
                     "src": "https://ncrm.kz/",
                     "label": "NCRM.KZ"
                 },
-                "variant": 1,
                 "imageUrls": [
                     "images/ncrm.webp"
                 ]
@@ -150,8 +256,6 @@
                 "metrics": [
                     { "value": "WhatsApp", "label": "+ Telegram chat" }
                 ],
-                "link": null,
-                "variant": 2,
                 "imageUrls": [
                     "images/ncrm-desktop.webp",
                     "images/ncrm-mobile.webp"
