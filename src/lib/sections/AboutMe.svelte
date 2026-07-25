@@ -58,7 +58,8 @@
 
 		<CustomButton
 			type="link"
-			href="https://docs.google.com/document/d/1AlX-mhyNl8OYVJvX5fUnEdkYC3HJmZEtf0ScIYJ6z4A/edit?usp=drive_link"
+			href="/cv/Anuar-Beibit-Full-Stack-Engineer.docx"
+			download="Anuar-Beibit-Full-Stack-Engineer.docx"
 			color="transparent"
 		>
 			<div class="download-btn">

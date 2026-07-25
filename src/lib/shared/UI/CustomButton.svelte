@@ -9,6 +9,8 @@
 	export let href = '#';
 	export let onClick;
 	export let additionalClasses = '';
+	// Filename to save as when the link points at a file; null leaves the attribute off.
+	export let download = null;
 
 	const sizes = {
 		small: ['px-3', 'py-2'],
@@ -58,7 +60,7 @@
 </script>
 
 {#if type === 'link'}
-	<a class={classNames} {href} target="_blank" {disabled}>
+	<a class={classNames} {href} target="_blank" {download} {disabled}>
 		<slot />
 	</a>
 {:else}
