@@ -10,10 +10,11 @@
 	import StatsStrip from '$lib/widgets/content/StatsStrip.svelte';
 	import reveal from '$lib/shared/UI/effects/reveal';
 	import { onLoaded, isCloseLoader } from '$lib/shared/stores/globalStore';
-	import { aboutMe } from '$lib/shared/mocks/about-me.json';
+	import { t } from '$lib/shared/i18n';
+	import { aboutMe } from '$lib/shared/i18n/content';
 
-	export let firstSection = aboutMe.firstBlock;
-	export let secondSection = aboutMe.secondBlock;
+	$: firstSection = $aboutMe.firstBlock;
+	$: secondSection = $aboutMe.secondBlock;
 
 	let imageEl;
 
@@ -27,11 +28,15 @@
 
 <section class="about-me" class:hero-in={$isCloseLoader}>
 	<div class="left-block">
-		<h1 class="header-1 text-gradient-heading">Hi, <br /> I'm <span class="text-gradient-gold">Anuar</span></h1>
-		<p>FullStack developer</p>
+		<h1 class="header-1 text-gradient-heading">
+			{$t('hero.greeting')} <br />
+			{$t('hero.intro')}
+			<span class="text-gradient-gold">{$t('hero.name')}</span>
+		</h1>
+		<p>{$t('hero.role')}</p>
 		<CustomButton type="link" href="https://t.me/NoirBegula" size="no">
 			<div class="lets-chat-btn">
-				<p>Let's chat</p>
+				<p>{$t('hero.chat')}</p>
 				<div class="icon-wrapper">
 					<Icon icon="icon-park-outline:telegram" />
 				</div>
@@ -47,7 +52,7 @@
 			src="images/about-me-bg.webp"
 			fetchpriority="high"
 			decoding="async"
-			alt="Anuar — full-stack developer"
+			alt={$t('hero.portraitAlt')}
 		/>
 	</div>
 	<div class="right-block">
@@ -58,21 +63,21 @@
 
 		<CustomButton
 			type="link"
-			href="/cv/Anuar-Beibit-Full-Stack-Engineer.docx"
-			download="Anuar-Beibit-Full-Stack-Engineer.docx"
+			href="/cv/Anuar-Beibit-Full-Stack-Engineer-AI.docx"
+			download="Anuar-Beibit-Full-Stack-Engineer-AI.docx"
 			color="transparent"
 		>
 			<div class="download-btn">
-				<p>Download</p>
+				<p>{$t('hero.download')}</p>
 				<div class="text-2xl">
 					<Icon icon="octicon:download-16" />
 				</div>
 			</div>
 		</CustomButton>
 	</div>
-	<a class="scroll-indicator" href="#skills" aria-label="Scroll down to skills">
+	<a class="scroll-indicator" href="#skills" aria-label={$t('hero.scrollAria')}>
 		<span class="scroll-mouse"><span class="scroll-wheel" /></span>
-		<span class="scroll-hint">scroll</span>
+		<span class="scroll-hint">{$t('hero.scroll')}</span>
 	</a>
 </section>
 
@@ -92,7 +97,7 @@
 					additionalClasses="flex gap-3 items-center"
 					type="link"
 					href="https://github.com/AnoirsGit/personal-webpage-front"
-					><Icon class="text-3xl" icon="mdi:github" /> Repository</CustomButton
+					><Icon class="text-3xl" icon="mdi:github" /> {$t('about.repository')}</CustomButton
 				>
 			</div>
 		</div>
@@ -102,7 +107,7 @@
 			<Deferred minHeight="26rem">
 				<Typing3D />
 			</Deferred>
-			<span class="model-caption">hover to say hi 👋</span>
+			<span class="model-caption">{$t('about.modelHint')}</span>
 		</div>
 	</div>
 </div>

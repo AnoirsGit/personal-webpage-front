@@ -1,26 +1,30 @@
 <script>
 	import { onMount } from 'svelte';
 	import reveal from '$lib/shared/UI/effects/reveal';
-	import works from '$lib/shared/mocks/works.json';
+	import { t } from '$lib/shared/i18n';
+	import { works } from '$lib/shared/i18n/content';
 
-	const careerStartYear = Math.min(...works.map((work) => parseInt(work.dates[0], 10)));
+	// counts come from the data itself, so the strip never drifts from the timeline
+	const careerStartYear = Math.min(...$works.map((work) => parseInt(work.dates[0], 10)));
 	const years = new Date().getFullYear() - careerStartYear;
-	const companies = works.length;
-	const technologies = new Set(works.flatMap((work) => work.skills)).size;
-	const projects = works.reduce((total, work) => total + (work.cards?.length ?? 0), 0);
+	const companies = $works.length;
+	const technologies = new Set($works.flatMap((work) => work.skills)).size;
+	const projects = $works.reduce((total, work) => total + (work.cards?.length ?? 0), 0);
 
-	const stats = [
-		{ value: years, suffix: '+', label: 'Years of experience' },
-		{ value: projects, suffix: '+', label: 'Projects shipped' },
-		{ value: technologies, suffix: '+', label: 'Technologies in production' },
-		{ value: companies, suffix: '', label: 'Companies' }
+	const values = [
+		{ value: years, suffix: '+', key: 'stats.years' },
+		{ value: projects, suffix: '+', key: 'stats.projects' },
+		{ value: technologies, suffix: '+', key: 'stats.technologies' },
+		{ value: companies, suffix: '', key: 'stats.companies' }
 	];
 
+	$: stats = values.map((stat) => ({ ...stat, label: $t(stat.key) }));
+
 	let strip;
-	let display = stats.map((stat) => (typeof stat.value === 'number' ? 0 : stat.value));
+	let display = values.map((stat) => (typeof stat.value === 'number' ? 0 : stat.value));
 	const COUNT_MS = 1400;
 
-	const showFinalValues = () => (display = stats.map((stat) => stat.value));
+	const showFinalValues = () => (display = values.map((stat) => stat.value));
 
 	onMount(() => {
 		if (
@@ -38,12 +42,12 @@
 
 				const start = performance.now();
 				const tick = (now) => {
-					const t = Math.min((now - start) / COUNT_MS, 1);
-					const eased = 1 - Math.pow(1 - t, 3);
-					display = stats.map((stat) =>
+					const progress = Math.min((now - start) / COUNT_MS, 1);
+					const eased = 1 - Math.pow(1 - progress, 3);
+					display = values.map((stat) =>
 						typeof stat.value === 'number' ? Math.round(stat.value * eased) : stat.value
 					);
-					if (t < 1) requestAnimationFrame(tick);
+					if (progress < 1) requestAnimationFrame(tick);
 				};
 				requestAnimationFrame(tick);
 			},

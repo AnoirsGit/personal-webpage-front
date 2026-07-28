@@ -4,13 +4,15 @@
 
 	import '$lib/app/styles/header.css';
 	import MobileHamburgerButton from '$lib/shared/UI/MobileHamburgerButton.svelte';
+	import LanguageSwitcher from '$lib/shared/UI/LanguageSwitcher.svelte';
+	import { t } from '$lib/shared/i18n';
 
 	let isActive = false;
 	export let navLinks = [
-		{ label: 'About me', link: '#about-me' },
-		{ label: 'Skills', link: '#skills' },
-		{ label: 'Works', link: '#works' },
-		{ label: 'Contacts', link: '#contacts' }
+		{ key: 'about', link: '#about-me' },
+		{ key: 'skills', link: '#skills' },
+		{ key: 'works', link: '#works' },
+		{ key: 'contacts', link: '#contacts' }
 	];
 
 	let activeSection = navLinks[0].link;
@@ -57,29 +59,32 @@
 			<span class="text-2xl h-max font-bold tracking-tight text-gradient-heading">Anuar</span>
 		</a>
 		<div class="h-full hidden lg:flex gap-10">
-			{#each navLinks as { label, link }}
+			{#each navLinks as { key, link }}
 				<div class="nav-item flex-center" class:active={activeSection === link}>
 					<a
 						class="no-underline text-card-grey hover:text-white transition-colors duration-300"
-						href={link}>{label}</a
+						href={link}>{$t(`nav.${key}`)}</a
 					>
 				</div>
 			{/each}
 		</div>
-		<div class="hidden lg:block" />
+		<div class="hidden lg:block">
+			<LanguageSwitcher />
+		</div>
 		<div class="lg:hidden">
 			<MobileHamburgerButton onClick={toggle} {isActive} />
 		</div>
 	</div>
 	{#if isActive}
 		<div class="py-12 px-8 flex flex-col gap-5 items-center" transition:slide={{ duration: 400 }}>
-			{#each navLinks as { label, link }}
+			{#each navLinks as { key, link }}
 				<a
 					class="no-underline font-regular text-lg text-card-grey hover:text-white transition-colors duration-300"
 					href={link}
-					on:click={closeMenu}>{label}</a
+					on:click={closeMenu}>{$t(`nav.${key}`)}</a
 				>
 			{/each}
+			<LanguageSwitcher size="lg" />
 		</div>
 	{/if}
 	<div class="scroll-progress" style="transform: scaleX({progress})" />

@@ -1,14 +1,15 @@
 <script>
 	import Icon from '@iconify/svelte';
 	import '$lib/app/styles/footer.css';
+	import { t } from '$lib/shared/i18n';
 
 	const year = new Date().getFullYear();
 
 	const navLinks = [
-		{ label: 'About me', link: '#about-me' },
-		{ label: 'Skills', link: '#skills' },
-		{ label: 'Works', link: '#works' },
-		{ label: 'Contacts', link: '#contacts' }
+		{ key: 'about', link: '#about-me' },
+		{ key: 'skills', link: '#skills' },
+		{ key: 'works', link: '#works' },
+		{ key: 'contacts', link: '#contacts' }
 	];
 
 	const socials = [
@@ -31,18 +32,16 @@
 					<img src="images/logo.svg" alt="" />
 					<span class="text-xl font-bold tracking-tight text-gradient-heading">Anuar</span>
 				</div>
-				<p class="footer-tagline">
-					Full-stack developer crafting scalable backends and playful, interactive frontends.
-				</p>
+				<p class="footer-tagline">{$t('footer.tagline')}</p>
 			</div>
-			<nav class="footer-nav" aria-label="Footer">
-				<span class="footer-heading">Navigation</span>
-				{#each navLinks as { label, link }}
-					<a href={link}>{label}</a>
+			<nav class="footer-nav" aria-label={$t('footer.aria')}>
+				<span class="footer-heading">{$t('footer.navigation')}</span>
+				{#each navLinks as { key, link }}
+					<a href={link}>{$t(`nav.${key}`)}</a>
 				{/each}
 			</nav>
 			<div class="footer-nav">
-				<span class="footer-heading">Let's connect</span>
+				<span class="footer-heading">{$t('footer.connect')}</span>
 				<div class="footer-socials">
 					{#each socials as { icon, href, label }}
 						<a class="footer-social-link" {href} target="_blank" rel="noreferrer" aria-label={label}>
@@ -53,8 +52,8 @@
 			</div>
 		</div>
 		<div class="footer-bottom">
-			<p>© {year} Anuar Beibit. All rights reserved.</p>
-			<p>Built with SvelteKit & Three.js</p>
+			<p>{$t('footer.rights', { year })}</p>
+			<p>{$t('footer.builtWith')}</p>
 		</div>
 	</div>
 </footer>

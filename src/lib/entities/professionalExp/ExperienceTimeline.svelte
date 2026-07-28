@@ -1,24 +1,30 @@
 <script>
 	import dayjs from 'dayjs';
+	import 'dayjs/locale/ru';
 	import '$lib/app/styles/sections/Works.css';
 
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 	import WorkCard from './ui/WorkCard.svelte';
 	import reveal from '$lib/shared/UI/effects/reveal';
-	import worksMock from '$lib/shared/mocks/works.json';
+	import { locale, t } from '$lib/shared/i18n';
+	import { works as localizedWorks } from '$lib/shared/i18n/content';
 
-	export let works = worksMock;
+	export let works = null;
 
-	const formatDate = (date) => {
-		if (!date || date === 'Present') return 'Present';
-		return dayjs(date.replace(/T$/, '')).format('MMM YYYY');
+	$: entries = works ?? $localizedWorks;
+
+	const formatDate = (date, currentLocale, translate) => {
+		if (!date || date === 'Present') return translate('works.present');
+		return dayjs(date.replace(/T$/, ''))
+			.locale(currentLocale)
+			.format(translate('works.dateFormat'));
 	};
 
-	const formatRange = (dates) => dates.map(formatDate).join(' — ');
+	$: formatRange = (dates) => dates.map((date) => formatDate(date, $locale, $t)).join(' — ');
 </script>
 
 <div class="works-timeline">
-	{#each works as work, workIndex}
+	{#each entries as work, workIndex}
 		<article class="work-entry" style="--work-color: {work.color}">
 			<div class="work-head" use:reveal>
 				<span class="work-node" />
@@ -52,6 +58,6 @@
 
 	<div class="work-end" use:reveal={{ y: 12 }}>
 		<span class="work-end-node" />
-		<p>…and the journey continues</p>
+		<p>{$t('works.tail')}</p>
 	</div>
 </div>

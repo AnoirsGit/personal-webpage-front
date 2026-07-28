@@ -10,13 +10,20 @@
 	import ParticleBackground from '$lib/widgets/canvas-animation/ParticleBackground.svelte';
 	import Messages from '$lib/shared/Messages.svelte';
 	import BackToTop from '$lib/shared/UI/BackToTop.svelte';
-
-	$: isMobile = $deviceWidth < 768;
+	import { locale, t } from '$lib/shared/i18n';
 
 	onMount(startLoader);
 </script>
 
 <svelte:window bind:innerWidth={$deviceWidth} />
+
+<svelte:head>
+	<title>{$t('meta.title')}</title>
+	<meta name="description" content={$t('meta.description')} />
+	<meta property="og:title" content={$t('meta.title')} />
+	<meta property="og:description" content={$t('meta.description')} />
+	<meta property="og:locale" content={$locale === 'ru' ? 'ru_RU' : 'en_US'} />
+</svelte:head>
 
 {#if !$isCloseLoader}
 	<PageLoader />
@@ -27,9 +34,8 @@
 <BackToTop />
 
 <div class="app-shell">
-	{#if !isMobile}
-		<ParticleBackground />
-	{/if}
+	<!-- star field runs on mobile too: particle count scales with viewport area -->
+	<ParticleBackground />
 	<main class="app-content pb-10">
 		<slot />
 	</main>

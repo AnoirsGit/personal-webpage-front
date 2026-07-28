@@ -146,6 +146,11 @@
         inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
 }
 
+/* no screenshot to show — the copy takes the full width */
+.work-card.no-media {
+    @apply md:grid-cols-1;
+}
+
 /* zigzag: flipped cards put the media on the right (desktop only) */
 @media (min-width: 768px) {
     .work-card.flip .work-card-media {

@@ -9,7 +9,6 @@
 	import { GLOBE_RADIUS, MAX_IMPACTS_COUNT } from '$lib/shared/consts/globeConsts';
 	import { CITY_COORDINATES } from '$lib/shared/consts/goeLocations';
 
-	import globePoints from '$lib/shared/mocks/globe-points.json';
 	import { arrayOfCoordinatesToPosition } from '$lib/shared/helpers/tree/globePositionHelper';
 	import {
 		addImpact,
@@ -24,7 +23,12 @@
 
 	export let placePointers = [];
 	export let rotationY = 0;
-	export let arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
+	/*
+	 * The point cloud is ~1.2 MB of JSON. Importing it statically pulled it into
+	 * the page bundle for every visitor, so it is fetched on mount instead —
+	 * the globe is already deferred until it scrolls into view.
+	 */
+	export let arrayOfMapPositions = null;
 
 	let globeRotation = { x: 0, y: 0, z: 0 };
 	let geometry;
@@ -97,7 +101,12 @@
 		requestAnimationFrame(animate);
 	};
 
-	onMount(() => {
+	onMount(async () => {
+		if (!arrayOfMapPositions) {
+			const { default: globePoints } = await import('$lib/shared/mocks/globe-points.json');
+			arrayOfMapPositions = arrayOfCoordinatesToPosition(globePoints, GLOBE_RADIUS + 0.05);
+		}
+
 		initializeImpacts();
 		geometry = createGeometry();
 

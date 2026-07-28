@@ -8,11 +8,12 @@
 	import Icon from '@iconify/svelte';
 	import Clipboard from '$lib/shared/UI/Clipboard.svelte';
 	import { addMessage } from '$lib/shared/stores/messageStore';
+	import { t } from '$lib/shared/i18n';
 
-	const onCopy = () => addMessage({ icon: 'fa:copy', text: 'Copied' });
+	const onCopy = () => addMessage({ icon: 'fa:copy', text: $t('contacts.copied') });
 </script>
 
-<SectionLayout title="Contacts" name="contacts">
+<SectionLayout title={$t('contacts.title')} name="contacts">
 	<div class="relative globe-wrapper-h contacts-stage">
 		<Deferred minHeight="100%" rootMargin="1600px">
 			<Globe />
@@ -21,8 +22,8 @@
 		<div class="contacts-panel-wrap">
 			<div class="contacts-panel glass-panel gradient-border">
 				<div class="contacts-head">
-					<p class="contacts-eyebrow">Get in touch</p>
-					<h3 class="contacts-title">Let's build something great</h3>
+					<p class="contacts-eyebrow">{$t('contacts.eyebrow')}</p>
+					<h3 class="contacts-title">{$t('contacts.headline')}</h3>
 				</div>
 
 				<ul class="contact-list">
@@ -30,7 +31,7 @@
 						<span class="contact-plate"><Icon icon="ic:baseline-email" /></span>
 						<Clipboard text="anoirsmail@gmail.com" let:copy on:copy={() => onCopy()}>
 							<button class="contact-body" on:click={copy}>
-								<span class="contact-label">Email</span>
+								<span class="contact-label">{$t('contacts.email')}</span>
 								<span class="contact-value">anoirsmail@gmail.com</span>
 							</button>
 						</Clipboard>
@@ -41,7 +42,7 @@
 						<span class="contact-plate"><Icon icon="material-symbols:call" /></span>
 						<Clipboard text="87079116992" let:copy on:copy={() => onCopy()}>
 							<button class="contact-body" on:click={copy}>
-								<span class="contact-label">Phone</span>
+								<span class="contact-label">{$t('contacts.phone')}</span>
 								<span class="contact-value">+8 (707) 911-69-92</span>
 							</button>
 						</Clipboard>
@@ -56,8 +57,8 @@
 							target="_blank"
 							rel="noreferrer"
 						>
-							<span class="contact-label">Location</span>
-							<span class="contact-value">Almaty, Kazakhstan</span>
+							<span class="contact-label">{$t('contacts.location')}</span>
+							<span class="contact-value">{$t('contacts.locationValue')}</span>
 						</a>
 						<Icon class="contact-action" icon="mingcute:arrow-right-up-line" />
 					</li>
@@ -65,7 +66,7 @@
 					<li class="contact-item">
 						<span class="contact-plate"><Icon icon="mdi:github" /></span>
 						<a class="contact-body" href="https://github.com/AnoirsGit" target="_blank" rel="noreferrer">
-							<span class="contact-label">GitHub</span>
+							<span class="contact-label">{$t('contacts.github')}</span>
 							<span class="contact-value">AnoirsGit</span>
 						</a>
 						<Icon class="contact-action" icon="mingcute:arrow-right-up-line" />
@@ -79,7 +80,7 @@
 							target="_blank"
 							rel="noreferrer"
 						>
-							<span class="contact-label">LinkedIn</span>
+							<span class="contact-label">{$t('contacts.linkedin')}</span>
 							<span class="contact-value">Anoir Beibit</span>
 						</a>
 						<Icon class="contact-action" icon="mingcute:arrow-right-up-line" />
@@ -89,7 +90,7 @@
 						<span class="contact-plate"><Icon icon="basil:telegram-solid" /></span>
 						<Clipboard text="@NiorBegula" let:copy on:copy={() => onCopy()}>
 							<button class="contact-body" on:click={copy}>
-								<span class="contact-label">Telegram</span>
+								<span class="contact-label">{$t('contacts.telegram')}</span>
 								<span class="contact-value">@NiorBegula</span>
 							</button>
 						</Clipboard>
@@ -99,7 +100,7 @@
 
 				<div class="contacts-time">
 					<Icon icon="wi:time-5" />
-					<span>Asia / Almaty · UTC+5</span>
+					<span>{$t('contacts.timezone')}</span>
 				</div>
 			</div>
 		</div>

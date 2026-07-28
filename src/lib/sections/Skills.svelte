@@ -4,18 +4,19 @@
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import CustomTab from '$lib/shared/UI/CustomTab.svelte';
 	import Deferred from '$lib/shared/UI/Deferred.svelte';
-	import tree from '$lib/shared/mocks/tree.json'
+	import { t } from '$lib/shared/i18n';
+	import { skillTree } from '$lib/shared/i18n/content';
 
-	const skillCategories = [
-		{ key: 'back-end', label: 'BackEnd' },
-		{ key: 'front-end', label: 'FrontEnd' },
+	$: skillCategories = [
+		{ key: 'ai-agents', label: $t('skills.ai') },
+		{ key: 'front-end', label: $t('skills.frontend') },
+		{ key: 'back-end', label: $t('skills.backend') }
 		// { key: 'dev-ops', label: 'DevOps' }
 	];
-	let activeTab = skillCategories[0].key;
+	let activeTab = 'ai-agents';
 </script>
 
-<SectionLayout title="Skills" name="skills">
-
+<SectionLayout title={$t('skills.title')} name="skills">
 	<CustomTab
 		items={skillCategories}
 		valueKey="key"
@@ -25,6 +26,10 @@
 		}}
 	/>
 	<Deferred minHeight="600px">
-		<SkillTree isEditMode={false} nodes={tree[activeTab].nodes} edges={tree[activeTab].edges} />
+		<SkillTree
+			isEditMode={false}
+			nodes={$skillTree[activeTab].nodes}
+			edges={$skillTree[activeTab].edges}
+		/>
 	</Deferred>
 </SectionLayout>

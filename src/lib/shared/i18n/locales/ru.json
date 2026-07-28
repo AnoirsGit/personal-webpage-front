@@ -1,0 +1,78 @@
+{
+    "meta": {
+        "title": "Ануар — личная страница",
+        "description": "Ануар Бейбит — Senior Full-Stack разработчик, AI и агентные интерфейсы. Автономная мультиагентная платформа в проде, интеграция Halyk Market и движки ценообразования, 1M+ SEO-страниц, архитектура, которая масштабируется."
+    },
+    "nav": {
+        "about": "Обо мне",
+        "skills": "Навыки",
+        "works": "Опыт",
+        "contacts": "Контакты"
+    },
+    "language": {
+        "label": "Язык",
+        "switchTo": "Переключить на {name}"
+    },
+    "hero": {
+        "greeting": "Привет,",
+        "intro": "я",
+        "name": "Ануар",
+        "role": "FullStack разработчик",
+        "chat": "Написать",
+        "download": "Скачать",
+        "downloadAria": "Скачать резюме",
+        "scroll": "листай",
+        "scrollAria": "Пролистать к навыкам",
+        "portraitAlt": "Ануар — full-stack разработчик"
+    },
+    "stats": {
+        "years": "Лет в разработке",
+        "projects": "Проектов в проде",
+        "technologies": "Технологий в бою",
+        "companies": "Компаний"
+    },
+    "about": {
+        "repository": "Репозиторий",
+        "modelHint": "наведи, чтобы поздороваться 👋"
+    },
+    "skills": {
+        "title": "Навыки",
+        "ai": "AI и агенты",
+        "backend": "BackEnd",
+        "frontend": "FrontEnd",
+        "hint": "тяни, чтобы двигать · колесо — зум"
+    },
+    "works": {
+        "title": "Опыт",
+        "subtitle": "Профессиональный опыт",
+        "present": "по настоящее время",
+        "dateFormat": "MMM YYYY",
+        "preview": "превью",
+        "tail": "…и путь продолжается"
+    },
+    "contacts": {
+        "title": "Контакты",
+        "eyebrow": "Связаться",
+        "headline": "Давайте сделаем что-то классное",
+        "email": "Почта",
+        "phone": "Телефон",
+        "location": "Локация",
+        "locationValue": "Алматы, Казахстан",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "telegram": "Telegram",
+        "timezone": "Asia / Almaty · UTC+5",
+        "copied": "Скопировано"
+    },
+    "footer": {
+        "tagline": "Full-stack разработчик: масштабируемые бэкенды и живые, интерактивные интерфейсы.",
+        "navigation": "Навигация",
+        "connect": "Связаться",
+        "rights": "© {year} Ануар Бейбит. Все права защищены.",
+        "builtWith": "Сделано на SvelteKit и Three.js",
+        "aria": "Подвал"
+    },
+    "common": {
+        "backToTop": "Наверх"
+    }
+}

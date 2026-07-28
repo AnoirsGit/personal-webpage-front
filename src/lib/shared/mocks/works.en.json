@@ -1,5 +1,71 @@
 [
     {
+        "color": "#e8c77e",
+        "dates": [
+            "2025-01-01",
+            "Present"
+        ],
+        "title": "Autonomous Agent Platform",
+        "position": "AI & Agent Interfaces",
+        "place": "Self-hosted · running in production",
+        "baseDescription": "`Autonomous multi-agent coding platform — a self-hosted fork of OpenHands, running in production.` `11.6k lines of React 19` across `142 files`, `334 commits ahead of upstream`.",
+        "skills": [
+            "React 19",
+            "TypeScript",
+            "Zustand",
+            "TanStack Query",
+            "Tailwind 4",
+            "Vite",
+            "WebSocket",
+            "Monaco",
+            "xterm.js",
+            "Python",
+            "FastAPI",
+            "Docker"
+        ],
+        "cards": [
+            {
+                "text": "`Live event streaming over WebSocket.` An agent's `tool calls`, `file edits` and `terminal output` render as they happen — `Monaco` and `xterm` panes read the same event log, state in `Zustand`, server cache in `TanStack Query`.\n\n`Lazy chat history:` replaced full WebSocket replay with `REST pagination plus tail-only replay` — long conversations stopped re-streaming their entire history on open.",
+                "role": "Agent Workspace · Streaming UX",
+                "stack": ["React 19", "Zustand", "TanStack Query", "WebSocket", "Monaco", "xterm.js"],
+                "metrics": [
+                    { "value": "Live", "label": "tool-call streaming" },
+                    { "value": "Tail-only", "label": "history replay" }
+                ],
+                "imageUrls": [
+                    "images/agent-workspace.webp",
+                    "images/agent-stream-panel.webp"
+                ]
+            },
+            {
+                "text": "`Sub-agent editor on a transport abstraction:` one UI drives either a `live sandbox` or a `plain host folder`, so `agent roles` can be edited before any container exists.\n\n`Shipped the whole operator surface:` `autonomy switcher`, agent stop control, per-run task strip, `git-worktree status badges`, subscription usage widget, project dashboard and scheduled messages.",
+                "role": "Sub-Agents · Operator Surface",
+                "stack": ["React Router 7", "TypeScript", "Tailwind 4", "Zustand"],
+                "metrics": [
+                    { "value": "2 transports", "label": "one editor UI" },
+                    { "value": "End-to-end", "label": "operator controls" }
+                ],
+                "imageUrls": [
+                    "images/agent-subagents.webp",
+                    "images/agent-usage-panel.webp"
+                ]
+            },
+            {
+                "text": "`Kept the fork healthy:` migrated to `ESLint 9 flat config` ahead of upstream and drove the suite fully green — `2,400+ tests` — after fixing `MSW double-interception` and an env leak in `Vitest`, with `translation completeness across 15 locales` enforced in the pre-commit gate.\n\n`Backend under it:` `FastAPI` services for projects, scheduling, usage and `git-worktree isolation per agent run`, `Docker` sandboxes, and deploy with `zero public surface` — Tailscale, Caddy, systemd, cron — with health check and auto-rollback.",
+                "role": "Quality Gates · Runtime & Deploy",
+                "stack": ["Vitest", "Playwright", "MSW", "Python", "FastAPI", "Docker"],
+                "metrics": [
+                    { "value": "2,400+", "label": "tests green" },
+                    { "value": "15", "label": "locales gated" },
+                    { "value": "334", "label": "commits ahead of upstream" }
+                ],
+                "imageUrls": [
+                    "images/agent-quality.webp"
+                ]
+            }
+        ]
+    },
+    {
         "color": "#00d8a0",
         "dates": [
             "2024-05-01",
@@ -22,7 +88,7 @@
         ],
         "cards": [
             {
-                "text": "`MercuryX` — a turnkey `B2B platform` for sourcing and importing from China, part of the `Halyk ecosystem`.\n\n`Built the full Halyk Market integration`, rewrote the `business logic` behind it, and owned `product pricing` and `cost calculation` across `supplier price`, `logistics` and `customs` — the numbers the entire import flow runs on.",
+                "text": "`MercuryX` — a turnkey `B2B platform` for sourcing and importing from China, part of the `Halyk ecosystem`.\n\n`Built the full Halyk Market integration`, rewrote the `business logic` behind it, and owned `product pricing` and `cost calculation` across `supplier price`, `logistics` and `customs` — the numbers the entire import flow runs on.\n\n`Shipped the commerce path end to end:` authentication, cart and order flow, unit-tested.",
                 "role": "MercuryX · Halyk Market Integration",
                 "stack": ["Nuxt 3", "TypeScript", "Pinia", "SSR"],
                 "metrics": [

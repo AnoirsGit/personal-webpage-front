@@ -1,0 +1,78 @@
+{
+    "meta": {
+        "title": "Anuar's Personal Page",
+        "description": "Anuar Beibit — Senior Full-Stack Engineer, AI & agent interfaces. An autonomous multi-agent coding platform in production, Halyk Market integration and pricing engines, 1M+ SEO pages, architecture that scales."
+    },
+    "nav": {
+        "about": "About me",
+        "skills": "Skills",
+        "works": "Works",
+        "contacts": "Contacts"
+    },
+    "language": {
+        "label": "Language",
+        "switchTo": "Switch to {name}"
+    },
+    "hero": {
+        "greeting": "Hi,",
+        "intro": "I'm",
+        "name": "Anuar",
+        "role": "FullStack developer",
+        "chat": "Let's chat",
+        "download": "Download",
+        "downloadAria": "Download CV",
+        "scroll": "scroll",
+        "scrollAria": "Scroll down to skills",
+        "portraitAlt": "Anuar — full-stack developer"
+    },
+    "stats": {
+        "years": "Years of experience",
+        "projects": "Projects shipped",
+        "technologies": "Technologies in production",
+        "companies": "Companies"
+    },
+    "about": {
+        "repository": "Repository",
+        "modelHint": "hover to say hi 👋"
+    },
+    "skills": {
+        "title": "Skills",
+        "ai": "AI & Agents",
+        "backend": "BackEnd",
+        "frontend": "FrontEnd",
+        "hint": "drag to pan · scroll to zoom"
+    },
+    "works": {
+        "title": "Works",
+        "subtitle": "Professional Experience",
+        "present": "Present",
+        "dateFormat": "MMM YYYY",
+        "preview": "preview",
+        "tail": "…and the journey continues"
+    },
+    "contacts": {
+        "title": "Contacts",
+        "eyebrow": "Get in touch",
+        "headline": "Let's build something great",
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Location",
+        "locationValue": "Almaty, Kazakhstan",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "telegram": "Telegram",
+        "timezone": "Asia / Almaty · UTC+5",
+        "copied": "Copied"
+    },
+    "footer": {
+        "tagline": "Full-stack developer crafting scalable backends and playful, interactive frontends.",
+        "navigation": "Navigation",
+        "connect": "Let's connect",
+        "rights": "© {year} Anuar Beibit. All rights reserved.",
+        "builtWith": "Built with SvelteKit & Three.js",
+        "aria": "Footer"
+    },
+    "common": {
+        "backToTop": "Back to top"
+    }
+}

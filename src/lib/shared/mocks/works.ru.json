@@ -1,0 +1,336 @@
+[
+    {
+        "color": "#e8c77e",
+        "dates": [
+            "2025-01-01",
+            "Present"
+        ],
+        "title": "Автономная агентная платформа",
+        "position": "AI и агентные интерфейсы",
+        "place": "Self-hosted · работает в проде",
+        "baseDescription": "`Автономная мультиагентная платформа для разработки — самостоятельно поднятый форк OpenHands, работающий в проде.` `11.6k строк React 19` в `142 файлах`, `334 коммита впереди upstream`.",
+        "skills": [
+            "React 19",
+            "TypeScript",
+            "Zustand",
+            "TanStack Query",
+            "Tailwind 4",
+            "Vite",
+            "WebSocket",
+            "Monaco",
+            "xterm.js",
+            "Python",
+            "FastAPI",
+            "Docker"
+        ],
+        "cards": [
+            {
+                "text": "`Живой стрим событий по WebSocket.` `Вызовы инструментов`, `правки файлов` и `вывод терминала` агента отрисовываются по мере появления — панели `Monaco` и `xterm` читают один и тот же лог событий, состояние в `Zustand`, серверный кеш в `TanStack Query`.\n\n`Ленивая история чата:` заменил полный реплей по WebSocket на `REST-пагинацию с догрузкой только хвоста` — длинные диалоги перестали заново прогонять всю историю при открытии.",
+                "role": "Рабочая среда агента · Streaming UX",
+                "stack": ["React 19", "Zustand", "TanStack Query", "WebSocket", "Monaco", "xterm.js"],
+                "metrics": [
+                    { "value": "Live", "label": "стрим вызовов инструментов" },
+                    { "value": "Только хвост", "label": "реплей истории" }
+                ],
+                "link": {
+                    "src": "https://github.com/All-Hands-AI/OpenHands",
+                    "label": "OpenHands — upstream-проект"
+                },
+                "imageUrls": [
+                    "images/agent-workspace.webp",
+                    "images/agent-stream-panel.webp"
+                ]
+            },
+            {
+                "text": "`Редактор саб-агентов поверх абстракции транспорта:` один интерфейс работает и с `живой песочницей`, и с `обычной папкой на хосте` — `роли агентов` можно править ещё до того, как поднят контейнер.\n\n`Собрал весь операторский слой:` `переключатель автономности`, остановка агента, панель задач текущего прогона, `статусы git-worktree`, виджет расхода подписки, дашборд проектов и отложенные сообщения.",
+                "role": "Саб-агенты · Операторский слой",
+                "stack": ["React Router 7", "TypeScript", "Tailwind 4", "Zustand"],
+                "metrics": [
+                    { "value": "2 транспорта", "label": "один редактор" },
+                    { "value": "End-to-end", "label": "управление агентами" }
+                ],
+                "imageUrls": [
+                    "images/agent-subagents.webp",
+                    "images/agent-usage-panel.webp"
+                ]
+            },
+            {
+                "text": "`Держал форк здоровым:` перевёл проект на `ESLint 9 flat config` раньше upstream и вывел прогон в полностью зелёный — `2400+ тестов` — починив `двойной перехват MSW` и утечку окружения в `Vitest`, а `полноту переводов по 15 локалям` вынес в pre-commit.\n\n`Бэкенд под этим:` сервисы на `FastAPI` для проектов, планировщика, расхода и `изоляции через git-worktree на каждый прогон агента`, песочницы в `Docker` и деплой `без публичной поверхности` — Tailscale, Caddy, systemd, cron — с health-check и авто-откатом.",
+                "role": "Качество · Рантайм и деплой",
+                "stack": ["Vitest", "Playwright", "MSW", "Python", "FastAPI", "Docker"],
+                "metrics": [
+                    { "value": "2400+", "label": "зелёных тестов" },
+                    { "value": "15", "label": "локалей под гейтом" },
+                    { "value": "334", "label": "коммита впереди upstream" }
+                ],
+                "imageUrls": [
+                    "images/agent-quality.webp"
+                ]
+            }
+        ]
+    },
+    {
+        "color": "#00d8a0",
+        "dates": [
+            "2024-05-01",
+            "Present"
+        ],
+        "title": "Mercury Properties",
+        "position": "Senior Frontend Engineer",
+        "place": "Алматы, Казахстан",
+        "baseDescription": "`Крупнейший в Казахстане холдинг коммерческой недвижимости — 51+ объект и 1M+ м² под управлением` — сейчас строит собственные цифровые продукты для бизнеса.",
+        "skills": [
+            "Vue 3",
+            "Nuxt 3",
+            "TypeScript",
+            "Pinia",
+            "Vite",
+            "Tailwind CSS",
+            "Feature-Sliced Design",
+            "SSR",
+            "Docker"
+        ],
+        "cards": [
+            {
+                "text": "`MercuryX` — `B2B-платформа` полного цикла для закупа и импорта из Китая, часть `экосистемы Halyk`.\n\n`Сделал интеграцию с Halyk Market` целиком, переписал `бизнес-логику` под ней и забрал на себя `ценообразование` и `расчёт себестоимости` по `цене поставщика`, `логистике` и `таможне` — на этих цифрах держится весь импортный флоу.\n\n`Довёл коммерческий флоу до конца:` авторизация, корзина, оформление заказа — с юнит-тестами.",
+                "role": "MercuryX · Интеграция с Halyk Market",
+                "stack": ["Nuxt 3", "TypeScript", "Pinia", "SSR"],
+                "metrics": [
+                    { "value": "Halyk", "label": "Market — интеграция" },
+                    { "value": "End-to-end", "label": "цены и себестоимость" }
+                ],
+                "link": {
+                    "src": "https://mercuryx.kz/shop",
+                    "label": "Маркетплейс MercuryX"
+                },
+                "imageUrls": [
+                    "images/mercuryx-shop.webp",
+                    "images/mercuryx-mobile.webp"
+                ]
+            },
+            {
+                "text": "`Собрал из едва живого MVP` платформу, которая масштабируется: `модульная архитектура по фичам` вместо загрузки всего приложения сразу.\n\n`Начальная загрузка: 2.5 МБ → 650 КБ.` Выстроил `систему код-ревью` и убрал рутину из рабочего процесса команды.",
+                "role": "MercuryX · Архитектура и производительность",
+                "stack": ["Vue 3", "Vite", "Feature-Sliced Design", "Docker"],
+                "metrics": [
+                    { "value": "−74%", "label": "начальная загрузка" },
+                    { "value": "2.5 МБ → 650 КБ", "label": "бюджет первой отрисовки" }
+                ],
+                "link": {
+                    "src": "https://mercuryx.kz",
+                    "label": "mercuryx.kz"
+                },
+                "imageUrls": [
+                    "images/mercuryx-landing.webp"
+                ]
+            },
+            {
+                "text": "`CarCity` — `маркетплейс автозапчастей и автотоваров` с доставкой по Казахстану.\n\n`Сократил SSR-инциденты` и срочные хотфиксы `в 4 раза за два месяца`, затем `задокументировал` архитектуру, фичи и бизнес-логику — `онбординг перестал держаться на устных договорённостях`.",
+                "role": "CarCity · Надёжность SSR",
+                "stack": ["Nuxt 3", "SSR", "TypeScript", "Docker"],
+                "metrics": [
+                    { "value": "4×", "label": "меньше SSR-инцидентов" },
+                    { "value": "2 месяца", "label": "на стабилизацию" }
+                ],
+                "link": {
+                    "src": "https://carcity.kz",
+                    "label": "CarCity.kz"
+                },
+                "imageUrls": [
+                    "images/carcity-home.webp",
+                    "images/carcity-mobile.webp"
+                ]
+            },
+            {
+                "text": "`Перевёл весь проект` со стандартного `Nuxt` на `Feature-Sliced Design`: меньше бойлерплейта, чёткие границы модулей и `+120% к скорости выпуска фич`.",
+                "role": "CarCity · Feature-Sliced Design",
+                "stack": ["Nuxt 3", "Feature-Sliced Design", "Pinia", "Vite"],
+                "metrics": [
+                    { "value": "+120%", "label": "скорость разработки" },
+                    { "value": "Полная", "label": "миграция архитектуры" }
+                ],
+                "link": {
+                    "src": "https://carcity.kz/merchant-landing",
+                    "label": "CarCity для продавцов"
+                },
+                "imageUrls": [
+                    "images/carcity-merchant.webp"
+                ]
+            }
+        ]
+    },
+    {
+        "color": "#66ff99",
+        "dates": [
+            "2024-09-01",
+            "2025-02-01"
+        ],
+        "title": "Solution Architects",
+        "position": "Full-Stack разработчик",
+        "place": "Удалённо (Астана, Казахстан)",
+        "baseDescription": "`Компания, специализирующаяся на масштабируемых бэкенд-решениях и оптимизации инфраструктуры.`",
+        "skills": [
+            "Node.js",
+            "Fastify.js",
+            "Vue 3",
+            "TypeScript",
+            "AWS",
+            "PostgreSQL",
+            "Docker",
+            "GitHub Actions"
+        ],
+        "cards": [
+            {
+                "text": "`Выпустил несколько MVP` в команде синьоров — `архитектура`, `код-ревью`, `модель данных` и `сервисный слой` вплоть до `интерфейса`. `Внедрил архитектурные паттерны` для эффективных `транзакций в БД`: консистентность выросла, работа с системой упростилась.",
+                "role": "Бэкенд-архитектура",
+                "stack": ["Node.js", "PostgreSQL", "Redis", "Docker"],
+                "metrics": [
+                    { "value": "С нуля", "label": "проектирование систем" },
+                    { "value": "Несколько", "label": "проектов параллельно" }
+                ],
+                "imageUrls": [
+                    "images/solution-architects.webp"
+                ]
+            },
+            {
+                "text": "`Собрал админ-панели` на внутренних API, `маркетинговый календарь` с логикой планирования `по часовым поясам` и `CI/CD-пайплайн на AWS`, который всё это доставляет.\n\n`Связал Jira с GitHub` — окружения, `тикет → ветка → PR`, автопроверки — и убрал ручные шаги из рабочего дня команды.",
+                "role": "Планирование кампаний · DevOps",
+                "stack": ["Fastify.js", "PostgreSQL", "AWS", "GitHub Actions"],
+                "metrics": [
+                    { "value": "Multi-TZ", "label": "планирование кампаний" },
+                    { "value": "Jira → GitHub", "label": "автоматизировано" }
+                ],
+                "imageUrls": [
+                    "images/mobivity-desktop.webp",
+                    "images/mobivity-panel.webp"
+                ]
+            }
+        ]
+    },
+    {
+        "color": "#003d99",
+        "dates": [
+            "2021-07-01",
+            "2024-08-01"
+        ],
+        "title": "POWR.io",
+        "position": "Full-Stack разработчик",
+        "place": "Удалённо (Сан-Франциско, США)",
+        "baseDescription": "`POWR.io делает настраиваемые плагины для сайтов, чтобы малый бизнес сильнее присутствовал в онлайне.`",
+        "skills": [
+            "React.js",
+            "Next.js",
+            "Node.js",
+            "Ruby on Rails",
+            "Redis",
+            "Docker",
+            "Kubernetes",
+            "SEO",
+            "Bash",
+            "Linux"
+        ],
+        "cards": [
+            {
+                "text": "`Разработал настраиваемые плагины` и динамический интерфейс на `React` поверх бэкенда на `Node.js` и `Ruby on Rails` — `+40% к продажам плагинов`.\n\n`Сгенерировал 1M+ локализованных лендингов` на `12 языках`: позиции в `SEO` выросли, входящий трафик удвоился.",
+                "role": "Платформа плагинов · SEO",
+                "stack": ["React.js", "Next.js", "Node.js", "Ruby on Rails"],
+                "metrics": [
+                    { "value": "+40%", "label": "продажи плагинов" },
+                    { "value": "1M+", "label": "лендингов" },
+                    { "value": "12", "label": "языков" }
+                ],
+                "link": {
+                    "src": "https://www.powr.io/form-builder-website-app",
+                    "label": "POWR.io Form builder"
+                },
+                "imageUrls": [
+                    "images/powr-logo.webp"
+                ]
+            },
+            {
+                "text": "`Перенёс ресайз изображений в serverless` — ответы быстрее, счёт за хостинг меньше.\n\n`Построил систему интеграций`, которая автоматизировала `уведомления в чатах`, `обновление тикетов` и `документацию CI/CD`, и `менторил` мидлов и джунов в полностью удалённой команде в США.",
+                "role": "Serverless · Внутренняя автоматизация",
+                "stack": ["Node.js", "Kubernetes", "Bash", "Linux"],
+                "metrics": [
+                    { "value": "Serverless", "label": "обработка картинок" },
+                    { "value": "Менторство", "label": "мидлы и джуны" }
+                ],
+                "link": {
+                    "src": "https://powr.io/",
+                    "label": "POWR.io"
+                },
+                "imageUrls": [
+                    "images/powrio.webp"
+                ]
+            }
+        ]
+    },
+    {
+        "color": "#c084fc",
+        "dates": [
+            "2022-12-01",
+            "2023-04-01"
+        ],
+        "title": "WoCards.app",
+        "position": "CTO · Пет-проект",
+        "place": "Алматы, Казахстан",
+        "baseDescription": "`MVP мобильного приложения для изучения английского по системе флеш-карточек.` Вёл небольшую команду, выбрал стек и поднял CI/CD с нуля.",
+        "skills": [
+            "Node.js",
+            "Flutter",
+            "React Native",
+            "Linux",
+            "CI/CD"
+        ],
+        "cards": []
+    },
+    {
+        "color": "#80d4ff",
+        "dates": [
+            "2020-01-01",
+            "2021-07-01"
+        ],
+        "title": "NCRM GROUP",
+        "position": "Frontend-разработчик и проджект-менеджер",
+        "place": "Алматы, Казахстан",
+        "baseDescription": "`NCRM — простая CRM для системных продаж.` Начал проджект-менеджером: вёл модуль конверсии продаж и статистики продуктивности, которым сейчас пользуются `50+ компаний`, — затем перешёл в разработку.",
+        "skills": [
+            "Angular 10",
+            "Vue.js",
+            "Vite",
+            "Jasmine.js",
+            "Docker",
+            "OpenVPN"
+        ],
+        "cards": [
+            {
+                "text": "`Собрал фронтенд-инфраструктуру` и `прототип` CRM. `MVP` работает в компании с `2000+ сотрудников`, а единые практики разработки удержали кодовую базу в порядке по мере роста команды.",
+                "role": "Frontend-лид · CRM",
+                "stack": ["Angular 10", "Vue.js", "Vite"],
+                "metrics": [
+                    { "value": "2000+", "label": "пользователей" },
+                    { "value": "MVP", "label": "в проде" }
+                ],
+                "link": {
+                    "src": "https://ncrm.kz/",
+                    "label": "NCRM.KZ"
+                },
+                "imageUrls": [
+                    "images/ncrm.webp"
+                ]
+            },
+            {
+                "text": "Заметно повысил `поддерживаемость кода`, написав документацию проекта. \n\n Встроил `веб-чат` в CRM с популярными мессенджерами — `WhatsApp` и `Telegram`. Использовал бесплатные и платные API этих мессенджеров, чтобы компании общались с клиентами прямо из нашего интерфейса.",
+                "role": "Интеграции · Документация",
+                "stack": ["Angular 10", "WebSockets", "REST API"],
+                "metrics": [
+                    { "value": "WhatsApp", "label": "+ чат в Telegram" }
+                ],
+                "imageUrls": [
+                    "images/ncrm-desktop.webp",
+                    "images/ncrm-mobile.webp"
+                ]
+            }
+        ]
+    }
+]

@@ -1,6 +1,7 @@
 <script>
 	import '$lib/app/styles/sections/Skills.css';
 	import { onMount } from 'svelte';
+	import { t } from '$lib/shared/i18n';
 
 	export let minZoom = 1;
 	export let maxZoom = 2;
@@ -126,5 +127,5 @@
 		</div>
 	</div>
 	<span class="skills-vignette" />
-	<span class="skills-hint">drag to pan · scroll to zoom</span>
+	<span class="skills-hint">{$t('skills.hint')}</span>
 </div>

@@ -1,4 +1,690 @@
 {
+    "ai-agents": {
+        "nodes": [
+            {
+                "treeId": 3,
+                "title": "AI & Agent Interfaces",
+                "description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built and run an autonomous multi-agent coding platform in production.\n  - Everything below is what that platform is made of — UI, orchestration, runtime and gates.\n  - 11.6k lines of React 19 across 142 files, 334 commits ahead of upstream.\n",
+                "isNode": false,
+                "id": "mock-149522",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1000,
+                    "y": 668
+                },
+                "color": "#e8c77e",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "LLM Application Engineering",
+                "description": "#### LLM application engineering ***is*** the\ncraft **that** is used to build products on top of language models rather than demos.\n  - Provider APIs, routing, prompts and cost all treated as product surface.\n  - Model choice is a runtime decision, not an architectural commitment.\n  - Measured on real runs: latency, spend and how often the agent finishes the job.\n",
+                "isNode": false,
+                "id": "mock-394589",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 560,
+                    "y": 345
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Anthropic API",
+                "description": "#### The Anthropic API ***is*** a\nmodel API **that** drives reasoning and tool use inside the agent loop.\n  - Claude models plan the work, edit files and call tools.\n  - Streaming responses feed the live event log the UI renders.\n  - Tool schemas declare exactly what an agent is allowed to touch.\n  - Prompt caching and token budgeting keep long runs affordable.\n",
+                "isNode": true,
+                "id": "mock-613019",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 300,
+                    "y": 180
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/anthropic.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "OpenAI API",
+                "description": "#### The OpenAI API ***is*** a\nmodel API **that** is used as a second provider behind the same agent interface.\n  - Swapped per run without touching agent code — routing lives in one layer.\n  - Function calling maps onto the same tool contracts as every other provider.\n  - Keeps cost and quality benchmarks honest by comparing models on identical tasks.\n",
+                "isNode": true,
+                "id": "mock-928868",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 520,
+                    "y": 120
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/openai.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "LiteLLM Routing",
+                "description": "#### LiteLLM ***is*** a\nmulti-provider routing layer **that** puts one interface in front of many model APIs.\n  - One call signature for Anthropic, OpenAI and self-hosted models.\n  - Per-agent model selection: cheap models for sub-agents, strong models for planning.\n  - A single place for retries, fallbacks and cost accounting.\n",
+                "isNode": false,
+                "id": "mock-610080",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 230,
+                    "y": 345
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Prompt Design",
+                "description": "#### Prompt and system-prompt design ***is*** the\ndiscipline **that** decides how an agent understands its job.\n  - System prompts encode role, boundaries and the tools an agent may call.\n  - Sub-agent roles are authored as editable documents, not hard-coded strings.\n  - Structured output contracts keep responses parseable by the UI.\n  - Iterated against real runs instead of cherry-picked examples.\n",
+                "isNode": false,
+                "id": "mock-539868",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 300,
+                    "y": 503
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Token & Cost",
+                "description": "#### Token and cost optimization ***is*** the\npractice **that** keeps long autonomous runs economically viable.\n  - Context trimming and tail-only history replay instead of full transcripts.\n  - Mechanical work delegated to cheaper models, planning reserved for strong ones.\n  - A live usage widget surfaces spend per run and per subscription.\n",
+                "isNode": false,
+                "id": "mock-179476",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 700,
+                    "y": 180
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Agent Orchestration",
+                "description": "#### Agent orchestration ***is*** the\nlayer **that** is used to turn one model into a team of cooperating agents.\n  - A lead agent plans and delegates; specialised sub-agents execute.\n  - Every run is isolated, observable and stoppable by the operator.\n  - Work is verified by gates, not by trust.\n",
+                "isNode": false,
+                "id": "mock-928741",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1450,
+                    "y": 345
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "MCP ( Model Context Protocol )",
+                "description": "#### MCP ( Model Context Protocol ) ***is*** an\nopen protocol **that** is used to expose tools, data and prompts to agents in a uniform way.\n  - One contract for tools regardless of which model or client calls them.\n  - Servers advertise capabilities; agents discover and call them at runtime.\n  - Keeps tool access auditable and sandboxed instead of ad-hoc shell calls.\n",
+                "isNode": true,
+                "id": "mock-208296",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1700,
+                    "y": 188
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/mcp.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "Tool Calling",
+                "description": "#### Tool and function calling ***is*** the\nmechanism **that** lets a model act instead of only answering.\n  - Typed schemas describe each tool, its arguments and its failure modes.\n  - Calls stream into the UI as they happen — arguments, output and errors.\n  - Bad arguments are caught at the boundary, not inside the sandbox.\n",
+                "isNode": false,
+                "id": "mock-855763",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1810,
+                    "y": 345
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Multi-agent Runs",
+                "description": "#### A multi-agent run ***is*** an\nexecution model **that** splits one task across several agents working in parallel.\n  - Each run gets its own git worktree, so agents never fight over the tree.\n  - A per-run task strip shows what every agent is doing right now.\n  - The operator can switch autonomy level or stop the whole run mid-flight.\n",
+                "isNode": false,
+                "id": "mock-851594",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1400,
+                    "y": 165
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Sub-agents",
+                "description": "#### Sub-agent delegation ***is*** a\npattern **that** is used to give narrow roles to narrow agents.\n  - Roles are edited in a dedicated UI over a transport abstraction.\n  - One editor drives either a live sandbox or a plain folder on the host.\n  - Roles can be authored before any container exists.\n",
+                "isNode": false,
+                "id": "mock-124239",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1700,
+                    "y": 503
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Sandboxing",
+                "description": "#### Agent sandboxing ***is*** the\nisolation layer **that** decides how much damage an autonomous agent can do.\n  - Every agent run executes inside its own Docker sandbox.\n  - Git worktree isolation keeps concurrent runs off each other’s files.\n  - The host is reachable only through explicit, declared surfaces.\n",
+                "isNode": false,
+                "id": "mock-192837",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1130,
+                    "y": 180
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Verification Gates",
+                "description": "#### Automated verification gates ***are*** the\nchecks **that** decide whether an agent’s work is allowed to land.\n  - Lint, type checks and the test suite run before a result is accepted.\n  - Translation completeness across 15 locales is enforced in pre-commit.\n  - A failing gate sends the agent back to work instead of a human.\n",
+                "isNode": false,
+                "id": "mock-900671",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1450,
+                    "y": 510
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Agent UI & Streaming",
+                "description": "#### Agent UI and streaming UX ***is*** the\ninterface **that** makes an autonomous run legible while it is still running.\n  - Tool calls, file edits and terminal output render as they happen.\n  - Editor and terminal panes read the same event log as the chat.\n  - The operator always has a way to intervene.\n",
+                "isNode": false,
+                "id": "mock-457558",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 560,
+                    "y": 915
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "React 19",
+                "description": "#### React 19 ***is*** the\nUI library **that** the whole agent platform front-end is written in.\n  - 11.6k lines across 142 files, 334 commits ahead of upstream.\n  - Streaming-heavy views built around transitions and suspense-friendly data flow.\n  - Component boundaries drawn around agent, run and workspace concerns.\n",
+                "isNode": true,
+                "id": "mock-990974",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 300,
+                    "y": 765
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/react.webp"
+            },
+            {
+                "treeId": 3,
+                "title": "React Router 7",
+                "description": "#### React Router 7 ***is*** the\nrouting layer **that** maps agent runs, projects and workspaces onto URLs.\n  - Deep links straight into a specific conversation or run.\n  - Route-level data loading keeps the workspace shell instant.\n  - Nested layouts for the chat, editor and terminal panes.\n",
+                "isNode": true,
+                "id": "mock-501951",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 250,
+                    "y": 915
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/react-router.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "TypeScript",
+                "description": "#### TypeScript ***is*** a\ntyped superset of JavaScript **that** keeps a large agent codebase refactorable.\n  - Event and tool-call payloads are typed end to end.\n  - Types are the contract between the UI and the FastAPI backend.\n  - Type checks run in the same gate as lint and tests.\n",
+                "isNode": true,
+                "id": "mock-151236",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 560,
+                    "y": 750
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/typescript.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "Zustand",
+                "description": "#### Zustand ***is*** a\nstate library **that** holds the live client state of an agent session.\n  - Streaming events, run status and panel state live in small selective stores.\n  - Selector-level subscriptions keep high-frequency streams from re-rendering the app.\n  - Pairs with TanStack Query, which owns everything server-side.\n",
+                "isNode": false,
+                "id": "mock-551632",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 480,
+                    "y": 1163
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "TanStack Query",
+                "description": "#### TanStack Query ***is*** a\nserver-state library **that** owns caching, invalidation and pagination.\n  - Chat history loads lazily over REST instead of replaying the whole socket.\n  - Cache invalidation is driven by the same events the UI streams.\n  - Keeps optimistic updates and background refetching out of component code.\n",
+                "isNode": true,
+                "id": "mock-960603",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 300,
+                    "y": 1065
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/tanstack-query.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "WebSocket / SSE",
+                "description": "#### WebSocket and SSE ***are*** the\ntransports **that** carry an agent’s output to the browser in real time.\n  - One event log feeds the chat, the terminal and the editor panes.\n  - Tail-only replay on reconnect instead of re-streaming the full history.\n  - Backpressure and reconnection handled in one place, not per view.\n",
+                "isNode": false,
+                "id": "mock-285112",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 760,
+                    "y": 1118
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Monaco",
+                "description": "#### Monaco ***is*** the\ncode editor **that** shows what the agent is editing as it edits it.\n  - The same editor core that powers VS Code, embedded in the workspace.\n  - Diffs and file writes land in the editor straight off the event stream.\n  - Syntax, search and multi-file navigation for agent-authored code.\n",
+                "isNode": false,
+                "id": "mock-825912",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 880,
+                    "y": 990
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "xterm.js",
+                "description": "#### xterm.js ***is*** a\nterminal emulator **that** renders the agent’s shell inside the browser.\n  - Live command output, streamed from the sandbox as it is produced.\n  - Shares the event log with the chat, so history stays consistent.\n  - Full control sequences — the agent sees a real terminal, not a text box.\n",
+                "isNode": false,
+                "id": "mock-819460",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 880,
+                    "y": 855
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Agent Runtime & Data",
+                "description": "#### The agent runtime ***is*** the\nbackend **that** actually runs agents, stores their work and keeps them apart.\n  - FastAPI services for projects, scheduling, usage and worktree isolation.\n  - Docker sandboxes per run; deploy with zero public surface.\n  - Health-checked releases with automatic rollback.\n",
+                "isNode": false,
+                "id": "mock-604380",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1440,
+                    "y": 915
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Python",
+                "description": "#### Python ***is*** the\nlanguage **that** the agent backend and its tooling are written in.\n  - Agent loop, tool execution and scheduling services.\n  - Migration and maintenance scripts for a fork that tracks upstream.\n  - Typed, tested and linted under the same gates as the front-end.\n",
+                "isNode": true,
+                "id": "mock-874464",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1700,
+                    "y": 788
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/python.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "FastAPI",
+                "description": "#### FastAPI ***is*** a\nPython web framework **that** serves the agent platform’s APIs.\n  - Services for projects, scheduling, usage accounting and git-worktree isolation.\n  - Async endpoints alongside the WebSocket transport for live runs.\n  - Schemas double as the contract the typed front-end consumes.\n",
+                "isNode": true,
+                "id": "mock-164436",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1820,
+                    "y": 930
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/fastapi.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "Docker Sandboxes",
+                "description": "#### Docker ***is*** a\ncontainer runtime **that** is used to give every agent run a disposable machine.\n  - One sandbox per run — the agent can break it without breaking anything else.\n  - Images pinned so a run is reproducible weeks later.\n  - Deployed behind Caddy and systemd with health checks and auto-rollback.\n",
+                "isNode": true,
+                "id": "mock-267239",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1700,
+                    "y": 1073
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/docker.png"
+            },
+            {
+                "treeId": 3,
+                "title": "PostgreSQL",
+                "description": "#### PostgreSQL ***is*** a\nrelational database **that** stores projects, conversations, schedules and usage.\n  - Conversation history paginated straight out of SQL for lazy loading.\n  - Usage and cost accounting per run, per agent and per subscription.\n  - Migrations versioned with the rest of the platform.\n",
+                "isNode": true,
+                "id": "mock-663620",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1450,
+                    "y": 1163
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/postgre.webp"
+            },
+            {
+                "treeId": 3,
+                "title": "Redis",
+                "description": "#### Redis ***is*** an\nin-memory store **that** carries the fast-moving state of live agent runs.\n  - Pub/sub fan-out for event streams to connected clients.\n  - Session and run state that must survive a process restart but not a week.\n  - Rate limiting and locks around shared agent resources.\n",
+                "isNode": true,
+                "id": "mock-918257",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1220,
+                    "y": 1080
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/redis.webp"
+            },
+            {
+                "treeId": 3,
+                "title": "Git Worktrees",
+                "description": "#### Git worktree isolation ***is*** the\ntechnique **that** lets several agents work on one repository at once.\n  - Each run checks out its own worktree — no shared working tree, no collisions.\n  - Worktree status badges show, per run, what changed and whether it is clean.\n  - Results are reviewed and merged like any other branch.\n",
+                "isNode": false,
+                "id": "mock-578188",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1180,
+                    "y": 840
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Quality Gates",
+                "description": "#### Quality gates ***are*** the\nautomation **that** keeps a fast-moving fork from rotting.\n  - 2,400+ tests driven fully green and kept there.\n  - Lint, types, tests and translation completeness all run before a commit lands.\n  - Migrated to ESLint 9 flat config ahead of upstream.\n",
+                "isNode": false,
+                "id": "mock-977131",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1000,
+                    "y": 413
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Vitest",
+                "description": "#### Vitest ***is*** a\ntest runner **that** runs the unit and component suite of the agent front-end.\n  - 2,400+ tests, driven from broken to fully green.\n  - Fixed an environment leak between test files that made failures non-deterministic.\n  - Fast enough to sit inside the pre-commit gate.\n",
+                "isNode": true,
+                "id": "mock-680589",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 870,
+                    "y": 285
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/vitest.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "Playwright",
+                "description": "#### Playwright ***is*** an\nend-to-end testing framework **that** exercises the agent workspace like a user.\n  - Covers the flows that matter: start a run, stream output, stop an agent.\n  - Catches regressions in streaming and routing that unit tests cannot see.\n  - Runs headless in CI against a real build.\n",
+                "isNode": true,
+                "id": "mock-160245",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1010,
+                    "y": 240
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/playwright.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "MSW",
+                "description": "#### MSW ( Mock Service Worker ) ***is*** an\nAPI mocking layer **that** lets the front-end be tested without a live backend.\n  - Request handlers mirror the real FastAPI contracts.\n  - Fixed a double-interception bug that was silently swallowing requests in tests.\n  - Same mocks power local development and the test suite.\n",
+                "isNode": true,
+                "id": "mock-521090",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1150,
+                    "y": 285
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/msw.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "ESLint 9 Flat Config",
+                "description": "#### ESLint ***is*** the\nlinter **that** encodes the code rules a fast-moving fork has to keep.\n  - Migrated to the flat config format ahead of upstream.\n  - Rules run in pre-commit, so nothing lands unlinted.\n  - Custom rules guard the boundaries between agent, UI and transport code.\n",
+                "isNode": true,
+                "id": "mock-669026",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1180,
+                    "y": 413
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/eslint.svg"
+            },
+            {
+                "treeId": 3,
+                "title": "i18n Completeness",
+                "description": "#### Translation completeness ***is*** a\ngate **that** is used to keep 15 locales from drifting apart.\n  - Every user-facing string must exist in all locales before a commit lands.\n  - Missing keys fail the pre-commit check instead of shipping as English.\n  - i18next drives the runtime side of the same key set.\n",
+                "isNode": true,
+                "id": "mock-790703",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 820,
+                    "y": 420
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/i18next.svg"
+            }
+        ],
+        "edges": [
+            {
+                "sourceNodeId": "mock-394589",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-613019",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-928868",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-610080",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-539868",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-179476",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-928741",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-208296",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-855763",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-851594",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-124239",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-192837",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-900671",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-457558",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-990974",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-501951",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-151236",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-551632",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-960603",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-285112",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-825912",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-819460",
+                "targetNodeId": "mock-457558"
+            },
+            {
+                "sourceNodeId": "mock-604380",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-874464",
+                "targetNodeId": "mock-604380"
+            },
+            {
+                "sourceNodeId": "mock-164436",
+                "targetNodeId": "mock-604380"
+            },
+            {
+                "sourceNodeId": "mock-267239",
+                "targetNodeId": "mock-604380"
+            },
+            {
+                "sourceNodeId": "mock-663620",
+                "targetNodeId": "mock-604380"
+            },
+            {
+                "sourceNodeId": "mock-918257",
+                "targetNodeId": "mock-604380"
+            },
+            {
+                "sourceNodeId": "mock-578188",
+                "targetNodeId": "mock-604380"
+            },
+            {
+                "sourceNodeId": "mock-977131",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-680589",
+                "targetNodeId": "mock-977131"
+            },
+            {
+                "sourceNodeId": "mock-160245",
+                "targetNodeId": "mock-977131"
+            },
+            {
+                "sourceNodeId": "mock-521090",
+                "targetNodeId": "mock-977131"
+            },
+            {
+                "sourceNodeId": "mock-669026",
+                "targetNodeId": "mock-977131"
+            },
+            {
+                "sourceNodeId": "mock-790703",
+                "targetNodeId": "mock-977131"
+            }
+        ]
+    },
     "back-end": {
         "nodes": [
             {
@@ -168,7 +854,7 @@
             },
             {
                 "treeId": 1,
-                "title": "asdfasdfasdf",
+                "title": "Git",
                 "description": "**Git** is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
                 "id": "mock-656747",
                 "tags": [],
@@ -1242,6 +1928,51 @@
                     "x": 1707.7500000000002,
                     "y": 1449.7500000000002
                 }
+            },
+            {
+                "treeId": 1,
+                "title": "TypeScript",
+                "description": "#### TypeScript ***is*** a\ntyped superset of JavaScript **that** is used to keep large front-ends refactorable.\n  - Types describe API payloads, so the compiler catches contract drift.\n  - Editor tooling turns into real navigation and safe renames across a codebase.\n  - Runs in the same gate as lint and tests — nothing lands untyped.\n  - Used across every production project since 2021: Vue, Nuxt, React and Node.\n",
+                "isNode": true,
+                "id": "mock-771204",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 820,
+                    "y": 210
+                },
+                "color": "#3178c6",
+                "imageUrl": "images/typescript.svg"
+            },
+            {
+                "treeId": 1,
+                "title": "Vitest",
+                "description": "#### Vitest ***is*** a\ntest runner **that** is used for unit and component tests on Vite-based projects.\n  - Shares the Vite pipeline, so tests run the same transforms as the app.\n  - Fast enough to sit inside a pre-commit gate.\n  - Drove a 2,400+ test suite fully green on an agent platform fork.\n",
+                "isNode": true,
+                "id": "mock-618377",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1230,
+                    "y": 1020
+                },
+                "color": "#6e9f18",
+                "imageUrl": "images/vitest.svg"
+            },
+            {
+                "treeId": 1,
+                "title": "Playwright",
+                "description": "#### Playwright ***is*** an\nend-to-end testing framework **that** drives a real browser against a real build.\n  - Covers the flows unit tests cannot see: routing, streaming, auth.\n  - Runs headless in CI across Chromium, Firefox and WebKit.\n  - Traces and screenshots make a failed run debuggable after the fact.\n",
+                "isNode": true,
+                "id": "mock-559182",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1000,
+                    "y": 1040
+                },
+                "color": "#2ead33",
+                "imageUrl": "images/playwright.svg"
             }
         ],
         "edges": [
@@ -1380,6 +2111,18 @@
             {
                 "sourceNodeId": "mock-546691",
                 "targetNodeId": "mock-342728"
+            },
+            {
+                "sourceNodeId": "mock-771204",
+                "targetNodeId": "mock-658400"
+            },
+            {
+                "sourceNodeId": "mock-618377",
+                "targetNodeId": "mock-102782"
+            },
+            {
+                "sourceNodeId": "mock-559182",
+                "targetNodeId": "mock-102782"
             }
         ]
     }
