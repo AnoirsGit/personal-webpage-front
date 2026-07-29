@@ -32,10 +32,6 @@
                     { "value": "Live", "label": "стрим вызовов инструментов" },
                     { "value": "Только хвост", "label": "реплей истории" }
                 ],
-                "link": {
-                    "src": "https://github.com/All-Hands-AI/OpenHands",
-                    "label": "OpenHands — upstream-проект"
-                },
                 "imageUrls": [
                     "images/agent-workspace.webp",
                     "images/agent-stream-panel.webp"
@@ -63,6 +59,10 @@
                     { "value": "15", "label": "локалей под гейтом" },
                     { "value": "334", "label": "коммита впереди upstream" }
                 ],
+                "link": {
+                    "src": "https://github.com/All-Hands-AI/OpenHands",
+                    "label": "OpenHands — upstream-проект"
+                },
                 "imageUrls": [
                     "images/agent-quality.webp"
                 ]

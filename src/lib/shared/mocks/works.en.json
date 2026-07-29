@@ -59,6 +59,10 @@
                     { "value": "15", "label": "locales gated" },
                     { "value": "334", "label": "commits ahead of upstream" }
                 ],
+                "link": {
+                    "src": "https://github.com/All-Hands-AI/OpenHands",
+                    "label": "OpenHands — upstream project"
+                },
                 "imageUrls": [
                     "images/agent-quality.webp"
                 ]
