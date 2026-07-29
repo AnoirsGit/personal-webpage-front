@@ -54,6 +54,10 @@ body {
   font-family: 'Poppins Mono', sans-serif;
   background-color: rgb(10, 5, 22);
   position: relative;
+  /* clip, not hidden: the reveal/zigzag entrances park cards off-canvas for a
+     moment and the corner shots bleed past their frame — neither should ever
+     turn into a horizontal scrollbar, and clip leaves sticky/fixed alone */
+  overflow-x: clip;
   background-image:
     radial-gradient(1200px 600px at 12% -10%, rgba(145, 34, 255, 0.16) 0%, rgba(145, 34, 255, 0) 60%),
     radial-gradient(900px 500px at 100% 0%, rgba(232, 199, 126, 0.06) 0%, rgba(232, 199, 126, 0) 55%),

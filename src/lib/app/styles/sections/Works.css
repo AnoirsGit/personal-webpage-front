@@ -162,6 +162,14 @@
     }
 }
 
+/* grid items default to min-width: auto, so anything with an intrinsic width
+   (the max-content role line, a wide metric chip) can push the column past the
+   viewport on a phone — let both columns shrink instead */
+.work-card-media,
+.work-card-body {
+    @apply min-w-0;
+}
+
 .work-card-media {
     @apply w-full;
 }
@@ -274,7 +282,7 @@
 
 /* small case-specific role line above the copy */
 .card-role {
-    @apply inline-flex w-max items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em];
+    @apply inline-flex w-max max-w-full items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em];
     color: #e8c77e;
 }
 
@@ -329,7 +337,7 @@
 }
 
 .work-card-link {
-    @apply inline-flex items-center gap-1.5 w-max text-base font-semibold no-underline;
+    @apply inline-flex items-center gap-1.5 w-max max-w-full text-base font-semibold no-underline;
 }
 
 .work-card-link svg {

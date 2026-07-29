@@ -11,6 +11,12 @@
  */
 const DEFAULTS = { x: 0, y: 28, delay: 0, duration: 700, once: true, rootMargin: '0px 0px -8% 0px' };
 
+/* Sideways entrances belong to the desktop zigzag: below `md` the layout is a
+ * single column, so an element parked at ±56px only sticks out of the viewport
+ * and drags a horizontal scrollbar along with it. On a phone the offset becomes
+ * a vertical one instead. */
+const SINGLE_COLUMN = '(max-width: 767px)';
+
 export default function reveal(node, options = {}) {
 	const settings = { ...DEFAULTS, ...options };
 
@@ -21,9 +27,13 @@ export default function reveal(node, options = {}) {
 		return {};
 	}
 
+	const singleColumn = window.matchMedia(SINGLE_COLUMN).matches;
+	const x = singleColumn ? 0 : settings.x;
+	const y = singleColumn && settings.x && !settings.y ? 24 : settings.y;
+
 	node.classList.add('reveal-hidden');
-	node.style.setProperty('--reveal-x', `${settings.x}px`);
-	node.style.setProperty('--reveal-y', `${settings.y}px`);
+	node.style.setProperty('--reveal-x', `${x}px`);
+	node.style.setProperty('--reveal-y', `${y}px`);
 	node.style.setProperty('--reveal-delay', `${settings.delay}ms`);
 	node.style.setProperty('--reveal-duration', `${settings.duration}ms`);
 
