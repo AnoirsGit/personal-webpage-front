@@ -4,14 +4,14 @@
             {
                 "treeId": 3,
                 "title": "AI & Agent Interfaces",
-                "description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built and run an autonomous multi-agent coding platform in production.\n  - Everything below is what that platform is made of — UI, orchestration, runtime and gates.\n  - 11.6k lines of React 19 across 142 files, 334 commits ahead of upstream.\n",
+                "description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built and run an autonomous multi-agent coding platform in production.\n  - Below: the model layer and the orchestration that makes agents cooperate.\n  - 11.6k lines of React 19 across 142 files, 334 commits ahead of upstream.\n",
                 "isNode": false,
                 "id": "mock-149522",
                 "tags": [],
                 "isActive": false,
                 "position": {
                     "x": 1000,
-                    "y": 668
+                    "y": 70
                 },
                 "color": "#e8c77e",
                 "imageUrl": ""
@@ -25,8 +25,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 560,
-                    "y": 345
+                    "x": 700,
+                    "y": 265
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -40,8 +40,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 300,
-                    "y": 180
+                    "x": 520,
+                    "y": 360
                 },
                 "color": "#b57bff",
                 "imageUrl": "images/anthropic.svg"
@@ -55,8 +55,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 520,
-                    "y": 120
+                    "x": 640,
+                    "y": 430
                 },
                 "color": "#b57bff",
                 "imageUrl": "images/openai.svg"
@@ -70,8 +70,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 230,
-                    "y": 345
+                    "x": 840,
+                    "y": 380
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -85,8 +85,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 300,
-                    "y": 503
+                    "x": 660,
+                    "y": 510
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -100,8 +100,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 700,
-                    "y": 180
+                    "x": 880,
+                    "y": 490
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -115,8 +115,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1450,
-                    "y": 345
+                    "x": 1300,
+                    "y": 265
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -130,8 +130,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1700,
-                    "y": 188
+                    "x": 1480,
+                    "y": 360
                 },
                 "color": "#b57bff",
                 "imageUrl": "images/mcp.svg"
@@ -145,8 +145,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1810,
-                    "y": 345
+                    "x": 1140,
+                    "y": 360
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -160,8 +160,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1400,
-                    "y": 165
+                    "x": 1330,
+                    "y": 440
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -175,8 +175,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1700,
-                    "y": 503
+                    "x": 1120,
+                    "y": 500
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -190,8 +190,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1130,
-                    "y": 180
+                    "x": 1520,
+                    "y": 460
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -205,8 +205,8 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 1450,
-                    "y": 510
+                    "x": 1330,
+                    "y": 540
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -220,331 +220,24 @@
                 "tags": [],
                 "isActive": false,
                 "position": {
-                    "x": 560,
-                    "y": 915
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "React 19",
-                "description": "#### React 19 ***is*** the\nUI library **that** the whole agent platform front-end is written in.\n  - 11.6k lines across 142 files, 334 commits ahead of upstream.\n  - Streaming-heavy views built around transitions and suspense-friendly data flow.\n  - Component boundaries drawn around agent, run and workspace concerns.\n",
-                "isNode": true,
-                "id": "mock-990974",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 300,
-                    "y": 765
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/react.webp"
-            },
-            {
-                "treeId": 3,
-                "title": "React Router 7",
-                "description": "#### React Router 7 ***is*** the\nrouting layer **that** maps agent runs, projects and workspaces onto URLs.\n  - Deep links straight into a specific conversation or run.\n  - Route-level data loading keeps the workspace shell instant.\n  - Nested layouts for the chat, editor and terminal panes.\n",
-                "isNode": true,
-                "id": "mock-501951",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 250,
-                    "y": 915
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/react-router.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "TypeScript",
-                "description": "#### TypeScript ***is*** a\ntyped superset of JavaScript **that** keeps a large agent codebase refactorable.\n  - Event and tool-call payloads are typed end to end.\n  - Types are the contract between the UI and the FastAPI backend.\n  - Type checks run in the same gate as lint and tests.\n",
-                "isNode": true,
-                "id": "mock-151236",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 560,
-                    "y": 750
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/typescript.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "Zustand",
-                "description": "#### Zustand ***is*** a\nstate library **that** holds the live client state of an agent session.\n  - Streaming events, run status and panel state live in small selective stores.\n  - Selector-level subscriptions keep high-frequency streams from re-rendering the app.\n  - Pairs with TanStack Query, which owns everything server-side.\n",
-                "isNode": false,
-                "id": "mock-551632",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 480,
-                    "y": 1163
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "TanStack Query",
-                "description": "#### TanStack Query ***is*** a\nserver-state library **that** owns caching, invalidation and pagination.\n  - Chat history loads lazily over REST instead of replaying the whole socket.\n  - Cache invalidation is driven by the same events the UI streams.\n  - Keeps optimistic updates and background refetching out of component code.\n",
-                "isNode": true,
-                "id": "mock-960603",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 300,
-                    "y": 1065
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/tanstack-query.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "WebSocket / SSE",
-                "description": "#### WebSocket and SSE ***are*** the\ntransports **that** carry an agent’s output to the browser in real time.\n  - One event log feeds the chat, the terminal and the editor panes.\n  - Tail-only replay on reconnect instead of re-streaming the full history.\n  - Backpressure and reconnection handled in one place, not per view.\n",
-                "isNode": false,
-                "id": "mock-285112",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 760,
-                    "y": 1118
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Monaco",
-                "description": "#### Monaco ***is*** the\ncode editor **that** shows what the agent is editing as it edits it.\n  - The same editor core that powers VS Code, embedded in the workspace.\n  - Diffs and file writes land in the editor straight off the event stream.\n  - Syntax, search and multi-file navigation for agent-authored code.\n",
-                "isNode": false,
-                "id": "mock-825912",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 880,
-                    "y": 990
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "xterm.js",
-                "description": "#### xterm.js ***is*** a\nterminal emulator **that** renders the agent’s shell inside the browser.\n  - Live command output, streamed from the sandbox as it is produced.\n  - Shares the event log with the chat, so history stays consistent.\n  - Full control sequences — the agent sees a real terminal, not a text box.\n",
-                "isNode": false,
-                "id": "mock-819460",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 880,
-                    "y": 855
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Agent Runtime & Data",
-                "description": "#### The agent runtime ***is*** the\nbackend **that** actually runs agents, stores their work and keeps them apart.\n  - FastAPI services for projects, scheduling, usage and worktree isolation.\n  - Docker sandboxes per run; deploy with zero public surface.\n  - Health-checked releases with automatic rollback.\n",
-                "isNode": false,
-                "id": "mock-604380",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1440,
-                    "y": 915
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Python",
-                "description": "#### Python ***is*** the\nlanguage **that** the agent backend and its tooling are written in.\n  - Agent loop, tool execution and scheduling services.\n  - Migration and maintenance scripts for a fork that tracks upstream.\n  - Typed, tested and linted under the same gates as the front-end.\n",
-                "isNode": true,
-                "id": "mock-874464",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1700,
-                    "y": 788
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/python.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "FastAPI",
-                "description": "#### FastAPI ***is*** a\nPython web framework **that** serves the agent platform’s APIs.\n  - Services for projects, scheduling, usage accounting and git-worktree isolation.\n  - Async endpoints alongside the WebSocket transport for live runs.\n  - Schemas double as the contract the typed front-end consumes.\n",
-                "isNode": true,
-                "id": "mock-164436",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1820,
-                    "y": 930
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/fastapi.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "Docker Sandboxes",
-                "description": "#### Docker ***is*** a\ncontainer runtime **that** is used to give every agent run a disposable machine.\n  - One sandbox per run — the agent can break it without breaking anything else.\n  - Images pinned so a run is reproducible weeks later.\n  - Deployed behind Caddy and systemd with health checks and auto-rollback.\n",
-                "isNode": true,
-                "id": "mock-267239",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1700,
-                    "y": 1073
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/docker.png"
-            },
-            {
-                "treeId": 3,
-                "title": "PostgreSQL",
-                "description": "#### PostgreSQL ***is*** a\nrelational database **that** stores projects, conversations, schedules and usage.\n  - Conversation history paginated straight out of SQL for lazy loading.\n  - Usage and cost accounting per run, per agent and per subscription.\n  - Migrations versioned with the rest of the platform.\n",
-                "isNode": true,
-                "id": "mock-663620",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1450,
-                    "y": 1163
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/postgre.webp"
-            },
-            {
-                "treeId": 3,
-                "title": "Redis",
-                "description": "#### Redis ***is*** an\nin-memory store **that** carries the fast-moving state of live agent runs.\n  - Pub/sub fan-out for event streams to connected clients.\n  - Session and run state that must survive a process restart but not a week.\n  - Rate limiting and locks around shared agent resources.\n",
-                "isNode": true,
-                "id": "mock-918257",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1220,
-                    "y": 1080
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/redis.webp"
-            },
-            {
-                "treeId": 3,
-                "title": "Git Worktrees",
-                "description": "#### Git worktree isolation ***is*** the\ntechnique **that** lets several agents work on one repository at once.\n  - Each run checks out its own worktree — no shared working tree, no collisions.\n  - Worktree status badges show, per run, what changed and whether it is clean.\n  - Results are reviewed and merged like any other branch.\n",
-                "isNode": false,
-                "id": "mock-578188",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1180,
-                    "y": 840
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Quality Gates",
-                "description": "#### Quality gates ***are*** the\nautomation **that** keeps a fast-moving fork from rotting.\n  - 2,400+ tests driven fully green and kept there.\n  - Lint, types, tests and translation completeness all run before a commit lands.\n  - Migrated to ESLint 9 flat config ahead of upstream.\n",
-                "isNode": false,
-                "id": "mock-977131",
-                "tags": [],
-                "isActive": false,
-                "position": {
                     "x": 1000,
-                    "y": 413
+                    "y": 170
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Vitest",
-                "description": "#### Vitest ***is*** a\ntest runner **that** runs the unit and component suite of the agent front-end.\n  - 2,400+ tests, driven from broken to fully green.\n  - Fixed an environment leak between test files that made failures non-deterministic.\n  - Fast enough to sit inside the pre-commit gate.\n",
-                "isNode": true,
-                "id": "mock-680589",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 870,
-                    "y": 285
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/vitest.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "Playwright",
-                "description": "#### Playwright ***is*** an\nend-to-end testing framework **that** exercises the agent workspace like a user.\n  - Covers the flows that matter: start a run, stream output, stop an agent.\n  - Catches regressions in streaming and routing that unit tests cannot see.\n  - Runs headless in CI against a real build.\n",
-                "isNode": true,
-                "id": "mock-160245",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1010,
-                    "y": 240
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/playwright.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "MSW",
-                "description": "#### MSW ( Mock Service Worker ) ***is*** an\nAPI mocking layer **that** lets the front-end be tested without a live backend.\n  - Request handlers mirror the real FastAPI contracts.\n  - Fixed a double-interception bug that was silently swallowing requests in tests.\n  - Same mocks power local development and the test suite.\n",
-                "isNode": true,
-                "id": "mock-521090",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1150,
-                    "y": 285
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/msw.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "ESLint 9 Flat Config",
-                "description": "#### ESLint ***is*** the\nlinter **that** encodes the code rules a fast-moving fork has to keep.\n  - Migrated to the flat config format ahead of upstream.\n  - Rules run in pre-commit, so nothing lands unlinted.\n  - Custom rules guard the boundaries between agent, UI and transport code.\n",
-                "isNode": true,
-                "id": "mock-669026",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1180,
-                    "y": 413
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/eslint.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "i18n Completeness",
-                "description": "#### Translation completeness ***is*** a\ngate **that** is used to keep 15 locales from drifting apart.\n  - Every user-facing string must exist in all locales before a commit lands.\n  - Missing keys fail the pre-commit check instead of shipping as English.\n  - i18next drives the runtime side of the same key set.\n",
-                "isNode": true,
-                "id": "mock-790703",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 820,
-                    "y": 420
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/i18next.svg"
             }
         ],
         "edges": [
             {
                 "sourceNodeId": "mock-394589",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-928741",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-457558",
                 "targetNodeId": "mock-149522"
             },
             {
@@ -566,10 +259,6 @@
             {
                 "sourceNodeId": "mock-179476",
                 "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-928741",
-                "targetNodeId": "mock-149522"
             },
             {
                 "sourceNodeId": "mock-208296",
@@ -594,94 +283,6 @@
             {
                 "sourceNodeId": "mock-900671",
                 "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-457558",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-990974",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-501951",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-151236",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-551632",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-960603",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-285112",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-825912",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-819460",
-                "targetNodeId": "mock-457558"
-            },
-            {
-                "sourceNodeId": "mock-604380",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-874464",
-                "targetNodeId": "mock-604380"
-            },
-            {
-                "sourceNodeId": "mock-164436",
-                "targetNodeId": "mock-604380"
-            },
-            {
-                "sourceNodeId": "mock-267239",
-                "targetNodeId": "mock-604380"
-            },
-            {
-                "sourceNodeId": "mock-663620",
-                "targetNodeId": "mock-604380"
-            },
-            {
-                "sourceNodeId": "mock-918257",
-                "targetNodeId": "mock-604380"
-            },
-            {
-                "sourceNodeId": "mock-578188",
-                "targetNodeId": "mock-604380"
-            },
-            {
-                "sourceNodeId": "mock-977131",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-680589",
-                "targetNodeId": "mock-977131"
-            },
-            {
-                "sourceNodeId": "mock-160245",
-                "targetNodeId": "mock-977131"
-            },
-            {
-                "sourceNodeId": "mock-521090",
-                "targetNodeId": "mock-977131"
-            },
-            {
-                "sourceNodeId": "mock-669026",
-                "targetNodeId": "mock-977131"
-            },
-            {
-                "sourceNodeId": "mock-790703",
-                "targetNodeId": "mock-977131"
             }
         ]
     },
