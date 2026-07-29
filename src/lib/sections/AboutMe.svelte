@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 
 	import '$lib/app/styles/sections/AboutMe.css';
-	import Typing3D from '$lib/widgets/typing-3d/Typing3D.svelte';
 	import CustomButton from '$lib/shared/UI/CustomButton.svelte';
 	import MarkdownWrapper from '$lib/shared/MarkdownWrapper.svelte';
 	import Deferred from '$lib/shared/UI/Deferred.svelte';
@@ -104,9 +103,7 @@
 		<div class="model-stage" use:reveal={{ x: 40, y: 0 }}>
 			<span class="model-glow" />
 			<span class="model-floor" />
-			<Deferred minHeight="26rem">
-				<Typing3D />
-			</Deferred>
+			<Deferred minHeight="26rem" load={() => import('$lib/widgets/typing-3d/Typing3D.svelte')} />
 			<span class="model-caption">{$t('about.modelHint')}</span>
 		</div>
 	</div>

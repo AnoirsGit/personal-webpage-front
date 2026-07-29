@@ -2,20 +2,13 @@
 	import { onMount } from 'svelte';
 	import reveal from '$lib/shared/UI/effects/reveal';
 	import { t } from '$lib/shared/i18n';
-	import { works } from '$lib/shared/i18n/content';
-
-	// counts come from the data itself, so the strip never drifts from the timeline
-	const careerStartYear = Math.min(...$works.map((work) => parseInt(work.dates[0], 10)));
-	const years = new Date().getFullYear() - careerStartYear;
-	const companies = $works.length;
-	const technologies = new Set($works.flatMap((work) => work.skills)).size;
-	const projects = $works.reduce((total, work) => total + (work.cards?.length ?? 0), 0);
+	import { careerStats } from '$lib/shared/i18n/content';
 
 	const values = [
-		{ value: years, suffix: '+', key: 'stats.years' },
-		{ value: projects, suffix: '+', key: 'stats.projects' },
-		{ value: technologies, suffix: '+', key: 'stats.technologies' },
-		{ value: companies, suffix: '', key: 'stats.companies' }
+		{ value: careerStats.years, suffix: '+', key: 'stats.years' },
+		{ value: careerStats.projects, suffix: '+', key: 'stats.projects' },
+		{ value: careerStats.technologies, suffix: '+', key: 'stats.technologies' },
+		{ value: careerStats.companies, suffix: '', key: 'stats.companies' }
 	];
 
 	$: stats = values.map((stat) => ({ ...stat, label: $t(stat.key) }));

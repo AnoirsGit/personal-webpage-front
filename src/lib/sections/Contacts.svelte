@@ -1,6 +1,5 @@
 <script>
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
-	import Globe from '$lib/widgets/globe/Globe.svelte';
 	import Deferred from '$lib/shared/UI/Deferred.svelte';
 	import '$lib/app/styles/globe.css';
 	import '$lib/app/styles/contacts.css';
@@ -15,9 +14,11 @@
 
 <SectionLayout title={$t('contacts.title')} name="contacts">
 	<div class="relative globe-wrapper-h contacts-stage">
-		<Deferred minHeight="100%" rootMargin="1600px">
-			<Globe />
-		</Deferred>
+		<Deferred
+			minHeight="100%"
+			rootMargin="800px"
+			load={() => import('$lib/widgets/globe/Globe.svelte')}
+		/>
 
 		<div class="contacts-panel-wrap">
 			<div class="contacts-panel glass-panel gradient-border">

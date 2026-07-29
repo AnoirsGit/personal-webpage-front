@@ -7,7 +7,7 @@
 	import WorkCard from './ui/WorkCard.svelte';
 	import reveal from '$lib/shared/UI/effects/reveal';
 	import { locale, t } from '$lib/shared/i18n';
-	import { works as localizedWorks } from '$lib/shared/i18n/content';
+	import { works as localizedWorks } from '$lib/shared/i18n/content.works';
 
 	export let works = null;
 

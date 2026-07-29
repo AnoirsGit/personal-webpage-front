@@ -1,11 +1,9 @@
 <script>
-	import SkillTree from '$lib/widgets/skill-tree/SkillTree.svelte';
 	import '$lib/app/styles/sections/Skills.css';
 	import SectionLayout from '$lib/shared/UI/SectionLayout.svelte';
 	import CustomTab from '$lib/shared/UI/CustomTab.svelte';
 	import Deferred from '$lib/shared/UI/Deferred.svelte';
 	import { t } from '$lib/shared/i18n';
-	import { skillTree } from '$lib/shared/i18n/content';
 
 	$: skillCategories = [
 		{ key: 'ai-agents', label: $t('skills.ai') },
@@ -25,11 +23,9 @@
 			activeTab = tab;
 		}}
 	/>
-	<Deferred minHeight="600px">
-		<SkillTree
-			isEditMode={false}
-			nodes={$skillTree[activeTab].nodes}
-			edges={$skillTree[activeTab].edges}
-		/>
-	</Deferred>
+	<Deferred
+		minHeight="600px"
+		load={() => import('$lib/widgets/skill-tree/SkillTreePanel.svelte')}
+		{activeTab}
+	/>
 </SectionLayout>
