@@ -2,8 +2,14 @@
  * Svelte action: fades + slides an element in when it enters the viewport.
  * Styling lives in app.css (.reveal-hidden / .reveal-shown).
  * Honors prefers-reduced-motion by not animating at all.
+ *
+ * The trigger is a rootMargin, not a ratio: a ratio threshold is unreachable
+ * for any element taller than 1/threshold viewports, and the Works timeline is
+ * ~14000px on a phone, so at the old 0.1 it could never fire and the whole
+ * section stayed at opacity 0. A negative bottom margin gives the same
+ * "it's meaningfully on screen" feel at any element height.
  */
-const DEFAULTS = { x: 0, y: 28, delay: 0, duration: 700, once: true, threshold: 0.1 };
+const DEFAULTS = { x: 0, y: 28, delay: 0, duration: 700, once: true, rootMargin: '0px 0px -8% 0px' };
 
 export default function reveal(node, options = {}) {
 	const settings = { ...DEFAULTS, ...options };
@@ -41,7 +47,7 @@ export default function reveal(node, options = {}) {
 				}
 			}
 		},
-		{ threshold: settings.threshold }
+		{ threshold: 0, rootMargin: settings.rootMargin }
 	);
 	observer.observe(node);
 
