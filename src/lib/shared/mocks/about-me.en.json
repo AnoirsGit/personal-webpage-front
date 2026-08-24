@@ -1,6 +1,6 @@
 {
     "aboutMe": {
-        "firstBlock": "# I’m FullStack developer based in Kazakhstan.\nWith over 5 years of experience as a full stack developer, I specialize in tackling complex technical challenges with an analytical approach. \n\nMy true strength lies in fostering open communication within the team.",
-        "secondBlock": "Coding isn't just a job for me, it's a source of pure joy.\nUnraveling complex problems and crafting solutions.  The thrill of the \"aha!\" moment and seeing my \ncreations come to life fuels my passion for development.\n\nMy ultimate goal?  A fulfilling career built around the things that bring me the most joy: coding and problem-solving. \n\n **Please feel free to view the website code on GitHub.**"
+        "firstBlock": "# I build the infrastructure that makes AI agents reliable in production.\n{years} years of full-stack engineering across Vue, React and Python; since the start of 2025, on what happens after a demo works: isolation, evaluation, cost, and the failure modes nobody writes about.\n\nI run my own multi-agent platform daily and know precisely where it breaks.",
+        "secondBlock": "Most of my work is unglamorous by design: a gate an agent cannot push past, a git worktree that survives a paused sandbox, recon that costs 13.6× less than it used to.\n\nThe interesting part isn't making something work once — it's knowing what it does on the bad day.\n\n **The code for this site is open on GitHub.**"
     }
 }

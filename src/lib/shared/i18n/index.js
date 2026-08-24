@@ -43,7 +43,7 @@ export const setLocale = (next) => {
 const lookup = (dictionary, key) =>
 	key.split('.').reduce((branch, part) => (branch == null ? branch : branch[part]), dictionary);
 
-const interpolate = (template, params) =>
+export const interpolate = (template, params) =>
 	template.replace(/{(\w+)}/g, (match, name) => params[name] ?? match);
 
 export const t = derived(locale, ($locale) => (key, params) => {

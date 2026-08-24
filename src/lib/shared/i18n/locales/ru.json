@@ -17,13 +17,13 @@
         "greeting": "Привет,",
         "intro": "я",
         "name": "Ануар",
-        "role": "FullStack разработчик",
+        "role": "Full-Stack инженер · AI-инфраструктура",
         "chat": "Написать",
         "download": "Скачать",
         "downloadAria": "Скачать резюме",
         "scroll": "листай",
         "scrollAria": "Пролистать к навыкам",
-        "portraitAlt": "Ануар — full-stack разработчик"
+        "portraitAlt": "Ануар — full-stack инженер, AI-инфраструктура"
     },
     "stats": {
         "years": "Лет в разработке",
