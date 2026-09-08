@@ -7,7 +7,7 @@
         ],
         "title": "Autonomous Agent Platform",
         "position": "AI & Agent Interfaces",
-        "place": "Self-hosted · running in production",
+        "place": "Self-hosted · my primary dev environment, used daily",
         "baseDescription": "`Autonomous multi-agent coding platform — a self-hosted fork of OpenHands, running in production.` `11.6k lines of React 19` across `142 files`, `334 commits ahead of upstream`.",
         "skills": [
             "React 19",
@@ -72,7 +72,7 @@
     {
         "color": "#00d8a0",
         "dates": [
-            "2024-05-01",
+            "2025-05-01",
             "Present"
         ],
         "title": "Mercury Properties",
