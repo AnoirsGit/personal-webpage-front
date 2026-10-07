@@ -7,7 +7,7 @@
 </script>
 
 <SectionLayout title={$t('works.title')} name="works">
-	<h1 class="text-2xl mb-5">{$t('works.subtitle')}</h1>
+	<h3 class="text-2xl mb-5">{$t('works.subtitle')}</h3>
 	<div class="font-medium">
 		<Deferred
 			minHeight="900px"

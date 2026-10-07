@@ -11,6 +11,8 @@
 	export let additionalClasses = '';
 	// Filename to save as when the link points at a file; null leaves the attribute off.
 	export let download = null;
+	// Accessible name when the visible label alone is ambiguous; null leaves it off.
+	export let ariaLabel = null;
 
 	const sizes = {
 		small: ['px-3', 'py-2'],
@@ -60,11 +62,11 @@
 </script>
 
 {#if type === 'link'}
-	<a class={classNames} {href} target="_blank" {download} {disabled}>
+	<a class={classNames} {href} target="_blank" {download} {disabled} aria-label={ariaLabel}>
 		<slot />
 	</a>
 {:else}
-	<button class={classNames} {type} on:click={handleClick} {disabled}>
+	<button class={classNames} {type} on:click={handleClick} {disabled} aria-label={ariaLabel}>
 		<slot />
 	</button>
 {/if}

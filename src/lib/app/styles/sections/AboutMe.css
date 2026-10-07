@@ -97,8 +97,10 @@
     background: rgba(255, 255, 255, 0.24);
 }
 
+/* w-max sizes the block to its longest line; the cap lets the tracked role
+   line wrap on a phone instead of running past the screen edge */
 .about-me .left-block {
-    @apply lg:mt-16 w-max flex flex-col gap-5 z-20;
+    @apply lg:mt-16 w-max max-w-full flex flex-col gap-5 z-20;
     user-select: none;
     -webkit-user-select: none;
 }

@@ -8,14 +8,18 @@
 	let textarea;
 
 	async function copy() {
+		// select() moves focus into the hidden buffer — hand it back afterwards
+		const trigger = document.activeElement;
 		textarea.select();
 		document.execCommand('copy');
+		trigger?.focus();
 		dispatch('copy');
 	}
 </script>
 
 <slot {copy} />
-<textarea bind:this={textarea} value={text} />
+<!-- copy buffer only: invisible, so keep it out of the tab order and screen readers -->
+<textarea bind:this={textarea} value={text} tabindex="-1" aria-hidden="true" />
 
 <style>
 	textarea {
