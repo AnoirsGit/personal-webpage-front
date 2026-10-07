@@ -24,6 +24,8 @@
 	let jumpStartedAt = -Infinity;
 
 	if (browser) {
+		// a deep link (/#contacts) is a jump in flight too, and fires no hashchange
+		if (location.hash) jumpStartedAt = performance.now();
 		addEventListener('hashchange', () => (jumpStartedAt = performance.now()));
 		for (const type of ['wheel', 'touchstart', 'keydown', 'mousedown']) {
 			addEventListener(type, () => (jumpStartedAt = -Infinity), { passive: true });
