@@ -4,6 +4,7 @@
 
 	import GlobeMesh from '$lib/entities/globe/GlobeMesh.svelte';
 	import Atmosphere from '$lib/entities/globe/Atmosphere.svelte';
+	import { hasWebGL } from '$lib/shared/helpers/webgl';
 
 	let x = 0;
 	let isDragging = false;
@@ -54,22 +55,24 @@
 >
 	<div class="app-content relative top-5">
 		<div class="globe-size globe-canvas">
-			<Canvas>
-				<T.PerspectiveCamera
-					makeDefault
-					position={[1, 4.5, -12]}
-					on:create={({ ref }) => ref.lookAt(0, 0, 0)}
-				/>
-				<T.Group rotation.y={x * 0.001}>
-					<GlobeMesh rotationY={x * 0.001} />
-				</T.Group>
-				<Atmosphere />
+			{#if hasWebGL()}
+				<Canvas>
+					<T.PerspectiveCamera
+						makeDefault
+						position={[1, 4.5, -12]}
+						on:create={({ ref }) => ref.lookAt(0, 0, 0)}
+					/>
+					<T.Group rotation.y={x * 0.001}>
+						<GlobeMesh rotationY={x * 0.001} />
+					</T.Group>
+					<Atmosphere />
 
-				<T.DirectionalLight castShadow color="white" position={[-12, 7, 2]} intensity={1} />
-				<T.DirectionalLight color="#ff33cc" position={[-10, 6, -5]} intensity={0.6} />
-				<T.DirectionalLight color="#ff33cc" position={[-10, 10, -5]} intensity={1.2} />
-				<T.DirectionalLight color="#ff33cc" position={[0, 15, 0]} intensity={0.8} />
-			</Canvas>
+					<T.DirectionalLight castShadow color="white" position={[-12, 7, 2]} intensity={1} />
+					<T.DirectionalLight color="#ff33cc" position={[-10, 6, -5]} intensity={0.6} />
+					<T.DirectionalLight color="#ff33cc" position={[-10, 10, -5]} intensity={1.2} />
+					<T.DirectionalLight color="#ff33cc" position={[0, 15, 0]} intensity={0.8} />
+				</Canvas>
+			{/if}
 		</div>
 	</div>
 </div>

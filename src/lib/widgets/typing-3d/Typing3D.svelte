@@ -3,6 +3,7 @@
 
 	import { Suspense }  from '@threlte/extras'
 	import TypingPerson from '$lib/entities/3d/models/typingPerson.svelte';
+	import { hasWebGL } from '$lib/shared/helpers/webgl';
 
 	let canGreet = true;
 	export let onLoaded = () => {};
@@ -20,16 +21,18 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="w-full h-full min-h-104" on:mouseenter={greet}>
-	<Canvas>
-		<T.PerspectiveCamera
-			makeDefault
-			position={[2, 1, 1.5]}
-			on:create={({ ref }) => ref.lookAt(-0.5, 0.5, 0)}
-		/>
-		<T.DirectionalLight castShadow color="white" position={[2, 4, 4]} intensity={1.4} />
-		<T.DirectionalLight castShadow color="white" position={[10, 1, 4]} intensity={0.5} />
-		<Suspense on:load={onLoaded}>
-			<TypingPerson {animationQueue} {allowGreet} />
-		</Suspense>
-	</Canvas>
+	{#if hasWebGL()}
+		<Canvas>
+			<T.PerspectiveCamera
+				makeDefault
+				position={[2, 1, 1.5]}
+				on:create={({ ref }) => ref.lookAt(-0.5, 0.5, 0)}
+			/>
+			<T.DirectionalLight castShadow color="white" position={[2, 4, 4]} intensity={1.4} />
+			<T.DirectionalLight castShadow color="white" position={[10, 1, 4]} intensity={0.5} />
+			<Suspense on:load={onLoaded}>
+				<TypingPerson {animationQueue} {allowGreet} />
+			</Suspense>
+		</Canvas>
+	{/if}
 </div>
