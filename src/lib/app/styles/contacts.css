@@ -105,6 +105,14 @@
     transform: translateX(0);
 }
 
+/* the action icon only ever shows on hover; on a touch screen it was an
+   invisible 34px that truncated the email on a 360px phone */
+@media (hover: none) {
+    .contact-action {
+        display: none;
+    }
+}
+
 /* ===== Local time chip ===== */
 .contacts-time {
     @apply flex items-center gap-2 mt-1 px-3 py-2 rounded-lg text-sm w-max;

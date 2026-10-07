@@ -42,11 +42,14 @@
 	});
 </script>
 
+<!-- clicks are wired in onMount for edit mode only; on the public tree an edge
+	is a plain line, so it stays out of the tab order and the accessibility tree -->
 <button
 	bind:this={edgeRef}
-	on:click={handleEdgeClick}
 	transition:fade={{ duration: 400 }}
 	class="absolute z-edge origin-top-left bg-white"
+	tabindex={isEditMode ? undefined : -1}
+	aria-hidden={isEditMode ? undefined : 'true'}
 	{style}
 />
 

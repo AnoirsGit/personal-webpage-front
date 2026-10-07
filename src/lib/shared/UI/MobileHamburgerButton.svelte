@@ -1,5 +1,6 @@
 <script>
 	import { fade } from 'svelte/transition';
+	import { t } from '$lib/shared/i18n';
 	export let isActive = true;
 	export let onClick;
 
@@ -11,7 +12,13 @@
 	}`;
 </script>
 
-<button on:click={onClick} class="w-6 h-6 flex flex-col justify-around">
+<!-- icon-only: the name comes from the existing "Navigation" string -->
+<button
+	on:click={onClick}
+	class="w-6 h-6 flex flex-col justify-around"
+	aria-label={$t('footer.navigation')}
+	aria-expanded={isActive}
+>
 	<div class={activeTopLine} />
 	{#if !isActive}
 		<div transition:fade={{ duration: 200 }} class="w-full h-0.75 bg-white rounded" />

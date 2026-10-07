@@ -4,7 +4,7 @@
 	import * as Three from 'three';
 	import { T } from '@threlte/core';
 	import { interactivity } from '@threlte/extras';
-	import { mergeBufferGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+	import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 	import { GLOBE_RADIUS, MAX_IMPACTS_COUNT } from '$lib/shared/consts/globeConsts';
 	import { CITY_COORDINATES } from '$lib/shared/consts/goeLocations';
@@ -84,7 +84,7 @@
 			geoms.push(planeGeometry);
 		});
 
-		return mergeBufferGeometries(geoms);
+		return mergeGeometries(geoms);
 	};
 
 	const initializeImpacts = () => {

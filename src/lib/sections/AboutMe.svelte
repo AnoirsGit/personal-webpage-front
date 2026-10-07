@@ -64,6 +64,7 @@
 			type="link"
 			href="/cv/Anuar-Beibit-Full-Stack-Engineer-AI.docx"
 			download="Anuar-Beibit-Full-Stack-Engineer-AI.docx"
+			ariaLabel={$t('hero.downloadAria')}
 			color="transparent"
 		>
 			<div class="download-btn">
