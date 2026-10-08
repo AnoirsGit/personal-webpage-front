@@ -1,73 +1,81 @@
 # personal-webpage-front
 
-The personal site of Anuar Beibit: a single-page portfolio in English and Russian. It is the public shop window of a front-end / full-stack engineer, so the page itself is the demo: lazy-loaded WebGL scenes with custom GLSL shaders, an interactive skill tree and a career timeline, with no backend.
+The personal site of Anuar Beibit, who sells himself as an AI-native engineer: one landing page, prerendered in English (`/en/`) and Russian (`/ru/`), with a fixed 3D scene (Threlte) behind the text. Every word is in the static HTML, so the page reads fine without WebGL or JavaScript. No backend.
 
 ## What is on the page
 
-One route (`src/routes/+page.svelte`), four sections:
+`src/routes/[lang=lang]/+page.svelte`, seven sections (`src/lib/sections/`):
 
-| Section  | What it shows                                                                                           |
-| -------- | ------------------------------------------------------------------------------------------------------- |
-| About    | Hero text, career counters, a 3D typing figure (GLB model), CV download                                 |
-| Skills   | Pan/zoom skill tree with three tabs: AI & Agents, Front-end, Back-end                                   |
-| Works    | Career timeline with project cards and screenshots                                                      |
-| Contacts | Copy-to-clipboard contact list over a 3D globe (custom globe and atmosphere shaders, animated pointers) |
+| Section (id)           | What it shows                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------ |
+| Hero (`hero`)          | The one H1, a lead, two calls to action, four trust numbers                                      |
+| Skills (`skills`)      | The skill tree as constellations in the 3D sky or as a filterable list («Созвездиями / Списком») |
+| How I work (`process`) | Orchestrator → agents → checks & evals → production, and three working rules                     |
+| Cases (`works`)        | Six cases with their numbers and a career line from `works.*.json`                               |
+| Formats (`offer`)      | Test week, launch, support (no prices)                                                           |
+| FAQ (`faq`)            | Native `<details>`; the same items feed the FAQPage JSON-LD                                      |
+| Contact (`contact`)    | Telegram, email, phone, LinkedIn, GitHub, the CV PDF                                             |
 
-Also: a header with an EN/RU switcher (the choice is kept in `localStorage`, otherwise the browser language decides), a star-field canvas behind the page, and CV files in `static/cv/` (the hero links one of them; the other three are reachable by URL only).
+`/` only picks a language (a remembered choice, then the browser's languages, then English) and keeps old in-page links working (`/#contacts` → `/en/#contact`). The CVs live in `static/cv/`.
 
-Everything is static content. There are no API calls, no environment variables and no secrets.
+Every fact in the copy comes from the public CV, the previous site or the owner's positioning notes; there are no invented numbers, clients or reviews.
 
 ## Stack
 
-- SvelteKit 2 + Svelte 4 + Vite 5, plain JavaScript (`svelte-check` runs over `jsconfig.json`)
+- SvelteKit 2 + Svelte 4 + Vite 5, plain JavaScript (`svelte-check` runs over `jsconfig.json`), `@sveltejs/adapter-static`
 - Threlte (`@threlte/core` 7.x, `@threlte/extras` 8.x) on three.js 0.159. `@threlte/core` is pinned to the Svelte 4 line; a newer major needs Svelte 5.
-- Tailwind 3 plus hand-written CSS in `src/lib/app/styles/`
+- Tailwind 3 (base layer) plus hand-written CSS: tokens and shared styles in `src/lib/app/styles/app.css`, section styles inside the components
+- Self-hosted Manrope and Playfair Display italic (Latin + Cyrillic subsets, SIL OFL, `static/fonts/`); icons are inline SVG
 - A tiny store-based i18n written in-repo (no i18n library): `src/lib/shared/i18n/`
-- `svelte-markdown` for card prose, `dayjs` for timeline dates, `@iconify/svelte` for icons
 - pnpm 10 (pinned in `package.json`); checked here with Node 24
 
 ## Structure
 
 ```
 src/
-  routes/            +layout.svelte (header, footer, loader, star field), +page.svelte (the four sections)
+  app.html, hooks.server.js   <html lang="%lang%">, filled per URL on the server
+  params/lang.js              only `en` and `ru` are routes
+  routes/
+    +layout.js                prerender everything, trailing slash
+    +page.svelte              `/`: language redirect
+    +error.svelte             404 (rendered by build/404.html)
+    [lang=lang]/              the page: header, footer, <Scene /> behind the content
+    sitemap.xml/+server.js    prerendered sitemap with hreflang alternates
   lib/
-    app/styles/      global and per-section CSS
-    sections/        the four page sections; heavy parts load through <Deferred load={...}>
-    widgets/         composed blocks: Header, Footer, Globe, SkillTree, Typing3D, PageLoader, canvas animation
-    features/tree/   skill-tree authoring UI (node form, tooltip, "add node" bar)
-    entities/        domain pieces: globe meshes, tree nodes and edges, experience timeline, generated 3D models
-    shared/
-      i18n/          the store, locale dictionaries (locales/*.json) and lazy content modules
-      mocks/         the real content as JSON: about-me, works, skill tree, globe points (EN + RU files)
-      shaders/       GLSL for the globe and atmosphere
-      UI/            small components and effects (Deferred, reveal, tilt, buttons, tabs)
-      helpers/ consts/ stores/
-scripts/model-pipeline.js   GLB to Threlte component converter
-static/                     images, fonts, CV files, 3D model (served as-is)
+    config/site-config.json   site-wide facts, today the home location (owner edits it)
+    scene/                    the 3D background: Scene.svelte and sceneStore.js
+    sections/                 the seven sections, sceneProgress.js, ui/ (Icon, SectionHead, magnetic)
+    seo/                      site.js (origin, contacts), Seo.svelte (head tags), jsonld.js
+    widgets/                  Header, Footer, and the older 3D widgets (globe, typing figure, star field)
+    entities/ shared/         globe meshes, 3D model, shaders, helpers, i18n, content JSON
+scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chromium
+scripts/model-pipeline.js     GLB to Threlte component converter
+static/                       fonts, images, CV files, OG images, robots.txt, 3D model (served as-is)
 ```
 
 How the pieces fit:
 
-- **Lazy by design.** Only the hero is in the entry chunk. `Deferred.svelte` mounts a section when it nears the viewport and, with `load`, also keeps its code and JSON out of the entry bundle. It also re-aims in-page jumps (`/#contacts`) so lazy sections mounting above the target do not leave the page short of it.
-- **Content lives in JSON.** The folder is called `mocks/` for historical reasons, but it is the actual content. Edit `works.en.json` / `works.ru.json` for the timeline and `about-me.*.json` for the hero. The hero counters (years, projects, technologies) are computed from the timeline data, not typed.
-- **Skill tree.** `tree.json` holds geometry and English text; `tree.ru.json` only overlays `title` and `description` by node id, so keep ids stable. The page renders the tree read-only (`isEditMode={false}`). The editor UI in `features/tree/` is a dormant authoring tool and saves nothing.
-- **i18n.** Add UI strings to both `locales/en.json` and `locales/ru.json` (a missing RU key falls back to English) and read them as `$t('section.key')`.
-- **No WebGL.** `shared/helpers/webgl.js` probes once; without WebGL both 3D widgets render nothing and the rest of the page keeps working.
+- **The URL decides the language.** `[lang]/+layout.svelte` sets the `locale` store from the route before anything renders, so the prerendered `/ru/` is Russian; the header's EN/RU are plain links and remember the choice for `/`. Strings live in `src/lib/shared/i18n/locales/{en,ru}.json` and are read as `$t('section.key')`; lists (cases, FAQ…) come back as arrays.
+- **Location comes from the config.** Copy says `{city}`, `{country}` and `{utc}`; they are filled from `src/lib/config/site-config.json` at build time (the UTC offset from its IANA time zone), in the page language, and the JSON-LD address uses the same file. Russian copy uses the names only in the nominative, so another city needs no grammar changes. `{years}` is computed from `works.en.json`.
+- **Skills have one source.** `tree.json` (with `tree.ru.json` overlaying titles and descriptions by id) holds the skills; `CONSTELLATIONS` in `content.skill-tree.js` groups them (Agents, LLM & evals, Front-end, Back-end, Infrastructure) and `buildConstellations(lang)` returns the groups for both the 3D sky and the list. The page gets only the built list from its server load, not the whole tree.
+- **Scene contract.** `sceneStore` is a writable `{ section, progress }` (`hero | skills | process | works | offer | contact`, progress 0..1); `sceneProgress.js` writes it on scroll (the FAQ shares the `contact` stage) and mirrors the stage on `<html data-scene>`. The Skills section adds `skillsView: 'constellations' | 'list'` so the sky can dim its constellations under the list.
+- **SEO.** Each language has its own title, description, canonical, hreflang (en, ru, x-default → `/en/`), Open Graph/Twitter image and one JSON-LD graph (Person, WebSite, WebPage, Service per format, FAQPage). `robots.txt` points to `sitemap.xml`. The canonical origin is `SITE_URL` in `src/lib/seo/site.js`.
+- **No WebGL, reduced motion, no JS.** All text is in the HTML; the skills list is the only view then. `shared/helpers/webgl.js` probes WebGL once.
 
 ## Run, build, check
 
 ```bash
 pnpm install            # lockfile: pnpm-lock.yaml
 pnpm dev                # dev server (add -- --open to open a tab)
-pnpm build              # production build into .svelte-kit/ (see the adapter note under Production)
+pnpm build              # static site into build/ (index.html, en/, ru/, 404.html, sitemap.xml)
 pnpm preview            # serve the build
 pnpm check              # svelte-kit sync + svelte-check
 pnpm lint               # prettier --check + eslint
 pnpm format             # prettier --write
+node scripts/og-image.js   # regenerate the OG images (needs Chromium)
 ```
 
-State on `main` (checked 2026-10-08): `pnpm check` reports 0 errors and 0 warnings, `pnpm build` succeeds, `eslint .` is clean. `prettier --check` is not clean (see Next). There is no automated test suite; the browser checks mentioned in commit messages (deep links at phone and desktop widths, a Chromium run with WebGL disabled) were done by hand and are not committed.
+There is no automated test suite; the browser checks in commit messages were done by hand and are not committed.
 
 The dev server adds `COOP`/`COEP` headers and permissive CORS (`vite.config.js`). Production headers are set by the web server, not by this repo.
 
@@ -85,21 +93,19 @@ Caution: `typingPerson.svelte` was generated and then edited by hand (greeting a
 
 ## Production
 
-The site is live. A cron job on the production box rebuilds it every day at 04:30 UTC with the box's own deploy script, which lives outside this repo. As far as the commit history shows, the script installs dependencies, swaps in `@sveltejs/adapter-static` through a config overlay (with a `fallback` page) and builds; the web server then serves the static output.
-
-What follows from that:
+The site is live at https://anoirs-server.top. A cron job on the production box rebuilds it every day at 04:30 UTC with the box's own deploy script, which lives outside this repo; the web server (Caddy) serves the static output.
 
 - A change reaches the site on the next 04:30 UTC run; a push triggers nothing.
-- The repo's own `svelte.config.js` still says `adapter-auto`. Locally `pnpm build` finishes, but adapter-auto reports "Could not detect a supported production environment", so a local build is for checking only. `@sveltejs/adapter-static` is declared in `devDependencies` at `^3.0.10` (the SvelteKit 2 line) so the box does not resolve the 4.x line that targets Kit 3.
-- Anything that changes the adapter, the build output location or the dependency install step must be coordinated with the deploy script. That script is not visible from this repo, so what the production output contains (prerendered pages or only the fallback shell) is not verified here.
+- The repo builds exactly what should be served: `svelte.config.js` uses adapter-static and writes `build/`. The deploy script should run `pnpm install --frozen-lockfile && pnpm build` and serve `build/` as is, without its old adapter overlay (an overlay with `fallback: 'index.html'` would replace the prerendered `/`).
+- Web server: serve `build/`, answer unknown paths with `build/404.html` and status 404 (not with `index.html`), cache `/_app/immutable/*` for a year (`immutable`), redirect `www.` to the bare domain.
 - Host names, addresses and paths of the box are deliberately not recorded in this repo.
 
 ## Next
 
 Open items, in priority order. "Agent" means an agent can do it alone; "Owner" means it needs a decision or access to the box.
 
-1. **Server-side `<html lang>` for RU.** `src/app.html` hard-codes `lang="en"` and the locale is applied only after JavaScript runs, so crawlers and screen readers see `en` on the Russian version. Owner: decide whether RU gets its own URL (for example `/ru`) or stays client-side. Agent: implement. Done when the served HTML for the RU variant carries `lang="ru"` without running JS.
-2. **Prettier formatting debt.** `pnpm exec prettier --check .` flags 57 files (58 before this README was formatted). Agent: one `pnpm format` commit with nothing else mixed in. Done when `pnpm lint` passes and `pnpm check` / `pnpm build` are unchanged.
-3. **Dependency cleanup.** `axios` is already removed and `@threlte/gltf` is correctly dev-only (it is a build-time CLI). Still declared but never imported from `src/`: `@dimforge/rapier3d-compat`, `@sveu/browser`, `@theatre/core`, `@theatre/studio`, `@threlte/flex`, `@threlte/rapier`, `@threlte/theatre`, `@threlte/xr`, `rxjs`, `troika-three-text`, `@tweenjs/tween.js`, plus the unused `adapter-cloudflare` and `adapter-netlify`. Also make the pipeline script use the pinned local `@threlte/gltf` instead of `npx ...@latest`. Agent. Done when `pnpm check` and `pnpm build` stay green and the lockfile is updated.
-4. **Repo matches production.** Commit the adapter-static configuration (or document it exactly) so the repo builds what the box builds. Agent and owner together, because the deploy script is on the box.
-5. **Dead assets.** `src/lib/ne_110m_admin_0_countries.geojson` (about 490 KB, probably the source of `globe-points.json`) and ten images in `static/images/` (`careerist`, `demetra-*`, `html.png`, `neo4j`, `postgre.png`, `side-panel`, `Vegetables`, `workflow`) are referenced nowhere in `src/`. Agent: confirm and delete, or move the geojson to a data folder with a note. Done when the build output is unchanged.
+1. **Deploy script and web server match the repo.** Owner (box access): drop the adapter overlay, serve `build/` with the 404 and cache rules above. Done when `curl -I https://anoirs-server.top/ru/` returns the prerendered Russian page and `/robots.txt` returns text, not HTML.
+2. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
+3. **Prettier formatting debt.** `pnpm exec prettier --check .` still flags older files. Agent: one `pnpm format` commit with nothing else mixed in.
+4. **Dependency cleanup.** Never imported from `src/`: `@dimforge/rapier3d-compat`, `@sveu/browser`, `@theatre/core`, `@theatre/studio`, `@threlte/flex`, `@threlte/rapier`, `@threlte/theatre`, `@threlte/xr`, `rxjs`, `troika-three-text`, `@tweenjs/tween.js`, `dayjs`, `svelte-awesome-color-picker`, `adapter-auto`, `adapter-cloudflare`, `adapter-netlify`; `@iconify/svelte` and `svelte-markdown` are used only by unused components. Agent. Done when `pnpm check` and `pnpm build` stay green and the lockfile is updated.
+5. **Dead code and assets.** No route uses `widgets/globe`, `widgets/typing-3d`, `widgets/canvas-animation`, `shared/UI/{Deferred,ImageCard,CustomButton,MovableGlow}`, `widgets/content/SectionTextContent`, `shared/stores/globalStore` (keep what the 3D scene reuses); the Poppins fonts, `src/lib/ne_110m_admin_0_countries.geojson` and ten images in `static/images/` are referenced nowhere. Agent.
