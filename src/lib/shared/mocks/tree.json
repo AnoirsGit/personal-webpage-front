@@ -4,7 +4,7 @@
             {
                 "treeId": 3,
                 "title": "AI & Agent Interfaces",
-                "description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built and run an autonomous multi-agent coding platform in production.\n  - Below: the model layer and the orchestration that makes agents cooperate.\n  - 11.6k lines of React 19 across 142 files, 334 commits ahead of upstream.\n",
+                "description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built an autonomous multi-agent coding platform: self-hosted, my primary development environment, used daily.\n  - Below: the model layer and the orchestration that makes agents cooperate.\n  - 11.6k lines of React 19 across 142 files.\n",
                 "isNode": false,
                 "id": "mock-149522",
                 "tags": [],
@@ -18,6 +18,21 @@
             },
             {
                 "treeId": 3,
+                "title": "Claude Code",
+                "description": "#### Claude Code ***is*** an\nagentic coding tool **that** I work in every day, alongside my own agents.\n  - Agents plan, write and test; I set the task, review every diff and own what ships.\n  - Nothing merges until typecheck, linters and tests pass.\n",
+                "isNode": true,
+                "id": "mock-301744",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1520,
+                    "y": 250
+                },
+                "color": "#b57bff",
+                "imageUrl": "images/anthropic.svg"
+            },
+            {
+                "treeId": 3,
                 "title": "LLM Application Engineering",
                 "description": "#### LLM application engineering ***is*** the\ncraft **that** is used to build products on top of language models rather than demos.\n  - Provider APIs, routing, prompts and cost all treated as product surface.\n  - Model choice is a runtime decision, not an architectural commitment.\n  - Measured on real runs: latency, spend and how often the agent finishes the job.\n",
                 "isNode": false,
@@ -27,6 +42,51 @@
                 "position": {
                     "x": 700,
                     "y": 265
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Evals",
+                "description": "#### Evals ***are*** the\nmeasurements **that** show whether a change to prompts, models or the agent setup actually helped.\n  - An eval harness runs the same tasks in two setups and compares pass rate, attempts and cost.\n  - Automated gates decide pass or fail, not eyeballing.\n",
+                "isNode": false,
+                "id": "mock-640218",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 500,
+                    "y": 250
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "RAG",
+                "description": "#### RAG ***is*** the\nretrieval layer **that** gives an agent the right context instead of stuffing the prompt.\n  - A RAG index over a team's codebase and internal docs, part of rolling AI into the team.\n  - The agent queries it like a tool instead of carrying everything in context.\n",
+                "isNode": false,
+                "id": "mock-512903",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 440,
+                    "y": 460
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Code Graph",
+                "description": "#### A code graph ***is*** a\nprebuilt index of how the code is connected **that** answers structural questions without grep-walking.\n  - Made agent recon 13.6× cheaper on my platform.\n  - Part of the AI setup I built for a team.\n",
+                "isNode": false,
+                "id": "mock-512977",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 560,
+                    "y": 590
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
@@ -123,7 +183,7 @@
             },
             {
                 "treeId": 3,
-                "title": "MCP ( Model Context Protocol )",
+                "title": "MCP (Model Context Protocol)",
                 "description": "#### MCP ( Model Context Protocol ) ***is*** an\nopen protocol **that** is used to expose tools, data and prompts to agents in a uniform way.\n  - One contract for tools regardless of which model or client calls them.\n  - Servers advertise capabilities; agents discover and call them at runtime.\n  - Keeps tool access auditable and sandboxed instead of ad-hoc shell calls.\n",
                 "isNode": true,
                 "id": "mock-208296",
@@ -225,6 +285,36 @@
                 },
                 "color": "#9122ff",
                 "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "AI Adoption in Teams",
+                "description": "#### AI adoption ***is*** the\nwork **that** turns AI tools from a demo into a team's daily practice.\n  - Lectures and hands-on sessions, then editor plugins, custom MCP servers and a RAG index.\n  - At Mercury, emergency hotfixes and SSR incidents dropped 4× in two months.\n",
+                "isNode": false,
+                "id": "mock-731552",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1000,
+                    "y": 330
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
+            },
+            {
+                "treeId": 3,
+                "title": "Data Anonymization",
+                "description": "#### Data anonymization ***is*** the\nstep **that** makes AI usable under an NDA.\n  - Client and business data is anonymized before it reaches any AI tool.\n  - Nothing leaves in identifiable form.\n",
+                "isNode": false,
+                "id": "mock-731608",
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1000,
+                    "y": 440
+                },
+                "color": "#9122ff",
+                "imageUrl": ""
             }
         ],
         "edges": [
@@ -283,6 +373,30 @@
             {
                 "sourceNodeId": "mock-900671",
                 "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-301744",
+                "targetNodeId": "mock-928741"
+            },
+            {
+                "sourceNodeId": "mock-640218",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-512903",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-512977",
+                "targetNodeId": "mock-394589"
+            },
+            {
+                "sourceNodeId": "mock-731552",
+                "targetNodeId": "mock-149522"
+            },
+            {
+                "sourceNodeId": "mock-731608",
+                "targetNodeId": "mock-731552"
             }
         ]
     },
@@ -344,7 +458,7 @@
                 "tags": [],
                 "description": "#### Docker Hub ***is*** a \ncloud-based repository service **that** allows developers to store, share, and manage Docker container images.\n  - Provides a central location for finding and accessing container images.\n  - Supports public and private repositories.\n  - Enables collaboration and sharing of containerized applications.\n  - Integrates with CI/CD pipelines for automated builds and deployments.\n  - Offers official images maintained by Docker and community-contributed images.\n",
                 "imageUrl": "images/docker-hub.webp",
-                "title": "Docker-hub",
+                "title": "Docker Hub",
                 "color": "#ffffff",
                 "isNode": true
             },
@@ -374,7 +488,7 @@
                 "isActive": false,
                 "description": " #### Node.js ***is*** a \n runtime environment **that** executes JavaScript code on the server side.\n  -  It's non-blocking, event-driven, and ideal for building scalable, \n  - real-time applications.",
                 "imageUrl": "images/node-js.webp",
-                "title": "NodeJs",
+                "title": "Node.js",
                 "tags": [],
                 "isNode": true
             },
@@ -410,7 +524,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Webhook",
+                "title": "Webhooks",
                 "description": "#### Webhook ***is*** a \nway for an application to send real-time data to other services **that** is triggered by specific events.\n  - Allows apps to communicate instantly without polling.",
                 "id": "mock-927811",
                 "tags": [],
@@ -500,7 +614,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Github",
+                "title": "GitHub",
                 "description": "#### GitHub ***is*** a \nweb-based platform **that** provides version control and collaboration tools for software development.\n  - It uses Git for tracking changes in source code during development.\n  - Allows multiple developers to work on projects simultaneously with features like branching and merging.\n  - Hosts repositories, where code and documentation can be stored, managed, and shared.\n  - Supports issue tracking, project management, and continuous integration/continuous deployment (CI/CD).\n  - Facilitates collaboration through pull requests, code reviews, and discussions.\n",
                 "id": "mock-968626",
                 "tags": [],
@@ -573,7 +687,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Github Actions",
+                "title": "GitHub Actions",
                 "description": "#### GitHub Actions ***is*** a \ntool **that** automates workflows for software development.\n  - Allows you to build, test, and deploy code from GitHub.\n  - Uses YAML files to define custom workflows.\n  - Triggers actions based on events like pushes and pull requests.\n  - Includes pre-built actions and supports custom actions.\n  - Helps ensure code quality and consistency through automation.\n",
                 "id": "mock-257032",
                 "tags": [],
@@ -722,7 +836,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Test Driven Design",
+                "title": "Test-Driven Development (TDD)",
                 "description": "",
                 "isNode": false,
                 "id": "mock-925820",
@@ -748,7 +862,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Domain Driven Design",
+                "title": "Domain-Driven Design (DDD)",
                 "description": "",
                 "isNode": false,
                 "id": "mock-366416",
@@ -761,7 +875,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Nest JS",
+                "title": "NestJS",
                 "description": "#### NestJS ***is*** a \nprogressive Node.js framework **that** is used for building efficient, reliable, and scalable server-side applications.\n  - Built with TypeScript and fully supports JavaScript.\n  - Utilizes modern JavaScript, TypeScript, and design patterns such as MVC and Dependency Injection.\n  - Integrates seamlessly with other libraries and frameworks like Express and Fastify.\n  - Provides a modular architecture, making it easy to organize and manage code.\n  - Supports extensive features such as middleware, authentication, and microservices.\n  - Ideal for developing enterprise-grade applications due to its robust set of features and architectural principles.\n",
                 "isNode": true,
                 "id": "mock-316778",
@@ -776,7 +890,7 @@
             },
             {
                 "treeId": 1,
-                "title": "KOA JS",
+                "title": "Koa",
                 "description": "#### Koa ***is*** a \nminimalist and flexible Node.js web framework **that** is designed for building APIs and web applications.\n  - Developed by the creators of Express, offering a more modern approach.\n  - Uses async/await for handling asynchronous operations, making code easier to read and maintain.\n  - Provides a lightweight and unopinionated structure, giving developers the freedom to design their application architecture.\n  - Does not include middleware by default, allowing developers to choose only the components they need.\n  - Ideal for building high-performance and scalable web applications.\n",
                 "isNode": true,
                 "id": "mock-621898",
@@ -831,7 +945,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Database replication ( master-slave )",
+                "title": "Database replication (master-slave)",
                 "description": "",
                 "isNode": false,
                 "id": "mock-179223",
@@ -844,7 +958,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Database indexation",
+                "title": "Database indexing",
                 "description": "",
                 "isNode": false,
                 "id": "mock-907517",
@@ -854,6 +968,34 @@
                     "x": 262.43381790359604,
                     "y": 1203.7635807192044
                 }
+            },
+            {
+                "treeId": 1,
+                "isNode": false,
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 850,
+                    "y": 452
+                },
+                "title": "Python",
+                "description": "#### Python ***is*** a\nprogramming language **that** runs the backend of my own agent platform.\n  - FastAPI, async SQLAlchemy, Alembic and pytest.\n",
+                "id": "mock-605112",
+                "color": "#3776ab"
+            },
+            {
+                "treeId": 1,
+                "isNode": false,
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 892,
+                    "y": 554
+                },
+                "title": "FastAPI",
+                "description": "#### FastAPI ***is*** a\nPython web framework **that** serves the API of my agent platform.\n  - Services for projects, scheduling, usage and git-worktree isolation per agent run.\n",
+                "id": "mock-605148",
+                "color": "#009688"
             }
         ],
         "edges": [
@@ -1032,6 +1174,14 @@
             {
                 "sourceNodeId": "mock-900681",
                 "targetNodeId": "mock-262855"
+            },
+            {
+                "sourceNodeId": "mock-605112",
+                "targetNodeId": 5
+            },
+            {
+                "sourceNodeId": "mock-605148",
+                "targetNodeId": "mock-605112"
             }
         ]
     },
@@ -1110,7 +1260,7 @@
             },
             {
                 "treeId": 1,
-                "title": "TailwindCSS",
+                "title": "Tailwind CSS",
                 "description": "#### Tailwind CSS ***is*** a \nutility-first CSS framework **that** provides a set of classes for quickly styling your web pages.\n  - Enables fast development by applying classes directly in your HTML.\n  - Highly customizable through a configuration file.\n  - Supports responsive design with built-in utilities.\n  - Avoids common CSS issues like specificity conflicts.\n  - Ideal for building custom designs efficiently.\n",
                 "isNode": true,
                 "id": "mock-886210",
@@ -1125,7 +1275,7 @@
             },
             {
                 "treeId": 1,
-                "title": "NPM",
+                "title": "npm",
                 "description": "#### NPM ***is*** a \npackage manager for JavaScript **that** is used to install, share, and manage dependencies for projects.\n  - Stands for Node Package Manager.\n  - Comes bundled with Node.js, making it an essential tool for JavaScript developers.\n  - Provides a vast registry of packages, enabling code reuse and modular development.\n  - Allows developers to publish their own packages and collaborate with others.\n  - Supports semantic versioning, ensuring compatibility and stability of dependencies.\n  - Facilitates scripts for automating tasks like testing, building, and deploying applications.\n",
                 "isNode": true,
                 "id": "mock-635590",
@@ -1153,7 +1303,7 @@
             },
             {
                 "treeId": 1,
-                "title": " React",
+                "title": "React",
                 "description": "#### React.js ***is*** a \nJavaScript library **that** is used for building user interfaces, particularly single-page applications.\n  - Developed and maintained by Facebook.\n  - Uses a component-based architecture, allowing for reusable and modular UI components.\n  - Implements a virtual DOM to optimize rendering and improve performance.\n  - Supports JSX, a syntax extension that allows writing HTML-like code within JavaScript.\n  - Manages application state effectively with hooks and context.\n  - Integrates well with other libraries and frameworks, making it versatile for various projects.\n  - Ideal for creating fast, interactive, and scalable front-end applications.\n",
                 "isNode": true,
                 "id": "mock-224980",
@@ -1183,7 +1333,7 @@
             },
             {
                 "treeId": 1,
-                "title": "JQuery",
+                "title": "jQuery",
                 "description": "#### jQuery ***is*** a \nfast, small, and feature-rich JavaScript library **that** simplifies HTML document traversal, event handling, and animation.\n  - Makes it easier to use JavaScript on your website.\n  - Provides a simple syntax for selecting elements and manipulating the DOM.\n  - Includes features for handling events, making AJAX requests, and creating animations.\n  - Compatible with all major browsers, ensuring cross-browser compatibility.\n  - Extensible with plugins, allowing for additional functionality.\n  - Ideal for adding interactivity and dynamic behavior to web pages with minimal code.\n",
                 "isNode": true,
                 "id": "mock-489009",
@@ -1227,7 +1377,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Next js",
+                "title": "Next.js",
                 "description": "#### Next.js ***is*** a \nReact framework **that** enables server-side rendering and static site generation for building web applications.\n  - Developed and maintained by Vercel.\n  - Supports both server-side rendering (SSR) and static site generation (SSG), improving performance and SEO.\n  - Provides an intuitive file-based routing system.\n  - Includes built-in CSS and Sass support, with options for CSS-in-JS solutions.\n  - Features API routes to create API endpoints as part of the application.\n  - Ideal for building fast, SEO-friendly, and scalable web applications.\n",
                 "isNode": true,
                 "id": "mock-798128",
@@ -1424,7 +1574,7 @@
             },
             {
                 "treeId": 1,
-                "title": "Three js",
+                "title": "Three.js",
                 "description": "#### Three.js ***is*** a \nJavaScript library **that** is used for creating 3D graphics and animations in web browsers.\n  - Provides a simple API for working with WebGL, allowing developers to create complex 3D scenes.\n  - Includes a wide range of features such as geometries, materials, lights, textures, and animations.\n  - Supports virtual reality (VR) and augmented reality (AR) applications through WebXR.\n  - Offers a large community and ecosystem with numerous examples and extensions.\n  - Ideal for building interactive 3D visualizations, games, simulations, and virtual environments on the web.\n",
                 "isNode": true,
                 "id": "mock-438202",
@@ -1493,7 +1643,7 @@
             },
             {
                 "treeId": 1,
-                "title": "FSD ( Feature Sliced Design )",
+                "title": "Feature-Sliced Design (FSD)",
                 "description": "",
                 "isNode": false,
                 "id": "mock-546691",
@@ -1506,7 +1656,7 @@
             },
             {
                 "treeId": 1,
-                "title": "DDD ( Domain Driven Development )",
+                "title": "DDD (Domain-Driven Design)",
                 "description": "",
                 "isNode": false,
                 "id": "mock-945235",
@@ -1574,6 +1724,34 @@
                 },
                 "color": "#2ead33",
                 "imageUrl": "images/playwright.svg"
+            },
+            {
+                "treeId": 1,
+                "isNode": false,
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1383,
+                    "y": 393
+                },
+                "title": "Nuxt",
+                "description": "#### Nuxt ***is*** a\nVue framework **that** adds server-side rendering, routing and a module system.\n  - MercuryX and CarCity run on Nuxt 3 with SSR.\n  - Moved CarCity to Feature-Sliced Design: +120% feature velocity.\n",
+                "id": "mock-418331",
+                "color": "#00dc82"
+            },
+            {
+                "treeId": 1,
+                "isNode": false,
+                "tags": [],
+                "isActive": false,
+                "position": {
+                    "x": 1230,
+                    "y": 292
+                },
+                "title": "Pinia",
+                "description": "#### Pinia ***is*** the\nstate management library **that** Vue 3 and Nuxt 3 apps use.\n  - The store layer of MercuryX and CarCity.\n",
+                "id": "mock-418377",
+                "color": "#ffd859"
             }
         ],
         "edges": [
@@ -1724,6 +1902,14 @@
             {
                 "sourceNodeId": "mock-559182",
                 "targetNodeId": "mock-102782"
+            },
+            {
+                "sourceNodeId": "mock-418331",
+                "targetNodeId": "mock-899665"
+            },
+            {
+                "sourceNodeId": "mock-418377",
+                "targetNodeId": "mock-899665"
             }
         ]
     }
