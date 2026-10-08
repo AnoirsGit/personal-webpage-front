@@ -1,1 +1,0 @@
-export const NODE_DEFAULT_SIZE = 56;
