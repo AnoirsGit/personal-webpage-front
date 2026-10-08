@@ -2,8 +2,8 @@
  * Renders the static posters of the 3D background from the live scene. They are shown
  * instead of the canvas when a visitor has no WebGL, only a software renderer, or Save-Data.
  *
- *   pnpm dev --port 5391 &                       # or pnpm build && pnpm preview
- *   PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://127.0.0.1:5391/scene-demo
+ *   pnpm build && pnpm preview --port 4391 &
+ *   PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://127.0.0.1:4391/en/
  *
  * Any page that renders <Scene /> works; everything but the scene is hidden for the shot
  * and the hero (top of the page) is captured. Re-run after changing the home country in
