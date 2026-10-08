@@ -1,4 +1,5 @@
 <script>
+	import Scene from '$lib/scene/Scene.svelte';
 	import Header from '$lib/widgets/Header.svelte';
 	import Footer from '$lib/widgets/Footer.svelte';
 	import BackToTop from '$lib/shared/UI/BackToTop.svelte';
@@ -29,6 +30,8 @@
 		/>
 	{/if}
 </svelte:head>
+
+<Scene />
 
 <a class="skip-link" href="#main">{$t('a11y.skip')}</a>
 <Header />
