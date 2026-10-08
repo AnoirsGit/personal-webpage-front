@@ -1,0 +1,10 @@
+{
+	"home": {
+		"countryIso3": "KAZ",
+		"countryName": { "en": "Kazakhstan", "ru": "Казахстан" },
+		"city": { "en": "Almaty", "ru": "Алматы" },
+		"lat": 43.24,
+		"lon": 76.95,
+		"timezone": "Asia/Almaty"
+	}
+}
