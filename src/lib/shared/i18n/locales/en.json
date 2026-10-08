@@ -1,78 +1,359 @@
 {
     "meta": {
-        "title": "Anuar's Personal Page",
-        "description": "Anuar Beibit — Senior Full-Stack Engineer, AI & agent interfaces. An autonomous multi-agent coding platform in production, Halyk Market integration and pricing engines, 1M+ SEO pages, architecture that scales."
+        "title": "Anuar Beibit — AI-native engineer · AI agents, LLM, full-stack",
+        "description": "Anuar Beibit, AI-native full-stack engineer in {city}: AI agents, LLM features and Claude Code workflows for dev teams, plus React and Node.js products.",
+        "ogTitle": "Anuar Beibit — AI agents write the code. I own what ships.",
+        "ogDescription": "AI-native full-stack engineer in {city}. My own multi-agent platform, used daily; AI rolled into a dev team cut emergency hotfixes 4× in two months.",
+        "ogImageAlt": "Anuar Beibit, AI-native engineer: a dotted Earth under a starry sky",
+        "siteName": "Anuar Beibit",
+        "jobTitle": "AI-native full-stack engineer"
+    },
+    "a11y": {
+        "skip": "Skip to content",
+        "menu": "Open menu",
+        "closeMenu": "Close menu",
+        "sections": "Page sections",
+        "language": "Language",
+        "switchTo": "Switch to {name}",
+        "backToTop": "Back to top",
+        "newTab": "opens in a new tab",
+        "trust": "In numbers",
+        "stack": "Stack"
     },
     "nav": {
-        "about": "About me",
         "skills": "Skills",
-        "works": "Works",
-        "contacts": "Contacts"
-    },
-    "language": {
-        "label": "Language",
-        "switchTo": "Switch to {name}"
+        "process": "How I work",
+        "works": "Cases",
+        "offer": "Formats",
+        "faq": "FAQ",
+        "contact": "Contact",
+        "cta": "Let's talk"
     },
     "hero": {
-        "greeting": "Hi,",
-        "intro": "I'm",
-        "name": "Anuar",
-        "role": "Full-Stack Engineer · AI Infrastructure",
-        "chat": "Let's chat",
-        "download": "Download",
-        "downloadAria": "Download CV",
-        "scroll": "scroll",
-        "scrollAria": "Scroll down to skills",
-        "portraitAlt": "Anuar — full-stack engineer, AI infrastructure"
+        "eyebrow": "Anuar Beibit — AI-native full-stack engineer, {city}",
+        "titleLead": "AI agents write the code.",
+        "titleAccent": "I own what ships.",
+        "lead": "{years} years of product engineering in React, Vue and Node.js. Today Claude Code and my own multi-agent platform do the typing, and nothing reaches production without tests and my review. I set teams up to work the same way: at Mercury, emergency hotfixes dropped 4× in two months.",
+        "ctaPrimary": "Discuss a project",
+        "ctaSecondary": "See the cases",
+        "scroll": "Scroll to skills"
     },
-    "stats": {
-        "years": "Years of experience",
-        "projects": "Projects shipped",
-        "technologies": "Technologies in production",
-        "companies": "Companies"
-    },
-    "about": {
-        "repository": "Repository",
-        "modelHint": "hover to say hi 👋"
-    },
+    "trust": [
+        {
+            "value": "{years}+",
+            "label": "years shipping web products"
+        },
+        {
+            "value": "4×",
+            "label": "fewer emergency hotfixes after rolling AI into a team"
+        },
+        {
+            "value": "1M+",
+            "label": "SEO landing pages generated, in 12 languages"
+        },
+        {
+            "value": "13.6×",
+            "label": "cheaper agent recon with a local code graph"
+        }
+    ],
     "skills": {
-        "title": "Skills",
-        "ai": "AI & Agents",
-        "backend": "BackEnd",
-        "frontend": "FrontEnd",
-        "hint": "drag to pan · scroll to zoom"
+        "kicker": "Skills",
+        "titleLead": "Skills, drawn as",
+        "titleAccent": "constellations",
+        "lead": "Five groups that work together on every project, the AI-native core first.",
+        "view": "Show skills as",
+        "viewSky": "Constellations",
+        "viewList": "List",
+        "skyHint": "Every star in the sky is one of these skills. Open a group as a list:",
+        "groupsLabel": "Filter by group",
+        "all": "All",
+        "searchLabel": "Find a skill",
+        "searchPlaceholder": "Filter, e.g. MCP or React",
+        "shown": "{shown} of {total} skills",
+        "empty": "No skill matches “{query}”.",
+        "reset": "Show all skills",
+        "openList": "open as a list"
+    },
+    "process": {
+        "kicker": "How I work",
+        "titleLead": "How I work",
+        "titleAccent": "with AI",
+        "lead": "The pipeline I run every day on my own platform — and set up for teams.",
+        "steps": [
+            {
+                "id": "orchestrator",
+                "name": "Orchestrator",
+                "text": "A planner splits the task into steps. A stronger model plans and cheaper ones execute — Opus plans, Sonnet works — then the results reconverge."
+            },
+            {
+                "id": "agents",
+                "name": "Agents",
+                "text": "Sub-agents with roles — planner, coder, tester, reviewer — each with its own tools and token budget. Every run gets its own Docker sandbox and git worktree."
+            },
+            {
+                "id": "evals",
+                "name": "Checks & evals",
+                "text": "An agent may push only after typecheck, linters and tests pass. An eval harness runs the same tasks in two setups and compares pass rate, attempts and cost."
+            },
+            {
+                "id": "production",
+                "name": "Production",
+                "text": "I review the diff and own the release: deploys with a health check and automatic rollback, and no public attack surface."
+            }
+        ],
+        "principlesTitle": "Rules I keep",
+        "principles": [
+            {
+                "name": "NDA-safe by default",
+                "text": "Data is anonymized before it reaches any AI tool."
+            },
+            {
+                "name": "Cost is engineering too",
+                "text": "A local code graph made agent recon 13.6× cheaper."
+            },
+            {
+                "name": "Proof over promises",
+                "text": "The first agent-authored PR is merged to main; a real multi-agent task finished with 24 of 24 tests green."
+            }
+        ]
     },
     "works": {
-        "title": "Works",
-        "subtitle": "Professional Experience",
-        "present": "Present",
-        "dateFormat": "MMM YYYY",
-        "preview": "preview",
-        "tail": "…and the journey continues"
+        "kicker": "Cases",
+        "titleLead": "Cases",
+        "titleAccent": "with numbers",
+        "lead": "Real projects and the numbers they moved.",
+        "cases": [
+            {
+                "id": "ai-adoption",
+                "kicker": "Mercury Properties · CarCity",
+                "title": "AI rolled into an engineering team",
+                "metric": "4×",
+                "metricLabel": "fewer emergency hotfixes and SSR incidents, in two months",
+                "points": [
+                    "Lectures and hands-on sessions first, then the setup that made it stick: editor plugins, custom MCP servers, a RAG index over the code and docs, a local code graph.",
+                    "Data was anonymized before it reached any AI tool — the condition for using AI under the company's NDA."
+                ],
+                "stack": [
+                    "Claude Code",
+                    "MCP",
+                    "RAG",
+                    "Nuxt 3"
+                ],
+                "link": {
+                    "href": "https://carcity.kz",
+                    "label": "carcity.kz"
+                }
+            },
+            {
+                "id": "agent-platform",
+                "kicker": "Own platform · since 2025",
+                "title": "Multi-agent coding platform I use daily",
+                "metric": "13.6×",
+                "metricLabel": "cheaper agent recon after a local code graph replaced grep-walking",
+                "points": [
+                    "Self-hosted fork of OpenHands: planner, coder, tester and reviewer sub-agents, each on its own model, tools and budget.",
+                    "Agents push only through a gate — typecheck, ESLint, Ruff, pytest. The first agent-authored PR is merged to main.",
+                    "React 19 workspace with live agent-event streaming; 2,400+ tests green across 15 locales."
+                ],
+                "stack": [
+                    "React 19",
+                    "TypeScript",
+                    "Python",
+                    "FastAPI",
+                    "Docker",
+                    "LiteLLM"
+                ],
+                "link": {
+                    "href": "https://github.com/All-Hands-AI/OpenHands",
+                    "label": "OpenHands, the upstream project"
+                }
+            },
+            {
+                "id": "mercuryx",
+                "kicker": "Mercury Properties · MercuryX",
+                "title": "Halyk Market integration and a pricing engine",
+                "metric": "−74%",
+                "metricLabel": "initial load, 2.5 MB → 650 KB",
+                "points": [
+                    "Turnkey B2B platform for sourcing and importing from China, part of the Halyk ecosystem.",
+                    "Built the full Halyk Market integration and owned pricing and cost calculation across supplier price, logistics and customs.",
+                    "Rebuilt a barely viable MVP into a modular architecture; shipped sign-in, cart and orders end to end."
+                ],
+                "stack": [
+                    "Nuxt 3",
+                    "TypeScript",
+                    "Pinia",
+                    "SSR"
+                ],
+                "link": {
+                    "href": "https://mercuryx.kz",
+                    "label": "mercuryx.kz"
+                }
+            },
+            {
+                "id": "carcity-fsd",
+                "kicker": "Mercury Properties · CarCity",
+                "title": "A marketplace moved to Feature-Sliced Design",
+                "metric": "+120%",
+                "metricLabel": "feature velocity for the team",
+                "points": [
+                    "Migrated an auto-parts marketplace from stock Nuxt to Feature-Sliced Design: less boilerplate, clear module boundaries.",
+                    "Documented architecture, features and business logic — onboarding stopped running on tribal knowledge."
+                ],
+                "stack": [
+                    "Nuxt 3",
+                    "Feature-Sliced Design",
+                    "Vite"
+                ],
+                "link": {
+                    "href": "https://carcity.kz/merchant-landing",
+                    "label": "CarCity for sellers"
+                }
+            },
+            {
+                "id": "powr",
+                "kicker": "POWR.io · remote, US team",
+                "title": "Programmatic SEO at scale",
+                "metric": "1M+",
+                "metricLabel": "localized landing pages in 12 languages",
+                "points": [
+                    "Generated by a pipeline: SEO rankings up, inbound engagement doubled.",
+                    "Customizable website plugins and dynamic UI in React — a 40% lift in plugin sales.",
+                    "Mentored mid and junior engineers across a 12-hour time difference."
+                ],
+                "stack": [
+                    "React",
+                    "Next.js",
+                    "Node.js",
+                    "Ruby on Rails"
+                ],
+                "link": {
+                    "href": "https://www.powr.io",
+                    "label": "powr.io"
+                }
+            },
+            {
+                "id": "ncrm",
+                "kicker": "NCRM Group",
+                "title": "A CRM front-end with WhatsApp and Telegram inside",
+                "metric": "2,000+",
+                "metricLabel": "employees work in the CRM",
+                "points": [
+                    "Built the front-end infrastructure and the prototype; brought WhatsApp and Telegram chats into the CRM.",
+                    "Led the sales-conversion statistics module, now used by 50+ companies."
+                ],
+                "stack": [
+                    "Angular",
+                    "Vue.js",
+                    "WebSocket"
+                ],
+                "link": {
+                    "href": "https://ncrm.kz",
+                    "label": "ncrm.kz"
+                }
+            }
+        ],
+        "careerTitle": "Career",
+        "present": "now"
     },
-    "contacts": {
-        "title": "Contacts",
-        "eyebrow": "Get in touch",
-        "headline": "Let's build something great",
+    "offer": {
+        "kicker": "Formats",
+        "titleLead": "Ways to",
+        "titleAccent": "work together",
+        "lead": "A fixed price for an agreed result, not hours. Start small and scale once it works.",
+        "formats": [
+            {
+                "id": "test-week",
+                "name": "Test week",
+                "term": "1 week",
+                "text": "One real task from your backlog, done end to end with my agent pipeline. You see the code, the pace and the checks before you commit to more.",
+                "points": [
+                    "A task we pick together",
+                    "Code in your repository, with tests",
+                    "A short report: what worked and what's next"
+                ]
+            },
+            {
+                "id": "launch",
+                "name": "Launch",
+                "term": "Fixed scope",
+                "text": "A project with a clear finish line and a price agreed before work starts.",
+                "points": [
+                    "AI in your dev team in about six weeks: agents in the editor, MCP servers for internal systems, RAG over code and docs, NDA-safe data",
+                    "Or an agent system or AI feature, built and brought to a working state",
+                    "Handover with docs, so your team owns the result"
+                ]
+            },
+            {
+                "id": "support",
+                "name": "Support",
+                "term": "Monthly",
+                "text": "After launch I stay on, with a monthly scope we agree in advance.",
+                "points": [
+                    "New features and code review",
+                    "Agents, prompts and checks kept in shape as models and your code change",
+                    "Costs watched, not guessed"
+                ]
+            }
+        ],
+        "cta": "Discuss a project"
+    },
+    "faq": {
+        "kicker": "FAQ",
+        "titleLead": "Questions,",
+        "titleAccent": "answered",
+        "items": [
+            {
+                "q": "What does “AI-native engineer” mean?",
+                "a": "I work with Claude Code and my own agents every day: agents plan, write and test, while I set the task, review every diff and own what ships. Nothing merges until typecheck, linters and tests pass."
+            },
+            {
+                "q": "Are you an AI engineer or a full-stack developer?",
+                "a": "Both, in practice. I build LLM features and AI agents, and I've shipped React, Vue and Node.js products for {years} years. AI is how I work; a working product is what I deliver."
+            },
+            {
+                "q": "Can you bring AI into our development team under an NDA?",
+                "a": "Yes — I did it at Mercury Properties: lectures and hands-on sessions, then editor plugins, custom MCP servers and a RAG index over the code and docs. Data is anonymized before it reaches any AI tool, so client and business information never leaves in identifiable form. Emergency hotfixes dropped 4× in two months."
+            },
+            {
+                "q": "Which models and tools do you work with?",
+                "a": "Claude through the Anthropic API and Claude Code, OpenAI models behind LiteLLM routing, MCP for tools, RAG and a local code graph for context. The model is a runtime choice, not an architectural commitment."
+            },
+            {
+                "q": "How do you price a project?",
+                "a": "A fixed price for an agreed result, settled before work starts. If you'd like to see how I work first, start with a test week."
+            },
+            {
+                "q": "Do you work remotely? Where are you based?",
+                "a": "I'm based in {city}, {country} ({utc}). I spent three years fully remote in a US team at POWR.io across a 12-hour time difference, so remote and async work is routine for me."
+            }
+        ]
+    },
+    "contact": {
+        "kicker": "Contact",
+        "titleLead": "Ready to start?",
+        "titleAccent": "Tell me about the task.",
+        "lead": "Telegram, email or LinkedIn — whichever is easier for you.",
+        "telegramCta": "Write in Telegram",
+        "emailCta": "Send an email",
+        "telegram": "Telegram",
         "email": "Email",
         "phone": "Phone",
-        "location": "Location",
-        "locationValue": "Almaty, Kazakhstan",
-        "github": "GitHub",
         "linkedin": "LinkedIn",
-        "telegram": "Telegram",
-        "timezone": "Asia / Almaty · UTC+5",
-        "copied": "Copied"
+        "github": "GitHub",
+        "cv": "CV",
+        "cvValue": "PDF, English",
+        "where": "{city}, {country} · {utc}",
+        "avatarAlt": "Anuar Beibit"
     },
     "footer": {
-        "tagline": "Full-stack developer crafting scalable backends and playful, interactive frontends.",
-        "navigation": "Navigation",
-        "connect": "Let's connect",
-        "rights": "© {year} Anuar Beibit. All rights reserved.",
-        "builtWith": "Built with SvelteKit & Three.js",
-        "aria": "Footer"
+        "rights": "© {year} Anuar Beibit",
+        "code": "This site's code is open on GitHub",
+        "builtWith": "Built with SvelteKit and Threlte"
     },
-    "common": {
-        "backToTop": "Back to top"
+    "notFound": {
+        "title": "Page not found",
+        "text": "This address leads nowhere. The site lives here:",
+        "home": "Go to the home page"
     }
 }

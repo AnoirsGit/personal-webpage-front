@@ -1,59 +1,69 @@
 <script>
-	import Icon from '@iconify/svelte';
-	import '$lib/app/styles/footer.css';
 	import { t } from '$lib/shared/i18n';
+	import { PERSON } from '$lib/seo/site.js';
 
 	const year = new Date().getFullYear();
-
-	const navLinks = [
-		{ key: 'about', link: '#about-me' },
-		{ key: 'skills', link: '#skills' },
-		{ key: 'works', link: '#works' },
-		{ key: 'contacts', link: '#contacts' }
-	];
-
-	const socials = [
-		{ icon: 'mdi:github', href: 'https://github.com/AnoirsGit', label: 'GitHub' },
-		{
-			icon: 'mdi:linkedin',
-			href: 'https://www.linkedin.com/in/anoir-beibit-73218a215/',
-			label: 'LinkedIn'
-		},
-		{ icon: 'basil:telegram-solid', href: 'https://t.me/NoirBegula', label: 'Telegram' },
-		{ icon: 'ic:baseline-email', href: 'mailto:anoirsmail@gmail.com', label: 'Email' }
-	];
+	const LINKS = ['skills', 'process', 'works', 'offer', 'faq', 'contact'];
 </script>
 
-<footer class="app-footer">
-	<div class="footer-inner">
-		<div class="footer-top">
-			<div class="footer-brand">
-				<div class="brand-row">
-					<img src="images/logo.svg" alt="" />
-					<span class="text-xl font-bold tracking-tight text-gradient-heading">Anuar</span>
-				</div>
-				<p class="footer-tagline">{$t('footer.tagline')}</p>
-			</div>
-			<nav class="footer-nav" aria-label={$t('footer.aria')}>
-				<span class="footer-heading">{$t('footer.navigation')}</span>
-				{#each navLinks as { key, link }}
-					<a href={link}>{$t(`nav.${key}`)}</a>
+<footer class="site-footer">
+	<div class="wrap inner">
+		<p class="rights">{$t('footer.rights', { year })}</p>
+		<nav aria-label={$t('a11y.sections')}>
+			<ul>
+				{#each LINKS as id}
+					<li><a href="#{id}">{$t(`nav.${id}`)}</a></li>
 				{/each}
-			</nav>
-			<div class="footer-nav">
-				<span class="footer-heading">{$t('footer.connect')}</span>
-				<div class="footer-socials">
-					{#each socials as { icon, href, label }}
-						<a class="footer-social-link" {href} target="_blank" rel="noreferrer" aria-label={label}>
-							<Icon {icon} />
-						</a>
-					{/each}
-				</div>
-			</div>
-		</div>
-		<div class="footer-bottom">
-			<p>{$t('footer.rights', { year })}</p>
-			<p>{$t('footer.builtWith')}</p>
-		</div>
+			</ul>
+		</nav>
+		<p class="made">
+			<a href={PERSON.repo} target="_blank" rel="noopener">{$t('footer.code')}</a>
+			<span aria-hidden="true">·</span>
+			{$t('footer.builtWith')}
+		</p>
 	</div>
 </footer>
+
+<style>
+	.site-footer {
+		position: relative;
+		border-top: 1px solid var(--line);
+		background: rgba(2, 3, 9, 0.82);
+	}
+
+	.inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px 32px;
+		padding-block: 28px;
+		font-size: 0.9375rem;
+		color: var(--text-faint);
+	}
+
+	nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 20px;
+		list-style: none;
+	}
+
+	nav a,
+	.made a {
+		color: var(--text-dim);
+		text-decoration: none;
+	}
+
+	nav a:hover,
+	.made a:hover {
+		color: var(--accent);
+		text-decoration: underline;
+	}
+
+	.made {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+</style>
