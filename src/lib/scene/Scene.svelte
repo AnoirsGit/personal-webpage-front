@@ -166,12 +166,17 @@
 </div>
 
 <style>
+	/*
+	 * z-index 0, not -1: a negative layer paints under the body's own background (the static
+	 * night sky in app.css) and the canvas would never be seen. The page content sits above it
+	 * at z-index 1 (src/routes/[lang=lang]/+layout.svelte).
+	 */
 	.scene-root {
 		position: fixed;
 		inset: 0 0 auto 0;
 		height: 100vh;
 		height: 100lvh;
-		z-index: -1;
+		z-index: 0;
 		overflow: hidden;
 		pointer-events: none;
 		contain: strict;
