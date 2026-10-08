@@ -46,7 +46,7 @@ src/
     scene/                    the 3D background: Scene.svelte and sceneStore.js
     sections/                 the seven sections, sceneProgress.js, ui/ (Icon, SectionHead, magnetic)
     seo/                      site.js (origin, contacts), Seo.svelte (head tags), jsonld.js
-    widgets/                  Header, Footer, and the older 3D widgets (globe, typing figure, star field)
+    widgets/                  Header, Footer, and the old typing-figure 3D widget (unused)
     entities/ shared/         globe meshes, 3D model, shaders, helpers, i18n, content JSON
 scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chromium
 scripts/model-pipeline.js     GLB to Threlte component converter
@@ -108,4 +108,4 @@ Open items, in priority order. "Agent" means an agent can do it alone; "Owner" m
 2. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
 3. **Prettier formatting debt.** `pnpm exec prettier --check .` still flags older files. Agent: one `pnpm format` commit with nothing else mixed in.
 4. **Dependency cleanup.** Never imported from `src/`: `@dimforge/rapier3d-compat`, `@sveu/browser`, `@theatre/core`, `@theatre/studio`, `@threlte/flex`, `@threlte/rapier`, `@threlte/theatre`, `@threlte/xr`, `rxjs`, `troika-three-text`, `@tweenjs/tween.js`, `dayjs`, `svelte-awesome-color-picker`, `adapter-auto`, `adapter-cloudflare`, `adapter-netlify`; `@iconify/svelte` and `svelte-markdown` are used only by unused components. Agent. Done when `pnpm check` and `pnpm build` stay green and the lockfile is updated.
-5. **Dead code and assets.** No route uses `widgets/globe`, `widgets/typing-3d`, `widgets/canvas-animation`, `shared/UI/{Deferred,ImageCard,CustomButton,MovableGlow}`, `widgets/content/SectionTextContent`, `shared/stores/globalStore` (keep what the 3D scene reuses); the Poppins fonts, `src/lib/ne_110m_admin_0_countries.geojson` and ten images in `static/images/` are referenced nowhere. Agent.
+5. **Dead code and assets.** The old contacts globe, `globe-points.json`, the particle background and the skill-tree editor leftovers are gone. Still unused: `widgets/typing-3d` (with `entities/3d` and its model), `widgets/content/SectionTextContent` with `app/styles/markdown-reader.css`, `shared/UI/{Deferred,MovableGlow}`, the Poppins fonts and ten images in `static/images/`. Keep `src/lib/ne_110m_admin_0_countries.geojson`: `scripts/scene-geodata.js` and `scripts/check-country-codes.js` read it. Agent.

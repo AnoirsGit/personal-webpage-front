@@ -1,6 +1,8 @@
 /*
  * Builds the Open Graph / Twitter images, static/og/og-<lang>.jpg (1200×630):
- * the hero line over a dotted Earth (globe-points.json) in the night sky.
+ * the hero line over a dotted Earth in the night sky. The land dots come from the same
+ * land raster the 3D globe uses (src/lib/entities/globe/landMask.js, generated from
+ * Natural Earth by scripts/scene-geodata.js).
  *
  *   node scripts/og-image.js          # needs Chromium; CHROMIUM=/path/to/chrome to override
  *
@@ -14,6 +16,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { decodeLandMask, isLand } from '../src/lib/entities/globe/geodata.js';
+
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (path) => readFileSync(join(root, path));
 const json = (path) => JSON.parse(read(path).toString('utf8'));
@@ -23,10 +27,16 @@ const WIDTH = 1200;
 const HEIGHT = 630;
 const HOST = 'anoirs-server.top';
 
-const points = json('src/lib/shared/mocks/globe-points.json').map(({ lat, lon }) => [
-	+lat.toFixed(2),
-	+lon.toFixed(2)
-]);
+// ~14k land dots spread evenly over the sphere: a golden-angle spiral, kept where it hits land
+const SPIRAL = 50000;
+const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+const mask = decodeLandMask();
+const points = [];
+for (let i = 0; i < SPIRAL; i++) {
+	const lat = (Math.asin(1 - (2 * (i + 0.5)) / SPIRAL) * 180) / Math.PI;
+	const lon = ((((i * GOLDEN * 180) / Math.PI) % 360) + 360) % 360 - 180;
+	if (isLand(mask, lat, lon)) points.push([+lat.toFixed(2), +lon.toFixed(2)]);
+}
 const { home } = json('src/lib/config/site-config.json');
 const font = (file) => `data:font/woff2;base64,${read(`static/fonts/${file}`).toString('base64')}`;
 

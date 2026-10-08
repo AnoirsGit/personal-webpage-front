@@ -7,14 +7,12 @@
  * the site shows: the 3D sky draws each group as a constellation and the Skills
  * section lists the same groups. Only membership and the group names live here;
  * every skill's name and text come from the tree. Use `buildConstellations(code)`
- * (plain data, also fine on the server) or the `constellations` store.
+ * (plain data, also fine on the server).
  *
  * The full tree is ~150 kB, so the page itself receives only the built list from
  * its server load; import this module from the client only in lazily loaded code.
  */
-import { derived } from 'svelte/store';
-
-import { locale, DEFAULT_LOCALE } from './index.js';
+import { DEFAULT_LOCALE } from './index.js';
 
 import tree from '$lib/shared/mocks/tree.json';
 import treeRu from '$lib/shared/mocks/tree.ru.json';
@@ -42,8 +40,6 @@ export const localizedTree = (code) => {
 		Object.entries(tree).map(([key, branch]) => [key, applyOverlay(branch, overlay[key])])
 	);
 };
-
-export const skillTree = derived(locale, ($locale) => localizedTree($locale));
 
 /* ---------------------------------------------------------------------------------- */
 
@@ -264,5 +260,3 @@ export const buildConstellations = (code) => {
 		return { id, name: pick(name, code), line: pick(line, code), detailed, stars, links };
 	});
 };
-
-export const constellations = derived(locale, ($locale) => buildConstellations($locale));
