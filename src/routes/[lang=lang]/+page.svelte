@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/seo/Seo.svelte';
 	import Hero from '$lib/sections/Hero.svelte';
 	import Skills from '$lib/sections/Skills.svelte';
 	import Process from '$lib/sections/Process.svelte';
@@ -9,6 +10,8 @@
 
 	export let data;
 </script>
+
+<Seo lang={data.lang} groups={data.groups} facts={data.facts} />
 
 <Hero />
 <Skills groups={data.groups} />
