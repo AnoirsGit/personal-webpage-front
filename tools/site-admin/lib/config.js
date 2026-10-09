@@ -5,7 +5,9 @@
  * Contract (src/lib/config/site-config.json; read by src/lib/shared/i18n/location.js,
  * src/lib/scene/data/places.js and src/lib/seo/jsonld.js at build time):
  *
- *   home.countryIso3   a code the globe resolves (ISO_A3, else ADM0_A3) — see countries.js
+ *   home.countryIso3   a code the globe resolves (ISO_A3, else ADM0_A3), or the ISO 3166-1
+ *                      alpha-3 of a country the globe lacks (no highlight then; the marker
+ *                      still stands at lat/lon) — see countries.js
  *   home.countryName   { en, ru }  shown as {country} in the copy and on the globe label
  *   home.city          { en, ru }  shown as {city}; JSON-LD addressLocality
  *   home.lat, home.lon degrees; the home marker, arcs and JSON-LD geo. Rounded to 0.01°
@@ -95,7 +97,7 @@ export const validateHome = (input, { countries }) => {
 	if (!country) {
 		const given = typeof input.countryIso3 === 'string' ? input.countryIso3.trim() : '';
 		errors.countryIso3 = given
-			? `Такой страны нет на глобусе: ${given.slice(0, 12)}`
+			? `Неизвестная страна: ${given.slice(0, 12)}`
 			: 'Выберите страну из списка';
 	}
 
@@ -122,7 +124,11 @@ export const validateHome = (input, { countries }) => {
 
 	if (Object.keys(errors).length) return { ok: false, errors, warnings };
 
-	if (!pointInCountry(country, lat, lon)) {
+	if (!country.onGlobe) {
+		warnings.push(
+			'Этой страны нет на карте глобуса: подсветки не будет, метка встанет по координатам.'
+		);
+	} else if (!pointInCountry(country, lat, lon)) {
 		warnings.push(
 			`Точка ${lat}, ${lon} лежит вне границ страны на карте глобуса — метка встанет вне подсветки.`
 		);

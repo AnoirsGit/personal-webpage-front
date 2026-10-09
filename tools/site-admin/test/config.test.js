@@ -27,18 +27,70 @@ const mode = (path) => statSync(path).mode & 0o777;
 
 test('the country list covers the globe data with names and inside label points', () => {
 	const countries = getCountries();
-	assert.equal(countries.length, 177);
-	assert.equal(new Set(countries.map((country) => country.code)).size, 177, 'codes are unique');
-	for (const country of countries) {
+	const globe = countries.filter((country) => country.onGlobe);
+	assert.equal(globe.length, 177);
+	for (const country of globe) {
 		assert.ok(country.en && country.ru, `${country.code} has both names`);
 		assert.ok(pointInCountry(country, country.lat, country.lon), `${country.code} label inside`);
 	}
 	const kaz = resolveCountry(countries, ' kaz ');
-	assert.deepEqual([kaz.code, kaz.en, kaz.ru], ['KAZ', 'Kazakhstan', 'Казахстан']);
+	assert.deepEqual(
+		[kaz.code, kaz.en, kaz.ru, kaz.onGlobe],
+		['KAZ', 'Kazakhstan', 'Казахстан', true]
+	);
 	// Natural Earth has ISO_A3 "-99" for France: the code falls back to ADM0_A3
 	assert.equal(resolveCountry(countries, 'FRA').ru, 'Франция');
 	assert.equal(resolveCountry(countries, 'XXX'), null);
 	assert.equal(resolveCountry(countries, 'KA'), null);
+});
+
+test('«другая страна»: the rest of ISO 3166-1, after the globe ones, without coordinates', () => {
+	const countries = getCountries();
+	const others = countries.filter((country) => !country.onGlobe);
+	assert.equal(others.length, 75, 'ISO 3166-1 has 249 codes; 174 of them are on the globe');
+	assert.equal(new Set(countries.map((country) => country.code)).size, countries.length);
+	assert.ok(
+		countries.findIndex((country) => !country.onGlobe) === 177,
+		'the globe countries come first'
+	);
+	for (const country of others) {
+		assert.match(country.code, /^[A-Z]{3}$/);
+		assert.ok(country.en && country.ru, `${country.code} has both names`);
+		assert.equal(country.lat, null);
+		assert.equal(pointInCountry(country, 1, 1), false, 'no polygon to be inside');
+	}
+	const sgp = resolveCountry(countries, ' sgp ');
+	assert.deepEqual(
+		[sgp.code, sgp.a2, sgp.en, sgp.ru, sgp.onGlobe],
+		['SGP', 'SG', 'Singapore', 'Сингапур', false]
+	);
+	for (const code of ['MLT', 'HKG', 'BHR', 'AND', 'MCO', 'MDV']) {
+		assert.equal(resolveCountry(countries, code).onGlobe, false, code);
+	}
+	// a country on the globe never shows up a second time among the others
+	for (const code of ['KAZ', 'FRA', 'NOR', 'SSD', 'PSE']) {
+		assert.equal(resolveCountry(countries, code).onGlobe, true, code);
+	}
+});
+
+test('a country the globe lacks is saved with typed coordinates and a caveat', () => {
+	const singapore = {
+		countryIso3: 'sgp',
+		countryName: { en: 'Singapore', ru: 'Сингапур' },
+		city: { en: 'Singapore', ru: 'Сингапур' },
+		lat: '1,2897',
+		lon: 103.8501,
+		timezone: 'Asia/Singapore'
+	};
+	const result = validate(singapore);
+	assert.equal(result.ok, true, JSON.stringify(result.errors));
+	assert.equal(result.home.countryIso3, 'SGP');
+	assert.deepEqual([result.home.lat, result.home.lon], [1.29, 103.85]);
+	assert.equal(result.warnings.length, 1);
+	assert.match(result.warnings[0], /нет на карте глобуса: подсветки не будет/);
+	const blank = validate({ ...singapore, lat: '', lon: '' });
+	assert.equal(blank.ok, false, 'no centre to fall back to: coordinates are required');
+	assert.ok(blank.errors.lat && blank.errors.lon);
 });
 
 test('a valid place is normalized', () => {
@@ -98,7 +150,7 @@ test('bad fields are reported by name, in Russian', () => {
 		'lon',
 		'timezone'
 	]);
-	assert.match(result.errors.countryIso3, /нет на глобусе/);
+	assert.match(result.errors.countryIso3, /Неизвестная страна: XXX/);
 	assert.match(result.errors.lat, /−90 до 90/);
 	assert.equal(validate(null).ok, false);
 	assert.equal(
@@ -242,4 +294,19 @@ test('apply-config (deploy): replaces home, keeps the rest, refuses what it cann
 	assert.equal(applyConfig(saved, target).status, 1);
 
 	assert.equal(readFileSync(target, 'utf8'), original, 'refusals leave the checkout alone');
+
+	// a country the globe lacks goes through, with the caveat in the deploy log
+	const singapore = {
+		countryIso3: 'SGP',
+		countryName: { en: 'Singapore', ru: 'Сингапур' },
+		city: { en: 'Singapore', ru: 'Сингапур' },
+		lat: 1.29,
+		lon: 103.85,
+		timezone: 'Asia/Singapore'
+	};
+	writeFileSync(saved, JSON.stringify({ home: singapore }));
+	const other = applyConfig(saved, target);
+	assert.equal(other.status, 0, other.stderr);
+	assert.match(other.stderr, /нет на карте глобуса/);
+	assert.equal(JSON.parse(readFileSync(target, 'utf8')).home.countryIso3, 'SGP');
 });

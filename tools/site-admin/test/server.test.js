@@ -27,8 +27,16 @@ test('state: the repo default until the first save, plus all countries', async (
 	assert.equal(status, 200);
 	assert.equal(json.source, 'default');
 	assert.equal(json.countryCode, json.config.home.countryIso3);
-	assert.equal(json.countries.length, 177);
-	assert.deepEqual(Object.keys(json.countries[0]).sort(), ['a2', 'code', 'en', 'lat', 'lon', 'ru']);
+	assert.equal(json.countries.length, 252, '177 on the globe and 75 others');
+	assert.deepEqual(Object.keys(json.countries[0]).sort(), [
+		'a2',
+		'code',
+		'en',
+		'lat',
+		'lon',
+		'onGlobe',
+		'ru'
+	]);
 	assert.equal(json.rebuild.configured, false);
 });
 

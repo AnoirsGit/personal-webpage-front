@@ -1,7 +1,9 @@
 /*
- * The countries the globe knows: one entry per feature of the Natural Earth 1:110m file
+ * Every country the admin offers, in two groups.
+ *
+ * On the globe (onGlobe: true): one entry per feature of the Natural Earth 1:110m file
  * src/lib/ne_110m_admin_0_countries.geojson, the same file the scene's borders are
- * generated from (scripts/scene-geodata.js).
+ * generated from (scripts/scene-geodata.js). The globe highlights these.
  *
  *   code      what site-config.json stores as home.countryIso3: ISO_A3, or ADM0_A3 where
  *             Natural Earth has "-99" (France, Norway, Kosovo, …), the order the globe
@@ -13,10 +15,17 @@
  *   lat, lon  LABEL_Y / LABEL_X when the file has them, else a point inside the largest
  *             polygon (its centroid, or the grid point farthest from the border)
  *
+ * Other countries (onGlobe: false): the rest of ISO 3166-1 (./iso3166.js) — Singapore,
+ * Malta, Hong Kong… — named by Intl.DisplayNames, with no polygon and no label point. The
+ * site resolves no feature for their code, so the globe highlights nothing and the home
+ * marker still stands at the saved coordinates, which the owner types in.
+ *
  * The polygons stay on the server for the "is the point inside the country" check;
  * toPublic() is what the page gets.
  */
 import { readFileSync } from 'node:fs';
+
+import { ISO_3166_1 } from './iso3166.js';
 
 const CODE = /^[A-Z]{3}$/;
 const A2 = /^[A-Z]{2}$/;
@@ -34,6 +43,7 @@ const regionNames = (locale) => {
 	}
 };
 const RU_NAMES = regionNames('ru');
+const EN_NAMES = regionNames('en');
 
 const text = (value) => (typeof value === 'string' ? value.trim() : '');
 const code = (value) => (typeof value === 'string' && CODE.test(value) ? value : null);
@@ -163,22 +173,47 @@ const featureToCountry = ({ properties = {}, geometry }) => {
 		ru,
 		lat: round2(lat),
 		lon: round2(lon),
-		rings: polygons.flat()
+		rings: polygons.flat(),
+		onGlobe: true
 	};
 };
 
-/** Countries from a parsed geojson, sorted by their Russian name. */
-export const countriesFromGeoJson = (geojson) =>
-	(geojson.features || [])
-		.map(featureToCountry)
-		.filter(Boolean)
-		.sort((a, b) => (a.ru || a.en).localeCompare(b.ru || b.en, 'ru'));
+const byRussianName = (a, b) => (a.ru || a.en).localeCompare(b.ru || b.en, 'ru');
+
+/** ISO 3166-1 countries the globe data does not have, named by Intl.DisplayNames. */
+export const otherCountries = (globe) => {
+	const known = new Set();
+	for (const country of globe) {
+		for (const value of [country.iso3, country.adm3, country.a2]) if (value) known.add(value);
+	}
+	return ISO_3166_1.filter(([a2, a3]) => !known.has(a3) && !known.has(a2))
+		.map(([a2, a3]) => ({
+			code: a3,
+			iso3: a3,
+			adm3: null,
+			a2,
+			en: regionName(EN_NAMES, a2) || a3,
+			ru: regionName(RU_NAMES, a2),
+			lat: null,
+			lon: null,
+			rings: null,
+			onGlobe: false
+		}))
+		.sort(byRussianName);
+};
+
+/** The globe's countries (sorted by their Russian name), then the other ISO countries. */
+export const countriesFromGeoJson = (geojson) => {
+	const globe = (geojson.features || []).map(featureToCountry).filter(Boolean).sort(byRussianName);
+	return globe.concat(otherCountries(globe));
+};
 
 export const loadCountries = (path) => countriesFromGeoJson(JSON.parse(readFileSync(path, 'utf8')));
 
 /**
  * Same lookup as the globe: ISO_A3 first, ADM0_A3 second; case and surrounding spaces do
- * not matter; anything that is not three letters resolves to nothing.
+ * not matter; anything that is not three letters resolves to nothing. The other countries
+ * resolve here by their ISO code too (onGlobe: false); the globe itself will not find them.
  */
 export const resolveCountry = (countries, value) => {
 	if (typeof value !== 'string') return null;
@@ -191,14 +226,16 @@ export const resolveCountry = (countries, value) => {
 	);
 };
 
-export const pointInCountry = (country, lat, lon) => pointInRings(country.rings, lon, lat);
+export const pointInCountry = (country, lat, lon) =>
+	Boolean(country.rings) && pointInRings(country.rings, lon, lat);
 
 /** What the page needs about a country (no polygons). */
-export const toPublic = ({ code: countryCode, a2, en, ru, lat, lon }) => ({
+export const toPublic = ({ code: countryCode, a2, en, ru, lat, lon, onGlobe }) => ({
 	code: countryCode,
 	a2,
 	en,
 	ru,
 	lat,
-	lon
+	lon,
+	onGlobe
 });
