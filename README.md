@@ -52,7 +52,7 @@ scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chro
 scripts/model-pipeline.js     GLB to Threlte component converter
 static/                       fonts, images, CV files, OG images, robots.txt, 3D model (served as-is)
 tools/site-admin/             the place admin (see «Админка места»): server, page, tests; no dependencies
-ops/box/                      the production box: deploy.sh, Caddyfile, the admin's service, install.sh
+ops/box/                      the production box: deploy.sh, Caddyfile, the admin's and the rebuild's units, install.sh
 ```
 
 How the pieces fit:
@@ -104,17 +104,19 @@ The site is live at https://anoirs-server.top. The box side lives in `ops/box/` 
 
 ## Админка места
 
-The place admin (`tools/site-admin/`) is where the owner says which country he is in: a searchable list of the 177 countries the globe knows (Russian and English names, codes), the city in English and Russian, coordinates prefilled with a point inside the country (editable, rounded to 0.01° — a city, not an address) and an IANA time zone. It shows the JSON it will write, saves it and rebuilds the site, with the build log live on the page.
+The place admin (`tools/site-admin/`) is where the owner says which country he is in: a searchable list of the 177 countries the globe knows, then «другая страна» — the other 75 of ISO 3166-1 (Singapore, Malta, Hong Kong…), Russian and English names, codes; the city in English and Russian; coordinates (for a globe country prefilled with a point inside it, for another one typed in; rounded to 0.01° — a city, not an address) and an IANA time zone. It shows the JSON it will write and saves it; the site rebuilds by itself and the page shows the build log live.
 
-- **Open it.** On the box it is `site-admin.service` on `127.0.0.1:8792`: `ssh -L 8792:127.0.0.1:8792 root@<box>`, then open `http://127.0.0.1:8792/?token=<SITE_ADMIN_TOKEN>` once (the token is in `/etc/site-admin/env`); the browser then keeps an HttpOnly, SameSite=Strict session cookie for 30 days. After `install.sh --tailnet` it is also at `http://<box>:8792/` from the owner's tailnet. Only listed Host names are answered and every write needs a same-origin `Origin`.
-- **What a save changes.** Everything that reads `src/lib/config/site-config.json` at build time, in both languages: the globe's highlighted country, home marker and arcs, `{city}`, `{country}` and the UTC offset in the copy and meta tags, and the JSON-LD address and coordinates. A failed build leaves the previous release online. Not covered: the OG images (`static/og/`) and the no-WebGL posters (`static/scene/`) are rendered offline and keep the old view until `scripts/og-image.js` and `scripts/scene-poster.js` are rerun and committed.
-- **Where the config lives.** The admin writes `/var/lib/site-admin/site-config.json` on the box (`SITE_CONFIG_PATH`; outside git and the build). Before each build `deploy.sh` checks it with `tools/site-admin/apply-config.js` and puts its `home` over `src/lib/config/site-config.json`. The file in git stays the default for local builds, and the admin shows it until the first save.
+- **Open it.** On the box it is `site-admin.service` on `127.0.0.1:8792`. From the owner's devices on the tailnet: `http://<box tailnet name>:8792/?token=<SITE_ADMIN_TOKEN>` once (the box's userspace tailscaled hands tailnet connections to loopback; `install.sh` prints the exact address). Otherwise `ssh -L 8792:127.0.0.1:8792 root@<box>` and `http://127.0.0.1:8792/?token=…`. The token is in `/etc/site-admin/env`; the browser then keeps an HttpOnly, SameSite=Strict session cookie for 30 days. Only the Host names listed in that env file are answered, and every write needs a same-origin `Origin`.
+- **What a save changes.** Everything that reads `src/lib/config/site-config.json` at build time, in both languages: the globe's highlighted country (none for «другая страна»), home marker and arcs, `{city}`, `{country}` and the UTC offset in the copy and meta tags, and the JSON-LD address and coordinates. A failed build leaves the previous release online. Not covered: the OG images (`static/og/`) and the no-WebGL posters (`static/scene/`) are rendered offline and keep the old view until `scripts/og-image.js` and `scripts/scene-poster.js` are rerun and committed.
+- **How the rebuild starts.** The admin runs nothing and has no rights: it only writes the config atomically. A root path unit (`site-rebuild.path`) sees the file change and starts `site-rebuild.service`, which runs `deploy.sh --force --wait` — again if another save arrived during the build — and writes `status.json` and `rebuild.log` to `/var/lib/site-rebuild` for the page. «Пересобрать ещё раз» rewrites a request file next to the config, which the path unit watches too.
+- **Where the config lives.** `/var/lib/site-admin/site-config.json` on the box (`SITE_CONFIG_PATH`; outside git and the build). Before each build `deploy.sh` checks it with `tools/site-admin/apply-config.js` and puts its `home` over `src/lib/config/site-config.json`. The file in git stays the default for local builds, and the admin shows it until the first save.
 
-Locally, with a stand-in for the deploy:
+Locally, with stand-ins for the path unit and the deploy (two terminals):
 
 ```bash
+node tools/site-admin/test/fixtures/fake-path-unit.js /tmp/site-admin/site-config.json /tmp/site-admin/rebuild
 SITE_ADMIN_TOKEN=local-token-0123456789 SITE_CONFIG_PATH=/tmp/site-admin/site-config.json \
-  SITE_REBUILD_CMD='node tools/site-admin/test/fixtures/fake-rebuild.js' node tools/site-admin/server.js
+  SITE_REBUILD_STATUS_DIR=/tmp/site-admin/rebuild node tools/site-admin/server.js
 # then open http://127.0.0.1:8792/?token=local-token-0123456789
 ```
 
