@@ -24,6 +24,7 @@
 
 	let mounted = false;
 	let canSky = false;
+	/** @type {import('$lib/scene/sceneStore.js').SkillsView} */
 	let view = 'list';
 	let activeGroup = 'all';
 	let query = '';
@@ -41,6 +42,7 @@
 		mounted = true;
 	});
 
+	/** @param {import('$lib/scene/sceneStore.js').SkillsView} next */
 	const setView = (next) => {
 		view = next;
 		try {

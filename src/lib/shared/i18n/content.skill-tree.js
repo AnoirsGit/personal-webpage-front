@@ -232,13 +232,16 @@ const pick = (names, code) => names[code] ?? names[DEFAULT_LOCALE];
 
 /**
  * The groups in one language, as plain data:
- * `[{ id, name, line, detailed, stars: [{ id, title, summary, description, image }], links: [[from, to]] }]`.
+ * `[{ id, name, line, detailed, stars: [{ id, title, summary, description, image, main, x, y }], links: [[from, to]] }]`.
  * `links` are tree edges with both ends inside the group — the lines of the constellation.
+ * `main` marks a group's main tools (its `lead`, or every skill of a `detailed` group) and
+ * `x`/`y` are the node's place in the tree's own layout: the 3D sky draws main tools as the
+ * brighter stars and shapes each constellation from those positions (the page ignores both).
  */
 export const buildConstellations = (code) => {
 	const localized = localizedTree(code);
 
-	return CONSTELLATIONS.map(({ id, branch, detailed, name, line, includes, lead }) => {
+	return CONSTELLATIONS.map(({ id, branch, detailed, name, line, includes, lead = [] }) => {
 		const { nodes, edges } = localized[branch];
 		const stars = leadFirst(
 			nodes
@@ -248,7 +251,10 @@ export const buildConstellations = (code) => {
 					title: node.title.trim(),
 					summary: summaryOf(node.description),
 					description: node.description ?? '',
-					image: node.imageUrl || ''
+					image: node.imageUrl || '',
+					main: detailed || lead.includes(String(node.id)),
+					x: Number(node.position?.x) || 0,
+					y: Number(node.position?.y) || 0
 				})),
 			lead
 		);
