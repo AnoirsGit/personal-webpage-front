@@ -50,7 +50,7 @@
 	let section = 0;
 	const unsubscribeStore = sceneStore.subscribe((state) => {
 		target = storyTime(state);
-		runtime.skillsList = state.skillsView === 'list';
+		runtime.skillsView = state.skillsView === 'list' ? 'list' : 'tree';
 		const index = Math.max(0, SCENE_SECTIONS.indexOf(state.section));
 		if (index !== section && !runtime.motion) runtime.onCut?.();
 		section = index;

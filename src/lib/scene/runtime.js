@@ -55,8 +55,8 @@ export const createRuntime = (quality) => {
 		uniforms,
 		occlusion,
 		occlusionTexture,
-		/** the Skills section shows the list (sceneStore.skillsView): the sky steps back */
-		skillsList: false,
+		/** how the Skills section shows the skills (sceneStore.skillsView): 'tree' | 'list' */
+		skillsView: /** @type {import('./sceneStore.js').SkillsView} */ ('tree'),
 		shot: createShot(),
 		/** smoothed story time */
 		T: 0,

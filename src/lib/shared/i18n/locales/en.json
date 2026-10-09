@@ -58,13 +58,12 @@
     ],
     "skills": {
         "kicker": "Skills",
-        "titleLead": "Skills, drawn as",
-        "titleAccent": "constellations",
-        "lead": "Five groups that work together on every project, the AI-native core first.",
+        "titleLead": "Skill",
+        "titleAccent": "tree",
+        "lead": "One root, five branches: the AI-native core first, then the stack it ships on. The nearer the root and the larger the node, the more central the skill is to my work.",
         "view": "Show skills as",
-        "viewSky": "Constellations",
+        "viewTree": "Tree",
         "viewList": "List",
-        "skyHint": "Every star in the sky is one of these skills. Open a group as a list:",
         "groupsLabel": "Filter by group",
         "all": "All",
         "searchLabel": "Find a skill",
@@ -72,7 +71,22 @@
         "shown": "{shown} of {total} skills",
         "empty": "No skill matches “{query}”.",
         "reset": "Show all skills",
-        "openList": "open as a list"
+        "tree": {
+            "label": "Skill tree",
+            "help": "Arrow keys move between skills, Enter opens the details, Escape closes them.",
+            "hintPointer": "Hover a skill for a short note, click to pin it.",
+            "hintTouch": "Tap a skill for the details.",
+            "root": "AI-native engineer",
+            "rootText": "{count} skills in five branches: agents and LLMs first, then the front-end, back-end and infrastructure they ship on.",
+            "branch": "Branch",
+            "count": "{count} skills",
+            "countLine": "{count} skills",
+            "leadSkill": "Leads this branch",
+            "mainSkill": "Core skill",
+            "connected": "Connected",
+            "cases": "In the cases",
+            "close": "Close"
+        }
     },
     "process": {
         "kicker": "How I work",

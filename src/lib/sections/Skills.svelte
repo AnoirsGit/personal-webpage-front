@@ -1,90 +1,81 @@
 <!--
-	Skills, two ways: as constellations in the 3D sky or as a plain list.
+	Skills, two ways: a game-style skill tree (the default) or a plain filterable list.
 
-	The groups come from the skill tree through `buildConstellations` (the same
-	groups the scene draws), handed in by the page's server load. The list is in the
-	prerendered HTML in both modes — visually hidden while the sky is shown — and it
-	is the only view without WebGL, with reduced motion or without JavaScript.
-	The visitor's choice is remembered, and published to the scene as
-	`sceneStore.skillsView` so the sky can dim its constellations under the list.
-	The constellations view is offered only while the scene is (going) live, as the
-	scene shell reports through `sceneStatus` — no WebGL probe of our own on the main
-	thread.
+	Both read the same groups — buildConstellations() through the page's server load — and
+	both are complete in the prerendered HTML: the tree is HTML and CSS, so it needs neither
+	WebGL nor JavaScript to show every name; script adds the hover card, the pinned panel,
+	keyboard moves and the draw-in. The visitor's choice is remembered and published to the
+	scene as `sceneStore.skillsView`: behind the tree the 3D constellations stay as a dimmed
+	backdrop without captions or hover, behind the list they fade to a trace.
 -->
 <script>
-	import { onMount, tick } from 'svelte';
+	import { onMount } from 'svelte';
 
 	import { t } from '$lib/shared/i18n';
-	import { sceneStatus, sceneStore } from '$lib/scene/sceneStore.js';
+	import { sceneStore } from '$lib/scene/sceneStore.js';
 	import SectionHead from './ui/SectionHead.svelte';
 	import Icon from './ui/Icon.svelte';
+	import SkillTree from './skill-tree/SkillTree.svelte';
 
-	/** @type {{ id: string, name: string, line: string, detailed: boolean, stars: { id: string, title: string, summary: string }[] }[]} */
+	/**
+	 * @type {{
+	 *   id: string, name: string, line: string, detailed: boolean,
+	 *   stars: { id: string, title: string, summary: string, tier: 'lead' | 'main' | 'minor', related: string[], cases: string[] }[]
+	 * }[]}
+	 */
 	export let groups = [];
 
-	const VIEW_KEY = 'skills-view';
+	/*
+	 * The remembered view. Until 10.2026 the key was 'skills-view' with 'constellations' |
+	 * 'list'; a remembered 'constellations' becomes the tree, 'list' stays the list.
+	 */
+	const VIEW_KEY = 'skills-view-2';
+	const LEGACY_VIEW_KEY = 'skills-view';
+
+	/** @returns {import('$lib/scene/sceneStore.js').SkillsView | null} */
+	const readView = () => {
+		try {
+			const saved = localStorage.getItem(VIEW_KEY);
+			if (saved === 'tree' || saved === 'list') return saved;
+			const legacy = localStorage.getItem(LEGACY_VIEW_KEY);
+			if (legacy === null) return null;
+			const migrated = legacy === 'list' ? 'list' : 'tree';
+			localStorage.setItem(VIEW_KEY, migrated);
+			localStorage.removeItem(LEGACY_VIEW_KEY);
+			return migrated;
+		} catch {
+			return null; // storage blocked: the default view
+		}
+	};
 
 	let mounted = false;
 	/** @type {import('$lib/scene/sceneStore.js').SkillsView} */
-	let view = 'list';
+	let view = 'tree';
 	let activeGroup = 'all';
 	let query = '';
 	let listTop;
 	/** @type {HTMLElement} */
 	let section;
-	/** the view remembered from an earlier visit */
-	let saved = /** @type {string | null} */ (null);
-	/** the visitor picked a view on this visit */
-	let picked = false;
-	/** the default view has been set */
-	let decided = false;
-
-	onMount(() => {
-		try {
-			saved = localStorage.getItem(VIEW_KEY);
-		} catch {
-			// storage blocked: fall back to the default view
-		}
-		mounted = true;
-	});
-
-	// a live sky (or one on its way) and no reduced motion; the poster has no constellations
-	$: canSky =
-		($sceneStatus.mode === 'loading' || $sceneStatus.mode === 'live') &&
-		!$sceneStatus.reducedMotion;
 
 	const inView = () => {
 		const rect = section?.getBoundingClientRect();
 		return Boolean(rect && rect.top < window.innerHeight && rect.bottom > 0);
 	};
 
-	// the default view, once the scene knows what it can show — but never flip the
-	// section under a reader who is already looking at the list
-	$: if (mounted && !decided && $sceneStatus.mode !== 'pending') {
-		decided = true;
-		if (!picked) view = canSky && saved !== 'list' && !inView() ? 'constellations' : 'list';
-	}
-	// the sky went away (the scene fell back to the poster): back to the list
-	$: if (mounted && !canSky && view === 'constellations') view = 'list';
+	onMount(() => {
+		// never flip the section under a reader who is already looking at it
+		if (readView() === 'list' && !inView()) view = 'list';
+		mounted = true;
+	});
 
 	/** @param {import('$lib/scene/sceneStore.js').SkillsView} next */
 	const setView = (next) => {
-		picked = true;
 		view = next;
 		try {
 			localStorage.setItem(VIEW_KEY, next);
 		} catch {
 			// not remembered, still switched
 		}
-	};
-
-	const openGroup = async (id) => {
-		activeGroup = id;
-		query = '';
-		setView('list');
-		await tick();
-		listTop?.scrollIntoView({ block: 'start' });
-		listTop?.focus({ preventScroll: true });
 	};
 
 	const reset = () => {
@@ -105,16 +96,10 @@
 		.map((group) => ({ ...group, shown: group.stars.filter(matches) }))
 		.filter((group) => group.shown.length);
 	$: shownCount = visible.reduce((sum, group) => sum + group.shown.length, 0);
-	$: sky = mounted && view === 'constellations';
+	$: list = view === 'list';
 </script>
 
-<section
-	id="skills"
-	class="stage skills"
-	class:sky
-	aria-labelledby="skills-title"
-	bind:this={section}
->
+<section id="skills" class="stage skills" aria-labelledby="skills-title" bind:this={section}>
 	<div class="wrap skills-inner">
 		<SectionHead
 			id="skills-title"
@@ -125,42 +110,29 @@
 			lead={$t('skills.lead')}
 		/>
 
-		{#if mounted && canSky}
+		<div class="skills-bar">
 			<div class="view-switch" role="group" aria-label={$t('skills.view')} data-scene-occlude>
-				<button
-					type="button"
-					aria-pressed={view === 'constellations'}
-					on:click={() => setView('constellations')}
-				>
-					<Icon name="stars" size={18} />
-					{$t('skills.viewSky')}
+				<button type="button" aria-pressed={!list} on:click={() => setView('tree')}>
+					<Icon name="tree" size={18} />
+					{$t('skills.viewTree')}
 				</button>
-				<button type="button" aria-pressed={view === 'list'} on:click={() => setView('list')}>
+				<button type="button" aria-pressed={list} on:click={() => setView('list')}>
 					<Icon name="list" size={18} />
 					{$t('skills.viewList')}
 				</button>
 			</div>
-		{/if}
+			{#if !list}
+				<p class="tree-hint" data-scene-occlude>
+					<span class="hint-pointer">{$t('skills.tree.hintPointer')}</span>
+					<span class="hint-touch">{$t('skills.tree.hintTouch')}</span>
+				</p>
+			{/if}
+		</div>
 
-		{#if sky}
-			<div class="sky-legend" data-scene-occlude>
-				<p class="sky-hint">{$t('skills.skyHint')}</p>
-				<ul class="legend">
-					{#each groups as group (group.id)}
-						<li>
-							<button type="button" class="legend-item" on:click={() => openGroup(group.id)}>
-								<span class="legend-name">{group.name}</span>
-								<span class="legend-count">{group.stars.length}</span>
-								<span class="sr-only">— {$t('skills.openList')}</span>
-							</button>
-						</li>
-					{/each}
-				</ul>
-			</div>
-		{/if}
-
-		<div class="skills-list" class:sr-only={sky}>
-			{#if mounted && !sky}
+		{#if !list}
+			<SkillTree {groups} />
+		{:else}
+			<div class="skills-list">
 				<div class="list-tools" data-scene-occlude>
 					<div class="group-filter" role="group" aria-label={$t('skills.groupsLabel')}>
 						<button
@@ -196,46 +168,52 @@
 						{$t('skills.shown', { shown: shownCount, total })}
 					</p>
 				</div>
-			{/if}
 
-			<div
-				class="skill-groups"
-				class:single={visible.length === 1}
-				bind:this={listTop}
-				tabindex="-1"
-			>
-				{#each visible as group (group.id)}
-					<section class="skill-group" aria-labelledby="skills-group-{group.id}" data-scene-occlude>
-						<div class="group-head">
-							<h3 class="group-name" id="skills-group-{group.id}">{group.name}</h3>
-							<span class="group-count" aria-hidden="true">{group.shown.length}</span>
-						</div>
-						<p class="group-line">{group.line}</p>
-						{#if group.detailed}
-							<ul class="skill-rows">
-								{#each group.shown as star (star.id)}
-									<li>
-										<span class="skill-name">{star.title}</span>
-										{#if star.summary}<span class="skill-summary">{star.summary}</span>{/if}
-									</li>
-								{/each}
-							</ul>
-						{:else}
-							<ul class="skill-chips">
-								{#each group.shown as star (star.id)}
-									<li>{star.title}</li>
-								{/each}
-							</ul>
-						{/if}
-					</section>
-				{:else}
-					<p class="list-empty" data-scene-occlude>
-						{$t('skills.empty', { query: query.trim() })}
-						<button type="button" class="link-button" on:click={reset}>{$t('skills.reset')}</button>
-					</p>
-				{/each}
+				<div
+					class="skill-groups"
+					class:single={visible.length === 1}
+					bind:this={listTop}
+					tabindex="-1"
+				>
+					{#each visible as group (group.id)}
+						<section
+							class="skill-group"
+							aria-labelledby="skills-group-{group.id}"
+							data-scene-occlude
+						>
+							<div class="group-head">
+								<h3 class="group-name" id="skills-group-{group.id}">{group.name}</h3>
+								<span class="group-count" aria-hidden="true">{group.shown.length}</span>
+							</div>
+							<p class="group-line">{group.line}</p>
+							{#if group.detailed}
+								<ul class="skill-rows">
+									{#each group.shown as star (star.id)}
+										<li>
+											<span class="skill-name">{star.title}</span>
+											{#if star.summary}<span class="skill-summary">{star.summary}</span>{/if}
+										</li>
+									{/each}
+								</ul>
+							{:else}
+								<ul class="skill-chips">
+									{#each group.shown as star (star.id)}
+										<li>{star.title}</li>
+									{/each}
+								</ul>
+							{/if}
+						</section>
+					{:else}
+						<p class="list-empty" data-scene-occlude>
+							{$t('skills.empty', { query: query.trim() })}
+							<button type="button" class="link-button" on:click={reset}
+								>{$t('skills.reset')}</button
+							>
+						</p>
+					{/each}
+				</div>
 			</div>
-		</div>
+		{/if}
 	</div>
 </section>
 
@@ -245,20 +223,17 @@
 		flex-direction: column;
 	}
 
-	/* the sky view leaves the middle of the section to the 3D constellations */
-	.skills.sky .skills-inner {
-		min-height: calc(100svh - 2 * clamp(64px, 9vw, 112px));
-	}
-
-	.skills.sky .sky-legend {
-		margin-top: auto;
+	.skills-bar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 12px 24px;
+		margin-bottom: clamp(24px, 4vw, 40px);
 	}
 
 	.view-switch {
 		display: inline-flex;
-		align-self: flex-start;
 		gap: 4px;
-		margin-bottom: 28px;
 		padding: 4px;
 		border: 1px solid var(--line);
 		border-radius: 999px;
@@ -287,38 +262,27 @@
 		color: var(--accent-ink);
 	}
 
-	.sky-hint {
-		margin-bottom: 14px;
-		color: var(--text-dim);
+	.tree-hint {
+		max-width: 46ch;
+		font-size: 0.9375rem;
+		line-height: 1.5;
+		color: var(--text-faint);
 	}
 
-	.legend {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		list-style: none;
+	.hint-touch {
+		display: none;
 	}
 
-	.legend-item {
-		display: inline-flex;
-		align-items: center;
-		gap: 10px;
-		min-height: 46px;
-		padding: 0 16px;
-		border: 1px solid var(--line-strong);
-		border-radius: 999px;
-		background: rgba(5, 6, 13, 0.62);
-		font-weight: 700;
-		color: var(--text);
-		transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
+	@media (hover: none), (pointer: coarse) {
+		.hint-pointer {
+			display: none;
+		}
+
+		.hint-touch {
+			display: inline;
+		}
 	}
 
-	.legend-item:hover {
-		border-color: var(--accent);
-		background: var(--accent-soft);
-	}
-
-	.legend-count,
 	.count,
 	.group-count {
 		font-weight: 600;
@@ -536,19 +500,6 @@
 
 		.skill-group {
 			padding: 18px 16px 14px;
-		}
-	}
-
-	/* fine pointers can reach the stars through the empty sky */
-	@media (hover: hover) and (pointer: fine) {
-		.skills.sky {
-			pointer-events: none;
-		}
-
-		.skills.sky :global(.section-head),
-		.skills.sky .view-switch,
-		.skills.sky .sky-legend {
-			pointer-events: auto;
 		}
 	}
 </style>

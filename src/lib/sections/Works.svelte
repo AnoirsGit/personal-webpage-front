@@ -28,7 +28,12 @@
 
 		<div class="cases">
 			{#each cases as item, i (item.id)}
-				<article class="case" use:reveal={{ delay: (i % 3) * 80 }} data-scene-occlude>
+				<article
+					class="case"
+					id="case-{item.id}"
+					use:reveal={{ delay: (i % 3) * 80 }}
+					data-scene-occlude
+				>
 					<p class="case-kicker">{item.kicker}</p>
 					<h3 class="case-title">{item.title}</h3>
 					<p class="case-metric">
