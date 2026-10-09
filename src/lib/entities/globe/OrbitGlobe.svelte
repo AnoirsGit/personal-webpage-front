@@ -231,7 +231,9 @@
 	const eye = new Vector3();
 	/** @param {import('three').PerspectiveCamera} camera */
 	const publishPoster = (camera) => {
-		toClip.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse).multiply(spin.matrixWorld);
+		toClip
+			.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse)
+			.multiply(spin.matrixWorld);
 		eye.copy(camera.position).applyMatrix4(new Matrix4().copy(spin.matrixWorld).invert());
 		// @ts-ignore — read by scripts/scene-poster.js
 		window.__scenePoster = {

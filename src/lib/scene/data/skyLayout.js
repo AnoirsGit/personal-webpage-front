@@ -163,7 +163,11 @@ const relax = (points, edges) => {
 	const ys = points.map((p) => p.y);
 	const mx = (Math.min(...xs) + Math.max(...xs)) / 2;
 	const my = (Math.min(...ys) + Math.max(...ys)) / 2;
-	const extent = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys), 1e-3);
+	const extent = Math.max(
+		Math.max(...xs) - Math.min(...xs),
+		Math.max(...ys) - Math.min(...ys),
+		1e-3
+	);
 	for (const point of points) {
 		point.x = (point.x - mx) / extent;
 		point.y = (point.y - my) / extent;

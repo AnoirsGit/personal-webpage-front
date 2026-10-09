@@ -69,7 +69,8 @@ const contentBox = (element) => {
 		range.selectNodeContents(node);
 		for (const box of range.getClientRects()) add(box);
 	}
-	for (const child of element.querySelectorAll('*')) if (paints(child)) add(child.getBoundingClientRect());
+	for (const child of element.querySelectorAll('*'))
+		if (paints(child)) add(child.getBoundingClientRect());
 	return right > left ? { left, top, right, bottom } : null;
 };
 
@@ -157,7 +158,14 @@ export const createOcclusion = () => {
 		context.globalCompositeOperation = 'source-over';
 		context.fillStyle = '#000';
 		context.fillRect(0, 0, MASK_SIZE, MASK_SIZE);
-		context.setTransform(MASK_SIZE / Math.max(width, 1), 0, 0, MASK_SIZE / Math.max(height, 1), 0, 0);
+		context.setTransform(
+			MASK_SIZE / Math.max(width, 1),
+			0,
+			0,
+			MASK_SIZE / Math.max(height, 1),
+			0,
+			0
+		);
 		// additive rings: full strength inside, fading over FEATHER px outside
 		context.globalCompositeOperation = 'lighter';
 		context.fillStyle = 'rgba(255, 255, 255, 0.25)';

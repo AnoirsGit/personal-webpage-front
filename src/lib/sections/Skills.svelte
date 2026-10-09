@@ -108,7 +108,13 @@
 	$: sky = mounted && view === 'constellations';
 </script>
 
-<section id="skills" class="stage skills" class:sky aria-labelledby="skills-title" bind:this={section}>
+<section
+	id="skills"
+	class="stage skills"
+	class:sky
+	aria-labelledby="skills-title"
+	bind:this={section}
+>
 	<div class="wrap skills-inner">
 		<SectionHead
 			id="skills-title"

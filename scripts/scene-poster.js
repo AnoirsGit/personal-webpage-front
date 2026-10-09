@@ -31,6 +31,7 @@
  *   src/lib/scene/poster.json       per poster: image size, the Earth-to-clip matrix
  *                                   (column-major) and the camera in Earth coordinates
  */
+import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
@@ -127,6 +128,14 @@ const main = async () => {
 
 	const json = resolve(root, 'src/lib/scene/poster.json');
 	writeFileSync(json, JSON.stringify(meta, null, '\t') + '\n');
+	try {
+		// keep the file in the repo's style (prettier is a dev dependency)
+		execFileSync(resolve(root, 'node_modules/.bin/prettier'), ['--write', json], {
+			stdio: 'ignore'
+		});
+	} catch {
+		// unformatted is fine too
+	}
 	console.log(`${json.replace(root + '/', '')}: projection for the home marker`);
 };
 

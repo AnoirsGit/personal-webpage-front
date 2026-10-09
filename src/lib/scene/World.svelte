@@ -136,7 +136,10 @@
 	const onScroll = () => {
 		needsRender = true;
 		settleTimers.forEach(clearTimeout);
-		settleTimers = [window.setTimeout(scheduleCollect, 180), window.setTimeout(scheduleCollect, 900)];
+		settleTimers = [
+			window.setTimeout(scheduleCollect, 180),
+			window.setTimeout(scheduleCollect, 900)
+		];
 	};
 	const bodyObserver =
 		typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(scheduleCollect);

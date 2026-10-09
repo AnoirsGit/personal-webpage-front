@@ -38,7 +38,7 @@ const mask = decodeLandMask();
 const points = [];
 for (let i = 0; i < SPIRAL; i++) {
 	const lat = (Math.asin(1 - (2 * (i + 0.5)) / SPIRAL) * 180) / Math.PI;
-	const lon = ((((i * GOLDEN * 180) / Math.PI) % 360) + 360) % 360 - 180;
+	const lon = (((((i * GOLDEN * 180) / Math.PI) % 360) + 360) % 360) - 180;
 	if (isLand(mask, lat, lon)) points.push([+lat.toFixed(2), +lon.toFixed(2)]);
 }
 // the fixed view: centred between Europe, Africa and Asia (POSTER_VIEW in OrbitGlobe.svelte)
