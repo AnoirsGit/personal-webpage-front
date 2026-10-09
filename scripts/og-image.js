@@ -6,9 +6,13 @@
  *
  *   node scripts/og-image.js          # needs Chromium; CHROMIUM=/path/to/chrome to override
  *
- * The text comes from the locale dictionaries and the globe faces the home
- * location from src/lib/config/site-config.json, so re-run it after changing
- * either. No npm dependencies: the page is rendered by headless Chromium.
+ * Location-neutral on purpose: no city or country in the text, no home marker, arcs or
+ * country highlight, and the Earth turned to a fixed view (the Old World, as the scene's
+ * poster). The owner can move his location in the admin and the box rebuilds the site
+ * without a browser, so nothing here may depend on src/lib/config/site-config.json.
+ *
+ * The text comes from the locale dictionaries (name, hero line, job title): re-run after
+ * changing those. No npm dependencies: the page is rendered by headless Chromium.
  */
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -37,7 +41,8 @@ for (let i = 0; i < SPIRAL; i++) {
 	const lon = ((((i * GOLDEN * 180) / Math.PI) % 360) + 360) % 360 - 180;
 	if (isLand(mask, lat, lon)) points.push([+lat.toFixed(2), +lon.toFixed(2)]);
 }
-const { home } = json('src/lib/config/site-config.json');
+// the fixed view: centred between Europe, Africa and Asia (POSTER_VIEW in OrbitGlobe.svelte)
+const VIEW = { lat: 28, lon: 58 };
 const font = (file) => `data:font/woff2;base64,${read(`static/fonts/${file}`).toString('base64')}`;
 
 // "AI-агенты" must not break at its hyphen
@@ -87,7 +92,7 @@ for (let i = 0; i < 260; i++) {
 }
 ctx.globalAlpha = 1;
 const cx = 960, cy = 350, R = 300, rad = Math.PI / 180;
-const lat0 = ${home.lat} * rad * 0.6, lon0 = (${home.lon} - 18) * rad;
+const lat0 = ${VIEW.lat} * rad * 0.6, lon0 = (${VIEW.lon} - 18) * rad;
 const project = (lat, lon) => {
   const p = lat * rad, l = lon * rad - lon0;
   const x = Math.cos(p) * Math.sin(l);
@@ -107,22 +112,6 @@ for (const [lat, lon] of points) {
   ctx.beginPath(); ctx.arc(x, y, 0.9 + z * 0.9, 0, Math.PI * 2); ctx.fill();
 }
 ctx.globalAlpha = 1;
-const [hx, hy, hz] = project(${home.lat}, ${home.lon});
-const arcTo = (lat, lon) => {
-  const [x, y, z] = project(lat, lon); if (z <= 0.05 || hz <= 0.05) return;
-  const mx = (hx + x) / 2, my = (hy + y) / 2, lift = Math.hypot(x - hx, y - hy) * 0.45;
-  const nx = (mx - cx), ny = (my - cy), n = Math.hypot(nx, ny) || 1;
-  const grad = ctx.createLinearGradient(hx, hy, x, y);
-  grad.addColorStop(0, 'rgba(246,223,168,0.95)'); grad.addColorStop(1, 'rgba(246,223,168,0.15)');
-  ctx.strokeStyle = grad; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(hx, hy);
-  ctx.quadraticCurveTo(mx + (nx / n) * lift, my + (ny / n) * lift, x, y); ctx.stroke();
-  ctx.fillStyle = '#f6dfa8'; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, Math.PI * 2); ctx.fill();
-};
-[[51.5, -0.1], [52.5, 13.4], [41.0, 29.0], [25.2, 55.3], [1.35, 103.8], [35.7, 139.7], [28.6, 77.2], [55.75, 37.6]].forEach(([a, b]) => arcTo(a, b));
-if (hz > 0) {
-  ctx.shadowColor = 'rgba(232,199,126,0.9)'; ctx.shadowBlur = 18; ctx.fillStyle = '#e8c77e';
-  ctx.beginPath(); ctx.arc(hx, hy, 5, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
-}
 const shade = ctx.createLinearGradient(0, 0, 760, 0);
 shade.addColorStop(0, 'rgba(5,6,13,0.92)'); shade.addColorStop(0.75, 'rgba(5,6,13,0.55)'); shade.addColorStop(1, 'rgba(5,6,13,0)');
 ctx.fillStyle = shade; ctx.fillRect(0, 0, 760, ${HEIGHT});
