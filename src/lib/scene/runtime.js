@@ -17,10 +17,11 @@ import { createShot } from './story.js';
  * @typedef {{ key: string, kind: string, text: Text, sub?: Text }} LabelDef
  * @typedef {{
  *   world: Vector3, opacity: number, el: HTMLElement | null, x: number, y: number, o: number,
- *   kind: string, w: number, h: number, shown: number
+ *   kind: string, w: number, h: number, shown: number, flipped: boolean
  * }} LabelState
  *   (w/h: the caption's size, measured by Labels.svelte; shown: 0..1, eases to 0 while the
- *   caption would sit under page content)
+ *   caption would sit under page content; flipped: the home caption reads to the left of its
+ *   marker because the right side would run off the screen)
  * @typedef {{
  *   key: string, title: Text, text?: Text, sub?: Text, world: Vector3,
  *   weight: () => number, setHover: (on: boolean) => void
@@ -89,7 +90,8 @@ export const createRuntime = (quality) => {
 				kind: def.kind,
 				w: 0,
 				h: 0,
-				shown: 1
+				shown: 1,
+				flipped: false
 			};
 			labels.set(def.key, state);
 			labelDefs.update((list) => [...list.filter((item) => item.key !== def.key), def]);

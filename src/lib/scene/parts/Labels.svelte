@@ -32,6 +32,7 @@
 			if (state) {
 				state.el = node;
 				state.x = state.y = state.o = -1;
+				state.flipped = false;
 			}
 		};
 		bind();
@@ -136,13 +137,18 @@
 		color: rgba(232, 199, 126, 0.66);
 	}
 
+	/* clear of the home marker's glow (World.svelte HOME_GAP); left of it near the edge */
 	.scene-label--home {
-		transform: translate(14px, -50%);
+		transform: translate(26px, -50%);
 		font-size: 11px;
 		font-weight: 600;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: #f3e3bc;
+	}
+
+	.scene-label:global(.flipped) .scene-label--home {
+		transform: translate(calc(-100% - 26px), -50%);
 	}
 
 	.scene-card {
