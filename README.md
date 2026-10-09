@@ -48,7 +48,9 @@ src/
     seo/                      site.js (origin, contacts), Seo.svelte (head tags), jsonld.js
     widgets/                  Header, Footer, and the old typing-figure 3D widget (unused)
     entities/ shared/         globe meshes, 3D model, shaders, helpers, i18n, content JSON
-scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chromium
+scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chromium (location-neutral)
+scripts/scene-poster.js       renders the scene's no-WebGL posters and src/lib/scene/poster.json
+scripts/scene-geodata.js      land raster and country borders for the globe, from the Natural Earth geojson
 scripts/model-pipeline.js     GLB to Threlte component converter
 static/                       fonts, images, CV files, OG images, robots.txt, 3D model (served as-is)
 ```
@@ -57,10 +59,12 @@ How the pieces fit:
 
 - **The URL decides the language.** `[lang]/+layout.svelte` sets the `locale` store from the route before anything renders, so the prerendered `/ru/` is Russian; the header's EN/RU are plain links and remember the choice for `/`. Strings live in `src/lib/shared/i18n/locales/{en,ru}.json` and are read as `$t('section.key')`; lists (cases, FAQ…) come back as arrays.
 - **Location comes from the config.** Copy says `{city}`, `{country}` and `{utc}`; they are filled from `src/lib/config/site-config.json` at build time (the UTC offset from its IANA time zone), in the page language, and the JSON-LD address uses the same file. Russian copy uses the names only in the nominative, so another city needs no grammar changes. `{years}` is computed from `works.en.json`.
-- **Skills have one source.** `tree.json` (with `tree.ru.json` overlaying titles and descriptions by id) holds the skills; `CONSTELLATIONS` in `content.skill-tree.js` groups them (Agents, LLM & evals, Front-end, Back-end, Infrastructure) and `buildConstellations(lang)` returns the groups for both the 3D sky and the list. The page gets only the built list from its server load, not the whole tree.
-- **Scene contract.** `sceneStore` is a writable `{ section, progress }` (`hero | skills | process | works | offer | contact`, progress 0..1); `sceneProgress.js` writes it on scroll (the FAQ shares the `contact` stage) and mirrors the stage on `<html data-scene>`. The Skills section adds `skillsView: 'constellations' | 'list'` so the sky can dim its constellations under the list.
+- **Skills have one source.** `tree.json` (with `tree.ru.json` overlaying titles and descriptions by id) holds the skills; `CONSTELLATIONS` in `content.skill-tree.js` groups them (Agents, LLM & evals, Front-end, Back-end, Infrastructure) and `buildConstellations(lang)` returns the groups for both the 3D sky and the list. The sky (`src/lib/scene/data/constellations.js`) only lays the groups out — it calls `buildConstellations` for both languages, so its captions follow the page language — and keeps no grouping or names of its own. The page gets only the built list from its server load, not the whole tree.
+- **Scene contract** (`src/lib/scene/sceneStore.js`). `sceneStore` is a writable `{ section, progress, skillsView }` (`hero | skills | process | works | offer | contact`, progress 0..1, `'constellations' | 'list'`), always written with `update()`: `sceneProgress.js` writes section and progress on scroll (the FAQ shares the `contact` stage) and mirrors the stage on `<html data-scene>`; the Skills section writes `skillsView`, and under the list the sky dims its constellations and their stars stop answering the pointer. `sceneStatus` goes the other way: the scene shell reports `pending | loading | live | poster`, and Skills offers the constellations view only while the scene is loading or live (no WebGL probe on the main thread — it costs 100–200 ms there).
+- **Content in front of the scene.** Mark readable content with `data-scene-occlude` (cards, panels, text blocks, the header and footer). The scene dims its bright parts behind those boxes (a mask texture, so text never sits on a bright patch at any scroll position), hides its captions under them and never answers the pointer there; links and buttons stay clickable because the canvas never takes the pointer. `data-scene-keepout` marks the hero headline and lead: the whole-Earth shots frame the globe right of that text on wide screens and below it on phones (`earthFraming()` in `story.js`).
 - **SEO.** Each language has its own title, description, canonical, hreflang (en, ru, x-default → `/en/`), Open Graph/Twitter image and one JSON-LD graph (Person, WebSite, WebPage, Service per format, FAQPage). `robots.txt` points to `sitemap.xml`. The canonical origin is `SITE_URL` in `src/lib/seo/site.js`.
-- **No WebGL, reduced motion, no JS.** All text is in the HTML; the skills list is the only view then. `shared/helpers/webgl.js` probes WebGL once.
+- **No WebGL, reduced motion, no JS.** All text is in the HTML; the skills list is the only view then. Without WebGL (or with a software renderer, Save-Data, a weak device) the shell shows a poster of the hero instead of the canvas. The poster is country-neutral (no home highlight, marker or arcs, a fixed view of the Earth): the shell draws the home marker over it as HTML from `site-config.json`, so changing the home needs no new poster. Re-run `scripts/scene-poster.js` only when the hero's look changes.
+- **Share images.** `static/og/og-<lang>.jpg` carry no location either (name, hero line, job title, a neutral Earth): the box rebuilds the site without a browser, so they must survive a change of location. Re-run `scripts/og-image.js` after changing the name, the hero line or the job title.
 
 ## Run, build, check
 
@@ -73,6 +77,7 @@ pnpm check              # svelte-kit sync + svelte-check
 pnpm lint               # prettier --check + eslint
 pnpm format             # prettier --write
 node scripts/og-image.js   # regenerate the OG images (needs Chromium)
+PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://127.0.0.1:4173/en/   # regenerate the scene posters (needs pnpm preview and a GPU Chromium)
 ```
 
 There is no automated test suite; the browser checks in commit messages were done by hand and are not committed.
