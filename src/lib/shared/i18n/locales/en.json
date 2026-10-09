@@ -1,9 +1,9 @@
 {
     "meta": {
         "title": "Anuar Beibit — AI-native engineer · AI agents, LLM, full-stack",
-        "description": "Anuar Beibit, AI-native full-stack engineer in {city}: AI agents, LLM features and Claude Code workflows for dev teams, plus React and Node.js products.",
-        "ogTitle": "Anuar Beibit — AI agents write the code. I own what ships.",
-        "ogDescription": "AI-native full-stack engineer in {city}. My own multi-agent platform, used daily; AI rolled into a dev team cut emergency hotfixes 4× in two months.",
+        "description": "AI-native engineer in {city}. I run an AI agent harness: I set the goal and the bar, agents build and test, checks gate every change. Claude Code, LLM, full-stack.",
+        "ogTitle": "Anuar Beibit — I set the bar. Agents clear it.",
+        "ogDescription": "AI-native engineer in {city}: an agent harness on Claude Code and my own multi-agent platform, with tests, linters and my review on every change. AI in a dev team cut emergency hotfixes 4×.",
         "ogImageAlt": "Anuar Beibit, AI-native engineer: a dotted Earth under a starry sky",
         "siteName": "Anuar Beibit",
         "jobTitle": "AI-native full-stack engineer"
@@ -31,9 +31,9 @@
     },
     "hero": {
         "eyebrow": "Anuar Beibit — AI-native full-stack engineer, {city}",
-        "titleLead": "AI agents write the code.",
-        "titleAccent": "I own what ships.",
-        "lead": "{years} years of product engineering in React, Vue and Node.js. Today Claude Code and my own multi-agent platform do the typing, and nothing reaches production without tests and my review. I set teams up to work the same way: at Mercury, emergency hotfixes dropped 4× in two months.",
+        "titleLead": "I set the bar.",
+        "titleAccent": "Agents clear it.",
+        "lead": "I run an agent harness: I set the goal and the acceptance criteria, AI agents write the code in parallel, and nothing lands until tests, linters and types pass and I have reviewed the diff. It runs on Claude Code and my own multi-agent platform, on top of {years} years of React, Vue and Node.js products. I set teams up to work this way too: at Mercury, emergency hotfixes dropped 4× in two months.",
         "ctaPrimary": "Discuss a project",
         "ctaSecondary": "See the cases",
         "scroll": "Scroll to skills"
@@ -90,24 +90,24 @@
     },
     "process": {
         "kicker": "How I work",
-        "titleLead": "How I work",
-        "titleAccent": "with AI",
-        "lead": "The pipeline I run every day on my own platform — and set up for teams.",
+        "titleLead": "How the",
+        "titleAccent": "harness works",
+        "lead": "I set the goal and the acceptance criteria. The harness does the rest on its own; I review what it brings back and own what ships. It runs on my own platform every day, and I set it up for teams.",
         "steps": [
             {
                 "id": "orchestrator",
                 "name": "Orchestrator",
-                "text": "A planner splits the task into steps. A stronger model plans and cheaper ones execute — Opus plans, Sonnet works — then the results reconverge."
+                "text": "Takes the goal and the acceptance criteria and splits the task into steps. A strong model plans and cheaper ones execute — Opus plans, Sonnet works — then the results reconverge."
             },
             {
                 "id": "agents",
                 "name": "Agents",
-                "text": "Sub-agents with roles — planner, coder, tester, reviewer — each with its own tools and token budget. Every run gets its own Docker sandbox and git worktree."
+                "text": "Coding agents work in parallel, each with a role — planner, coder, tester, reviewer — its own tools and token budget, and its own Docker sandbox and git worktree."
             },
             {
                 "id": "evals",
                 "name": "Checks & evals",
-                "text": "An agent may push only after typecheck, linters and tests pass. An eval harness runs the same tasks in two setups and compares pass rate, attempts and cost."
+                "text": "An agent may push only after types, linters and tests pass; a red gate sends the work back to the agent, not to a person. An eval harness runs the same tasks in two setups, and the difference decides."
             },
             {
                 "id": "production",
@@ -280,7 +280,7 @@
                 "id": "test-week",
                 "name": "Test week",
                 "term": "1 week",
-                "text": "One real task from your backlog, done end to end with my agent pipeline. You see the code, the pace and the checks before you commit to more.",
+                "text": "One real task from your backlog, done end to end by my agent harness. You see the code, the pace and the checks before you commit to more.",
                 "points": [
                     "A task we pick together",
                     "Code in your repository, with tests",
@@ -319,7 +319,7 @@
         "items": [
             {
                 "q": "What does “AI-native engineer” mean?",
-                "a": "I work with Claude Code and my own agents every day: agents plan, write and test, while I set the task, review every diff and own what ships. Nothing merges until typecheck, linters and tests pass."
+                "a": "I run an agent harness. I set the goal and the acceptance criteria; AI agents plan, write and test in parallel; types, linters and tests gate every change; I review the diff and own what ships. Claude Code and my own agents, every day."
             },
             {
                 "q": "Are you an AI engineer or a full-stack developer?",
@@ -335,7 +335,7 @@
             },
             {
                 "q": "How do you price a project?",
-                "a": "A fixed price for an agreed result, settled before work starts. If you'd like to see how I work first, start with a test week."
+                "a": "A fixed price for an agreed result, settled before work starts. If you'd like to see the harness at work first, start with a test week."
             },
             {
                 "q": "Do you work remotely? Where are you based?",
