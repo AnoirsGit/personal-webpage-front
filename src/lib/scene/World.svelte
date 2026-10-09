@@ -23,6 +23,7 @@
 	import Starfield from './parts/Starfield.svelte';
 	import Constellations from './parts/Constellations.svelte';
 	import ProcessGraph from './parts/ProcessGraph.svelte';
+	import ShootingStar from './parts/ShootingStar.svelte';
 	import OrbitGlobe from '$lib/entities/globe/OrbitGlobe.svelte';
 
 	/** @type {import('./runtime.js').Runtime} */
@@ -547,6 +548,7 @@
 <Sky {runtime} />
 {#if stage >= 1}
 	<Starfield {runtime} />
+	{#if runtime.motion}<ShootingStar {runtime} />{/if}
 {/if}
 {#if stage >= 2}
 	<OrbitGlobe {runtime} />

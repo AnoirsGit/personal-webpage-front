@@ -147,7 +147,8 @@ export const buildGlowPoints = (points) => {
 
 /**
  * A shell of distant stars around the origin. Nearer ones drift more as the camera moves,
- * which is all the parallax the sky needs.
+ * which is all the parallax the sky needs. Mostly faint; the brightest ~3% get a soft halo
+ * (`aHalo`), and about one in 250 is a bright beacon.
  * @param {number} count
  * @param {{ star: Vector3, warm: Vector3 }} colors
  */
@@ -157,6 +158,7 @@ export const buildStarfield = (count, colors) => {
 	const aSize = new Float32Array(count);
 	const aColor = new Float32Array(count * 3);
 	const aTwinkle = new Float32Array(count * 2);
+	const aHalo = new Float32Array(count);
 	for (let i = 0; i < count; i++) {
 		// uniform direction, radius biased toward the far shell
 		const u = rand() * 2 - 1;
@@ -166,9 +168,11 @@ export const buildStarfield = (count, colors) => {
 		position[i * 3] = r * ring * Math.cos(phi);
 		position[i * 3 + 1] = r * u;
 		position[i * 3 + 2] = r * ring * Math.sin(phi);
-		// mostly faint, a few bright
+		// mostly faint, a few bright, a handful of beacons
 		const m = rand();
-		aSize[i] = 0.7 + 2.1 * Math.pow(m, 5) + (rand() < 0.012 ? 1.2 : 0);
+		const beacon = rand() < 0.004;
+		aSize[i] = beacon ? 3 + 0.6 * rand() : 0.7 + 2.1 * Math.pow(m, 5) + (rand() < 0.012 ? 1.2 : 0);
+		aHalo[i] = beacon ? 1 : Math.min(1, Math.max(0, (aSize[i] - 2.5) / 1.2));
 		const warm = rand() < 0.22 ? 1 : 0;
 		const c = warm ? colors.warm : colors.star;
 		const brightness = 0.45 + 0.55 * Math.pow(rand(), 0.6);
@@ -183,6 +187,7 @@ export const buildStarfield = (count, colors) => {
 	geometry.setAttribute('aSize', new BufferAttribute(aSize, 1));
 	geometry.setAttribute('aColor', new BufferAttribute(aColor, 3));
 	geometry.setAttribute('aTwinkle', new BufferAttribute(aTwinkle, 2));
+	geometry.setAttribute('aHalo', new BufferAttribute(aHalo, 1));
 	return withBounds(geometry, 450);
 };
 

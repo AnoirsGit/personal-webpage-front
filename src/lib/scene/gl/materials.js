@@ -19,6 +19,8 @@ import {
 
 import skyVert from '$lib/shared/shaders/scene/sky.vert?raw';
 import skyFrag from '$lib/shared/shaders/scene/sky.frag?raw';
+import nebulaVert from '$lib/shared/shaders/scene/nebula.vert?raw';
+import nebulaFrag from '$lib/shared/shaders/scene/nebula.frag?raw';
 import starsVert from '$lib/shared/shaders/scene/stars.vert?raw';
 import starsFrag from '$lib/shared/shaders/scene/stars.frag?raw';
 import earthVert from '$lib/shared/shaders/scene/earth.vert?raw';
@@ -30,6 +32,8 @@ import flowLineVert from '$lib/shared/shaders/scene/flowLine.vert?raw';
 import flowLineFrag from '$lib/shared/shaders/scene/flowLine.frag?raw';
 import glowPointVert from '$lib/shared/shaders/scene/glowPoint.vert?raw';
 import glowPointFrag from '$lib/shared/shaders/scene/glowPoint.frag?raw';
+import meteorVert from '$lib/shared/shaders/scene/meteor.vert?raw';
+import meteorFrag from '$lib/shared/shaders/scene/meteor.frag?raw';
 import occlusionGlsl from '$lib/shared/shaders/scene/occlusion.glsl?raw';
 
 import { SCENE_PALETTE } from '../palette.js';
@@ -68,26 +72,59 @@ const base = (shared, extra) => ({ ...shared, ...extra });
 export const createSkyMaterial = (shared) =>
 	new ShaderMaterial({
 		vertexShader: skyVert,
-		fragmentShader: skyFrag,
+		fragmentShader: shaded(skyFrag),
 		uniforms: base(shared, {
 			uBase: { value: rgb(SCENE_PALETTE.space) },
-			uNebulaA: { value: rgb(SCENE_PALETTE.nebulaA) },
-			uNebulaB: { value: rgb(SCENE_PALETTE.nebulaB) },
-			uDirA: { value: new Vector3(-0.55, 0.62, -0.56).normalize() },
-			uDirB: { value: new Vector3(0.75, 0.15, -0.64).normalize() },
 			uBandNormal: { value: new Vector3(0.38, 0.62, 0.68).normalize() },
-			uDim: { value: 1 }
+			uDim: { value: 1 },
+			/** the baked nebula map (parts/Sky.svelte), and 0 → 1 once it is there */
+			uNebula: { value: /** @type {import('three').Texture | null} */ (null) },
+			uNebulaMix: { value: 0 },
+			uViolet: { value: rgb(SCENE_PALETTE.nebulaViolet) },
+			uIndigo: { value: rgb(SCENE_PALETTE.nebulaIndigo) },
+			uWarm: { value: rgb(SCENE_PALETTE.nebulaWarm) },
+			uCamera: { value: new Vector3() }
 		}),
+		// the camera is inside the dome: its faces point away from it
+		side: BackSide,
 		depthTest: false,
 		depthWrite: false
 	});
+
+/**
+ * The one-off bake of the nebula densities (nebula.frag) into an equirectangular map. The
+ * centres of the clouds are directions as seen from the scene's origin, chosen from the
+ * camera's shots in story.js (yaw, pitch): they fill the skies of the skills, process and
+ * low-orbit sections in both layouts; the hero's text column gets only the faint veil.
+ */
+export const createNebulaBakeMaterial = () => {
+	const towards = (yaw, pitch) => {
+		const y = (yaw * Math.PI) / 180;
+		const p = (pitch * Math.PI) / 180;
+		return new Vector3(Math.sin(y) * Math.cos(p), Math.sin(p), -Math.cos(y) * Math.cos(p));
+	};
+	return new ShaderMaterial({
+		vertexShader: nebulaVert,
+		fragmentShader: nebulaFrag,
+		uniforms: {
+			uCloudA: { value: towards(-14, 40) },
+			uCloudB: { value: towards(40, 22) },
+			uCloudC: { value: towards(22, -6) },
+			uCloudD: { value: towards(-6, -4) },
+			uCloudE: { value: towards(8, 68) }
+		},
+		depthTest: false,
+		depthWrite: false
+	});
+};
 
 /** @param {SharedUniforms} shared */
 export const createStarsMaterial = (shared) =>
 	new ShaderMaterial({
 		vertexShader: starsVert,
 		fragmentShader: starsFrag,
-		uniforms: base(shared, { uDim: { value: 1 } }),
+		/* uBoost: the whole field a quarter brighter than the first version of the sky */
+		uniforms: base(shared, { uDim: { value: 1 }, uBoost: { value: 1.25 } }),
 		transparent: true,
 		depthWrite: false,
 		blending: AdditiveBlending
@@ -182,6 +219,21 @@ export const createGlowPointMaterial = (shared, { onSphere = false } = {}) =>
 			uHot: { value: rgb(SCENE_PALETTE.accentHot) },
 			uFade: { value: 1 },
 			uDim: { value: 1 }
+		}),
+		transparent: true,
+		depthWrite: false,
+		blending: AdditiveBlending
+	});
+
+/** @param {SharedUniforms} shared */
+export const createMeteorMaterial = (shared) =>
+	new ShaderMaterial({
+		vertexShader: meteorVert,
+		fragmentShader: shaded(meteorFrag),
+		uniforms: base(shared, {
+			uColor: { value: rgb(SCENE_PALETTE.starWarm) },
+			uHot: { value: rgb(SCENE_PALETTE.accentHot) },
+			uFade: { value: 0 }
 		}),
 		transparent: true,
 		depthWrite: false,
