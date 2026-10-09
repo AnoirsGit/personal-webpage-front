@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>Админка места</title>
+		<link rel="icon" href="data:," />
+		<style nonce="__NONCE__">
+			:root {
+				color-scheme: dark;
+				--bg: #05060d;
+				--panel: rgba(255, 255, 255, 0.025);
+				--field: #080b16;
+				--line: rgba(255, 255, 255, 0.08);
+				--line-strong: rgba(255, 255, 255, 0.16);
+				--text: #eef0f8;
+				--muted: #a3a9c2;
+				--faint: #737a95;
+				--accent: #e8c77e;
+				--accent-soft: rgba(232, 199, 126, 0.14);
+				--ok: #86d6ad;
+				--bad: #ff8f86;
+				--warn: #f3c969;
+				--radius: 16px;
+				--mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, Consolas, monospace;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			html {
+				background: var(--bg);
+			}
+			body {
+				margin: 0;
+				min-height: 100vh;
+				color: var(--text);
+				font: 15px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+				background: radial-gradient(900px 480px at 85% -8%, rgba(232, 199, 126, 0.1), transparent 62%),
+					radial-gradient(700px 420px at -10% 110%, rgba(96, 120, 255, 0.07), transparent 60%),
+					var(--bg);
+			}
+			.wrap {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 32px 16px 40px;
+			}
+			.eyebrow {
+				margin: 0 0 10px;
+				font-size: 12px;
+				letter-spacing: 0.16em;
+				text-transform: uppercase;
+				color: var(--faint);
+			}
+			h1 {
+				margin: 0;
+				font-size: clamp(30px, 5vw, 46px);
+				line-height: 1.05;
+				font-weight: 800;
+				letter-spacing: -0.03em;
+			}
+			h1 em {
+				font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+				font-weight: 500;
+				letter-spacing: -0.01em;
+				color: var(--accent);
+				text-shadow: 0 0 32px rgba(232, 199, 126, 0.35);
+			}
+			.lead {
+				max-width: 680px;
+				margin: 12px 0 0;
+				color: var(--muted);
+			}
+			.now {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 14px 32px;
+				margin-top: 22px;
+				padding: 16px 20px;
+				border: 1px solid var(--line);
+				border-radius: var(--radius);
+				background: linear-gradient(90deg, var(--accent-soft), transparent 70%);
+			}
+			.now-place {
+				display: flex;
+				flex-direction: column;
+				min-width: 0;
+			}
+			.now-label,
+			dt {
+				font-size: 11.5px;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: var(--faint);
+			}
+			.now-place strong {
+				font-size: 22px;
+				letter-spacing: -0.01em;
+			}
+			.now-facts {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px 32px;
+				margin: 0;
+			}
+			.now-facts dd {
+				margin: 2px 0 0;
+				font-variant-numeric: tabular-nums;
+			}
+			.now-facts .bad {
+				color: var(--bad);
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+				align-items: start;
+				gap: 16px;
+				margin-top: 20px;
+			}
+			.stack {
+				display: grid;
+				gap: 16px;
+				min-width: 0;
+			}
+			.panel {
+				min-width: 0;
+				padding: 18px;
+				border: 1px solid var(--line);
+				border-radius: var(--radius);
+				background: var(--panel);
+			}
+			.countries {
+				position: sticky;
+				top: 16px;
+			}
+			h2 {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin: 0 0 14px;
+				font-size: 13px;
+				font-weight: 700;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--muted);
+			}
+			h2 b {
+				display: inline-grid;
+				place-items: center;
+				width: 22px;
+				height: 22px;
+				border-radius: 50%;
+				background: var(--accent-soft);
+				color: var(--accent);
+				font-size: 12px;
+				letter-spacing: 0;
+			}
+			input {
+				width: 100%;
+				padding: 10px 12px;
+				font: inherit;
+				color: var(--text);
+				background: var(--field);
+				border: 1px solid var(--line-strong);
+				border-radius: 10px;
+				transition: border-color 0.15s, box-shadow 0.15s;
+			}
+			input::placeholder {
+				color: var(--faint);
+			}
+			input:focus {
+				outline: none;
+				border-color: rgba(232, 199, 126, 0.7);
+				box-shadow: 0 0 0 3px rgba(232, 199, 126, 0.16);
+			}
+			input[aria-invalid='true'] {
+				border-color: rgba(255, 143, 134, 0.75);
+			}
+			input[type='search'] {
+				padding-left: 38px;
+				background: var(--field)
+					url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23737a95' stroke-width='2' stroke-linecap='round' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E")
+					no-repeat 13px 50%;
+			}
+			.list {
+				max-height: min(58vh, 620px);
+				margin: 12px 0 0;
+				padding: 4px;
+				overflow: auto;
+				list-style: none;
+				border: 1px solid var(--line);
+				border-radius: 12px;
+				background: var(--field);
+				scrollbar-width: thin;
+				scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+			}
+			.list li {
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) auto;
+				column-gap: 10px;
+				padding: 8px 10px;
+				border-radius: 9px;
+				cursor: pointer;
+				user-select: none;
+			}
+			.list .ru,
+			.list .en {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.list .ru {
+				font-weight: 600;
+			}
+			.list .en {
+				grid-column: 1;
+				font-size: 13px;
+				color: var(--faint);
+			}
+			.list .code {
+				grid-column: 2;
+				grid-row: 1 / span 2;
+				align-self: center;
+				padding: 4px 6px;
+				font: 600 11px/1 var(--mono);
+				color: var(--muted);
+				border: 1px solid var(--line-strong);
+				border-radius: 6px;
+			}
+			.list li:hover,
+			.list li.active {
+				background: rgba(255, 255, 255, 0.05);
+			}
+			.list li[aria-selected='true'] {
+				background: var(--accent-soft);
+				box-shadow: inset 0 0 0 1px rgba(232, 199, 126, 0.5);
+			}
+			.list li[aria-selected='true'] .code {
+				color: var(--accent);
+				border-color: rgba(232, 199, 126, 0.5);
+			}
+			.list li.empty {
+				display: block;
+				padding: 14px 10px;
+				color: var(--faint);
+				cursor: default;
+			}
+			.hint {
+				margin: 10px 0 0;
+				font-size: 13px;
+				color: var(--faint);
+			}
+			.chosen {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				margin-bottom: 18px;
+				padding: 12px 14px;
+				border: 1px dashed var(--line-strong);
+				border-radius: 12px;
+			}
+			.chosen .pin {
+				display: grid;
+				flex: none;
+				place-items: center;
+				width: 36px;
+				height: 36px;
+				border-radius: 50%;
+				background: var(--accent-soft);
+				color: var(--accent);
+			}
+			.chosen .big {
+				font-size: 20px;
+				font-weight: 700;
+				letter-spacing: -0.01em;
+			}
+			.chosen .small {
+				font-size: 13px;
+				color: var(--muted);
+			}
+			.chosen .err {
+				margin-top: 2px;
+			}
+			.fields {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 14px 16px;
+			}
+			.field label {
+				display: block;
+				margin-bottom: 6px;
+				font-size: 13px;
+				color: var(--muted);
+			}
+			.err {
+				display: block;
+				margin-top: 5px;
+				font-size: 12.5px;
+				color: var(--bad);
+			}
+			.err:empty {
+				display: none;
+			}
+			.row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 10px 14px;
+				margin-top: 12px;
+			}
+			.row .hint {
+				margin: 0;
+			}
+			.tz {
+				margin-top: 20px;
+			}
+			.tz-info {
+				display: block;
+				margin-top: 6px;
+				font-size: 13px;
+				color: var(--muted);
+				font-variant-numeric: tabular-nums;
+			}
+			.chips {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 8px;
+				margin-top: 10px;
+			}
+			.chips:empty {
+				display: none;
+			}
+			.chip {
+				padding: 6px 12px;
+				font-size: 13px;
+				color: var(--text);
+				background: rgba(255, 255, 255, 0.04);
+				border: 1px solid var(--line-strong);
+				border-radius: 999px;
+			}
+			.chip:hover {
+				border-color: rgba(232, 199, 126, 0.6);
+			}
+			.chip b {
+				font-weight: 600;
+				color: var(--accent);
+			}
+			.note {
+				font-size: 13px;
+				color: var(--warn);
+			}
+			.warnings {
+				display: grid;
+				gap: 8px;
+				margin: 16px 0 0;
+				padding: 0;
+				list-style: none;
+			}
+			.warnings:empty {
+				display: none;
+			}
+			.warnings li {
+				padding: 10px 12px;
+				font-size: 13.5px;
+				color: #f6dc9f;
+				background: rgba(243, 201, 105, 0.08);
+				border: 1px solid rgba(243, 201, 105, 0.3);
+				border-radius: 10px;
+			}
+			.preview {
+				margin-top: 18px;
+			}
+			.preview summary {
+				font-size: 13px;
+				color: var(--muted);
+				cursor: pointer;
+			}
+			pre {
+				margin: 10px 0 0;
+				padding: 14px;
+				overflow: auto;
+				font: 12.5px/1.6 var(--mono);
+				color: #cdd2e6;
+				background: #04050b;
+				border: 1px solid var(--line);
+				border-radius: 12px;
+			}
+			.json .k {
+				color: #9fb4ff;
+			}
+			.json .s {
+				color: var(--accent);
+			}
+			.json .n {
+				color: var(--ok);
+			}
+			.json.invalid {
+				opacity: 0.5;
+			}
+			button {
+				font: inherit;
+				cursor: pointer;
+			}
+			.save-row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 12px 16px;
+				margin-top: 18px;
+			}
+			.primary {
+				padding: 12px 22px;
+				font-weight: 700;
+				color: #1b1407;
+				background: linear-gradient(180deg, #f1d595, #e2bd6c);
+				border: 0;
+				border-radius: 999px;
+				box-shadow: 0 8px 28px rgba(232, 199, 126, 0.25);
+			}
+			.primary:hover:not(:disabled) {
+				filter: brightness(1.06);
+			}
+			.primary:disabled {
+				cursor: not-allowed;
+				opacity: 0.4;
+				box-shadow: none;
+			}
+			.ghost {
+				padding: 8px 14px;
+				font-size: 14px;
+				color: var(--text);
+				background: transparent;
+				border: 1px solid var(--line-strong);
+				border-radius: 999px;
+			}
+			.ghost:hover:not(:disabled) {
+				border-color: rgba(232, 199, 126, 0.6);
+			}
+			.ghost:disabled {
+				cursor: not-allowed;
+				opacity: 0.4;
+			}
+			button:focus-visible {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+			.save-state {
+				font-size: 13.5px;
+				color: var(--muted);
+			}
+			.save-state.dirty {
+				color: var(--warn);
+			}
+			.save-state.done {
+				color: var(--ok);
+			}
+			.save-state.bad {
+				color: var(--bad);
+			}
+			.build-head {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+				gap: 10px;
+				margin-bottom: 12px;
+			}
+			.build-head h2 {
+				margin: 0;
+			}
+			.status {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 6px 12px;
+				font-size: 13px;
+				font-weight: 600;
+				color: var(--muted);
+				border: 1px solid var(--line-strong);
+				border-radius: 999px;
+				font-variant-numeric: tabular-nums;
+			}
+			.status i {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: var(--faint);
+			}
+			.status.running {
+				color: var(--accent);
+				border-color: rgba(232, 199, 126, 0.45);
+			}
+			.status.running i {
+				background: var(--accent);
+				box-shadow: 0 0 10px var(--accent);
+				animation: pulse 1.1s ease-in-out infinite;
+			}
+			.status.ok {
+				color: var(--ok);
+				border-color: rgba(134, 214, 173, 0.4);
+			}
+			.status.ok i {
+				background: var(--ok);
+			}
+			.status.fail {
+				color: var(--bad);
+				border-color: rgba(255, 143, 134, 0.45);
+			}
+			.status.fail i {
+				background: var(--bad);
+			}
+			@keyframes pulse {
+				50% {
+					opacity: 0.35;
+				}
+			}
+			.log {
+				height: 280px;
+				margin: 0;
+				white-space: pre-wrap;
+				word-break: break-word;
+			}
+			.build-foot {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 10px 14px;
+				margin-top: 12px;
+			}
+			.build-foot .hint {
+				margin: 0;
+			}
+			.foot {
+				margin-top: 24px;
+				font-size: 12.5px;
+				color: var(--faint);
+				overflow-wrap: anywhere;
+			}
+			.sr {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
+				clip: rect(0 0 0 0);
+				white-space: nowrap;
+			}
+			@media (max-width: 880px) {
+				.grid {
+					grid-template-columns: minmax(0, 1fr);
+				}
+				.countries {
+					position: static;
+				}
+				.list {
+					max-height: 44vh;
+				}
+			}
+			@media (max-width: 520px) {
+				.fields {
+					grid-template-columns: minmax(0, 1fr);
+				}
+				.now {
+					padding: 14px 16px;
+				}
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.status.running i {
+					animation: none;
+				}
+				input {
+					transition: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<header>
+				<p class="eyebrow">anoirs-server.top · админка</p>
+				<h1>Где я <em>сейчас</em></h1>
+				<p class="lead">
+					Страна, город и часовой пояс для сайта. После сохранения сайт пересобирается: подсветка
+					страны и метка на глобусе, тексты на обоих языках и JSON-LD берут место отсюда.
+				</p>
+				<section class="now" aria-label="Место в конфиге">
+					<div class="now-place">
+						<span class="now-label">Сейчас в конфиге</span>
+						<strong id="now-title">…</strong>
+					</div>
+					<dl class="now-facts">
+						<div>
+							<dt>Часовой пояс</dt>
+							<dd id="now-tz">…</dd>
+						</div>
+						<div>
+							<dt>Координаты</dt>
+							<dd id="now-coords">…</dd>
+						</div>
+						<div>
+							<dt>Откуда</dt>
+							<dd id="now-source">…</dd>
+						</div>
+					</dl>
+				</section>
+			</header>
+
+			<main class="grid">
+				<section class="panel countries" aria-labelledby="h-country">
+					<h2 id="h-country"><b>1</b> Страна</h2>
+					<label class="sr" for="country-search">Найти страну</label>
+					<input
+						id="country-search"
+						type="search"
+						role="combobox"
+						aria-controls="country-list"
+						aria-expanded="true"
+						aria-autocomplete="list"
+						autocomplete="off"
+						spellcheck="false"
+						placeholder="Грузия, Georgia, GEO…"
+					/>
+					<ul id="country-list" class="list" role="listbox" aria-label="Страны"></ul>
+					<p class="hint" id="country-count"></p>
+				</section>
+
+				<div class="stack">
+					<section class="panel" aria-labelledby="h-place">
+						<h2 id="h-place"><b>2</b> Место</h2>
+						<form id="place-form" novalidate>
+							<div class="chosen">
+								<span class="pin" aria-hidden="true">
+									<svg
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" />
+										<circle cx="12" cy="9.5" r="2.5" />
+									</svg>
+								</span>
+								<div>
+									<div class="big" id="chosen-name">Выберите страну</div>
+									<div class="small" id="chosen-meta">в списке слева</div>
+									<small class="err" id="e-countryIso3"></small>
+								</div>
+							</div>
+
+							<div class="fields">
+								<div class="field">
+									<label for="f-city-en">Город, по-английски</label>
+									<input id="f-city-en" autocomplete="off" placeholder="Almaty" aria-describedby="e-city.en" />
+									<small class="err" id="e-city.en"></small>
+								</div>
+								<div class="field">
+									<label for="f-city-ru">Город, по-русски</label>
+									<input id="f-city-ru" autocomplete="off" placeholder="Алматы" aria-describedby="e-city.ru" />
+									<small class="err" id="e-city.ru"></small>
+								</div>
+								<div class="field">
+									<label for="f-country-en">Страна, по-английски</label>
+									<input id="f-country-en" autocomplete="off" aria-describedby="e-countryName.en" />
+									<small class="err" id="e-countryName.en"></small>
+								</div>
+								<div class="field">
+									<label for="f-country-ru">Страна, по-русски</label>
+									<input id="f-country-ru" autocomplete="off" aria-describedby="e-countryName.ru" />
+									<small class="err" id="e-countryName.ru"></small>
+								</div>
+								<div class="field">
+									<label for="f-lat">Широта</label>
+									<input id="f-lat" inputmode="decimal" autocomplete="off" aria-describedby="e-lat" />
+									<small class="err" id="e-lat"></small>
+								</div>
+								<div class="field">
+									<label for="f-lon">Долгота</label>
+									<input id="f-lon" inputmode="decimal" autocomplete="off" aria-describedby="e-lon" />
+									<small class="err" id="e-lon"></small>
+								</div>
+							</div>
+							<div class="row">
+								<button type="button" class="ghost" id="center-btn">Точку — в центр страны</button>
+								<p class="hint">
+									Округляется до сотых (≈1 км): на сайте город, а не адрес. Координаты города — из
+									карт, правый клик по точке.
+								</p>
+							</div>
+
+							<div class="field tz">
+								<label for="f-tz">Часовой пояс (IANA)</label>
+								<input
+									id="f-tz"
+									list="tz-list"
+									autocomplete="off"
+									spellcheck="false"
+									placeholder="Asia/Almaty"
+									aria-describedby="tz-info e-timezone"
+								/>
+								<small class="tz-info" id="tz-info"></small>
+								<small class="err" id="e-timezone"></small>
+								<datalist id="tz-list"></datalist>
+								<div class="chips" id="tz-suggest"></div>
+							</div>
+
+							<ul class="warnings" id="warnings" aria-live="polite"></ul>
+
+							<details class="preview" open>
+								<summary>JSON, который запишется</summary>
+								<pre class="json"><code id="preview"></code></pre>
+							</details>
+
+							<div class="save-row">
+								<button type="submit" class="primary" id="save-btn" disabled>
+									Сохранить и пересобрать
+								</button>
+								<span class="save-state" id="save-state" aria-live="polite"></span>
+							</div>
+						</form>
+					</section>
+
+					<section class="panel" aria-labelledby="h-build">
+						<div class="build-head">
+							<h2 id="h-build"><b>3</b> Сборка сайта</h2>
+							<span class="status" id="build-status"><i></i><span>…</span></span>
+						</div>
+						<pre class="log" id="build-log" tabindex="0" aria-label="Журнал сборки"></pre>
+						<div class="build-foot">
+							<button type="button" class="ghost" id="rebuild-btn">Пересобрать ещё раз</button>
+							<p class="hint" id="build-note"></p>
+						</div>
+					</section>
+				</div>
+			</main>
+			<p class="foot" id="config-path"></p>
+		</div>
+
+		<script nonce="__NONCE__">
+			(() => {
+				'use strict';
+
+				const $ = (id) => document.getElementById(id);
+				const FIELDS = {
+					'city.en': $('f-city-en'),
+					'city.ru': $('f-city-ru'),
+					'countryName.en': $('f-country-en'),
+					'countryName.ru': $('f-country-ru'),
+					lat: $('f-lat'),
+					lon: $('f-lon'),
+					timezone: $('f-tz')
+				};
+				const FIELD_NAMES = {
+					'city.en': 'город (EN)',
+					'city.ru': 'город (RU)',
+					'countryName.en': 'страна (EN)',
+					'countryName.ru': 'страна (RU)',
+					lat: 'широта',
+					lon: 'долгота',
+					timezone: 'часовой пояс',
+					countryIso3: 'страна'
+				};
+				const state = {
+					countries: [],
+					byCode: new Map(),
+					saved: null,
+					source: 'default',
+					savedAt: null,
+					selected: null,
+					shown: [],
+					active: 0,
+					touched: new Set(),
+					valid: false,
+					dirty: false,
+					errors: {},
+					previewSeq: 0,
+					tzCheck: false,
+					zones: [],
+					build: null,
+					pollTimer: null,
+					saving: false
+				};
+
+				const norm = (value) =>
+					String(value || '')
+						.toLowerCase()
+						.replace(/ё/g, 'е')
+						.trim();
+
+				const api = async (path, body) => {
+					const response = await fetch(
+						path,
+						body === undefined
+							? { cache: 'no-store' }
+							: {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify(body)
+							  }
+					);
+					if (response.status === 401) {
+						location.reload();
+						throw new Error('Нужен вход');
+					}
+					let data = {};
+					try {
+						data = await response.json();
+					} catch {
+						// empty or non-JSON answer
+					}
+					return { status: response.status, data };
+				};
+
+				/* ---------- time zones ---------- */
+
+				const zoneInfo = (zone) => {
+					if (!zone) return null;
+					try {
+						const now = new Date();
+						const offset = (
+							new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'shortOffset' })
+								.formatToParts(now)
+								.find((part) => part.type === 'timeZoneName') || { value: '' }
+						).value.replace('GMT', 'UTC');
+						const time = new Intl.DateTimeFormat('ru-RU', {
+							timeZone: zone,
+							hour: '2-digit',
+							minute: '2-digit'
+						}).format(now);
+						return { offset: offset || 'UTC', time };
+					} catch {
+						return null;
+					}
+				};
+
+				const browserZone = (() => {
+					try {
+						return Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+					} catch {
+						return '';
+					}
+				})();
+
+				const fillZones = () => {
+					try {
+						state.zones = Intl.supportedValuesOf('timeZone');
+					} catch {
+						state.zones = browserZone ? [browserZone] : [];
+					}
+					const list = $('tz-list');
+					const fragment = document.createDocumentFragment();
+					for (const zone of state.zones) {
+						const option = document.createElement('option');
+						option.value = zone;
+						fragment.append(option);
+					}
+					list.append(fragment);
+				};
+
+				const cityZone = (city) => {
+					const wanted = norm(city).replace(/\s+/g, ' ');
+					if (!wanted) return '';
+					return (
+						state.zones.find(
+							(zone) => norm(zone.split('/').pop().replace(/_/g, ' ')) === wanted
+						) || ''
+					);
+				};
+
+				const renderZone = () => {
+					const zone = FIELDS.timezone.value.trim();
+					const info = zoneInfo(zone);
+					$('tz-info').textContent = info ? `${info.offset} · сейчас там ${info.time}` : '';
+
+					const chips = $('tz-suggest');
+					chips.textContent = '';
+					const offer = (label, value) => {
+						if (!value || value === zone) return;
+						const chip = document.createElement('button');
+						chip.type = 'button';
+						chip.className = 'chip';
+						const zoneLabel = zoneInfo(value);
+						chip.append(`${label}: `);
+						const strong = document.createElement('b');
+						strong.textContent = value;
+						chip.append(strong, zoneLabel ? ` (${zoneLabel.offset})` : '');
+						chip.addEventListener('click', () => {
+							FIELDS.timezone.value = value;
+							state.touched.add('timezone');
+							state.tzCheck = false;
+							renderZone();
+							schedulePreview();
+						});
+						chips.append(chip);
+					};
+					offer('По городу', cityZone(FIELDS['city.en'].value));
+					offer('Этот браузер', browserZone);
+					if (state.tzCheck) {
+						const note = document.createElement('span');
+						note.className = 'note';
+						note.textContent = 'Страна сменилась — проверьте часовой пояс.';
+						chips.append(note);
+					}
+				};
+
+				/* ---------- countries ---------- */
+
+				const filterCountries = (query) => {
+					const wanted = norm(query);
+					if (!wanted) return state.countries;
+					const first = [];
+					const rest = [];
+					for (const country of state.countries) {
+						const ru = norm(country.ru);
+						const en = norm(country.en);
+						if (
+							norm(country.code) === wanted ||
+							norm(country.a2) === wanted ||
+							ru.startsWith(wanted) ||
+							en.startsWith(wanted)
+						) {
+							first.push(country);
+						} else if (ru.includes(wanted) || en.includes(wanted)) {
+							rest.push(country);
+						}
+					}
+					return first.concat(rest);
+				};
+
+				const renderList = ({ reveal = false } = {}) => {
+					const list = $('country-list');
+					const search = $('country-search');
+					state.shown = filterCountries(search.value);
+					state.active = Math.max(0, Math.min(state.active, state.shown.length - 1));
+					list.textContent = '';
+					if (!state.shown.length) {
+						const empty = document.createElement('li');
+						empty.className = 'empty';
+						empty.textContent = 'Ничего не нашлось. Маленьких государств на глобусе нет.';
+						list.append(empty);
+						search.removeAttribute('aria-activedescendant');
+						return;
+					}
+					const fragment = document.createDocumentFragment();
+					state.shown.forEach((country, index) => {
+						const item = document.createElement('li');
+						item.id = `c-${country.code}`;
+						item.setAttribute('role', 'option');
+						item.setAttribute('aria-selected', String(country.code === state.selected));
+						item.dataset.code = country.code;
+						if (index === state.active) item.classList.add('active');
+						const ru = document.createElement('span');
+						ru.className = 'ru';
+						ru.textContent = country.ru || country.en;
+						const en = document.createElement('span');
+						en.className = 'en';
+						en.textContent = country.en;
+						const code = document.createElement('span');
+						code.className = 'code';
+						code.textContent = country.code;
+						item.append(ru, code, en);
+						fragment.append(item);
+					});
+					list.append(fragment);
+					const active = state.shown[state.active];
+					if (active) search.setAttribute('aria-activedescendant', `c-${active.code}`);
+					const target = reveal
+						? document.getElementById(`c-${state.selected}`)
+						: document.getElementById(`c-${active && active.code}`);
+					if (target) target.scrollIntoView({ block: reveal ? 'center' : 'nearest' });
+				};
+
+				const renderChosen = () => {
+					const country = state.byCode.get(state.selected);
+					$('chosen-name').textContent = country ? country.ru || country.en : 'Выберите страну';
+					$('chosen-meta').textContent = country
+						? `${country.en} · ${country.code} · центр ${country.lat}, ${country.lon}`
+						: 'в списке слева';
+					$('center-btn').disabled = !country;
+				};
+
+				const fillForm = (home) => {
+					FIELDS['city.en'].value = (home.city && home.city.en) || '';
+					FIELDS['city.ru'].value = (home.city && home.city.ru) || '';
+					FIELDS['countryName.en'].value = (home.countryName && home.countryName.en) || '';
+					FIELDS['countryName.ru'].value = (home.countryName && home.countryName.ru) || '';
+					FIELDS.lat.value = home.lat ?? '';
+					FIELDS.lon.value = home.lon ?? '';
+					FIELDS.timezone.value = home.timezone || '';
+				};
+
+				const choose = (code, { focusCity = false } = {}) => {
+					const country = state.byCode.get(code);
+					if (!country) return;
+					if (code === state.selected) {
+						renderList();
+						if (focusCity) FIELDS['city.en'].focus();
+						return;
+					}
+					state.selected = code;
+					if (state.saved && state.saved.countryIso3 === code) {
+						fillForm(state.saved);
+						state.tzCheck = false;
+					} else {
+						FIELDS['countryName.en'].value = country.en;
+						FIELDS['countryName.ru'].value = country.ru;
+						FIELDS['city.en'].value = '';
+						FIELDS['city.ru'].value = '';
+						FIELDS.lat.value = country.lat;
+						FIELDS.lon.value = country.lon;
+						state.tzCheck = true;
+						state.touched.delete('city.en');
+						state.touched.delete('city.ru');
+					}
+					renderChosen();
+					renderList();
+					renderZone();
+					schedulePreview();
+					if (focusCity) FIELDS['city.en'].focus();
+				};
+
+				/* ---------- preview, errors, save ---------- */
+
+				const readForm = () => ({
+					home: {
+						countryIso3: state.selected || '',
+						countryName: {
+							en: FIELDS['countryName.en'].value,
+							ru: FIELDS['countryName.ru'].value
+						},
+						city: { en: FIELDS['city.en'].value, ru: FIELDS['city.ru'].value },
+						lat: FIELDS.lat.value,
+						lon: FIELDS.lon.value,
+						timezone: FIELDS.timezone.value
+					}
+				});
+
+				const highlight = (json) =>
+					json
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(
+							/("(?:\\.|[^"\\])*")(\s*:)?|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g,
+							(match, string, colon, number) =>
+								string
+									? colon
+										? `<span class="k">${string}</span>${colon}`
+										: `<span class="s">${string}</span>`
+									: `<span class="n">${number}</span>`
+						);
+
+				const renderErrors = () => {
+					for (const [key, input] of Object.entries(FIELDS)) {
+						const message = state.touched.has(key) ? state.errors[key] || '' : '';
+						input.setAttribute('aria-invalid', String(Boolean(message)));
+						$(`e-${key}`).textContent = message;
+					}
+					$('e-countryIso3').textContent = state.errors.countryIso3 || '';
+				};
+
+				const renderSaveState = (message, tone) => {
+					const button = $('save-btn');
+					const line = $('save-state');
+					button.disabled = state.saving || !state.valid || !state.dirty;
+					button.textContent = state.saving
+						? 'Сохраняю…'
+						: state.build && state.build.configured
+						? 'Сохранить и пересобрать'
+						: 'Сохранить';
+					line.className = 'save-state';
+					if (message) {
+						line.textContent = message;
+						if (tone) line.classList.add(tone);
+						return;
+					}
+					const missing = Object.keys(state.errors).map((key) => FIELD_NAMES[key] || key);
+					if (!state.valid) {
+						line.textContent = missing.length ? `Заполните или исправьте: ${missing.join(', ')}` : '';
+						line.classList.add('bad');
+					} else if (state.dirty) {
+						line.textContent = 'Есть несохранённые изменения';
+						line.classList.add('dirty');
+					} else {
+						line.textContent =
+							state.source === 'saved'
+								? 'Совпадает с сохранённым'
+								: 'Совпадает с конфигом из репозитория';
+					}
+				};
+
+				const renderWarnings = (warnings) => {
+					const list = $('warnings');
+					list.textContent = '';
+					for (const warning of warnings) {
+						const item = document.createElement('li');
+						item.textContent = warning;
+						list.append(item);
+					}
+				};
+
+				const sameHome = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+				const preview = async () => {
+					const seq = ++state.previewSeq;
+					const body = readForm();
+					let result;
+					try {
+						result = (await api('/api/preview', body)).data;
+					} catch {
+						if (seq === state.previewSeq) renderSaveState('Нет связи с админкой', 'bad');
+						return;
+					}
+					if (seq !== state.previewSeq) return;
+					state.valid = Boolean(result.ok);
+					state.errors = result.errors || {};
+					state.dirty = result.ok ? !sameHome(result.config.home, state.saved) : true;
+					renderErrors();
+					renderWarnings(result.warnings || []);
+					const code = $('preview');
+					code.innerHTML = highlight(JSON.stringify(result.ok ? result.config : body, null, 2));
+					code.parentElement.classList.toggle('invalid', !result.ok);
+					renderSaveState();
+				};
+
+				let previewTimer = null;
+				const schedulePreview = () => {
+					clearTimeout(previewTimer);
+					previewTimer = setTimeout(preview, 150);
+				};
+
+				const formatTime = (iso) =>
+					iso
+						? new Date(iso).toLocaleString('ru-RU', {
+								day: 'numeric',
+								month: 'long',
+								hour: '2-digit',
+								minute: '2-digit'
+						  })
+						: '';
+
+				const renderNow = (savedError) => {
+					const home = state.saved;
+					if (!home) {
+						$('now-title').textContent = 'Место не задано';
+						$('now-tz').textContent = '—';
+						$('now-coords').textContent = '—';
+					} else {
+						const city = (home.city && (home.city.ru || home.city.en)) || '';
+						const country =
+							(home.countryName && (home.countryName.ru || home.countryName.en)) || '';
+						$('now-title').textContent = [city, country].filter(Boolean).join(', ');
+						const info = zoneInfo(home.timezone);
+						$('now-tz').textContent = info ? `${home.timezone} · ${info.offset}` : home.timezone;
+						$('now-coords').textContent = `${home.lat}, ${home.lon}`;
+					}
+					const source = $('now-source');
+					source.className = savedError ? 'bad' : '';
+					source.textContent = savedError
+						? savedError
+						: state.source === 'saved'
+						? `сохранено ${formatTime(state.savedAt)}`
+						: 'из репозитория — здесь ещё не сохраняли';
+				};
+
+				/* ---------- rebuild ---------- */
+
+				const elapsed = (from) => {
+					const seconds = Math.max(0, Math.round((Date.now() - new Date(from).getTime()) / 1000));
+					return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+				};
+
+				const renderBuild = (build) => {
+					state.build = build;
+					const status = $('build-status');
+					status.className = `status ${build.configured ? build.status : 'off'}`;
+					let label = 'Сборок ещё не было';
+					if (!build.configured) label = 'Пересборка не настроена';
+					else if (build.status === 'running') {
+						label = `Идёт сборка · ${elapsed(build.startedAt)}${
+							build.queued ? ' · ещё одна в очереди' : ''
+						}`;
+					} else if (build.status === 'ok') label = `Готово · ${formatTime(build.finishedAt)}`;
+					else if (build.status === 'fail') label = 'Ошибка · сайт остался прежним';
+					status.lastElementChild.textContent = label;
+
+					const log = $('build-log');
+					const stick = log.scrollHeight - log.scrollTop - log.clientHeight < 32;
+					log.textContent =
+						build.log ||
+						(build.configured
+							? 'Здесь появится журнал сборки после сохранения.'
+							: 'Команда пересборки (SITE_REBUILD_CMD) не задана: место сохранится, а сайт обновится при следующей сборке.');
+					if (stick) log.scrollTop = log.scrollHeight;
+
+					$('rebuild-btn').disabled = !build.configured || build.queued;
+					$('build-note').textContent =
+						build.status === 'fail'
+							? 'Прошлая удачная версия сайта продолжает работать.'
+							: build.status === 'ok'
+							? 'Сайт обновлён; страницы кешируются до 5 минут.'
+							: '';
+					renderSaveState();
+					if (build.status === 'running' || build.queued) schedulePoll();
+				};
+
+				const schedulePoll = () => {
+					if (state.pollTimer) return;
+					state.pollTimer = setTimeout(async () => {
+						state.pollTimer = null;
+						try {
+							const { data } = await api('/api/rebuild');
+							if (data.rebuild) renderBuild(data.rebuild);
+						} catch {
+							schedulePoll();
+						}
+					}, 1000);
+				};
+
+				/* ---------- events ---------- */
+
+				const search = $('country-search');
+				search.addEventListener('input', () => {
+					state.active = 0;
+					renderList();
+				});
+				search.addEventListener('keydown', (event) => {
+					if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+						event.preventDefault();
+						const step = event.key === 'ArrowDown' ? 1 : -1;
+						state.active = Math.max(0, Math.min(state.shown.length - 1, state.active + step));
+						renderList();
+					} else if (event.key === 'Enter') {
+						event.preventDefault();
+						const country = state.shown[state.active];
+						if (country) choose(country.code, { focusCity: true });
+					} else if (event.key === 'Escape') {
+						search.value = '';
+						state.active = 0;
+						renderList({ reveal: true });
+					}
+				});
+				$('country-list').addEventListener('click', (event) => {
+					const item = event.target.closest('li[data-code]');
+					if (!item) return;
+					state.active = state.shown.findIndex((country) => country.code === item.dataset.code);
+					choose(item.dataset.code);
+				});
+
+				for (const [key, input] of Object.entries(FIELDS)) {
+					input.addEventListener('input', () => {
+						state.touched.add(key);
+						if (key === 'timezone') state.tzCheck = false;
+						if (key === 'timezone' || key === 'city.en') renderZone();
+						schedulePreview();
+					});
+					input.addEventListener('blur', () => {
+						state.touched.add(key);
+						renderErrors();
+					});
+				}
+
+				$('center-btn').addEventListener('click', () => {
+					const country = state.byCode.get(state.selected);
+					if (!country) return;
+					FIELDS.lat.value = country.lat;
+					FIELDS.lon.value = country.lon;
+					schedulePreview();
+				});
+
+				$('place-form').addEventListener('submit', async (event) => {
+					event.preventDefault();
+					Object.keys(FIELDS).forEach((key) => state.touched.add(key));
+					clearTimeout(previewTimer);
+					await preview();
+					if (!state.valid || !state.dirty || state.saving) return;
+					state.saving = true;
+					renderSaveState();
+					try {
+						const { status, data } = await api('/api/config', readForm());
+						if (status === 200 && data.ok) {
+							state.saved = data.config.home;
+							state.source = 'saved';
+							state.savedAt = data.savedAt;
+							state.tzCheck = false;
+							state.dirty = false;
+							renderNow();
+							if (data.rebuild) renderBuild(data.rebuild);
+							renderZone();
+							state.saving = false;
+							renderSaveState(
+								data.rebuild && data.rebuild.configured
+									? 'Сохранено — сайт пересобирается'
+									: 'Сохранено',
+								'done'
+							);
+						} else {
+							state.saving = false;
+							state.errors = data.errors || {};
+							renderErrors();
+							renderSaveState(data.error || 'Не сохранилось — проверьте поля', 'bad');
+						}
+					} catch {
+						state.saving = false;
+						renderSaveState('Нет связи с админкой', 'bad');
+					}
+				});
+
+				$('rebuild-btn').addEventListener('click', async () => {
+					$('rebuild-btn').disabled = true;
+					try {
+						const { data } = await api('/api/rebuild', {});
+						if (data.rebuild) renderBuild(data.rebuild);
+						else renderSaveState(data.error || 'Не удалось запустить сборку', 'bad');
+					} catch {
+						renderSaveState('Нет связи с админкой', 'bad');
+					}
+				});
+
+				/* ---------- start ---------- */
+
+				const start = async () => {
+					const { data } = await api('/api/state');
+					state.countries = data.countries || [];
+					for (const country of state.countries) state.byCode.set(country.code, country);
+					state.saved = (data.config && data.config.home) || null;
+					state.source = data.source;
+					state.savedAt = data.savedAt;
+					$('country-count').textContent = `${state.countries.length} стран — все, что есть на глобусе сайта (Natural Earth 1:110m). Маленьких государств вроде Сингапура на нём нет.`;
+					$('config-path').textContent = `Файл места: ${data.configPath}`;
+					fillZones();
+					if (state.saved) fillForm(state.saved);
+					state.selected = data.countryCode || null;
+					renderNow(data.savedError);
+					renderChosen();
+					renderList({ reveal: true });
+					renderZone();
+					renderBuild(data.rebuild);
+					await preview();
+				};
+
+				start().catch((error) => {
+					$('now-title').textContent = 'Админка не ответила';
+					$('now-source').textContent = String(error.message || error);
+				});
+			})();
+		</script>
+	</body>
+</html>
