@@ -67,7 +67,8 @@ export const loadSettings = (env = process.env) => {
 		configPath,
 		rebuildCommand: (env.SITE_REBUILD_CMD || '').trim() || null,
 		rebuildTimeoutMs: timeoutSec * 1000,
-		countriesPath: env.SITE_ADMIN_COUNTRIES || repoFile('src/lib/ne_110m_admin_0_countries.geojson'),
+		countriesPath:
+			env.SITE_ADMIN_COUNTRIES || repoFile('src/lib/ne_110m_admin_0_countries.geojson'),
 		defaultConfigPath: env.SITE_ADMIN_DEFAULT_CONFIG || repoFile('src/lib/config/site-config.json')
 	};
 };

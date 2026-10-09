@@ -58,7 +58,8 @@ export const createRebuilder = ({
 	const append = (text) => {
 		state.log += cleanOutput(text);
 		if (state.log.length > maxLogChars) {
-			const cut = state.log.length - maxLogChars;
+			// keep whole lines, and room for the "…\n" marker
+			const cut = state.log.length - (maxLogChars - 2);
 			const lineStart = state.log.indexOf('\n', cut);
 			state.log = `…\n${state.log.slice(lineStart === -1 ? cut : lineStart + 1)}`;
 		}

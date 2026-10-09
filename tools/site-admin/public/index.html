@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 	<head>
 		<meta charset="utf-8" />
@@ -36,7 +36,11 @@
 				min-height: 100vh;
 				color: var(--text);
 				font: 15px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
-				background: radial-gradient(900px 480px at 85% -8%, rgba(232, 199, 126, 0.1), transparent 62%),
+				background: radial-gradient(
+						900px 480px at 85% -8%,
+						rgba(232, 199, 126, 0.1),
+						transparent 62%
+					),
 					radial-gradient(700px 420px at -10% 110%, rgba(96, 120, 255, 0.07), transparent 60%),
 					var(--bg);
 			}
@@ -655,12 +659,22 @@
 							<div class="fields">
 								<div class="field">
 									<label for="f-city-en">Город, по-английски</label>
-									<input id="f-city-en" autocomplete="off" placeholder="Almaty" aria-describedby="e-city.en" />
+									<input
+										id="f-city-en"
+										autocomplete="off"
+										placeholder="Almaty"
+										aria-describedby="e-city.en"
+									/>
 									<small class="err" id="e-city.en"></small>
 								</div>
 								<div class="field">
 									<label for="f-city-ru">Город, по-русски</label>
-									<input id="f-city-ru" autocomplete="off" placeholder="Алматы" aria-describedby="e-city.ru" />
+									<input
+										id="f-city-ru"
+										autocomplete="off"
+										placeholder="Алматы"
+										aria-describedby="e-city.ru"
+									/>
 									<small class="err" id="e-city.ru"></small>
 								</div>
 								<div class="field">
@@ -675,12 +689,22 @@
 								</div>
 								<div class="field">
 									<label for="f-lat">Широта</label>
-									<input id="f-lat" inputmode="decimal" autocomplete="off" aria-describedby="e-lat" />
+									<input
+										id="f-lat"
+										inputmode="decimal"
+										autocomplete="off"
+										aria-describedby="e-lat"
+									/>
 									<small class="err" id="e-lat"></small>
 								</div>
 								<div class="field">
 									<label for="f-lon">Долгота</label>
-									<input id="f-lon" inputmode="decimal" autocomplete="off" aria-describedby="e-lon" />
+									<input
+										id="f-lon"
+										inputmode="decimal"
+										autocomplete="off"
+										aria-describedby="e-lon"
+									/>
 									<small class="err" id="e-lon"></small>
 								</div>
 							</div>
@@ -865,9 +889,8 @@
 					const wanted = norm(city).replace(/\s+/g, ' ');
 					if (!wanted) return '';
 					return (
-						state.zones.find(
-							(zone) => norm(zone.split('/').pop().replace(/_/g, ' ')) === wanted
-						) || ''
+						state.zones.find((zone) => norm(zone.split('/').pop().replace(/_/g, ' ')) === wanted) ||
+						''
 					);
 				};
 
@@ -1080,7 +1103,9 @@
 					}
 					const missing = Object.keys(state.errors).map((key) => FIELD_NAMES[key] || key);
 					if (!state.valid) {
-						line.textContent = missing.length ? `Заполните или исправьте: ${missing.join(', ')}` : '';
+						line.textContent = missing.length
+							? `Заполните или исправьте: ${missing.join(', ')}`
+							: '';
 						line.classList.add('bad');
 					} else if (state.dirty) {
 						line.textContent = 'Есть несохранённые изменения';
@@ -1330,7 +1355,9 @@
 					state.saved = (data.config && data.config.home) || null;
 					state.source = data.source;
 					state.savedAt = data.savedAt;
-					$('country-count').textContent = `${state.countries.length} стран — все, что есть на глобусе сайта (Natural Earth 1:110m). Маленьких государств вроде Сингапура на нём нет.`;
+					$(
+						'country-count'
+					).textContent = `${state.countries.length} стран — все, что есть на глобусе сайта (Natural Earth 1:110m). Маленьких государств вроде Сингапура на нём нет.`;
 					$('config-path').textContent = `Файл места: ${data.configPath}`;
 					fillZones();
 					if (state.saved) fillForm(state.saved);
