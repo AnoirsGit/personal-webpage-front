@@ -4,11 +4,16 @@
 	(from site-config.json) in denser warm dots with a faint border, a calm pulsing home
 	marker, the public work places, and data arcs that leave home with pulses travelling
 	both ways. Rests facing home; the story only nudges the spin and lean.
+
+	Neutral mode (quality.neutral, the poster capture `?scene=poster`): no home country, no
+	marker, no places or arcs, and the Earth faces POSTER_VIEW instead of home, so the
+	poster stays true whatever the home is. The shell draws the home marker over the poster
+	as HTML from the projection this mode publishes on window.__scenePoster.
 -->
 <script>
 	import { onDestroy } from 'svelte';
 	import { T } from '@threlte/core';
-	import { Group, Mesh, Points, SphereGeometry, Vector3 } from 'three';
+	import { Group, Matrix4, Mesh, Points, SphereGeometry, Vector3 } from 'three';
 
 	import { BORDER_QUANT, COUNTRIES } from './countryBorders.js';
 	import { decodeRings, latLonToXYZ, resolveCountry } from './geodata.js';
@@ -32,11 +37,15 @@
 	const ATMOSPHERE = 1.17;
 	const DEG = Math.PI / 180;
 	const high = runtime.quality.tier === 'high';
+	const neutral = Boolean(runtime.quality.neutral);
+	/** where the neutral Earth looks: the Old World, centred between Europe, Africa and Asia */
+	const POSTER_VIEW = { lat: 28, lon: 58 };
+	const facingPoint = neutral ? POSTER_VIEW : HOME;
 
 	/* light from the upper left, a little in front: the terminator falls on the right */
 	const lightDir = new Vector3(-0.62, 0.48, 0.62).normalize();
 
-	const country = resolveCountry(COUNTRIES, HOME.iso3);
+	const country = neutral ? null : resolveCountry(COUNTRIES, HOME.iso3);
 	const home = country
 		? { bbox: country.bbox, rings: decodeRings(country.rings, BORDER_QUANT) }
 		: null;
@@ -60,18 +69,18 @@
 	earth.add(atmosphere);
 
 	const spacing = high ? 0.85 : 1.25;
-	const homeLocal = new Vector3(...latLonToXYZ(HOME.lat, HOME.lon, 1));
+	const homeLocal = new Vector3(...latLonToXYZ(facingPoint.lat, facingPoint.lon, 1));
 	const landMaterial = createLandMaterial(runtime.uniforms, lightDir, homeLocal);
 	landMaterial.uniforms.uDotSize.value = RADIUS * spacing * DEG * 0.56;
 	// without the border line (low tier) the home dots carry the emphasis alone
-	landMaterial.uniforms.uHomeBoost.value = high ? 0.4 : 0.6;
+	landMaterial.uniforms.uHomeBoost.value = neutral ? 0 : high ? 0.4 : 0.6;
 	const land = new Points(buildLandDots({ spacing, radius: RADIUS * 1.002, home }), landMaterial);
 	land.renderOrder = 2;
 	spin.add(land);
 
 	/* ---- arcs from home (both directions) and the home border (high tier only) ---- */
 	const lines = [];
-	PLACES.forEach((place, k) => {
+	(neutral ? [] : PLACES).forEach((place, k) => {
 		const points = arcPoints(HOME, place, RADIUS);
 		const reveal = /** @type {[number, number]} */ ([0.42 + 0.12 * k, 0.86 + 0.08 * k]);
 		lines.push(
@@ -98,10 +107,12 @@
 	spin.add(arcs);
 
 	/* ---- home marker and places ---- */
-	const markers = [
-		{ id: 'home', lat: HOME.lat, lon: HOME.lon, size: 6.5, kind: 2 },
-		...PLACES.map((place) => ({ ...place, size: 4.2, kind: 1 }))
-	];
+	const markers = neutral
+		? []
+		: [
+				{ id: 'home', lat: HOME.lat, lon: HOME.lon, size: 6.5, kind: 2 },
+				...PLACES.map((place) => ({ ...place, size: 4.2, kind: 1 }))
+		  ];
 	const markerLocal = markers.map(
 		({ lat, lon }) => new Vector3(...latLonToXYZ(lat, lon, RADIUS * 1.01))
 	);
@@ -137,7 +148,9 @@
 			.filter(Boolean)
 			.join(' · ')
 	};
-	const homeLabel = runtime.addLabel({ key: 'globe:home', kind: 'home', text: homeTitle });
+	const homeLabel = neutral
+		? null
+		: runtime.addLabel({ key: 'globe:home', kind: 'home', text: homeTitle });
 
 	const world = markerLocal.map(() => new Vector3());
 	const facing = new Float32Array(markers.length);
@@ -175,8 +188,8 @@
 		const { shot, phases } = rt;
 		const intro = phases.intro;
 		const drift = rt.motion ? Math.sin(rt.uniforms.uTime.value * 0.07) * 5 : 0;
-		earth.rotation.x = HOME.lat * DEG * shot.tilt;
-		spin.rotation.y = (-HOME.lon + shot.spin + drift - 26 * (1 - easeOut(intro))) * DEG;
+		earth.rotation.x = (facingPoint.lat * shot.tilt - shot.lean) * DEG;
+		spin.rotation.y = (-facingPoint.lon + shot.spin + drift - 26 * (1 - easeOut(intro))) * DEG;
 
 		const dim = shot.dim * shot.earthFade;
 		ocean.material.uniforms.uDim.value = dim;
@@ -196,18 +209,43 @@
 			facing[i] = Math.min(1, Math.max(0, (normal.dot(toCamera) - 0.12) / 0.25));
 		}
 
+		if (neutral) {
+			publishPoster(camera);
+			return;
+		}
 		// home caption: in the hero and contact shots, when home faces the camera
 		const T = rt.T;
 		const onEarth = Math.max(1 - smoothstep(0.72, 0.95, T), smoothstep(4.8, 5.1, T));
-		homeLabel.world.copy(world[0]);
-		homeLabel.opacity = onEarth * facing[0] * reveal([0.35, 0.7], intro);
+		if (homeLabel) {
+			homeLabel.world.copy(world[0]);
+			homeLabel.opacity = onEarth * facing[0] * reveal([0.35, 0.7], intro);
+		}
+	};
+
+	/*
+	 * Poster capture: the matrix from the Earth's own coordinates (latLonToXYZ) to clip space
+	 * and the camera in those coordinates, so the shell can place the home marker over the
+	 * still image and tell whether home faces the viewer (scripts/scene-poster.js saves it).
+	 */
+	const toClip = new Matrix4();
+	const eye = new Vector3();
+	/** @param {import('three').PerspectiveCamera} camera */
+	const publishPoster = (camera) => {
+		toClip.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse).multiply(spin.matrixWorld);
+		eye.copy(camera.position).applyMatrix4(new Matrix4().copy(spin.matrixWorld).invert());
+		// @ts-ignore — read by scripts/scene-poster.js
+		window.__scenePoster = {
+			m: toClip.elements.map((value) => +value.toFixed(6)),
+			eye: eye.toArray().map((value) => +value.toFixed(4)),
+			r: RADIUS
+		};
 	};
 	runtime.updaters.add(update);
 
 	onDestroy(() => {
 		runtime.updaters.delete(update);
 		hoverables.forEach((item) => runtime.hoverables.delete(item));
-		runtime.removeLabel('globe:home');
+		if (homeLabel) runtime.removeLabel('globe:home');
 	});
 </script>
 

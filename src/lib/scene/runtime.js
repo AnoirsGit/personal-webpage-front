@@ -41,6 +41,8 @@ export const createRuntime = (quality) => {
 	occlusionTexture.generateMipmaps = false;
 	const uniforms = createSharedUniforms();
 	uniforms.uOcclusion.value = occlusionTexture;
+	// the poster capture hides the page; nothing in front to dim for
+	if (quality.neutral) uniforms.uOccludeDim.value = 0;
 
 	return {
 		quality,

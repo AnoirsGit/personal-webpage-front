@@ -1,17 +1,35 @@
 /*
- * Renders the static posters of the 3D background from the live scene. They are shown
- * instead of the canvas when a visitor has no WebGL, only a software renderer, or Save-Data.
+ * Renders the static posters of the 3D background from the live scene.
+ *
+ * What the poster is for. Scene.svelte shows it instead of the WebGL canvas when a visitor
+ * has no WebGL, only a software renderer (SwiftShader, llvmpipe), Save-Data on, a very weak
+ * device, or frames too slow even at the lowest pixel ratio. It is the hero shot of the
+ * scene as a still image: the dotted Earth in its atmosphere under the star field.
+ *
+ * Country-neutral on purpose. The page loads with `?scene=poster` (see quality.js), which
+ * renders a still, high-tier frame with no home country highlight, no home marker, no work
+ * places and no arcs, and turns the Earth to a fixed view (POSTER_VIEW in OrbitGlobe.svelte)
+ * instead of home. So the poster never goes stale: changing the home in
+ * src/lib/config/site-config.json needs no new poster. Scene.svelte draws the home marker
+ * over the poster as HTML, from the configured lat/lon and the projection this script
+ * saves; when home lies on the far side of the poster's Earth the marker is left out.
+ *
+ * When to re-run: after changing how the hero looks (story.js framing, globe materials,
+ * palette, star field) — not after changing the home or the copy.
  *
  *   pnpm build && pnpm preview --port 4391 &
- *   PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://127.0.0.1:4391/en/
+ *   PLAYWRIGHT_CORE=/path/to/node_modules/playwright-core node scripts/scene-poster.js http://127.0.0.1:4391/en/
  *
- * Any page that renders <Scene /> works; everything but the scene is hidden for the shot
- * and the hero (top of the page) is captured. Re-run after changing the home country in
- * src/lib/config/site-config.json — the poster shows it.
+ * Needs playwright-core (not a project dependency: point PLAYWRIGHT_CORE at an install, e.g.
+ * the one `npx playwright-core --version` leaves in ~/.npm/_npx) and a Chromium with GPU
+ * access (CHROMIUM, default /usr/bin/chromium; the flags below keep it off SwiftShader).
+ * Any page that renders <Scene /> works; everything but the canvas is hidden for the shot.
  *
- * Needs playwright-core (not a project dependency: point PLAYWRIGHT_CORE at an install,
- * e.g. from `npx playwright-core --version`) and a Chromium with GPU access (CHROMIUM,
- * default /usr/bin/chromium). Writes static/scene/poster-wide.webp and poster-tall.webp.
+ * Writes:
+ *   static/scene/poster-wide.webp   1600×900, for landscape screens
+ *   static/scene/poster-tall.webp   414×896 at 1.5×, for portrait screens
+ *   src/lib/scene/poster.json       per poster: image size, the Earth-to-clip matrix
+ *                                   (column-major) and the camera in Earth coordinates
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -39,6 +57,7 @@ const VARIANTS = [
 	{ name: 'tall', width: 414, height: 896, scale: 1.5, quality: 0.8 }
 ];
 
+// hide the page but keep its layout: the scene frames the Earth around the hero text
 const HIDE_PAGE = `
 	body * { visibility: hidden !important; }
 	.scene-root, .scene-root * { visibility: visible !important; }
@@ -53,22 +72,29 @@ const main = async () => {
 	});
 
 	mkdirSync(resolve(root, 'static/scene'), { recursive: true });
+	const meta = {};
 	for (const variant of VARIANTS) {
 		const page = await browser.newPage({
 			viewport: { width: variant.width, height: variant.height },
-			deviceScaleFactor: variant.scale
+			deviceScaleFactor: variant.scale,
+			reducedMotion: 'reduce'
 		});
 		const target = new URL(url);
-		target.searchParams.set('scene', 'high');
+		target.searchParams.set('scene', 'poster');
 		await page.goto(target.href, { waitUntil: 'load' });
 		await page.addStyleTag({ content: HIDE_PAGE });
 		await page.waitForFunction(
-			() => document.querySelector('.scene-root')?.getAttribute('data-scene') === 'live',
+			() =>
+				document.querySelector('.scene-root')?.getAttribute('data-scene') === 'live' &&
+				// @ts-ignore
+				Boolean(window.__scenePoster),
 			null,
 			{ timeout: 30000 }
 		);
-		await page.waitForTimeout(5000); // intro, arcs drawn, pulses mid-flight
+		await page.waitForTimeout(2500); // every stage mounted, the canvas faded in
 		const png = await page.screenshot({ type: 'png' });
+		// @ts-ignore — published by OrbitGlobe.svelte in neutral mode
+		const projection = await page.evaluate(() => window.__scenePoster);
 		const webp = await page.evaluate(
 			async ({ data, quality }) => {
 				const image = new Image();
@@ -78,18 +104,30 @@ const main = async () => {
 				canvas.width = image.width;
 				canvas.height = image.height;
 				canvas.getContext('2d').drawImage(image, 0, 0);
-				return canvas.toDataURL('image/webp', quality).split(',')[1];
+				return {
+					data: canvas.toDataURL('image/webp', quality).split(',')[1],
+					width: image.width,
+					height: image.height
+				};
 			},
 			{ data: png.toString('base64'), quality: variant.quality }
 		);
 		const file = resolve(root, `static/scene/poster-${variant.name}.webp`);
-		writeFileSync(file, Buffer.from(webp, 'base64'));
+		const bytes = Buffer.from(webp.data, 'base64');
+		writeFileSync(file, bytes);
+		meta[variant.name] = { w: webp.width, h: webp.height, ...projection };
 		console.log(
-			`${file.replace(root + '/', '')}: ${Math.round(Buffer.from(webp, 'base64').length / 1024)} kB`
+			`${file.replace(root + '/', '')}: ${webp.width}×${webp.height}, ${Math.round(
+				bytes.length / 1024
+			)} kB`
 		);
 		await page.close();
 	}
 	await browser.close();
+
+	const json = resolve(root, 'src/lib/scene/poster.json');
+	writeFileSync(json, JSON.stringify(meta, null, '\t') + '\n');
+	console.log(`${json.replace(root + '/', '')}: projection for the home marker`);
 };
 
 main().catch((error) => {

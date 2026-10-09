@@ -8,7 +8,9 @@
  *            weak device: the poster image, and three.js is never fetched
  *
  * prefers-reduced-motion is orthogonal: the live scene renders still frames per section.
- * `?scene=high|low|static|reduced` forces a mode (QA and screenshots).
+ * `?scene=high|low|static|reduced` forces a mode (QA and screenshots). `?scene=poster` is
+ * the capture mode of scripts/scene-poster.js: a still, high-tier, country-neutral hero
+ * (no home highlight, marker or arcs), so the poster never goes stale when the home moves.
  *
  * WebGL is probed in a worker (gpuProbe.worker.js): the first context of a page waits for
  * the GPU side to initialise, a long task if done here. The main-thread probe is only the
@@ -108,7 +110,8 @@ const probeInWorker = () =>
  *   maxDpr: number,
  *   mobile: boolean,
  *   renderer: string,
- *   maxPointSize: number
+ *   maxPointSize: number,
+ *   neutral?: boolean
  * }} SceneQuality
  */
 
@@ -143,6 +146,17 @@ export const detectQuality = async () => {
 
 	const result = { ...base, reducedMotion, mobile };
 	if (forced === 'static') return { ...result, reason: 'forced' };
+	if (forced === 'poster') {
+		return {
+			...result,
+			tier: 'high',
+			reason: 'poster',
+			reducedMotion: true,
+			neutral: true,
+			maxDpr: 2,
+			dpr: Math.min(deviceDpr, 2)
+		};
+	}
 	if (nav.connection?.saveData) return { ...result, reason: 'save-data' };
 
 	const gl = (await probeInWorker()) ?? probeWebGL();
