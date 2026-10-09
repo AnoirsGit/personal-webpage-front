@@ -10,7 +10,7 @@
  * (page top) to its bottom (page end). That way the hero starts at exactly 0, the
  * contact stage ends at exactly 1, and `stage index + progress` only ever grows.
  *
- * Other fields of the store (e.g. `skillsView`) are left as they are. The current
+ * Other fields of the store are left as they are. The current
  * stage is also mirrored on <html data-scene="…"> (only when it changes), as a CSS
  * hook for the static poster and for checking the tracker from a test.
  */

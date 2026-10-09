@@ -3,7 +3,7 @@
 
 	- Story time follows sceneStore through a critically damped spring, so scrolling, jumps
 	  and anchor links all become calm camera moves.
-	- Parts mount in stages (sky → stars → Earth → constellations → process), each compiled
+	- Parts mount in stages (sky → stars → Earth → process), each compiled
 	  with compileAsync before the next, so no frame has to compile every shader at once.
 	- Frames are capped near 60 fps on high-refresh screens, rendered on demand only with
 	  prefers-reduced-motion, and the loop stops while the tab is hidden.
@@ -21,7 +21,6 @@
 	import { evaluateStory, layoutFor, phases } from './story.js';
 	import Sky from './parts/Sky.svelte';
 	import Starfield from './parts/Starfield.svelte';
-	import Constellations from './parts/Constellations.svelte';
 	import ProcessGraph from './parts/ProcessGraph.svelte';
 	import ShootingStar from './parts/ShootingStar.svelte';
 	import OrbitGlobe from '$lib/entities/globe/OrbitGlobe.svelte';
@@ -51,7 +50,6 @@
 	let section = 0;
 	const unsubscribeStore = sceneStore.subscribe((state) => {
 		target = storyTime(state);
-		runtime.skillsView = state.skillsView === 'list' ? 'list' : 'tree';
 		const index = Math.max(0, SCENE_SECTIONS.indexOf(state.section));
 		if (index !== section && !runtime.motion) runtime.onCut?.();
 		section = index;
@@ -159,7 +157,7 @@
 		renderer.domElement.addEventListener('webglcontextlost', onContextLost);
 
 		(async () => {
-			for (const next of [1, 2, 3, 4]) {
+			for (const next of [1, 2, 3]) {
 				if (destroyed) return;
 				stage = next;
 				await tick();
@@ -296,10 +294,8 @@
 			: 1;
 		if (motion) {
 			const p = phases(storyT);
-			runtime.phases.skills = p.skills;
 			runtime.phases.process = p.process;
 		} else {
-			runtime.phases.skills = storyT >= 1 ? 2 : -2;
 			runtime.phases.process = storyT >= 2 ? 2 : -2;
 		}
 
@@ -554,8 +550,5 @@
 	<OrbitGlobe {runtime} />
 {/if}
 {#if stage >= 3}
-	<Constellations {runtime} />
-{/if}
-{#if stage >= 4}
 	<ProcessGraph {runtime} />
 {/if}

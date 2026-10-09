@@ -1,20 +1,15 @@
 /*
  * Contract between the page and the 3D background.
  *
- *   sceneStore: writable({ section, progress, skillsView })
+ *   sceneStore: writable({ section, progress })
  *     section    — 'hero' | 'skills' | 'process' | 'works' | 'offer' | 'contact'
  *     progress   — 0..1, how far the reader is through that section
- *     skillsView — 'tree' | 'list': how the Skills section shows the skills. The skill
- *                  tree and the list are both HTML in front of the sky, so the 3D
- *                  constellations never compete with them: behind the tree they stay as a
- *                  dimmed backdrop, behind the list they fade to a trace, and in both cases
- *                  they show no captions and their stars do not answer the pointer.
- *                  ('constellations', the old interactive sky view, is gone since 10.2026.)
  *
- * The page owns the store and writes it with update(), never set(), so one writer does
- * not wipe another's field: src/lib/sections/sceneProgress.js publishes section and
- * progress on scroll, the Skills section publishes skillsView. The scene only reads it
- * and never touches the DOM of the sections, so the layout is free to change.
+ * The page owns the store and writes it with update(), never set():
+ * src/lib/sections/sceneProgress.js publishes section and progress on scroll. The scene
+ * only reads it and never touches the DOM of the sections, so the layout is free to change.
+ * (The skill constellations used to hang in the 3D sky; since 10.2026 the skill tree in the
+ * Skills section is the star chart itself, and the sky behind it is just sky.)
  *
  *   sceneStatus: readable-by-the-page { mode, reducedMotion }, written by Scene.svelte
  *     mode — 'pending' (deciding) | 'loading' | 'live' (the 3D runs) | 'poster' (it never will)
@@ -27,14 +22,13 @@
 import { writable } from 'svelte/store';
 
 /** @typedef {'hero' | 'skills' | 'process' | 'works' | 'offer' | 'contact'} SceneSection */
-/** @typedef {'tree' | 'list'} SkillsView */
-/** @typedef {{ section: SceneSection, progress: number, skillsView: SkillsView }} SceneState */
+/** @typedef {{ section: SceneSection, progress: number }} SceneState */
 
 /** Story order. The scene treats `index + progress` as one continuous timeline. */
 export const SCENE_SECTIONS = ['hero', 'skills', 'process', 'works', 'offer', 'contact'];
 
 /** @type {import('svelte/store').Writable<SceneState>} */
-export const sceneStore = writable({ section: 'hero', progress: 0, skillsView: 'tree' });
+export const sceneStore = writable({ section: 'hero', progress: 0 });
 
 /** @typedef {{ mode: 'pending' | 'loading' | 'live' | 'poster', reducedMotion: boolean }} SceneStatus */
 

@@ -4,14 +4,15 @@
  * next shot across the section boundary, so scrolling is the only thing that moves it:
  *
  *   hero     the Earth, home facing the viewer, data arcs leaving home
- *   skills   the camera lifts to the sky above the horizon; constellations draw
+ *   skills   the camera lifts to the sky above the horizon (the skill tree is the page's own
+ *            star chart in front of it)
  *   process  pans right to the process constellation
  *   works    drops to a low orbit: the limb of the Earth under a quiet sky
  *   offer    drifts along the orbit
  *   contact  back to the whole Earth, home in the centre
  *
  * Two layouts: 'wide' (landscape, content on the left, the scene's focus on the right) and
- * 'tall' (phones: the Earth rises from the bottom, constellations stack up the sky).
+ * 'tall' (phones: the Earth rises from the bottom).
  *
  * The whole-Earth shots (hero, contact) are framed from the viewport: see earthFraming().
  */
@@ -39,29 +40,6 @@ export const layoutFor = (width, height) => (width / Math.max(height, 1) < 0.9 ?
 export const SKY_ANCHOR = {
 	wide: new Vector3(0, 1.6, 20.5),
 	tall: new Vector3(0, 1.4, 21.5)
-};
-
-/*
- * Where each constellation hangs, keyed by the group ids of buildConstellations()
- * (content.skill-tree.js): yaw/pitch of its centre seen from SKY_ANCHOR, angular size, and
- * the reveal window in "skills phase" units (see phases()). Wide screens keep the figures
- * right of the section's text column; phones stack them up the sky the camera climbs.
- */
-export const CONSTELLATION_PLACEMENT = {
-	wide: {
-		agents: { yaw: 10, pitch: 33, size: 10.5, window: [-0.45, 0.1] },
-		llm: { yaw: 21.5, pitch: 32, size: 8.5, window: [-0.25, 0.3] },
-		frontend: { yaw: -4, pitch: 18, size: 12, window: [-0.02, 0.5] },
-		backend: { yaw: 16, pitch: 21.5, size: 10, window: [0.18, 0.7] },
-		infra: { yaw: 22, pitch: 11.5, size: 8.5, window: [0.38, 0.9] }
-	},
-	tall: {
-		agents: { yaw: 0, pitch: 20, size: 12, window: [-0.32, 0.0] },
-		llm: { yaw: 0, pitch: 33, size: 10, window: [-0.06, 0.24] },
-		frontend: { yaw: 0, pitch: 47, size: 13, window: [0.18, 0.5] },
-		backend: { yaw: 0, pitch: 61, size: 12, window: [0.44, 0.76] },
-		infra: { yaw: 0, pitch: 74, size: 10, window: [0.7, 1.0] }
-	}
 };
 
 /** The process figure: centre, angular width/height, orientation of the flow. */
@@ -169,8 +147,9 @@ const earthShot = (view, layout, fov, spin, lean = 0) => {
 const SHOTS = {
 	wide: [
 		(p, view) => earthShot(view, 'wide', 36, 0),
-		(p) =>
-			shot(SKY_ANCHOR.wide.toArray(), lookDir(4 + 4 * p, 25 + 2 * p), 40, 0.3, 0.02, 8 + 6 * p),
+		// the skill tree's crown fills the sky first; by the time its root (at the bottom of the
+		// chart) is on screen, the camera has come down to the horizon it grows from
+		(p) => shot(SKY_ANCHOR.wide.toArray(), lookDir(0, 30 - 17 * p), 40, 0, 0, 8 + 6 * p),
 		(p) => shot([0.6, 1.8, 20.5], lookDir(47 + 3 * p, 20), 40, 0.34, 0.02, 16 + 6 * p),
 		(p) => shot([-2.6, 6.6, 8.4], [5 + 2 * p, 6.5, -24], 42, 0.0, 0.0, 24 + 14 * p, 0.55, 0.75),
 		(p) => shot([2.8, 6.4, 8.2], [-6 - 2 * p, 6.3, -24], 42, 0.0, 0.0, 44 + 14 * p, 0.55, 0.75),
@@ -178,8 +157,9 @@ const SHOTS = {
 	],
 	tall: [
 		(p, view) => earthShot(view, 'tall', 42, 0, 20),
+		// phones: the tree hangs down from its root under the heading; open sky behind it
 		(p) =>
-			shot(SKY_ANCHOR.tall.toArray(), lookDir(0, 18 + 56 * p), 52, 0, 0, 8 + 6 * p, 1, 1, 0.35),
+			shot(SKY_ANCHOR.tall.toArray(), lookDir(0, 30 + 14 * p), 52, 0, 0, 8 + 6 * p, 1, 1, 0.35),
 		(p) => shot([0.6, 1.6, 21.5], lookDir(38, 31 + 2 * p), 54, 0, -0.02, 16 + 6 * p, 1, 1, 0.35),
 		(p) => shot([-1.8, 6.9, 9.0], [3 + 2 * p, 4.6, -24], 54, 0, 0, 24 + 14 * p, 0.55, 0.75, 0.6),
 		(p) => shot([2.0, 6.7, 8.8], [-4 - 2 * p, 4.4, -24], 54, 0, 0, 44 + 14 * p, 0.55, 0.75, 0.6),
@@ -273,7 +253,6 @@ export const createShot = () => shot(ORIGIN, [0, 0, -1], 40, 0, 0, 0);
  * @param {number} T
  */
 export const phases = (T) => ({
-	skills: (T - 0.9) / 0.4,
 	process: (T - 1.9) / 0.4
 });
 
