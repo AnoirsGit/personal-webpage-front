@@ -44,3 +44,7 @@ anoirs-server.top {
 :80 {
 	import personal_webpage
 }
+
+# Other services on this box drop their own site blocks here (e.g. atlas front/ops/study ->
+# study.anoirs-server.top). A glob with no matches is only a warning, so this is safe when empty.
+import /etc/caddy/sites/*.caddy
