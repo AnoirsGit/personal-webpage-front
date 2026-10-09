@@ -54,7 +54,7 @@
 
 	/* a four-point star: the root and the groups' leads */
 	const SPARKLE =
-		'M0 -1 C0.07 -0.3 0.3 -0.07 1 0 C0.3 0.07 0.07 0.3 0 1 C-0.07 0.3 -0.3 0.07 -1 0 C-0.3 -0.07 -0.07 -0.3 0 -1Z';
+		'M0 -1 C0.035 -0.17 0.17 -0.035 1 0 C0.17 0.035 0.035 0.17 0 1 C-0.035 0.17 -0.17 0.035 -1 0 C-0.17 -0.035 -0.035 -0.17 0 -1Z';
 
 	$: rootName = $t('skills.tree.root');
 	$: chart = layoutChart(groups, { root: rootName, label: softHyphens });
@@ -742,11 +742,15 @@
 		color: var(--text-faint);
 	}
 
-	/* a star: a soft halo (::before) round a bright core (::after) in the group's colour */
+	/*
+	 * A star, drawn by the browser so it stays sharp at any pixel ratio: a white-hot core with
+	 * a tight glow in the group's colour (::after) and, on the main tools, two hairline rays
+	 * that fade towards their tips (::before). The other skills are bare points; the root and
+	 * the leads are a slim four-point star (SVG) under the same core. No centring transforms:
+	 * the parts sit at whole-pixel margins, so nothing is resampled between pixels.
+	 */
 	.t-star {
 		position: relative;
-		display: grid;
-		place-items: center;
 		flex: none;
 		width: var(--box);
 		height: var(--box);
@@ -759,66 +763,62 @@
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		border-radius: 50%;
-		transform: translate(-50%, -50%);
 	}
 
 	.t-star::before {
-		width: calc(var(--box) * 1.9);
-		height: calc(var(--box) * 1.9);
-		background: radial-gradient(
-			circle,
-			color-mix(in srgb, var(--c, #e8c77e) 42%, transparent) 0,
-			color-mix(in srgb, var(--c, #e8c77e) 12%, transparent) 38%,
-			transparent 70%
-		);
+		--ray: color-mix(in srgb, var(--c, #e8c77e) 45%, #fff);
+		width: 18px;
+		height: 18px;
+		margin: -9px 0 0 -9px;
+		background: linear-gradient(90deg, transparent, var(--ray) 50%, transparent) 0 8.5px / 100% 1px
+				no-repeat,
+			linear-gradient(180deg, transparent, var(--ray) 50%, transparent) 8.5px 0 / 1px 100% no-repeat;
+		opacity: 0.75;
 	}
 
 	.t-star::after {
-		width: 5px;
-		height: 5px;
-		background: #fffaf0;
-		box-shadow: 0 0 4px 1px color-mix(in srgb, var(--c, #e8c77e) 85%, transparent);
+		width: 4px;
+		height: 4px;
+		margin: -2px 0 0 -2px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 0 0 1px color-mix(in srgb, var(--c, #e8c77e) 50%, transparent),
+			0 0 5px 1px color-mix(in srgb, var(--c, #e8c77e) 75%, transparent),
+			0 0 12px 2px color-mix(in srgb, var(--c, #e8c77e) 22%, transparent);
 	}
 
-	.t-minor .t-star::before {
-		opacity: 0.6;
+	.t-minor .t-star::before,
+	.t-lead .t-star::before,
+	.t-root .t-star::before {
+		display: none;
 	}
 
 	.t-minor .t-star::after {
-		width: 3.5px;
-		height: 3.5px;
-		background: color-mix(in srgb, var(--c) 35%, #f4f1ff);
-		box-shadow: 0 0 3px 0 color-mix(in srgb, var(--c) 70%, transparent);
+		width: 2px;
+		height: 2px;
+		margin: -1px 0 0 -1px;
+		background: color-mix(in srgb, var(--c, #e8c77e) 20%, #fff);
+		box-shadow: 0 0 0 1px color-mix(in srgb, var(--c, #e8c77e) 35%, transparent),
+			0 0 4px 1px color-mix(in srgb, var(--c, #e8c77e) 45%, transparent);
 	}
 
 	.t-lead .t-star::after,
 	.t-root .t-star::after {
-		width: 6px;
-		height: 6px;
-		box-shadow: 0 0 6px 2px color-mix(in srgb, var(--c, #e8c77e) 90%, transparent);
+		box-shadow: 0 0 0 1px color-mix(in srgb, var(--c, #e8c77e) 60%, transparent),
+			0 0 8px 2px color-mix(in srgb, var(--c, #e8c77e) 80%, transparent),
+			0 0 22px 5px color-mix(in srgb, var(--c, #e8c77e) 22%, transparent);
 	}
 
 	.t-star svg {
-		position: relative;
+		position: absolute;
+		inset: 0;
 		width: 100%;
 		height: 100%;
 		overflow: visible;
 	}
 
 	.t-star path {
-		fill: color-mix(in srgb, var(--c, #e8c77e) 70%, #fff);
-	}
-
-	.t-root .t-star::before {
-		width: 64px;
-		height: 64px;
-		background: radial-gradient(
-			circle,
-			rgba(246, 223, 168, 0.5) 0,
-			rgba(232, 199, 126, 0.16) 36%,
-			transparent 70%
-		);
+		fill: color-mix(in srgb, var(--c, #e8c77e) 55%, #fff);
 	}
 
 	.t-root .t-star path {

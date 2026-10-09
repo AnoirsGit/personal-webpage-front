@@ -87,8 +87,10 @@ const TEXT_GAP = 28;
  *   data-scene-keepout); without it, the edge is estimated from the page's own layout. The
  *   Earth is up to 36% of the height, starts just right of the text with its glow, and may
  *   run off the right edge by a quarter of its radius before it shrinks.
- * - tall: as wide as the phone and rising from the bottom: its top sits just under the
- *   hero lead (`keepout.bottom`), between 64% and 74% of the height.
+ * - tall: the whole planet behind the hero text, a little wider than the phone and centred
+ *   low (56% of the height). There is no room beside or below the text on a phone — kept
+ *   clear of it, the planet was a sliver under the buttons; behind the text, the land and
+ *   the glow dim where the lines are (see occlusion.js), so the text stays readable.
  * @param {View} view
  * @param {'wide' | 'tall'} layout
  */
@@ -96,10 +98,8 @@ export const earthFraming = ({ width, height, keepout }, layout) => {
 	const w = Math.max(width, 1);
 	const h = Math.max(height, 1);
 	if (layout === 'tall') {
-		const r = w * 0.6;
-		const below = keepout ? keepout.bottom + 16 : h * 0.66;
-		const top = Math.min(h * 0.74, Math.max(h * 0.64, below));
-		return { cx: w / 2, cy: top + r, r };
+		const r = Math.min(w * 0.64, h * 0.34);
+		return { cx: w / 2, cy: h * 0.56, r };
 	}
 	const gutter = Math.min(40, Math.max(16, w * 0.04));
 	const left = Math.max(gutter, (w - 1200) / 2);

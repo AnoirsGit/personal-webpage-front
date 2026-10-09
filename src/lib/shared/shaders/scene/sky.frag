@@ -47,9 +47,10 @@ float starDust(vec3 n, float crowd) {
 	float seed = fract(sin(dot(cell, vec3(127.1, 311.7, 74.7))) * 43758.5453);
 	if (seed > crowd) return 0.0;
 	vec3 h = fract(vec3(seed * 13.71, seed * 71.37, seed * 157.13));
-	vec3 toStar = cell + 0.25 + 0.5 * h - p;
+	vec3 toStar = cell + 0.3 + 0.4 * h - p;
 	float across = length(toStar - n * dot(toStar, n));
-	return smoothstep(0.34, 0.04, across) * (0.3 + 0.7 * h.y * h.y);
+	// a small hard point, not a soft blob: sand is what a blurry crowd of them looks like
+	return smoothstep(0.2, 0.06, across) * (0.35 + 0.9 * h.y * h.y);
 }
 
 vec2 equirect(vec3 d) {
@@ -67,8 +68,8 @@ void main() {
 		vec3 density = texture2D(uGalaxy, equirect(n)).rgb;
 		vec3 galaxy = uGlow * density.r + uCore * density.g + uRose * density.b;
 		// the band's faint stars, only where it is (most of the sky skips the work)
-		float crowd = uGrain * clamp(0.5 * density.r + 0.4 * density.g, 0.0, 0.7);
-		if (crowd > 0.012) galaxy += vec3(0.62, 0.62, 0.72) * starDust(n, crowd) * (0.4 + 0.6 * density.r);
+		float crowd = uGrain * clamp(0.26 * density.r + 0.2 * density.g, 0.0, 0.36);
+		if (crowd > 0.012) galaxy += vec3(0.44, 0.44, 0.52) * starDust(n, crowd) * (0.4 + 0.6 * density.r);
 		color += galaxy * uGalaxyMix * clearing();
 	}
 

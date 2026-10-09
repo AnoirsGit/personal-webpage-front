@@ -26,9 +26,9 @@ export const SCENE_PALETTE = {
 	 * diffuse light a cool lavender, the core a warm cream from the accent, the gas knots a
 	 * muted rose. All low, so text over the band keeps its contrast.
 	 */
-	galaxyGlow: '#34365a',
-	galaxyCore: '#5a472c',
-	galaxyRose: '#3c2040',
+	galaxyGlow: '#1a1b2e',
+	galaxyCore: '#2c2316',
+	galaxyRose: '#1e1020',
 	/** distant stars */
 	star: '#dfe3ff',
 	starWarm: '#ffe9c4'
