@@ -1,36 +1,55 @@
-// Deep space: the base colour, a dim galactic band and the nebulae baked by parts/Sky.svelte
-// (nebula.frag), dithered against banding. The clouds hang at a finite distance, so they shift
-// a little against the stars as the camera travels; they drift slowly while motion is
-// allowed, and dim behind readable page content like every other bright part.
+// Deep space: the base colour and the Milky Way baked by parts/Sky.svelte (galaxy.frag),
+// dithered against banding. The band hangs at a finite distance, so it shifts a little
+// against the stars as the camera travels; it drifts very slowly while motion is allowed,
+// and opens soft clearings behind readable page content.
 uniform vec3 uBase;
-uniform vec3 uBandNormal;
 uniform float uDim;
 uniform float uTime;
 uniform float uMotion;
-uniform sampler2D uNebula;
-uniform float uNebulaMix;
-uniform vec3 uViolet;
-uniform vec3 uIndigo;
-uniform vec3 uWarm;
+uniform sampler2D uGalaxy;
+uniform float uGalaxyMix;
+uniform vec3 uGlow;
+uniform vec3 uCore;
+uniform vec3 uRose;
 uniform vec3 uCamera;
 uniform float uPixelRatio;
+uniform float uGrain;
 varying vec3 vDir;
 
-const float NEBULA_DISTANCE = 300.0;
+const float GALAXY_DISTANCE = 300.0;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
-// the content mask taken wide and soft: text sits in gentle clearings of the clouds, with no
+// the content mask taken wide and soft: text sits in gentle clearings of the band, with no
 // edge to see (the bright parts use the sharp contentShade())
 float clearing() {
 	vec2 uv = gl_FragCoord.xy / uViewport;
+#ifdef LOW
+	// phones: one tap (the mask is small and filtered, its edge is soft enough)
+	float mask = texture2D(uOcclusion, uv).r;
+#else
 	vec2 r = 52.0 * uPixelRatio / uViewport;
 	float mask = texture2D(uOcclusion, uv).r * 0.36 +
 		(texture2D(uOcclusion, uv + vec2(r.x, r.y)).r + texture2D(uOcclusion, uv + vec2(-r.x, r.y)).r +
 		texture2D(uOcclusion, uv + vec2(r.x, -r.y)).r + texture2D(uOcclusion, uv - r).r) * 0.16;
-	return 1.0 - 0.85 * mask;
+#endif
+	return 1.0 - 0.7 * mask;
+}
+
+// The band's countless faint stars, too many to be points: one chance of a star per cell of
+// a fine grid on the sky (≈3 px across on a laptop), taken where the band is dense and fixed
+// to the sky, so they travel with it instead of swimming on the screen.
+float starDust(vec3 n, float crowd) {
+	vec3 p = n * 420.0;
+	vec3 cell = floor(p);
+	float seed = fract(sin(dot(cell, vec3(127.1, 311.7, 74.7))) * 43758.5453);
+	if (seed > crowd) return 0.0;
+	vec3 h = fract(vec3(seed * 13.71, seed * 71.37, seed * 157.13));
+	vec3 toStar = cell + 0.25 + 0.5 * h - p;
+	float across = length(toStar - n * dot(toStar, n));
+	return smoothstep(0.34, 0.04, across) * (0.3 + 0.7 * h.y * h.y);
 }
 
 vec2 equirect(vec3 d) {
@@ -40,22 +59,17 @@ vec2 equirect(vec3 d) {
 void main() {
 	vec3 d = normalize(vDir);
 	vec3 color = uBase;
-	float band = 1.0 - abs(dot(d, uBandNormal));
-	color += vec3(0.09, 0.075, 0.15) * pow(band, 12.0) * 0.55;
 
-	if (uNebulaMix > 0.0) {
-		vec3 n = normalize(d * NEBULA_DISTANCE + uCamera);
-		float t = uTime * uMotion;
-		float yaw = t * 0.0035;
+	if (uGalaxyMix > 0.0) {
+		vec3 n = normalize(d * GALAXY_DISTANCE + uCamera);
+		float yaw = uTime * uMotion * 0.0025;
 		n = vec3(n.x * cos(yaw) - n.z * sin(yaw), n.y, n.x * sin(yaw) + n.z * cos(yaw));
-		n = normalize(n + 0.016 * vec3(
-			sin(t * 0.05 + n.y * 4.0),
-			sin(t * 0.041 + n.z * 4.0),
-			sin(t * 0.063 + n.x * 4.0)
-		));
-		vec3 density = texture2D(uNebula, equirect(n)).rgb;
-		vec3 nebula = uViolet * density.r + uIndigo * density.g + uWarm * density.b;
-		color += nebula * uNebulaMix * clearing();
+		vec3 density = texture2D(uGalaxy, equirect(n)).rgb;
+		vec3 galaxy = uGlow * density.r + uCore * density.g + uRose * density.b;
+		// the band's faint stars, only where it is (most of the sky skips the work)
+		float crowd = uGrain * clamp(0.5 * density.r + 0.4 * density.g, 0.0, 0.7);
+		if (crowd > 0.012) galaxy += vec3(0.62, 0.62, 0.72) * starDust(n, crowd) * (0.4 + 0.6 * density.r);
+		color += galaxy * uGalaxyMix * clearing();
 	}
 
 	color *= uDim;

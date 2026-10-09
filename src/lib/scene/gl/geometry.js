@@ -149,33 +149,65 @@ export const buildGlowPoints = (points) => {
  * A shell of distant stars around the origin. Nearer ones drift more as the camera moves,
  * which is all the parallax the sky needs. Mostly faint; the brightest ~3% get a soft halo
  * (`aHalo`), and about one in 250 is a bright beacon.
+ *
+ * With `galaxy` (../galaxy.js), `band` of the stars crowd into the Milky Way instead: small
+ * and faint, scattered across the band's width and thickest towards its core, so the band
+ * reads as countless stars and not only as glow.
  * @param {number} count
  * @param {{ star: Vector3, warm: Vector3 }} colors
+ * @param {{ normal: number[], core: number[], band: number }} [galaxy]
  */
-export const buildStarfield = (count, colors) => {
+export const buildStarfield = (count, colors, galaxy) => {
 	const rand = random(7);
+	const normal = galaxy ? new Vector3(...galaxy.normal).normalize() : null;
+	const core = galaxy ? new Vector3(...galaxy.core) : null;
+	const axisC =
+		normal && core ? core.clone().addScaledVector(normal, -core.dot(normal)).normalize() : null;
+	const axisE = normal && axisC ? normal.clone().cross(axisC) : null;
+	const crowd = galaxy ? Math.round(count * galaxy.band) : 0;
+	const gauss = () =>
+		Math.sqrt(-2 * Math.log(Math.max(1e-6, rand()))) * Math.cos(2 * Math.PI * rand());
+	const direction = new Vector3();
 	const position = new Float32Array(count * 3);
 	const aSize = new Float32Array(count);
 	const aColor = new Float32Array(count * 3);
 	const aTwinkle = new Float32Array(count * 2);
 	const aHalo = new Float32Array(count);
 	for (let i = 0; i < count; i++) {
-		// uniform direction, radius biased toward the far shell
-		const u = rand() * 2 - 1;
-		const phi = rand() * Math.PI * 2;
-		const ring = Math.sqrt(1 - u * u);
+		const inBand = i < crowd && normal && axisC && axisE;
+		if (inBand) {
+			// along the band, half of them gathered towards the core; across it, a narrow spread
+			const l = rand() < 0.5 ? (rand() * 2 - 1) * Math.PI : gauss() * 0.7;
+			const b = gauss() * (0.07 + 0.06 * Math.exp((-l * l) / 0.32));
+			direction
+				.copy(axisC)
+				.multiplyScalar(Math.cos(l) * Math.cos(b))
+				.addScaledVector(axisE, Math.sin(l) * Math.cos(b))
+				.addScaledVector(normal, Math.sin(b));
+		} else {
+			// uniform direction
+			const u = rand() * 2 - 1;
+			const phi = rand() * Math.PI * 2;
+			const ring = Math.sqrt(1 - u * u);
+			direction.set(ring * Math.cos(phi), u, ring * Math.sin(phi));
+		}
+		// radius biased toward the far shell
 		const r = 140 + 300 * Math.sqrt(rand());
-		position[i * 3] = r * ring * Math.cos(phi);
-		position[i * 3 + 1] = r * u;
-		position[i * 3 + 2] = r * ring * Math.sin(phi);
-		// mostly faint, a few bright, a handful of beacons
+		position[i * 3] = r * direction.x;
+		position[i * 3 + 1] = r * direction.y;
+		position[i * 3 + 2] = r * direction.z;
+		// mostly faint, a few bright, a handful of beacons; the band's crowd stays small
 		const m = rand();
-		const beacon = rand() < 0.004;
-		aSize[i] = beacon ? 3 + 0.6 * rand() : 0.7 + 2.1 * Math.pow(m, 5) + (rand() < 0.012 ? 1.2 : 0);
+		const beacon = !inBand && rand() < 0.004;
+		aSize[i] = inBand
+			? 0.6 + 0.9 * Math.pow(m, 3)
+			: beacon
+			? 3 + 0.6 * rand()
+			: 0.7 + 2.1 * Math.pow(m, 5) + (rand() < 0.012 ? 1.2 : 0);
 		aHalo[i] = beacon ? 1 : Math.min(1, Math.max(0, (aSize[i] - 2.5) / 1.2));
 		const warm = rand() < 0.22 ? 1 : 0;
 		const c = warm ? colors.warm : colors.star;
-		const brightness = 0.45 + 0.55 * Math.pow(rand(), 0.6);
+		const brightness = (inBand ? 0.35 : 0.45) + 0.55 * Math.pow(rand(), 0.6);
 		aColor[i * 3] = c.x * brightness;
 		aColor[i * 3 + 1] = c.y * brightness;
 		aColor[i * 3 + 2] = c.z * brightness;

@@ -3,7 +3,9 @@
  *
  *   high   — laptops and desktops with a real GPU: full density, DPR up to 2
  *   low    — phones, tablets, old/integrated-weak GPUs, low memory: fewer dots and
- *            stars, DPR up to 1.5, no country border line
+ *            stars, DPR up to 1.5 (1 on phones: their GPUs pay per pixel, and three times
+ *            as many pixels buy nothing for a soft background), no country border line,
+ *            30 fps while the camera rests
  *   static — no WebGL, a software rasteriser (SwiftShader, llvmpipe), Save-Data, or a very
  *            weak device: the poster image, and three.js is never fetched
  *
@@ -171,7 +173,8 @@ export const detectQuality = async () => {
 	const weak =
 		mobile || coarse || WEAK_GPU.test(result.renderer) || memory <= 4 || cores <= 4 || !gl.webgl2;
 	const tier = forced === 'high' ? 'high' : forced === 'low' ? 'low' : weak ? 'low' : 'high';
-	const maxDpr = tier === 'high' ? 2 : 1.5;
+	const phone = mobile && smallScreen;
+	const maxDpr = tier === 'high' ? 2 : phone ? 1 : 1.5;
 
 	return {
 		...result,

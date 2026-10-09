@@ -29,7 +29,8 @@ void main() {
 			if (speed < 0.0) head = 1.0 - head;
 			float d = (head - vT) * sign(speed);
 			float tail = d > 0.0 ? exp(-d * 14.0) : 0.0;
-			pulses += tail * 0.5 + exp(-pow(d * 70.0, 2.0)) * 1.3;
+			float near = d * 70.0; // squared by hand: pow() is undefined for a negative base
+			pulses += tail * 0.5 + exp(-near * near) * 1.3;
 		}
 		pulses *= mix(0.55, 1.0, uMotion);
 	}

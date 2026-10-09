@@ -22,12 +22,13 @@ export const SCENE_PALETTE = {
 	/** atmosphere halo */
 	atmosphere: '#4c58c2',
 	/**
-	 * Nebulae, added on top of the sky where the baked clouds are dense: main-purple and the
-	 * page's deep blue, both taken low in saturation, and a hint of the accent gold
+	 * The Milky Way, added on top of the sky where the baked band is dense (galaxy.frag): its
+	 * diffuse light a cool lavender, the core a warm cream from the accent, the gas knots a
+	 * muted rose. All low, so text over the band keeps its contrast.
 	 */
-	nebulaViolet: '#251c42',
-	nebulaIndigo: '#162142',
-	nebulaWarm: '#2e271a',
+	galaxyGlow: '#34365a',
+	galaxyCore: '#5a472c',
+	galaxyRose: '#3c2040',
 	/** distant stars */
 	star: '#dfe3ff',
 	starWarm: '#ffe9c4'
