@@ -102,12 +102,24 @@ test('settings refuse a short or spaced token and a config path inside git', (t)
 	);
 	assert.match(problems({ ...base, SITE_CONFIG_PATH: inRepo }).join(), /outside any git/);
 	assert.match(problems({ ...base, SITE_ADMIN_PORT: 'http' }).join(), /port/);
+	assert.match(problems({ ...base, SITE_REBUILD_STATUS_DIR: 'rebuild' }).join(), /absolute/);
 
-	const settings = loadSettings({ ...base, SITE_REBUILD_CMD: '  ' });
+	const settings = loadSettings(base);
 	assert.equal(settings.bind, '127.0.0.1');
 	assert.equal(settings.port, 8792);
 	assert.deepEqual([...settings.allowedHosts], ['127.0.0.1:8792', 'localhost:8792']);
-	assert.equal(settings.rebuildCommand, null);
+	assert.equal(settings.rebuildStatusDir, null, 'no status directory: save only');
+	assert.equal(settings.rebuildRequestPath, join(dir, 'rebuild-request'));
+
+	// the box's allowlist: loopback plus the tailnet name and address, with and without port
+	const tailnet = loadSettings({
+		...base,
+		SITE_ADMIN_ALLOWED_HOSTS:
+			'127.0.0.1:8792,localhost:8792,box,box:8792,100.64.0.7,100.64.0.7:8792'
+	});
+	assert.equal(hostAllowed({ host: 'box:8792' }, tailnet.allowedHosts), true);
+	assert.equal(hostAllowed({ host: '100.64.0.7' }, tailnet.allowedHosts), true);
+	assert.equal(hostAllowed({ host: 'box.tailnet.ts.net:8792' }, tailnet.allowedHosts), false);
 });
 
 test('HTTP: a foreign Host is refused before anything else', async (t) => {

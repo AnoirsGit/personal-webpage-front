@@ -2,12 +2,13 @@
 # Builds AnoirsGit/personal-webpage-front and deploys it to /srv/www/personal-webpage/current,
 # the docroot Caddy serves. Lives in the repo as ops/box/deploy.sh; ops/box/install.sh copies
 # it to /opt/personal-webpage/deploy.sh. Root's cron runs it daily at 04:30 UTC
-# (>> /var/log/personal-webpage-deploy.log); the place admin runs it, through sudo, after
-# every save.
+# (>> /var/log/personal-webpage-deploy.log); after a save in the place admin,
+# site-rebuild.service runs it through site-rebuild.sh.
 #
 #   deploy.sh                 deploy if origin/main or the saved place changed
 #   deploy.sh --force         rebuild and redeploy even if nothing changed
-#   deploy.sh --force --wait  the same, waiting for a running deploy instead of skipping (admin)
+#   deploy.sh --force --wait  the same, waiting for a running deploy instead of skipping
+#                             (site-rebuild.sh)
 #
 # fetch main → apply the place the admin saved, if any → pnpm install --frozen-lockfile →
 # pnpm build → copy build/ to releases/<time>-<sha> → swap `current` atomically → health
@@ -33,7 +34,7 @@ KEEP_RELEASES=5
 MIN_FREE_MB=2048
 LOCK_WAIT_SEC=1200
 
-# cron and sudo hand over a bare environment; pnpm keeps its store under root's home
+# cron and systemd hand over a bare environment; pnpm keeps its store under root's home
 if [ "$(id -u)" -eq 0 ]; then export HOME=/root; fi
 export PATH="/root/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin${PATH:+:$PATH}"
 export CI=1
@@ -53,7 +54,7 @@ for arg in "$@"; do
 	--force) FORCE=1 ;;
 	--wait) WAIT=1 ;;
 	-h | --help)
-		sed -n '2,19p' "$0"
+		sed -n '2,20p' "$0"
 		exit 0
 		;;
 	*) fail "unknown option: $arg" ;;

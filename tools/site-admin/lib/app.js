@@ -7,8 +7,11 @@
  *   GET  /api/state    saved config (or the repo default), countries, rebuild status
  *   GET  /api/rebuild  rebuild status and log tail (the page polls it during a run)
  *   POST /api/preview  { home } → normalized config, field errors, warnings; writes nothing
- *   POST /api/config   { home } → validate, write SITE_CONFIG_PATH atomically, trigger rebuild
- *   POST /api/rebuild  run the rebuild again without a change
+ *   POST /api/config   { home } → validate, write SITE_CONFIG_PATH atomically
+ *   POST /api/rebuild  rewrite SITE_REBUILD_REQUEST_PATH: the same place, built again
+ *
+ * The admin runs nothing itself. Writing those two files is all it does; a root path unit
+ * on the box watches them and rebuilds (see ./rebuild-status.js and ops/box/).
  */
 import { randomBytes } from 'node:crypto';
 import { readFileSync, statSync } from 'node:fs';
@@ -26,7 +29,7 @@ import {
 } from './auth.js';
 import { loadCountries, resolveCountry, toPublic } from './countries.js';
 import { readJsonFile, serializeConfig, validateConfig, writeFileAtomic } from './config.js';
-import { createRebuilder } from './rebuild.js';
+import { readRebuildState } from './rebuild-status.js';
 
 const BODY_LIMIT = 16 * 1024;
 
@@ -143,37 +146,21 @@ const readJsonBody = async (req) => {
 	}
 };
 
-/** The rebuild command's environment: the admin's, minus its secret. */
-export const childEnv = (env, settings) => {
-	const result = { ...env, SITE_CONFIG_PATH: settings.configPath };
-	delete result.SITE_ADMIN_TOKEN;
-	return result;
-};
-
 /**
  * @param {ReturnType<typeof import('./settings.js').loadSettings>} settings
- * @param {{ log?: (line: string) => void, env?: NodeJS.ProcessEnv }} [options]
+ * @param {{ log?: (line: string) => void }} [options]
  */
-export const createAdmin = (settings, { log = console.log, env = process.env } = {}) => {
+export const createAdmin = (settings, { log = console.log } = {}) => {
 	const countries = loadCountries(settings.countriesPath);
 	const publicCountries = countries.map(toPublic);
 	const page = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
 	const expectedSession = sessionValue(settings.token);
 
-	const rebuilder = settings.rebuildCommand
-		? createRebuilder({
-				command: settings.rebuildCommand,
-				env: childEnv(env, settings),
-				timeoutMs: settings.rebuildTimeoutMs,
-				onFinish: (run) =>
-					log(`rebuild #${run.runs} ${run.status} (exit ${run.exitCode ?? run.signal})`)
-		  })
-		: null;
-
 	const rebuildState = () =>
-		rebuilder
-			? { configured: true, ...rebuilder.snapshot() }
-			: { configured: false, status: 'idle', queued: false, runs: 0, log: '' };
+		readRebuildState({
+			statusDir: settings.rebuildStatusDir,
+			triggers: [settings.configPath, settings.rebuildRequestPath]
+		});
 
 	const currentConfig = async () => {
 		let saved = null;
@@ -203,16 +190,15 @@ export const createAdmin = (settings, { log = console.log, env = process.env } =
 		};
 	};
 
-	// saves run one after another, so the file on disk and the rebuild order agree
-	let saving = Promise.resolve();
-	const save = (config) => {
-		const run = saving.then(async () => {
-			await mkdir(dirname(settings.configPath), { recursive: true });
-			await writeFileAtomic(settings.configPath, serializeConfig(config), { mode: 0o644 });
-			const trigger = rebuilder ? rebuilder.trigger() : null;
-			return { savedAt: new Date().toISOString(), trigger };
+	// writes run one after another, so the last request is the file on disk
+	let writing = Promise.resolve();
+	const writeOne = (path, data) => {
+		const run = writing.then(async () => {
+			await mkdir(dirname(path), { recursive: true });
+			await writeFileAtomic(path, data, { mode: 0o644 });
+			return new Date().toISOString();
 		});
-		saving = run.catch(() => {});
+		writing = run.catch(() => {});
 		return run;
 	};
 
@@ -226,10 +212,10 @@ export const createAdmin = (settings, { log = console.log, env = process.env } =
 					countryCode: country ? country.code : null,
 					configPath: settings.configPath,
 					countries: publicCountries,
-					rebuild: rebuildState()
+					rebuild: await rebuildState()
 				});
 			}
-			if (path === '/api/rebuild') return sendJson(res, 200, { rebuild: rebuildState() });
+			if (path === '/api/rebuild') return sendJson(res, 200, { rebuild: await rebuildState() });
 			throw new HttpError(404, 'Нет такого адреса');
 		}
 		if (req.method !== 'POST') throw new HttpError(405, 'Метод не поддерживается');
@@ -243,26 +229,27 @@ export const createAdmin = (settings, { log = console.log, env = process.env } =
 		if (path === '/api/config') {
 			const result = validateConfig(await readJsonBody(req), { countries });
 			if (!result.ok) return sendJson(res, 422, result);
-			const { savedAt, trigger } = await save(result.config);
+			const savedAt = await writeOne(settings.configPath, serializeConfig(result.config));
 			const { home } = result.config;
-			log(
-				`saved ${home.countryIso3} ${home.city.en} ${home.lat},${home.lon} ${home.timezone}` +
-					(trigger ? ` → rebuild ${trigger.queued ? 'queued' : 'started'}` : '')
-			);
+			log(`saved ${home.countryIso3} ${home.city.en} ${home.lat},${home.lon} ${home.timezone}`);
 			return sendJson(res, 200, {
 				ok: true,
 				config: result.config,
 				warnings: result.warnings,
 				source: 'saved',
 				savedAt,
-				rebuild: rebuildState()
+				rebuild: await rebuildState()
 			});
 		}
 		if (path === '/api/rebuild') {
-			if (!rebuilder) throw new HttpError(409, 'Команда пересборки не задана (SITE_REBUILD_CMD)');
-			const trigger = rebuilder.trigger();
-			log(`rebuild ${trigger.queued ? 'queued' : 'started'} by hand`);
-			return sendJson(res, 202, { rebuild: rebuildState() });
+			if (!settings.rebuildStatusDir) {
+				throw new HttpError(409, 'Пересборка не настроена (SITE_REBUILD_STATUS_DIR)');
+			}
+			// a new file each time (atomic write), so the path unit always sees a change
+			const stamp = `${new Date().toISOString()} ${randomBytes(4).toString('hex')}\n`;
+			await writeOne(settings.rebuildRequestPath, stamp);
+			log('rebuild requested by hand');
+			return sendJson(res, 202, { rebuild: await rebuildState() });
 		}
 		throw new HttpError(404, 'Нет такого адреса');
 	};
@@ -339,5 +326,5 @@ export const createAdmin = (settings, { log = console.log, env = process.env } =
 	server.headersTimeout = 10 * 1000;
 	server.requestTimeout = 30 * 1000;
 
-	return { server, rebuilder, countries };
+	return { server, countries };
 };

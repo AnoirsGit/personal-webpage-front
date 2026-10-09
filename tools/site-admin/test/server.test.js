@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { test } from 'node:test';
 
 import { sessionValue } from '../lib/auth.js';
-import { FAKE_REBUILD, GEORGIA, TOKEN, request, startAdmin } from './helpers.js';
+import { GEORGIA, TOKEN, request, startAdmin } from './helpers.js';
 
 const cookie = `site_admin=${sessionValue(TOKEN)}`;
-const fakeRebuild = `"${process.execPath}" "${FAKE_REBUILD}"`;
 
 const post = (admin, path, body, headers = {}) =>
 	request(admin.port, {
@@ -21,13 +21,37 @@ const post = (admin, path, body, headers = {}) =>
 		body: typeof body === 'string' ? body : JSON.stringify(body)
 	});
 
+const getRebuild = async (admin) =>
+	(await request(admin.port, { path: '/api/rebuild', headers: { cookie } })).json.rebuild;
+
+/** What site-rebuild.sh writes on the box (the path unit and the service are not here). */
+const writeStatus = (admin, fields, log) => {
+	mkdirSync(admin.statusDir, { recursive: true });
+	writeFileSync(
+		join(admin.statusDir, 'status.json'),
+		JSON.stringify({ pass: 1, finishedAt: null, exitCode: null, ...fields })
+	);
+	if (log !== undefined) writeFileSync(join(admin.statusDir, 'rebuild.log'), log);
+};
+
+const ALMATY = {
+	...GEORGIA,
+	countryIso3: 'KAZ',
+	countryName: { en: 'Kazakhstan', ru: 'Казахстан' },
+	city: { en: 'Almaty', ru: 'Алматы' },
+	lat: 43.24,
+	lon: 76.95,
+	timezone: 'Asia/Almaty'
+};
+
 test('state: the repo default until the first save, plus all countries', async (t) => {
 	const admin = await startAdmin(t);
 	const { status, json } = await request(admin.port, { path: '/api/state', headers: { cookie } });
 	assert.equal(status, 200);
 	assert.equal(json.source, 'default');
 	assert.equal(json.countryCode, json.config.home.countryIso3);
-	assert.equal(json.countries.length, 252, '177 on the globe and 75 others');
+	assert.equal(json.countries.filter((country) => country.onGlobe).length, 177);
+	assert.equal(json.countries.length, 252, 'plus the 75 countries the globe lacks');
 	assert.deepEqual(Object.keys(json.countries[0]).sort(), [
 		'a2',
 		'code',
@@ -84,52 +108,86 @@ test('an invalid save is refused with field errors and writes nothing', async (t
 	assert.equal(existsSync(admin.settings.configPath), false);
 });
 
-test('save: atomic 0644 file, one rebuild; saves during the run queue exactly one more', async (t) => {
-	const admin = await startAdmin(t, { SITE_REBUILD_CMD: fakeRebuild });
+test('save writes only the config (atomic, 0644); progress comes from the status files', async (t) => {
+	const admin = await startAdmin(t, { rebuild: true });
+	assert.deepEqual(
+		[(await getRebuild(admin)).configured, (await getRebuild(admin)).status],
+		[true, 'idle']
+	);
 
-	const first = await post(admin, '/api/config', { home: GEORGIA });
-	assert.equal(first.status, 200);
-	assert.equal(first.json.rebuild.status, 'running');
-	assert.equal(first.json.rebuild.queued, false);
-
-	const almaty = {
-		...GEORGIA,
-		countryIso3: 'KAZ',
-		countryName: { en: 'Kazakhstan', ru: 'Казахстан' },
-		city: { en: 'Almaty', ru: 'Алматы' },
-		lat: 43.24,
-		lon: 76.95,
-		timezone: 'Asia/Almaty'
-	};
-	const second = await post(admin, '/api/config', { home: almaty });
-	const third = await post(admin, '/api/config', { home: almaty });
-	assert.equal(second.json.rebuild.queued, true);
-	assert.equal(third.json.rebuild.queued, true);
-
-	const done = await admin.rebuilder.idle();
-	assert.equal(done.status, 'ok');
-	assert.equal(done.runs, 2);
-	assert.match(done.log, /site config applied: Almaty, Kazakhstan \(KAZ\)/, 'built the last save');
-
+	const saved = await post(admin, '/api/config', { home: GEORGIA });
+	assert.equal(saved.status, 200);
 	const { configPath } = admin.settings;
 	assert.equal(statSync(configPath).mode & 0o777, 0o644);
-	assert.deepEqual(JSON.parse(readFileSync(configPath, 'utf8')), { home: almaty });
+	assert.deepEqual(JSON.parse(readFileSync(configPath, 'utf8')), { home: GEORGIA });
+	assert.equal(existsSync(admin.statusDir), false, 'the admin never writes the status');
+	assert.equal(saved.json.rebuild.status, 'idle');
+	assert.ok(saved.json.rebuild.pendingSince, 'waits for the path unit to start a run');
+
+	// the service starts: a pass that includes the save
+	writeStatus(admin, { status: 'running', startedAt: new Date().toISOString() }, 'building\n');
+	let rebuild = await getRebuild(admin);
+	assert.deepEqual(
+		[rebuild.status, rebuild.queued, rebuild.pendingSince, rebuild.log],
+		['running', false, null, 'building\n']
+	);
+
+	// a save during the pass: the script will run one more
+	await new Promise((resolve) => setTimeout(resolve, 20));
+	await post(admin, '/api/config', { home: ALMATY });
+	rebuild = await getRebuild(admin);
+	assert.deepEqual([rebuild.status, rebuild.queued], ['running', true]);
+
+	await new Promise((resolve) => setTimeout(resolve, 20));
+	writeStatus(admin, {
+		status: 'ok',
+		pass: 2,
+		startedAt: new Date().toISOString(),
+		finishedAt: new Date().toISOString(),
+		exitCode: 0
+	});
+	rebuild = await getRebuild(admin);
+	assert.deepEqual(
+		[rebuild.status, rebuild.pass, rebuild.queued, rebuild.pendingSince],
+		['ok', 2, false, null]
+	);
 
 	const state = await request(admin.port, { path: '/api/state', headers: { cookie } });
 	assert.equal(state.json.source, 'saved');
 	assert.equal(state.json.countryCode, 'KAZ');
-	const rebuild = await request(admin.port, { path: '/api/rebuild', headers: { cookie } });
-	assert.equal(rebuild.json.rebuild.status, 'ok');
 	assert.ok(admin.lines.some((line) => line.startsWith('saved KAZ Almaty')));
 });
 
-test('a manual rebuild needs a configured command', async (t) => {
+test('"rebuild again" rewrites the request file, a new file every time', async (t) => {
 	const plain = await startAdmin(t);
-	assert.equal((await post(plain, '/api/rebuild', {})).status, 409);
+	assert.equal((await post(plain, '/api/rebuild', {})).status, 409, 'nothing to trigger');
 
-	const admin = await startAdmin(t, { SITE_REBUILD_CMD: fakeRebuild });
-	const res = await post(admin, '/api/rebuild', {});
-	assert.equal(res.status, 202);
-	assert.equal(res.json.rebuild.status, 'running');
-	assert.equal((await admin.rebuilder.idle()).status, 'ok');
+	const admin = await startAdmin(t, { rebuild: true });
+	const first = await post(admin, '/api/rebuild', {});
+	assert.equal(first.status, 202);
+	assert.ok(first.json.rebuild.pendingSince);
+	const { rebuildRequestPath } = admin.settings;
+	const inode = statSync(rebuildRequestPath).ino;
+	assert.equal(statSync(rebuildRequestPath).mode & 0o777, 0o644);
+	await post(admin, '/api/rebuild', {});
+	assert.notEqual(statSync(rebuildRequestPath).ino, inode, 'the path unit sees a replace');
+	assert.equal(existsSync(admin.settings.configPath), false, 'the place itself is untouched');
+});
+
+test('a country the globe lacks can be saved', async (t) => {
+	const admin = await startAdmin(t);
+	const res = await post(admin, '/api/config', {
+		home: {
+			countryIso3: 'SGP',
+			countryName: { en: 'Singapore', ru: 'Сингапур' },
+			city: { en: 'Singapore', ru: 'Сингапур' },
+			lat: 1.29,
+			lon: 103.85,
+			timezone: 'Asia/Singapore'
+		}
+	});
+	assert.equal(res.status, 200);
+	assert.match(res.json.warnings[0], /нет на карте глобуса/);
+	const state = await request(admin.port, { path: '/api/state', headers: { cookie } });
+	assert.equal(state.json.countryCode, 'SGP');
 });

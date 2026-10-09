@@ -1,21 +1,23 @@
 /*
  * The admin's settings, all from the environment (the box: site-admin.service plus
- * /etc/site-admin/env, which holds the token):
+ * /etc/site-admin/env, which holds the token and the allowed host names):
  *
  *   SITE_ADMIN_TOKEN           required, 16+ characters, no whitespace
  *   SITE_CONFIG_PATH           required: the file the admin writes, outside any git work tree
  *                              (so also outside the repo's build/)
- *   SITE_REBUILD_CMD           shell command run after a save (single flight); unset → save only
- *   SITE_REBUILD_TIMEOUT_SEC   default 1800
+ *   SITE_REBUILD_STATUS_DIR    where the rebuild service writes status.json and rebuild.log
+ *                              (the box: /var/lib/site-rebuild); unset → save only
+ *   SITE_REBUILD_REQUEST_PATH  the file "rebuild again" rewrites; the rebuild's path unit
+ *                              watches it; default: rebuild-request next to SITE_CONFIG_PATH
  *   SITE_ADMIN_BIND            default 127.0.0.1
  *   SITE_ADMIN_PORT            default 8792
- *   SITE_ADMIN_ALLOWED_HOSTS   comma-separated host:port values the Host header may carry;
- *                              default 127.0.0.1:<port>,localhost:<port>
+ *   SITE_ADMIN_ALLOWED_HOSTS   comma-separated names (host or host:port) the Host header may
+ *                              carry; default 127.0.0.1:<port>,localhost:<port>
  *   SITE_ADMIN_COUNTRIES       countries geojson; default: the repo's, next to this tool
  *   SITE_ADMIN_DEFAULT_CONFIG  shown until the first save; default: the repo's site-config.json
  */
 import { fileURLToPath } from 'node:url';
-import { isAbsolute } from 'node:path';
+import { dirname, isAbsolute, join } from 'node:path';
 
 import { TOKEN_MIN_LENGTH, parseAllowedHosts } from './auth.js';
 import { isInsideGitWorkTree } from './config.js';
@@ -53,9 +55,16 @@ export const loadSettings = (env = process.env) => {
 		problems.push('SITE_CONFIG_PATH must be outside any git work tree (and the build output)');
 	}
 
-	const timeoutSec =
-		env.SITE_REBUILD_TIMEOUT_SEC === undefined ? 1800 : Number(env.SITE_REBUILD_TIMEOUT_SEC);
-	if (!(timeoutSec > 0)) problems.push('SITE_REBUILD_TIMEOUT_SEC must be a positive number');
+	const statusDir = env.SITE_REBUILD_STATUS_DIR || null;
+	if (statusDir && !isAbsolute(statusDir)) {
+		problems.push('SITE_REBUILD_STATUS_DIR must be an absolute path');
+	}
+	const requestPath =
+		env.SITE_REBUILD_REQUEST_PATH ||
+		(configPath ? join(dirname(configPath), 'rebuild-request') : '');
+	if (requestPath && !isAbsolute(requestPath)) {
+		problems.push('SITE_REBUILD_REQUEST_PATH must be an absolute path');
+	}
 
 	if (problems.length) throw new SettingsError(problems);
 
@@ -65,8 +74,8 @@ export const loadSettings = (env = process.env) => {
 		port,
 		allowedHosts: parseAllowedHosts(env.SITE_ADMIN_ALLOWED_HOSTS, port),
 		configPath,
-		rebuildCommand: (env.SITE_REBUILD_CMD || '').trim() || null,
-		rebuildTimeoutMs: timeoutSec * 1000,
+		rebuildStatusDir: statusDir,
+		rebuildRequestPath: requestPath,
 		countriesPath:
 			env.SITE_ADMIN_COUNTRIES || repoFile('src/lib/ne_110m_admin_0_countries.geojson'),
 		defaultConfigPath: env.SITE_ADMIN_DEFAULT_CONFIG || repoFile('src/lib/config/site-config.json')

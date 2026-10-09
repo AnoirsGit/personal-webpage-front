@@ -250,6 +250,25 @@
 				color: var(--faint);
 				cursor: default;
 			}
+			.list li.group {
+				display: block;
+				margin-top: 6px;
+				padding: 12px 10px 6px;
+				font-size: 11.5px;
+				line-height: 1.4;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: var(--faint);
+				border-top: 1px solid var(--line);
+				border-radius: 0;
+				cursor: default;
+			}
+			.list li.group:hover {
+				background: none;
+			}
+			.list li.off .code {
+				border-style: dashed;
+			}
 			.hint {
 				margin: 10px 0 0;
 				font-size: 13px;
@@ -932,26 +951,38 @@
 
 				/* ---------- countries ---------- */
 
+				// 1: code or start of a name, 2: inside a name, 0: no match
+				const matchRank = (country, wanted) => {
+					if (!wanted) return 1;
+					const ru = norm(country.ru);
+					const en = norm(country.en);
+					if (
+						norm(country.code) === wanted ||
+						norm(country.a2) === wanted ||
+						ru.startsWith(wanted) ||
+						en.startsWith(wanted)
+					) {
+						return 1;
+					}
+					return ru.includes(wanted) || en.includes(wanted) ? 2 : 0;
+				};
+
+				// countries on the globe first, then «другая страна»: the ones it does not have
 				const filterCountries = (query) => {
 					const wanted = norm(query);
-					if (!wanted) return state.countries;
-					const first = [];
-					const rest = [];
-					for (const country of state.countries) {
-						const ru = norm(country.ru);
-						const en = norm(country.en);
-						if (
-							norm(country.code) === wanted ||
-							norm(country.a2) === wanted ||
-							ru.startsWith(wanted) ||
-							en.startsWith(wanted)
-						) {
-							first.push(country);
-						} else if (ru.includes(wanted) || en.includes(wanted)) {
-							rest.push(country);
+					const shown = [];
+					for (const onGlobe of [true, false]) {
+						const first = [];
+						const rest = [];
+						for (const country of state.countries) {
+							if (Boolean(country.onGlobe) !== onGlobe) continue;
+							const rank = matchRank(country, wanted);
+							if (rank === 1) first.push(country);
+							else if (rank === 2) rest.push(country);
 						}
+						shown.push(...first, ...rest);
 					}
-					return first.concat(rest);
+					return shown;
 				};
 
 				const renderList = ({ reveal = false } = {}) => {
@@ -963,18 +994,29 @@
 					if (!state.shown.length) {
 						const empty = document.createElement('li');
 						empty.className = 'empty';
-						empty.textContent = 'Ничего не нашлось. Маленьких государств на глобусе нет.';
+						empty.textContent = 'Ничего не нашлось.';
 						list.append(empty);
 						search.removeAttribute('aria-activedescendant');
 						return;
 					}
 					const fragment = document.createDocumentFragment();
+					let grouped = false;
 					state.shown.forEach((country, index) => {
+						if (!country.onGlobe && !grouped) {
+							grouped = true;
+							const group = document.createElement('li');
+							group.className = 'group';
+							group.setAttribute('role', 'presentation');
+							group.textContent =
+								'Другая страна — нет на глобусе: без подсветки, метка по координатам';
+							fragment.append(group);
+						}
 						const item = document.createElement('li');
 						item.id = `c-${country.code}`;
 						item.setAttribute('role', 'option');
 						item.setAttribute('aria-selected', String(country.code === state.selected));
 						item.dataset.code = country.code;
+						if (!country.onGlobe) item.classList.add('off');
 						if (index === state.active) item.classList.add('active');
 						const ru = document.createElement('span');
 						ru.className = 'ru';
@@ -1000,10 +1042,12 @@
 				const renderChosen = () => {
 					const country = state.byCode.get(state.selected);
 					$('chosen-name').textContent = country ? country.ru || country.en : 'Выберите страну';
-					$('chosen-meta').textContent = country
+					$('chosen-meta').textContent = !country
+						? 'в списке слева'
+						: country.onGlobe
 						? `${country.en} · ${country.code} · центр ${country.lat}, ${country.lon}`
-						: 'в списке слева';
-					$('center-btn').disabled = !country;
+						: `${country.en} · ${country.code} · нет на глобусе: без подсветки, координаты — вручную`;
+					$('center-btn').disabled = !country || !country.onGlobe;
 				};
 
 				const fillForm = (home) => {
@@ -1033,11 +1077,11 @@
 						FIELDS['countryName.ru'].value = country.ru;
 						FIELDS['city.en'].value = '';
 						FIELDS['city.ru'].value = '';
-						FIELDS.lat.value = country.lat;
-						FIELDS.lon.value = country.lon;
+						// a country the globe lacks has no centre to offer: coordinates by hand
+						FIELDS.lat.value = country.onGlobe ? country.lat : '';
+						FIELDS.lon.value = country.onGlobe ? country.lon : '';
 						state.tzCheck = true;
-						state.touched.delete('city.en');
-						state.touched.delete('city.ru');
+						for (const key of ['city.en', 'city.ru', 'lat', 'lon']) state.touched.delete(key);
 					}
 					renderChosen();
 					renderList();
@@ -1199,18 +1243,39 @@
 					return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 				};
 
+				// a save starts the server's rebuild within a second or two; after this, say so
+				const START_TIMEOUT_MS = 30 * 1000;
+
 				const renderBuild = (build) => {
 					state.build = build;
 					const status = $('build-status');
-					status.className = `status ${build.configured ? build.status : 'off'}`;
+					const waitingMs = build.pendingSince
+						? Date.now() - new Date(build.pendingSince).getTime()
+						: 0;
+					const waiting = Boolean(build.pendingSince) && build.status !== 'running';
+					let tone = build.configured ? build.status : 'off';
 					let label = 'Сборок ещё не было';
+					let note = '';
 					if (!build.configured) label = 'Пересборка не настроена';
 					else if (build.status === 'running') {
-						label = `Идёт сборка · ${elapsed(build.startedAt)}${
-							build.queued ? ' · ещё одна в очереди' : ''
-						}`;
-					} else if (build.status === 'ok') label = `Готово · ${formatTime(build.finishedAt)}`;
-					else if (build.status === 'fail') label = 'Ошибка · сайт остался прежним';
+						label = `Идёт сборка · ${elapsed(build.startedAt)}`;
+						if (build.pass > 1) label += ` · проход ${build.pass}`;
+						if (build.queued) note = 'Последнее сохранение соберётся следующим проходом.';
+					} else if (waiting && waitingMs < START_TIMEOUT_MS) {
+						tone = 'running';
+						label = 'Ждём запуска сборки…';
+					} else if (waiting) {
+						tone = 'fail';
+						label = 'Сборка не запустилась';
+						note = 'На сервере: systemctl status site-rebuild.path site-rebuild.service';
+					} else if (build.status === 'ok') {
+						label = `Готово · ${formatTime(build.finishedAt)}`;
+						note = 'Сайт обновлён; страницы кешируются до 5 минут.';
+					} else if (build.status === 'fail') {
+						label = 'Ошибка · сайт остался прежним';
+						note = 'Прошлая удачная версия сайта продолжает работать.';
+					}
+					status.className = `status ${tone}`;
 					status.lastElementChild.textContent = label;
 
 					const log = $('build-log');
@@ -1219,21 +1284,17 @@
 						build.log ||
 						(build.configured
 							? 'Здесь появится журнал сборки после сохранения.'
-							: 'Команда пересборки (SITE_REBUILD_CMD) не задана: место сохранится, а сайт обновится при следующей сборке.');
+							: 'Пересборка не настроена (SITE_REBUILD_STATUS_DIR): место сохранится, а сайт обновится при следующей сборке.');
 					if (stick) log.scrollTop = log.scrollHeight;
 
-					$('rebuild-btn').disabled = !build.configured || build.queued;
-					$('build-note').textContent =
-						build.status === 'fail'
-							? 'Прошлая удачная версия сайта продолжает работать.'
-							: build.status === 'ok'
-							? 'Сайт обновлён; страницы кешируются до 5 минут.'
-							: '';
+					$('rebuild-btn').disabled = !build.configured;
+					$('build-note').textContent = note;
 					renderSaveState();
-					if (build.status === 'running' || build.queued) schedulePoll();
+					if (build.status === 'running') schedulePoll(1000);
+					else if (waiting) schedulePoll(waitingMs < START_TIMEOUT_MS ? 1000 : 5000);
 				};
 
-				const schedulePoll = () => {
+				const schedulePoll = (delay) => {
 					if (state.pollTimer) return;
 					state.pollTimer = setTimeout(async () => {
 						state.pollTimer = null;
@@ -1241,9 +1302,9 @@
 							const { data } = await api('/api/rebuild');
 							if (data.rebuild) renderBuild(data.rebuild);
 						} catch {
-							schedulePoll();
+							schedulePoll(5000);
 						}
-					}, 1000);
+					}, delay);
 				};
 
 				/* ---------- events ---------- */
@@ -1355,9 +1416,12 @@
 					state.saved = (data.config && data.config.home) || null;
 					state.source = data.source;
 					state.savedAt = data.savedAt;
+					const onGlobe = state.countries.filter((country) => country.onGlobe).length;
 					$(
 						'country-count'
-					).textContent = `${state.countries.length} стран — все, что есть на глобусе сайта (Natural Earth 1:110m). Маленьких государств вроде Сингапура на нём нет.`;
+					).textContent = `${onGlobe} стран на глобусе сайта (Natural Earth 1:110m) и ещё ${
+						state.countries.length - onGlobe
+					} других: Сингапур, Мальта, Гонконг… Их глобус не подсветит, но метку поставит по координатам.`;
 					$('config-path').textContent = `Файл места: ${data.configPath}`;
 					fillZones();
 					if (state.saved) fillForm(state.saved);

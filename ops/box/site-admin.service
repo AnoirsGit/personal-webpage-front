@@ -1,9 +1,11 @@
 [Unit]
-# The place admin of anoirs-server.top (tools/site-admin): pick the country, city, coordinates
-# and time zone, save them to /var/lib/site-admin/site-config.json and rebuild the site with
-# deploy.sh through sudo (one exact command, /etc/sudoers.d/site-admin). Runs a copy of the
-# code in /usr/local/lib/site-admin that ops/box/install.sh puts there: every deploy resets
-# the repo checkout. Loopback only; reach it with an ssh tunnel or `tailscale serve`.
+# The place admin of anoirs-server.top (tools/site-admin): pick the country, city,
+# coordinates and time zone and save them to /var/lib/site-admin/site-config.json. That is
+# all it can do: site-rebuild.path (root) notices the save and rebuilds the site, and the
+# admin shows the progress from /var/lib/site-rebuild. Runs a copy of the code in
+# /usr/local/lib/site-admin that ops/box/install.sh puts there (every deploy resets the repo
+# checkout). Listens on 127.0.0.1:8792 only; the box's userspace tailscaled forwards tailnet
+# connections to loopback, so the owner's devices reach it by the box's tailnet name.
 Description=Place admin for anoirs-server.top (tools/site-admin)
 After=network-online.target
 Wants=network-online.target
@@ -17,11 +19,10 @@ Environment=NODE_ENV=production
 Environment=SITE_ADMIN_BIND=127.0.0.1
 Environment=SITE_ADMIN_PORT=8792
 Environment=SITE_CONFIG_PATH=/var/lib/site-admin/site-config.json
-Environment="SITE_REBUILD_CMD=/usr/bin/sudo -n /opt/personal-webpage/deploy.sh --force --wait"
-# deploy.sh may first wait up to 20 min for a running deploy, then build
-Environment=SITE_REBUILD_TIMEOUT_SEC=2700
-# SITE_ADMIN_TOKEN and SITE_ADMIN_ALLOWED_HOSTS; created by install.sh, not in git. Values
-# here win over the Environment= lines above.
+Environment=SITE_REBUILD_REQUEST_PATH=/var/lib/site-admin/rebuild-request
+Environment=SITE_REBUILD_STATUS_DIR=/var/lib/site-rebuild
+# SITE_ADMIN_TOKEN and SITE_ADMIN_ALLOWED_HOSTS (loopback plus the box's tailnet name and
+# address); created by install.sh, not in git. Values there win over the lines above.
 EnvironmentFile=/etc/site-admin/env
 ExecStart=/usr/bin/node /usr/local/lib/site-admin/tools/site-admin/server.js
 Restart=on-failure
@@ -29,10 +30,21 @@ RestartSec=3
 UMask=0022
 StateDirectory=site-admin
 StateDirectoryMode=0755
-# No sandboxing options on purpose: for a non-root User= most of them (LockPersonality,
-# RestrictRealtime, ProtectKernel*, ProtectClock, SystemCallFilter, …) imply NoNewPrivileges,
-# which stops sudo, and the deploy runs inside this unit and needs /srv/www, /root and the
-# network. The admin itself is unprivileged; sudo lets it run one command as root.
+# It writes only its state directory and reads the rest.
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 
 [Install]
 WantedBy=multi-user.target
