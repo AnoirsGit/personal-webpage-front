@@ -53,6 +53,8 @@ scripts/scene-poster.js       renders the scene's no-WebGL posters and src/lib/s
 scripts/scene-geodata.js      land raster and country borders for the globe, from the Natural Earth geojson
 scripts/model-pipeline.js     GLB to Threlte component converter
 static/                       fonts, images, CV files, OG images, robots.txt, 3D model (served as-is)
+tools/site-admin/             the place admin (see «Админка места»): server, page, tests; no dependencies
+ops/box/                      the production box: deploy.sh, Caddyfile, the admin's and the rebuild's units, install.sh
 ```
 
 How the pieces fit:
@@ -80,7 +82,7 @@ node scripts/og-image.js   # regenerate the OG images (needs Chromium)
 PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://127.0.0.1:4173/en/   # regenerate the scene posters (needs pnpm preview and a GPU Chromium)
 ```
 
-There is no automated test suite; the browser checks in commit messages were done by hand and are not committed.
+The site has no automated test suite; the browser checks in commit messages were done by hand and are not committed. The place admin has one: `node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'`.
 
 The dev server adds `COOP`/`COEP` headers and permissive CORS (`vite.config.js`). Production headers are set by the web server, not by this repo.
 
@@ -98,19 +100,37 @@ Caution: `typingPerson.svelte` was generated and then edited by hand (greeting a
 
 ## Production
 
-The site is live at https://anoirs-server.top. A cron job on the production box rebuilds it every day at 04:30 UTC with the box's own deploy script, which lives outside this repo; the web server (Caddy) serves the static output.
+The site is live at https://anoirs-server.top. The box side lives in `ops/box/` and is installed with `ops/box/install.sh` (as root, from a checkout of main; `--dry-run` shows what it would change). `ops/box/README.md` maps every installed path.
 
-- A change reaches the site on the next 04:30 UTC run; a push triggers nothing.
-- The repo builds exactly what should be served: `svelte.config.js` uses adapter-static and writes `build/`. The deploy script should run `pnpm install --frozen-lockfile && pnpm build` and serve `build/` as is, without its old adapter overlay (an overlay with `fallback: 'index.html'` would replace the prerendered `/`).
-- Web server: serve `build/`, answer unknown paths with `build/404.html` and status 404 (not with `index.html`), cache `/_app/immutable/*` for a year (`immutable`), redirect `www.` to the bare domain.
-- Host names, addresses and paths of the box are deliberately not recorded in this repo.
+- `deploy.sh`: root's cron runs it every day at 04:30 UTC, and it rebuilds when `origin/main` or the place saved in the admin changed. It runs `pnpm install --frozen-lockfile && pnpm build`, copies `build/` into a new release, swaps it in atomically and rolls back if the health check fails; there is no adapter overlay (one with `fallback: 'index.html'` would replace the prerendered `/`).
+- A change reaches the site on the next 04:30 UTC run, at once with `deploy.sh --force` on the box, or with a save in the place admin; a push triggers nothing.
+- Caddy serves the release as is: unknown paths get `404.html` with status 404 (not `index.html`), `/_app/immutable/*` is cached for a year (`immutable`), the rest for 5 minutes, and `www.` redirects to the bare domain.
+- The box's addresses, tailnet names and secrets are deliberately not recorded in this repo.
+
+## Админка места
+
+The place admin (`tools/site-admin/`) is where the owner says which country he is in: a searchable list of the 177 countries the globe knows, then «другая страна» — the other 75 of ISO 3166-1 (Singapore, Malta, Hong Kong…), Russian and English names, codes; the city in English and Russian; coordinates (for a globe country prefilled with a point inside it, for another one typed in; rounded to 0.01° — a city, not an address) and an IANA time zone. It shows the JSON it will write and saves it; the site rebuilds by itself and the page shows the build log live.
+
+- **Open it.** On the box it is `site-admin.service` on `127.0.0.1:8792`. From the owner's devices on the tailnet: `http://<box tailnet name>:8792/?token=<SITE_ADMIN_TOKEN>` once (the box's userspace tailscaled hands tailnet connections to loopback; `install.sh` prints the exact address). Otherwise `ssh -L 8792:127.0.0.1:8792 root@<box>` and `http://127.0.0.1:8792/?token=…`. The token is in `/etc/site-admin/env`; the browser then keeps an HttpOnly, SameSite=Strict session cookie for 30 days. Only the Host names listed in that env file are answered, and every write needs a same-origin `Origin`.
+- **What a save changes.** Everything that reads `src/lib/config/site-config.json` at build time, in both languages: the globe's highlighted country (none for «другая страна»), home marker and arcs, `{city}`, `{country}` and the UTC offset in the copy and meta tags, and the JSON-LD address and coordinates. A failed build leaves the previous release online. Not covered: the OG images (`static/og/`) and the no-WebGL posters (`static/scene/`) are rendered offline and keep the old view until `scripts/og-image.js` and `scripts/scene-poster.js` are rerun and committed.
+- **How the rebuild starts.** The admin runs nothing and has no rights: it only writes the config atomically. A root path unit (`site-rebuild.path`) sees the file change and starts `site-rebuild.service`, which runs `deploy.sh --force --wait` — again if another save arrived during the build — and writes `status.json` and `rebuild.log` to `/var/lib/site-rebuild` for the page. «Пересобрать ещё раз» rewrites a request file next to the config, which the path unit watches too.
+- **Where the config lives.** `/var/lib/site-admin/site-config.json` on the box (`SITE_CONFIG_PATH`; outside git and the build). Before each build `deploy.sh` checks it with `tools/site-admin/apply-config.js` and puts its `home` over `src/lib/config/site-config.json`. The file in git stays the default for local builds, and the admin shows it until the first save.
+
+Locally, with stand-ins for the path unit and the deploy (two terminals):
+
+```bash
+node tools/site-admin/test/fixtures/fake-path-unit.js /tmp/site-admin/site-config.json /tmp/site-admin/rebuild
+SITE_ADMIN_TOKEN=local-token-0123456789 SITE_CONFIG_PATH=/tmp/site-admin/site-config.json \
+  SITE_REBUILD_STATUS_DIR=/tmp/site-admin/rebuild node tools/site-admin/server.js
+# then open http://127.0.0.1:8792/?token=local-token-0123456789
+```
 
 ## Next
 
 Open items, in priority order. "Agent" means an agent can do it alone; "Owner" means it needs a decision or access to the box.
 
-1. **Deploy script and web server match the repo.** Owner (box access): drop the adapter overlay, serve `build/` with the 404 and cache rules above. Done when `curl -I https://anoirs-server.top/ru/` returns the prerendered Russian page and `/robots.txt` returns text, not HTML.
+1. **Install `ops/box` on the box.** Box access: `ops/box/install.sh`, then `/opt/personal-webpage/deploy.sh --force`, then `install.sh` again (it switches Caddy only once a static build is live). Done when `curl -I https://anoirs-server.top/ru/` returns the prerendered Russian page, `/robots.txt` returns text, not HTML, and a missing page returns 404.
 2. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
 3. **Prettier formatting debt.** `pnpm exec prettier --check .` still flags older files. Agent: one `pnpm format` commit with nothing else mixed in.
 4. **Dependency cleanup.** Never imported from `src/`: `@dimforge/rapier3d-compat`, `@sveu/browser`, `@theatre/core`, `@theatre/studio`, `@threlte/flex`, `@threlte/rapier`, `@threlte/theatre`, `@threlte/xr`, `rxjs`, `troika-three-text`, `@tweenjs/tween.js`, `dayjs`, `svelte-awesome-color-picker`, `adapter-auto`, `adapter-cloudflare`, `adapter-netlify`; `@iconify/svelte` and `svelte-markdown` are used only by unused components. Agent. Done when `pnpm check` and `pnpm build` stay green and the lockfile is updated.
-5. **Dead code and assets.** The old contacts globe, `globe-points.json`, the particle background and the skill-tree editor leftovers are gone. Still unused: `widgets/typing-3d` (with `entities/3d` and its model), `widgets/content/SectionTextContent` with `app/styles/markdown-reader.css`, `shared/UI/{Deferred,MovableGlow}`, the Poppins fonts and ten images in `static/images/`. Keep `src/lib/ne_110m_admin_0_countries.geojson`: `scripts/scene-geodata.js` and `scripts/check-country-codes.js` read it. Agent.
+5. **Dead code and assets.** The old contacts globe, `globe-points.json`, the particle background and the skill-tree editor leftovers are gone. Still unused: `widgets/typing-3d` (with `entities/3d` and its model), `widgets/content/SectionTextContent` with `app/styles/markdown-reader.css`, `shared/UI/{Deferred,MovableGlow}`, the Poppins fonts and ten images in `static/images/`. Keep `src/lib/ne_110m_admin_0_countries.geojson`: the place admin, `scripts/scene-geodata.js` and `scripts/check-country-codes.js` read it. Agent.

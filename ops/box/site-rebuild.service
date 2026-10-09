@@ -1,0 +1,22 @@
+[Unit]
+# Started by site-rebuild.path after a save in the place admin; not enabled on its own.
+# Runs /opt/personal-webpage/site-rebuild.sh, which runs deploy.sh --force --wait (again if
+# the place changed during the build) and writes status.json and rebuild.log to
+# /var/lib/site-rebuild for the admin page. Installed by ops/box/install.sh.
+Description=Rebuild anoirs-server.top after a save in the place admin
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment=SITE_CONFIG_PATH=/var/lib/site-admin/site-config.json
+Environment=SITE_REBUILD_REQUEST_PATH=/var/lib/site-admin/rebuild-request
+Environment=SITE_REBUILD_STATUS_DIR=/var/lib/site-rebuild
+# root-owned, 0755: the admin reads the status here but cannot plant anything
+StateDirectory=site-rebuild
+StateDirectoryMode=0755
+ExecStart=/opt/personal-webpage/site-rebuild.sh
+ExecStopPost=/opt/personal-webpage/site-rebuild.sh --mark-stopped
+# deploy.sh may first wait up to 20 min for a running deploy; up to 5 passes in a row
+TimeoutStartSec=90min
+Nice=10

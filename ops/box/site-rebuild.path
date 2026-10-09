@@ -1,0 +1,13 @@
+[Unit]
+# Rebuilds the site when the place admin saves. The admin (user site-admin, no rights)
+# atomically rewrites one of these files; systemd notices and starts site-rebuild.service
+# as root. Installed by ops/box/install.sh; edit it in the repo.
+Description=Rebuild anoirs-server.top when the place admin saves
+
+[Path]
+PathChanged=/var/lib/site-admin/site-config.json
+PathChanged=/var/lib/site-admin/rebuild-request
+Unit=site-rebuild.service
+
+[Install]
+WantedBy=paths.target

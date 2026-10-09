@@ -1,0 +1,50 @@
+[Unit]
+# The place admin of anoirs-server.top (tools/site-admin): pick the country, city,
+# coordinates and time zone and save them to /var/lib/site-admin/site-config.json. That is
+# all it can do: site-rebuild.path (root) notices the save and rebuilds the site, and the
+# admin shows the progress from /var/lib/site-rebuild. Runs a copy of the code in
+# /usr/local/lib/site-admin that ops/box/install.sh puts there (every deploy resets the repo
+# checkout). Listens on 127.0.0.1:8792 only; the box's userspace tailscaled forwards tailnet
+# connections to loopback, so the owner's devices reach it by the box's tailnet name.
+Description=Place admin for anoirs-server.top (tools/site-admin)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=site-admin
+Group=site-admin
+WorkingDirectory=/usr/local/lib/site-admin
+Environment=NODE_ENV=production
+Environment=SITE_ADMIN_BIND=127.0.0.1
+Environment=SITE_ADMIN_PORT=8792
+Environment=SITE_CONFIG_PATH=/var/lib/site-admin/site-config.json
+Environment=SITE_REBUILD_REQUEST_PATH=/var/lib/site-admin/rebuild-request
+Environment=SITE_REBUILD_STATUS_DIR=/var/lib/site-rebuild
+# SITE_ADMIN_TOKEN and SITE_ADMIN_ALLOWED_HOSTS (loopback plus the box's tailnet name and
+# address); created by install.sh, not in git. Values there win over the lines above.
+EnvironmentFile=/etc/site-admin/env
+ExecStart=/usr/bin/node /usr/local/lib/site-admin/tools/site-admin/server.js
+Restart=on-failure
+RestartSec=3
+UMask=0022
+StateDirectory=site-admin
+StateDirectoryMode=0755
+# It writes only its state directory and reads the rest.
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

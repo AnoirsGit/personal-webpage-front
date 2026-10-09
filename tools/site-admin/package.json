@@ -1,0 +1,13 @@
+{
+	"name": "site-admin",
+	"private": true,
+	"description": "Place admin for the site: pick the country, save site-config.json, rebuild",
+	"type": "module",
+	"engines": {
+		"node": ">=20"
+	},
+	"scripts": {
+		"start": "node server.js",
+		"test": "node --test --test-concurrency=2 \"test/*.test.js\""
+	}
+}
