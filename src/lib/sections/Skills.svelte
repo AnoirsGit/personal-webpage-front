@@ -7,13 +7,15 @@
 	is the only view without WebGL, with reduced motion or without JavaScript.
 	The visitor's choice is remembered, and published to the scene as
 	`sceneStore.skillsView` so the sky can dim its constellations under the list.
+	The constellations view is offered only while the scene is (going) live, as the
+	scene shell reports through `sceneStatus` — no WebGL probe of our own on the main
+	thread.
 -->
 <script>
 	import { onMount, tick } from 'svelte';
 
 	import { t } from '$lib/shared/i18n';
-	import { hasWebGL } from '$lib/shared/helpers/webgl.js';
-	import { sceneStore } from '$lib/scene/sceneStore.js';
+	import { sceneStatus, sceneStore } from '$lib/scene/sceneStore.js';
 	import SectionHead from './ui/SectionHead.svelte';
 	import Icon from './ui/Icon.svelte';
 
@@ -23,27 +25,51 @@
 	const VIEW_KEY = 'skills-view';
 
 	let mounted = false;
-	let canSky = false;
 	/** @type {import('$lib/scene/sceneStore.js').SkillsView} */
 	let view = 'list';
 	let activeGroup = 'all';
 	let query = '';
 	let listTop;
+	/** @type {HTMLElement} */
+	let section;
+	/** the view remembered from an earlier visit */
+	let saved = /** @type {string | null} */ (null);
+	/** the visitor picked a view on this visit */
+	let picked = false;
+	/** the default view has been set */
+	let decided = false;
 
 	onMount(() => {
-		canSky = hasWebGL() && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		let saved = null;
 		try {
 			saved = localStorage.getItem(VIEW_KEY);
 		} catch {
 			// storage blocked: fall back to the default view
 		}
-		view = canSky && saved !== 'list' ? 'constellations' : 'list';
 		mounted = true;
 	});
 
+	// a live sky (or one on its way) and no reduced motion; the poster has no constellations
+	$: canSky =
+		($sceneStatus.mode === 'loading' || $sceneStatus.mode === 'live') &&
+		!$sceneStatus.reducedMotion;
+
+	const inView = () => {
+		const rect = section?.getBoundingClientRect();
+		return Boolean(rect && rect.top < window.innerHeight && rect.bottom > 0);
+	};
+
+	// the default view, once the scene knows what it can show — but never flip the
+	// section under a reader who is already looking at the list
+	$: if (mounted && !decided && $sceneStatus.mode !== 'pending') {
+		decided = true;
+		if (!picked) view = canSky && saved !== 'list' && !inView() ? 'constellations' : 'list';
+	}
+	// the sky went away (the scene fell back to the poster): back to the list
+	$: if (mounted && !canSky && view === 'constellations') view = 'list';
+
 	/** @param {import('$lib/scene/sceneStore.js').SkillsView} next */
 	const setView = (next) => {
+		picked = true;
 		view = next;
 		try {
 			localStorage.setItem(VIEW_KEY, next);
@@ -82,7 +108,7 @@
 	$: sky = mounted && view === 'constellations';
 </script>
 
-<section id="skills" class="stage skills" class:sky aria-labelledby="skills-title">
+<section id="skills" class="stage skills" class:sky aria-labelledby="skills-title" bind:this={section}>
 	<div class="wrap skills-inner">
 		<SectionHead
 			id="skills-title"

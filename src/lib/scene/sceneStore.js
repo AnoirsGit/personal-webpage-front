@@ -13,6 +13,12 @@
  * progress on scroll, the Skills section publishes skillsView. The scene only reads it
  * and never touches the DOM of the sections, so the layout is free to change.
  *
+ *   sceneStatus: readable-by-the-page { mode, reducedMotion }, written by Scene.svelte
+ *     mode — 'pending' (deciding) | 'loading' | 'live' (the 3D runs) | 'poster' (it never will)
+ *   The page asks it whether there is a live sky (the Skills section offers its
+ *   constellations view only then) instead of probing WebGL itself: a WebGL context made on
+ *   the main thread blocks it for 100–200 ms; the shell probes in a worker.
+ *
  * This module imports nothing from three.js, so it is safe in the entry chunk.
  */
 import { writable } from 'svelte/store';
@@ -26,6 +32,11 @@ export const SCENE_SECTIONS = ['hero', 'skills', 'process', 'works', 'offer', 'c
 
 /** @type {import('svelte/store').Writable<SceneState>} */
 export const sceneStore = writable({ section: 'hero', progress: 0, skillsView: 'constellations' });
+
+/** @typedef {{ mode: 'pending' | 'loading' | 'live' | 'poster', reducedMotion: boolean }} SceneStatus */
+
+/** @type {import('svelte/store').Writable<SceneStatus>} */
+export const sceneStatus = writable({ mode: 'pending', reducedMotion: false });
 
 const clamp01 = (value) => (value > 0 ? (value < 1 ? value : 1) : 0);
 

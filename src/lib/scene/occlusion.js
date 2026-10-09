@@ -2,7 +2,8 @@
  * Readable content over the scene.
  *
  * The page marks what must stay readable with `data-scene-occlude`: cards, panels, text
- * blocks, the header. For the scene those elements are "in front":
+ * blocks, the header. For the scene those elements are "in front" — a card or button with
+ * its whole box, a bare text block with the tight box of its lines and painted children:
  *   - its bright parts dim behind them (a small mask texture, see mask below and
  *     uOcclusion in gl/materials.js), so text never sits on a bright patch of the Earth,
  *   - its captions hide under them, and its stars never answer the pointer there.
@@ -28,7 +29,51 @@ export const MASK_SIZE = 128;
  * @typedef {{ right: number, bottom: number }} Keepout
  */
 
-/** Union of the text-line boxes inside an element (glyph extents, not the block's width). */
+/** Does the element paint a box of its own (background, border or shadow)? */
+const paints = (element) => {
+	const style = getComputedStyle(element);
+	return (
+		style.backgroundImage !== 'none' ||
+		!/rgba\(0, 0, 0, 0\)|transparent/.test(style.backgroundColor) ||
+		parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth) > 0 ||
+		style.boxShadow !== 'none'
+	);
+};
+
+/**
+ * The part of an element that reads as content: its own box when it paints one (a card,
+ * a button); otherwise the tight box around its text lines and painted children, so a
+ * 760px-wide heading block with a short line does not claim the empty sky beside it.
+ * @returns {{ left: number, top: number, right: number, bottom: number } | null}
+ */
+const contentBox = (element) => {
+	const rect = element.getBoundingClientRect();
+	if (rect.width <= 0 || rect.height <= 0) return null;
+	if (paints(element)) return rect;
+	let left = Infinity;
+	let top = Infinity;
+	let right = -Infinity;
+	let bottom = -Infinity;
+	const add = (box) => {
+		if (box.width <= 0 || box.height <= 0) return;
+		left = Math.min(left, box.left);
+		top = Math.min(top, box.top);
+		right = Math.max(right, box.right);
+		bottom = Math.max(bottom, box.bottom);
+	};
+	const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+	const range = document.createRange();
+	while (walker.nextNode()) {
+		const node = /** @type {Text} */ (walker.currentNode);
+		if (!node.data.trim()) continue;
+		range.selectNodeContents(node);
+		for (const box of range.getClientRects()) add(box);
+	}
+	for (const child of element.querySelectorAll('*')) if (paints(child)) add(child.getBoundingClientRect());
+	return right > left ? { left, top, right, bottom } : null;
+};
+
+/** Right edge and bottom of the text lines inside an element. */
 const textExtent = (element) => {
 	let right = 0;
 	let bottom = 0;
@@ -66,14 +111,14 @@ export const createOcclusion = () => {
 		const scroll = window.scrollY;
 		const next = [];
 		for (const element of document.querySelectorAll('[data-scene-occlude]')) {
-			const rect = element.getBoundingClientRect();
-			if (rect.width <= 0 || rect.height <= 0) continue;
+			const box = contentBox(element);
+			if (!box) continue;
 			const fixed = getComputedStyle(element).position === 'fixed';
 			next.push({
-				x: rect.left - MARGIN,
-				y: rect.top + (fixed ? 0 : scroll) - MARGIN,
-				w: rect.width + 2 * MARGIN,
-				h: rect.height + 2 * MARGIN,
+				x: box.left - MARGIN,
+				y: box.top + (fixed ? 0 : scroll) - MARGIN,
+				w: box.right - box.left + 2 * MARGIN,
+				h: box.bottom - box.top + 2 * MARGIN,
 				fixed
 			});
 		}

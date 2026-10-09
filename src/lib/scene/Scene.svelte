@@ -26,6 +26,7 @@
 
 	import { detectQuality, whenIdle } from './quality.js';
 	import { HOME } from './data/places.js';
+	import { sceneStatus } from './sceneStore.js';
 
 	/** @type {string | undefined} */
 	export let lang = undefined;
@@ -81,6 +82,9 @@
 
 	const cleanups = /** @type {(() => void)[]} */ ([]);
 	let destroyed = false;
+
+	// tell the page what the background turned out to be (sceneStore.js: sceneStatus)
+	$: sceneStatus.set({ mode, reducedMotion: Boolean(quality?.reducedMotion) });
 
 	const drawPoster = async () => {
 		if (!posterCanvas) return;

@@ -50,7 +50,7 @@ export const SKY_ANCHOR = {
 export const CONSTELLATION_PLACEMENT = {
 	wide: {
 		agents: { yaw: 10, pitch: 33, size: 10.5, window: [-0.45, 0.1] },
-		llm: { yaw: 24, pitch: 33.5, size: 8.5, window: [-0.25, 0.3] },
+		llm: { yaw: 21.5, pitch: 32, size: 8.5, window: [-0.25, 0.3] },
 		frontend: { yaw: -4, pitch: 18, size: 12, window: [-0.02, 0.5] },
 		backend: { yaw: 16, pitch: 21.5, size: 10, window: [0.18, 0.7] },
 		infra: { yaw: 22, pitch: 11.5, size: 8.5, window: [0.38, 0.9] }
