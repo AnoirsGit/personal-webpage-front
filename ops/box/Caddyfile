@@ -1,0 +1,46 @@
+# personal-webpage-front: the prerendered static build (adapter-static), served as is.
+# Installed as /etc/caddy/Caddyfile by ops/box/install.sh; edit it in the repo, not on the box.
+# The docroot is a symlink that /opt/personal-webpage/deploy.sh swaps atomically.
+
+(personal_webpage) {
+	root * /srv/www/personal-webpage/current
+	encode zstd gzip
+
+	# Hashed build assets never change under the same name; everything else is
+	# short-lived so a deploy shows up quickly.
+	@immutable path /_app/immutable/*
+	@rest not path /_app/immutable/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+	header @rest Cache-Control "public, max-age=300"
+
+	# Every page is prerendered: `/` is build/index.html (it picks the language), /en/ and
+	# /ru/ are their own index.html, a directory without its slash is redirected to it. No
+	# SPA fallback: an unknown path is a real 404 with build/404.html as the body.
+	file_server
+	handle_errors 404 {
+		rewrite * /404.html
+		file_server
+	}
+
+	log {
+		output file /var/log/caddy/personal-webpage.log {
+			roll_size 10mb
+			roll_keep 5
+		}
+	}
+}
+
+# One canonical host for search engines: www answers with a permanent redirect.
+www.anoirs-server.top {
+	redir https://anoirs-server.top{uri} permanent
+}
+
+# Named site: automatic HTTPS (Let's Encrypt) and the automatic http -> https redirect.
+anoirs-server.top {
+	import personal_webpage
+}
+
+# Catch-all on :80: keeps the bare IP working and answers the deploy's health check.
+:80 {
+	import personal_webpage
+}

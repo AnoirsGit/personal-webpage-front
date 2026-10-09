@@ -1,0 +1,5 @@
+# The place admin (site-admin.service, user site-admin) may rebuild the site: exactly this
+# command line, as root, without a password. Installed as /etc/sudoers.d/site-admin (0440)
+# by ops/box/install.sh. No pty: the output goes straight to the admin's live log.
+Defaults!/opt/personal-webpage/deploy.sh !use_pty
+site-admin ALL=(root) NOPASSWD: /opt/personal-webpage/deploy.sh --force --wait
