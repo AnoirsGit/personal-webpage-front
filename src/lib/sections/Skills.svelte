@@ -94,7 +94,7 @@
 		/>
 
 		{#if mounted && canSky}
-			<div class="view-switch" role="group" aria-label={$t('skills.view')}>
+			<div class="view-switch" role="group" aria-label={$t('skills.view')} data-scene-occlude>
 				<button
 					type="button"
 					aria-pressed={view === 'constellations'}
@@ -111,7 +111,7 @@
 		{/if}
 
 		{#if sky}
-			<div class="sky-legend">
+			<div class="sky-legend" data-scene-occlude>
 				<p class="sky-hint">{$t('skills.skyHint')}</p>
 				<ul class="legend">
 					{#each groups as group (group.id)}
@@ -129,7 +129,7 @@
 
 		<div class="skills-list" class:sr-only={sky}>
 			{#if mounted && !sky}
-				<div class="list-tools">
+				<div class="list-tools" data-scene-occlude>
 					<div class="group-filter" role="group" aria-label={$t('skills.groupsLabel')}>
 						<button
 							type="button"
@@ -173,7 +173,7 @@
 				tabindex="-1"
 			>
 				{#each visible as group (group.id)}
-					<section class="skill-group" aria-labelledby="skills-group-{group.id}">
+					<section class="skill-group" aria-labelledby="skills-group-{group.id}" data-scene-occlude>
 						<div class="group-head">
 							<h3 class="group-name" id="skills-group-{group.id}">{group.name}</h3>
 							<span class="group-count" aria-hidden="true">{group.shown.length}</span>
@@ -197,7 +197,7 @@
 						{/if}
 					</section>
 				{:else}
-					<p class="list-empty">
+					<p class="list-empty" data-scene-occlude>
 						{$t('skills.empty', { query: query.trim() })}
 						<button type="button" class="link-button" on:click={reset}>{$t('skills.reset')}</button>
 					</p>

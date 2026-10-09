@@ -54,7 +54,7 @@
 
 <section id="contact" class="stage contact" aria-labelledby="contact-title">
 	<div class="wrap">
-		<div class="contact-card">
+		<div class="contact-card" data-scene-occlude>
 			<div class="contact-main">
 				<SectionHead
 					id="contact-title"

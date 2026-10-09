@@ -15,5 +15,5 @@ void main() {
 	float glow = pow(x, 3.4) * 0.75 + pow(x, 12.0) * 0.55;
 	float light = clamp(dot(normalize(vPosW), uLightDir) * 0.5 + 0.5, 0.0, 1.0);
 	vec3 color = uColor * glow * uStrength * (0.35 + 0.9 * light);
-	gl_FragColor = vec4(color * uDim * uIntro, 1.0);
+	gl_FragColor = vec4(color * uDim * uIntro * contentShade(), 1.0);
 }

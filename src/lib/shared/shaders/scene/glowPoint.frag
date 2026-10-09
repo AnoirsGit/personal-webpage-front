@@ -36,5 +36,5 @@ void main() {
 	float alpha = shape * vReveal * vFacing * uFade * (1.0 + vHover * 0.45);
 	if (alpha < 0.003) discard;
 	vec3 color = mix(uColor, uHot, clamp(core * 1.2, 0.0, 1.0));
-	gl_FragColor = vec4(color * alpha * uDim, 1.0);
+	gl_FragColor = vec4(color * alpha * uDim * contentShade(), 1.0);
 }

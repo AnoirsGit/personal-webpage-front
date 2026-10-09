@@ -6,7 +6,7 @@
 	const LINKS = ['skills', 'process', 'works', 'offer', 'faq', 'contact'];
 </script>
 
-<footer class="site-footer">
+<footer class="site-footer" data-scene-occlude>
 	<div class="wrap inner">
 		<p class="rights">{$t('footer.rights', { year })}</p>
 		<nav aria-label={$t('a11y.sections')}>

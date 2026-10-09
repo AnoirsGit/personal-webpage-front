@@ -1,20 +1,15 @@
 /*
- * Words the scene itself draws: constellation names, process-graph stages, place labels.
- * The page carries the real copy in HTML; these labels are decoration (aria-hidden) and
- * repeat only facts already public on the site or in the CV. Skill titles and their short
- * texts come from the skill tree data, the home city from src/lib/config/site-config.json.
+ * Words the scene itself draws: process-graph stages and place labels. The page carries the
+ * real copy in HTML; these labels are decoration (aria-hidden) and repeat only facts already
+ * public on the site or in the CV. Constellation names, skill titles and their short texts
+ * come from buildConstellations() (content.skill-tree.js), the home city from
+ * src/lib/config/site-config.json.
  */
 
 /** @typedef {'en' | 'ru'} SceneLang */
 
 export const SCENE_TEXT = {
 	en: {
-		constellations: {
-			agents: 'Agents',
-			llm: 'LLM',
-			fullstack: 'Full-stack',
-			infra: 'Infrastructure'
-		},
 		home: 'Home base',
 		process: {
 			title: 'How work flows',
@@ -38,12 +33,6 @@ export const SCENE_TEXT = {
 		}
 	},
 	ru: {
-		constellations: {
-			agents: 'Агенты',
-			llm: 'LLM',
-			fullstack: 'Full-stack',
-			infra: 'Инфраструктура'
-		},
 		home: 'Дом',
 		process: {
 			title: 'Как идёт работа',

@@ -24,5 +24,5 @@ void main() {
 	vec3 color = mix(mix(uInk, uInkLit, vLight), uAccent, accent);
 	float limb = smoothstep(0.0, 0.3, vFacing);
 	float alpha = disc * vAlpha * limb * (0.42 + 0.48 * vLight + 0.22 * accent);
-	gl_FragColor = vec4(color * uDim, alpha);
+	gl_FragColor = vec4(color * uDim, alpha * contentShade());
 }

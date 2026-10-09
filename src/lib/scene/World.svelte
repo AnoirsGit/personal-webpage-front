@@ -9,6 +9,8 @@
 	  prefers-reduced-motion, and the loop stops while the tab is hidden.
 	- If frames stay slow, the pixel ratio steps down; if even that fails, `fail` asks the
 	  shell to swap in the poster.
+	- Page content marked data-scene-occlude stays in front (./occlusion.js): the bright
+	  parts dim behind it, captions hide under it and stars there ignore the pointer.
 -->
 <script>
 	import { createEventDispatcher, onDestroy, onMount, tick } from 'svelte';
@@ -48,6 +50,7 @@
 	let section = 0;
 	const unsubscribeStore = sceneStore.subscribe((state) => {
 		target = storyTime(state);
+		runtime.skillsList = state.skillsView === 'list';
 		const index = Math.max(0, SCENE_SECTIONS.indexOf(state.section));
 		if (index !== section && !runtime.motion) runtime.onCut?.();
 		section = index;
@@ -64,6 +67,7 @@
 		needsRender = true;
 	});
 
+	const occlusion = runtime.occlusion;
 	const pointer = { x: 0, y: 0, active: false, overUi: false, touch: false, until: 0 };
 	const parallax = { x: 0, y: 0 };
 	const INTERACTIVE =
@@ -96,7 +100,7 @@
 		const moved = Math.hypot(event.clientX - tapStart.x, event.clientY - tapStart.y);
 		if (moved > 10 || performance.now() - tapStart.time > 450) return;
 		const element = /** @type {Element | null} */ (event.target);
-		if (element?.closest?.(INTERACTIVE)) return;
+		if (element?.closest?.(INTERACTIVE) || occlusion.contains(event.clientX, event.clientY)) return;
 		pointer.x = event.clientX;
 		pointer.y = event.clientY;
 		pointer.active = true;
@@ -115,7 +119,34 @@
 				: setTimeout(resolve, 50)
 		);
 
+	/* content rects: re-read when the layout may have changed, never per scroll frame */
+	let collectFrame = 0;
+	/** @type {number[]} */
+	let settleTimers = [];
+	const collect = () => {
+		collectFrame = 0;
+		occlusion.collect();
+		layoutDirty = true;
+		needsRender = true;
+	};
+	const scheduleCollect = () => {
+		if (!collectFrame) collectFrame = requestAnimationFrame(collect);
+	};
+	// after a scroll stops (reveal animations may still be moving cards): read twice
+	const onScroll = () => {
+		needsRender = true;
+		settleTimers.forEach(clearTimeout);
+		settleTimers = [window.setTimeout(scheduleCollect, 180), window.setTimeout(scheduleCollect, 900)];
+	};
+	const bodyObserver =
+		typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(scheduleCollect);
+
 	onMount(() => {
+		collect();
+		bodyObserver?.observe(document.body);
+		window.addEventListener('resize', scheduleCollect, { passive: true });
+		window.addEventListener('scroll', onScroll, { passive: true });
+		document.fonts?.ready.then(() => !destroyed && scheduleCollect());
 		window.addEventListener('pointermove', onPointerMove, { passive: true });
 		window.addEventListener('pointerdown', onPointerDown, { passive: true });
 		window.addEventListener('pointerup', onPointerUp, { passive: true });
@@ -152,6 +183,8 @@
 	let started = false;
 	let hovered = /** @type {any} */ (null);
 
+	/** @type {import('./story.js').View} */
+	const view = { width: 1, height: 1, keepout: null };
 	const projected = new Vector3();
 	const lookTarget = new Vector3();
 	const right = new Vector3();
@@ -229,7 +262,11 @@
 			runtime.layout = layoutFor(width, height);
 			runtime.layoutStore.set(runtime.layout);
 			camera.aspect = width / height;
+			view.width = width;
+			view.height = height;
+			view.keepout = occlusion.keepout;
 		}
+		if (occlusion.update(width, height)) runtime.occlusionTexture.needsUpdate = true;
 
 		/* story time: spring toward the store (snaps to the section's still with reduced motion) */
 		if (!started) {
@@ -263,7 +300,7 @@
 		}
 
 		/* camera */
-		const shot = evaluateStory(storyT, runtime.layout, runtime.shot);
+		const shot = evaluateStory(storyT, runtime.layout, runtime.shot, view);
 		camera.position.copy(shot.pos);
 		lookTarget.copy(shot.pos).add(shot.dir);
 		camera.lookAt(lookTarget);
@@ -304,7 +341,7 @@
 
 		for (const update of runtime.updaters) update(runtime);
 		pickHover(now);
-		placeLabels();
+		placeLabels(dt);
 
 		advance();
 
@@ -317,7 +354,9 @@
 		if (pointer.touch && now > pointer.until) pointer.active = false;
 		let best = null;
 		let bestDistance = pointer.touch ? 34 : 22;
-		if (pointer.active && !pointer.overUi) {
+		// over page content nothing in the scene answers, even if the page scrolled under a
+		// still pointer (no pointermove then)
+		if (pointer.active && !pointer.overUi && !occlusion.contains(pointer.x, pointer.y)) {
 			for (const item of runtime.hoverables) {
 				if (item.weight() < 0.5) continue;
 				projected.copy(item.world).project(camera);
@@ -363,7 +402,17 @@
 		}
 	};
 
-	const placeLabels = () => {
+	/* the caption's box around its anchor, from Labels.svelte's CSS for each kind */
+	const BOX = {
+		constellation: (w, h) => [-w / 2, -h / 2, w / 2, h / 2],
+		stage: (w, h) => [-w / 2, 16, w / 2, 16 + h],
+		agent: (w, h) => [-w / 2, -h - 9, w / 2, -9],
+		note: (w, h) => [-w / 2, 9, w / 2, 9 + h],
+		home: (w, h) => [14, -h / 2, 14 + w, h / 2]
+	};
+
+	const placeLabels = (dt) => {
+		const step = runtime.motion ? Math.min(1, dt * 7) : 1;
 		for (const state of runtime.labels.values()) {
 			const el = state.el;
 			if (!el) continue;
@@ -380,6 +429,11 @@
 						state.x = x;
 						state.y = y;
 					}
+					// a caption never sits under page content: it fades out there
+					const box = (BOX[state.kind] ?? BOX.constellation)(state.w || 120, state.h || 14);
+					const under = occlusion.overlaps(x + box[0], y + box[1], x + box[2], y + box[3]);
+					state.shown += ((under ? 0 : 1) - state.shown) * step;
+					opacity *= state.shown;
 				}
 			} else {
 				opacity = 0;
@@ -443,6 +497,11 @@
 		unsubscribeStore();
 		unsubscribeSize();
 		if (typeof window === 'undefined') return;
+		cancelAnimationFrame(collectFrame);
+		settleTimers.forEach(clearTimeout);
+		bodyObserver?.disconnect();
+		window.removeEventListener('resize', scheduleCollect);
+		window.removeEventListener('scroll', onScroll);
 		window.removeEventListener('pointermove', onPointerMove);
 		window.removeEventListener('pointerdown', onPointerDown);
 		window.removeEventListener('pointerup', onPointerUp);

@@ -16,11 +16,11 @@
 <section id="hero" class="hero" aria-labelledby="hero-title">
 	<div class="wrap hero-inner">
 		<div class="hero-copy">
-			<p class="hero-eyebrow">
+			<p class="hero-eyebrow" data-scene-occlude>
 				<span class="hero-dot" aria-hidden="true" />
 				{$t('hero.eyebrow')}
 			</p>
-			<h1 id="hero-title" class="hero-title">
+			<h1 id="hero-title" class="hero-title" data-scene-occlude data-scene-keepout>
 				<span class="hero-title-lead"
 					>{#each leadWords as word, i}{#if i}{' '}{/if}<span class:nobr={word.includes('-')}
 							>{word}</span
@@ -28,8 +28,8 @@
 				>
 				<span class="accent">{$t('hero.titleAccent')}</span>
 			</h1>
-			<p class="hero-lead">{$t('hero.lead')}</p>
-			<div class="hero-ctas">
+			<p class="hero-lead" data-scene-occlude data-scene-keepout>{$t('hero.lead')}</p>
+			<div class="hero-ctas" data-scene-occlude>
 				<a class="btn btn-primary" href="#contact" use:magnetic>
 					{$t('hero.ctaPrimary')}
 					<Icon name="arrow-right" />
@@ -38,7 +38,7 @@
 			</div>
 		</div>
 
-		<ul class="trust" aria-label={$t('a11y.trust')}>
+		<ul class="trust" aria-label={$t('a11y.trust')} data-scene-occlude>
 			{#each trust as item}
 				<li class="trust-item">
 					<span class="trust-value">{item.value}</span>

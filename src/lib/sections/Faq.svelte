@@ -21,7 +21,7 @@
 
 		<div class="faq-list">
 			{#each items as item, i}
-				<details class="faq-item" open={i === 0}>
+				<details class="faq-item" open={i === 0} data-scene-occlude>
 					<summary>
 						<h3 class="faq-q">{item.q}</h3>
 						<span class="faq-mark" aria-hidden="true" />

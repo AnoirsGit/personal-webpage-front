@@ -5,10 +5,24 @@
 	real copy — so the whole layer is aria-hidden and never takes the pointer.
 -->
 <script>
+	import { tick } from 'svelte';
+
 	/** @type {import('../runtime.js').Runtime} */
 	export let runtime;
 
 	const { labelDefs, hover, lang } = runtime;
+
+	/* caption sizes, for World's "is it under page content" test: re-read when the text changes */
+	const measure = async () => {
+		await tick();
+		for (const state of runtime.labels.values()) {
+			const text = /** @type {HTMLElement | null | undefined} */ (state.el?.firstElementChild);
+			if (!text) continue;
+			state.w = text.offsetWidth;
+			state.h = text.offsetHeight;
+		}
+	};
+	$: $lang, $labelDefs, measure();
 
 	/** @param {HTMLElement} node @param {string} key */
 	const label = (node, key) => {

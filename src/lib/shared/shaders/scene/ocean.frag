@@ -14,5 +14,5 @@ void main() {
 	float fresnel = pow(1.0 - facing, 3.0);
 	float light = clamp(dot(n, uLightDir) * 0.5 + 0.5, 0.0, 1.0);
 	vec3 color = uOcean * (0.5 + 0.8 * light) + uRim * fresnel * (0.35 + 0.75 * light);
-	gl_FragColor = vec4(color * uDim * mix(0.4, 1.0, uIntro), 1.0);
+	gl_FragColor = vec4(color * uDim * mix(0.4, 1.0, uIntro) * contentShade(), 1.0);
 }

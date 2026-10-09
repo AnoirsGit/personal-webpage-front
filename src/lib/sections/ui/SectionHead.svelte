@@ -9,7 +9,7 @@
 	export let lead = '';
 </script>
 
-<header class="section-head">
+<header class="section-head" data-scene-occlude>
 	<p class="kicker">
 		{#if index}<span class="kicker-index">{index}</span>{/if}
 		{kicker}

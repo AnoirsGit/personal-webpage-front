@@ -3,8 +3,10 @@
  * uniforms and include no tone-mapping or colour-space chunks, so the hex values in
  * palette.js are exactly what the page shows.
  *
- * Shared uniforms (time, pixel ratio, viewport, projection scale, motion, intro) are the
- * same objects in every material, updated once per frame.
+ * Shared uniforms (time, pixel ratio, viewport, projection scale, motion, intro, the
+ * content mask) are the same objects in every material, updated once per frame. The bright
+ * materials (land, ocean rim, atmosphere, glow points, lines) dim behind readable page
+ * content through contentShade() from occlusion.glsl.
  */
 import {
 	AdditiveBlending,
@@ -28,6 +30,7 @@ import flowLineVert from '$lib/shared/shaders/scene/flowLine.vert?raw';
 import flowLineFrag from '$lib/shared/shaders/scene/flowLine.frag?raw';
 import glowPointVert from '$lib/shared/shaders/scene/glowPoint.vert?raw';
 import glowPointFrag from '$lib/shared/shaders/scene/glowPoint.frag?raw';
+import occlusionGlsl from '$lib/shared/shaders/scene/occlusion.glsl?raw';
 
 import { SCENE_PALETTE } from '../palette.js';
 
@@ -47,8 +50,15 @@ export const createSharedUniforms = () => ({
 	uMotion: { value: 1 },
 	/** 0 → 1 while the scene appears */
 	uIntro: { value: 0 },
-	uMaxPoint: { value: 64 }
+	uMaxPoint: { value: 64 },
+	/** mask of the page content in front of the scene (occlusion.js), 1 = content */
+	uOcclusion: { value: /** @type {import('three').Texture | null} */ (null) },
+	/** how much the bright materials dim behind content */
+	uOccludeDim: { value: 0.8 }
 });
+
+/** Prepends the content mask to a fragment shader. */
+const shaded = (fragment) => `${occlusionGlsl}\n${fragment}`;
 
 /** @typedef {ReturnType<typeof createSharedUniforms>} SharedUniforms */
 
@@ -87,7 +97,7 @@ export const createStarsMaterial = (shared) =>
 export const createOceanMaterial = (shared, lightDir) =>
 	new ShaderMaterial({
 		vertexShader: earthVert,
-		fragmentShader: oceanFrag,
+		fragmentShader: shaded(oceanFrag),
 		uniforms: base(shared, {
 			uOcean: { value: rgb(SCENE_PALETTE.ocean) },
 			uRim: { value: rgb(SCENE_PALETTE.rim) },
@@ -104,7 +114,7 @@ export const createOceanMaterial = (shared, lightDir) =>
 export const createAtmosphereMaterial = (shared, lightDir, ratio) =>
 	new ShaderMaterial({
 		vertexShader: earthVert,
-		fragmentShader: atmosphereFrag,
+		fragmentShader: shaded(atmosphereFrag),
 		uniforms: base(shared, {
 			uColor: { value: rgb(SCENE_PALETTE.atmosphere) },
 			uLightDir: { value: lightDir },
@@ -122,7 +132,7 @@ export const createAtmosphereMaterial = (shared, lightDir, ratio) =>
 export const createLandMaterial = (shared, lightDir, home) =>
 	new ShaderMaterial({
 		vertexShader: landVert,
-		fragmentShader: landFrag,
+		fragmentShader: shaded(landFrag),
 		uniforms: base(shared, {
 			uDotSize: { value: 0.05 },
 			/** how far home-country dots lean to the accent */
@@ -143,7 +153,7 @@ export const createLandMaterial = (shared, lightDir, home) =>
 export const createFlowLineMaterial = (shared) =>
 	new ShaderMaterial({
 		vertexShader: flowLineVert,
-		fragmentShader: flowLineFrag,
+		fragmentShader: shaded(flowLineFrag),
 		uniforms: base(shared, {
 			uPhase: { value: 0 },
 			uColor: { value: rgb(SCENE_PALETTE.accent) },
@@ -163,7 +173,7 @@ export const createFlowLineMaterial = (shared) =>
 export const createGlowPointMaterial = (shared, { onSphere = false } = {}) =>
 	new ShaderMaterial({
 		vertexShader: glowPointVert,
-		fragmentShader: glowPointFrag,
+		fragmentShader: shaded(glowPointFrag),
 		uniforms: base(shared, {
 			uPhase: { value: 0 },
 			uHover: { value: -1 },

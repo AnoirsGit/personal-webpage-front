@@ -25,7 +25,7 @@
 
 		<ol class="pipeline">
 			{#each steps as step, i (step.id)}
-				<li class="step" use:reveal={{ delay: i * 90 }}>
+				<li class="step" use:reveal={{ delay: i * 90 }} data-scene-occlude>
 					<span class="step-star" aria-hidden="true" />
 					<p class="step-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
 					<h3 class="step-name">{step.name}</h3>
@@ -34,7 +34,7 @@
 			{/each}
 		</ol>
 
-		<div class="principles" use:reveal>
+		<div class="principles" use:reveal data-scene-occlude>
 			<h3 class="principles-title">{$t('process.principlesTitle')}</h3>
 			<ul class="principles-list">
 				{#each principles as principle}

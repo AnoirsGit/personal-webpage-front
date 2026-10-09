@@ -26,6 +26,7 @@
 					class="format"
 					class:featured={format.id === 'launch'}
 					use:reveal={{ delay: i * 90 }}
+					data-scene-occlude
 				>
 					<p class="format-term">{format.term}</p>
 					<h3 class="format-name">{format.name}</h3>
@@ -39,7 +40,7 @@
 			{/each}
 		</div>
 
-		<div class="offer-cta">
+		<div class="offer-cta" data-scene-occlude>
 			<a class="btn btn-primary" href="#contact" use:magnetic>
 				{$t('offer.cta')}
 				<Icon name="arrow-right" />

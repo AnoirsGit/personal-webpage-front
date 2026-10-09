@@ -35,5 +35,5 @@ void main() {
 	}
 
 	vec3 color = uColor * (vStyle.y + tip * 0.9) + uHot * pulses;
-	gl_FragColor = vec4(color * edge * uFade * uDim, 1.0);
+	gl_FragColor = vec4(color * edge * uFade * uDim * contentShade(), 1.0);
 }

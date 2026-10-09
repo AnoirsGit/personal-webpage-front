@@ -55,7 +55,7 @@
 
 <svelte:window on:scroll={onScroll} on:keydown={onKey} />
 
-<header class="site-header" class:open>
+<header class="site-header" class:open data-scene-occlude>
 	<div class="wrap bar">
 		<a class="brand" href="#hero" on:click={close}>
 			<img src="/images/logo.svg" alt="" width="32" height="32" />
