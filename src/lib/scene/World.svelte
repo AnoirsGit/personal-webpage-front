@@ -23,6 +23,7 @@
 	import Starfield from './parts/Starfield.svelte';
 	import Constellations from './parts/Constellations.svelte';
 	import ProcessGraph from './parts/ProcessGraph.svelte';
+	import ShootingStar from './parts/ShootingStar.svelte';
 	import OrbitGlobe from '$lib/entities/globe/OrbitGlobe.svelte';
 
 	/** @type {import('./runtime.js').Runtime} */
@@ -50,7 +51,7 @@
 	let section = 0;
 	const unsubscribeStore = sceneStore.subscribe((state) => {
 		target = storyTime(state);
-		runtime.skillsList = state.skillsView === 'list';
+		runtime.skillsView = state.skillsView === 'list' ? 'list' : 'tree';
 		const index = Math.max(0, SCENE_SECTIONS.indexOf(state.section));
 		if (index !== section && !runtime.motion) runtime.onCut?.();
 		section = index;
@@ -405,14 +406,19 @@
 		}
 	};
 
-	/* the caption's box around its anchor, from Labels.svelte's CSS for each kind */
+	/* the caption's box around its anchor, from Labels.svelte's CSS for each kind; the home
+	   caption keeps HOME_GAP px from its marker so the marker's glow never covers a letter */
+	const HOME_GAP = 26;
 	const BOX = {
 		constellation: (w, h) => [-w / 2, -h / 2, w / 2, h / 2],
 		stage: (w, h) => [-w / 2, 16, w / 2, 16 + h],
 		agent: (w, h) => [-w / 2, -h - 9, w / 2, -9],
 		note: (w, h) => [-w / 2, 9, w / 2, 9 + h],
-		home: (w, h) => [14, -h / 2, 14 + w, h / 2]
+		home: (w, h) => [HOME_GAP, -h / 2, HOME_GAP + w, h / 2],
+		homeFlipped: (w, h) => [-HOME_GAP - w, -h / 2, -HOME_GAP, h / 2]
 	};
+	/** captions stay this far inside the viewport */
+	const EDGE = 10;
 
 	const placeLabels = (dt) => {
 		const step = runtime.motion ? Math.min(1, dt * 7) : 1;
@@ -425,15 +431,38 @@
 				if (projected.z > 1 || Math.abs(projected.x) > 1.15 || Math.abs(projected.y) > 1.15) {
 					opacity = 0;
 				} else {
-					const x = (projected.x * 0.5 + 0.5) * width;
+					let x = (projected.x * 0.5 + 0.5) * width;
 					const y = (0.5 - projected.y * 0.5) * height;
+					const w = state.w || 120;
+					const h = state.h || 14;
+					// the home caption reads to the right of its marker, or to the left near the edge
+					if (state.kind === 'home') {
+						const flipped = x + BOX.home(w, h)[2] > width - EDGE;
+						if (flipped !== state.flipped) {
+							el.classList.toggle('flipped', flipped);
+							state.flipped = flipped;
+						}
+					}
+					const box = (state.flipped ? BOX.homeFlipped : BOX[state.kind] ?? BOX.constellation)(
+						w,
+						h
+					);
+					// no caption is ever cut by the edge of the screen: slide it back in
+					if (state.kind !== 'home') {
+						const shift =
+							x + box[0] < EDGE
+								? EDGE - (x + box[0])
+								: x + box[2] > width - EDGE
+								? width - EDGE - (x + box[2])
+								: 0;
+						x += shift;
+					}
 					if (Math.abs(x - state.x) > 0.3 || Math.abs(y - state.y) > 0.3) {
 						el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
 						state.x = x;
 						state.y = y;
 					}
 					// a caption never sits under page content: it fades out there
-					const box = (BOX[state.kind] ?? BOX.constellation)(state.w || 120, state.h || 14);
 					const under = occlusion.overlaps(x + box[0], y + box[1], x + box[2], y + box[3]);
 					state.shown += ((under ? 0 : 1) - state.shown) * step;
 					opacity *= state.shown;
@@ -519,6 +548,7 @@
 <Sky {runtime} />
 {#if stage >= 1}
 	<Starfield {runtime} />
+	{#if runtime.motion}<ShootingStar {runtime} />{/if}
 {/if}
 {#if stage >= 2}
 	<OrbitGlobe {runtime} />

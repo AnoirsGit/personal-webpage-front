@@ -8,7 +8,7 @@ export const SITE_LOCALES = ['en', 'ru'];
 export const SITE_DEFAULT_LOCALE = 'en';
 
 /* Bump when the page copy changes; the sitemap's <lastmod> reads it. */
-export const CONTENT_UPDATED = '2026-10-08';
+export const CONTENT_UPDATED = '2026-10-09';
 
 export const localeUrl = (code) => `${SITE_URL}/${code}/`;
 export const absoluteUrl = (path) => `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;

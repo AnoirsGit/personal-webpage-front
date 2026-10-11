@@ -21,9 +21,13 @@ export const SCENE_PALETTE = {
 	rim: '#3a3896',
 	/** atmosphere halo */
 	atmosphere: '#4c58c2',
-	/** faint nebulae in the sky: main-purple and a deep blue */
-	nebulaA: '#3b1478',
-	nebulaB: '#0e2a63',
+	/**
+	 * Nebulae, added on top of the sky where the baked clouds are dense: main-purple and the
+	 * page's deep blue, both taken low in saturation, and a hint of the accent gold
+	 */
+	nebulaViolet: '#251c42',
+	nebulaIndigo: '#162142',
+	nebulaWarm: '#2e271a',
 	/** distant stars */
 	star: '#dfe3ff',
 	starWarm: '#ffe9c4'
