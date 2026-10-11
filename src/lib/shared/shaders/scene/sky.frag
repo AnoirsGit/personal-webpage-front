@@ -8,6 +8,7 @@ uniform float uDim;
 uniform float uTime;
 uniform float uMotion;
 uniform sampler2D uNebula;
+uniform vec2 uNebulaSize;
 uniform float uNebulaMix;
 uniform vec3 uViolet;
 uniform vec3 uIndigo;
@@ -37,6 +38,27 @@ vec2 equirect(vec3 d) {
 	return vec2(atan(d.x, d.z) / 6.2831853 + 0.5, asin(clamp(d.y, -1.0, 1.0)) / 3.1415927 + 0.5);
 }
 
+// The map is magnified several times on screen, and a bilinear read of it is flat inside each
+// texel with a crease at every border — the clouds looked faceted. A cubic B-spline is smooth
+// across the borders; it costs four bilinear reads (GPU Gems 2, ch. 20).
+vec3 nebulaAt(vec2 uv) {
+	vec2 st = uv * uNebulaSize - 0.5;
+	vec2 i = floor(st);
+	vec2 f = st - i;
+	vec2 f2 = f * f;
+	vec2 f3 = f2 * f;
+	vec2 w0 = (1.0 - 3.0 * f + 3.0 * f2 - f3) / 6.0;
+	vec2 w1 = (4.0 - 6.0 * f2 + 3.0 * f3) / 6.0;
+	vec2 w2 = (1.0 + 3.0 * f + 3.0 * f2 - 3.0 * f3) / 6.0;
+	vec2 w3 = f3 / 6.0;
+	vec2 g0 = w0 + w1;
+	vec2 g1 = w2 + w3;
+	vec2 p0 = (i - 0.5 + w1 / g0) / uNebulaSize;
+	vec2 p1 = (i + 1.5 + w3 / g1) / uNebulaSize;
+	return g0.y * (g0.x * texture2D(uNebula, p0).rgb + g1.x * texture2D(uNebula, vec2(p1.x, p0.y)).rgb) +
+		g1.y * (g0.x * texture2D(uNebula, vec2(p0.x, p1.y)).rgb + g1.x * texture2D(uNebula, p1).rgb);
+}
+
 void main() {
 	vec3 d = normalize(vDir);
 	vec3 color = uBase;
@@ -53,7 +75,7 @@ void main() {
 			sin(t * 0.041 + n.z * 4.0),
 			sin(t * 0.063 + n.x * 4.0)
 		));
-		vec3 density = texture2D(uNebula, equirect(n)).rgb;
+		vec3 density = nebulaAt(equirect(n));
 		vec3 nebula = uViolet * density.r + uIndigo * density.g + uWarm * density.b;
 		color += nebula * uNebulaMix * clearing();
 	}

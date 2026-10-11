@@ -79,6 +79,8 @@ export const createSkyMaterial = (shared) =>
 			uDim: { value: 1 },
 			/** the baked nebula map (parts/Sky.svelte), and 0 → 1 once it is there */
 			uNebula: { value: /** @type {import('three').Texture | null} */ (null) },
+			/** the map's size in texels, for the bicubic read */
+			uNebulaSize: { value: new Vector2(1, 1) },
 			uNebulaMix: { value: 0 },
 			uViolet: { value: rgb(SCENE_PALETTE.nebulaViolet) },
 			uIndigo: { value: rgb(SCENE_PALETTE.nebulaIndigo) },
@@ -96,8 +98,10 @@ export const createSkyMaterial = (shared) =>
  * centres of the clouds are directions as seen from the scene's origin, chosen from the
  * camera's shots in story.js (yaw, pitch): they fill the skies of the skills, process and
  * low-orbit sections in both layouts; the hero's text column gets only the faint veil.
+ * @param {number} width the map's size in texels
+ * @param {number} height
  */
-export const createNebulaBakeMaterial = () => {
+export const createNebulaBakeMaterial = (width, height) => {
 	const towards = (yaw, pitch) => {
 		const y = (yaw * Math.PI) / 180;
 		const p = (pitch * Math.PI) / 180;
@@ -106,12 +110,15 @@ export const createNebulaBakeMaterial = () => {
 	return new ShaderMaterial({
 		vertexShader: nebulaVert,
 		fragmentShader: nebulaFrag,
+		/* 2 × 2 samples per texel: no stair steps, and the bake stays a few ms of GPU */
+		defines: { SAMPLES: 2 },
 		uniforms: {
 			uCloudA: { value: towards(-14, 40) },
 			uCloudB: { value: towards(40, 22) },
 			uCloudC: { value: towards(22, -6) },
 			uCloudD: { value: towards(-6, -4) },
-			uCloudE: { value: towards(8, 68) }
+			uCloudE: { value: towards(8, 68) },
+			uTexel: { value: new Vector2(1 / width, 1 / height) }
 		},
 		depthTest: false,
 		depthWrite: false

@@ -2,11 +2,15 @@
 // warped fbm on the sphere, gathered into a few large soft clouds. Channels are densities,
 // not colours — r: violet clouds, g: indigo clouds, b: the faint warm dust — so the sky
 // shader colours them from the palette and can drift them without re-baking.
+// The field has detail finer than a texel (filaments, the edges of the lanes): one sample per
+// texel broke it into stair steps that the magnified map showed as facets, so every texel
+// averages SAMPLES × SAMPLES samples spread over its area.
 uniform vec3 uCloudA; // violet, the skills sky (both layouts)
 uniform vec3 uCloudB; // indigo, right of the skills sky and behind the process graph
 uniform vec3 uCloudC; // warm dust low behind the Earth
 uniform vec3 uCloudD; // violet veil behind the hero and the low-orbit sections
 uniform vec3 uCloudE; // indigo overhead, where the phone layout's camera climbs
+uniform vec2 uTexel; // one texel of the map, in uv
 varying vec2 vUv;
 
 float hash(vec3 p) {
@@ -45,10 +49,16 @@ float cloud(vec3 d, vec3 centre, float radius) {
 	return 1.0 - smoothstep(radius * 0.25, radius, angle);
 }
 
-void main() {
-	float lon = (vUv.x - 0.5) * 6.2831853;
-	float lat = (vUv.y - 0.5) * 3.1415927;
+vec3 nebula(vec2 uv) {
+	float lon = (uv.x - 0.5) * 6.2831853;
+	float lat = (uv.y - 0.5) * 3.1415927;
 	vec3 d = vec3(cos(lat) * sin(lon), sin(lat), cos(lat) * cos(lon));
+
+	float a = cloud(d, uCloudA, 0.85) + 0.8 * cloud(d, uCloudD, 0.9);
+	float b = cloud(d, uCloudB, 0.85) + 0.9 * cloud(d, uCloudE, 0.6);
+	float c = cloud(d, uCloudC, 0.5);
+	// most of the sky lies outside every cloud: no noise to compute there
+	if (a + b + c <= 0.0) return vec3(0.0);
 
 	// domain warping: the field folds into itself, which reads as gas rather than noise
 	vec3 p = d * 2.6;
@@ -63,14 +73,20 @@ void main() {
 	float body = smoothstep(0.27, 0.8, gas);
 	float detail = body * (0.75 + 0.6 * filaments) * (1.0 - 0.55 * lanes);
 
-	float a = cloud(d, uCloudA, 0.85) + 0.8 * cloud(d, uCloudD, 0.9);
-	float b = cloud(d, uCloudB, 0.85) + 0.9 * cloud(d, uCloudE, 0.6);
-	float c = cloud(d, uCloudC, 0.5);
-
-	gl_FragColor = vec4(
+	return vec3(
 		clamp(detail * a, 0.0, 1.0),
 		clamp(detail * b, 0.0, 1.0),
-		clamp((0.35 * body + filaments * body) * c, 0.0, 1.0),
-		1.0
+		clamp((0.35 * body + filaments * body) * c, 0.0, 1.0)
 	);
+}
+
+void main() {
+	vec3 sum = vec3(0.0);
+	for (int i = 0; i < SAMPLES; i++) {
+		for (int j = 0; j < SAMPLES; j++) {
+			vec2 offset = (vec2(float(i), float(j)) + 0.5) / float(SAMPLES) - 0.5;
+			sum += nebula(vUv + offset * uTexel);
+		}
+	}
+	gl_FragColor = vec4(sum / float(SAMPLES * SAMPLES), 1.0);
 }
