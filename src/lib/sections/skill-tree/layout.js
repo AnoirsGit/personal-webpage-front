@@ -1,10 +1,11 @@
 /*
- * Where every node of the skill tree goes on wide screens. The root sits on top, the five
- * groups of buildConstellations() hang from it as branches (columns), and each branch is a
- * crown: the group's lead on the trunk, then rows one node wider each time, so the most
- * important skills sit nearest the root. A row hangs from the trunk on short ribs: a line
- * means "this branch, this rank", never a dependency the data does not have (the tree's
- * own links between skills light up on hover instead, see SkillTree.svelte).
+ * Where every node of the skill tree goes on wide screens. The root sits on top, the groups
+ * of buildConstellations() hang from it as branches (columns), and each branch is a crown:
+ * the group's lead on the trunk, then rows wider each time, so the most important skills
+ * sit nearest the root. A row hangs from the trunk on short ribs: a line means "this
+ * branch, this rank", never a dependency the data does not have (the tree's own links
+ * between skills light up on hover instead, see SkillTree.svelte). The page shows one
+ * branch at a time, on all TAB_COLUMNS, its crown two nodes wider per row.
  *
  * Only grid placement comes out of here — columns, rows, and offsets measured in cells —
  * never pixels: the rows take the height of their real, wrapped labels, so a long name or
@@ -14,12 +15,17 @@
 
 /** Grid cells across the whole tree; every branch gets a share of them. */
 export const TOTAL_COLUMNS = 13;
+/** Grid cells across a branch shown on its own: about 145 px each on a wide screen. */
+export const TAB_COLUMNS = 9;
 const MIN_COLUMNS = 2;
 
-/** Row sizes of a crown: 1, 2, 3 … up to `columns`, then `columns` until the skills run out. */
-export const crownRows = (count, columns) => {
+/**
+ * Row sizes of a crown: 1, 1 + step, 1 + 2 × step … up to `columns`, then `columns` until
+ * the skills run out.
+ */
+export const crownRows = (count, columns, step = 1) => {
 	const rows = [];
-	for (let size = 1, left = count; left > 0; size++) {
+	for (let size = 1, left = count; left > 0; size += step) {
 		const take = Math.min(size, columns, left);
 		rows.push(take);
 		left -= take;
@@ -28,13 +34,13 @@ export const crownRows = (count, columns) => {
 };
 
 /** Columns per branch: two each, every spare one to whichever branch is tallest. */
-export const allocateColumns = (counts, total = TOTAL_COLUMNS) => {
+export const allocateColumns = (counts, total = TOTAL_COLUMNS, step = 1) => {
 	const columns = counts.map(() => MIN_COLUMNS);
 	for (let used = MIN_COLUMNS * counts.length; used < total; used++) {
 		let pick = 0;
 		let tallest = -1;
 		counts.forEach((count, i) => {
-			const rows = crownRows(count, columns[i]).length;
+			const rows = crownRows(count, columns[i], step).length;
 			if (rows > tallest || (rows === tallest && count > counts[pick])) {
 				tallest = rows;
 				pick = i;
@@ -74,16 +80,22 @@ const round = (value) => Math.round(value * 10000) / 10000;
 
 /**
  * @param {{ stars: unknown[] }[]} groups
+ * @param {number} [totalColumns] cells across the whole tree
+ * @param {number} [step] how much wider each row of a crown gets
  * @returns {{ total: number, branches: BranchLayout[] }}
  */
-export const layoutTree = (groups) => {
-	const columns = allocateColumns(groups.map((group) => group.stars.length));
+export const layoutTree = (groups, totalColumns = TOTAL_COLUMNS, step = 1) => {
+	const columns = allocateColumns(
+		groups.map((group) => group.stars.length),
+		totalColumns,
+		step
+	);
 	const total = columns.reduce((sum, value) => sum + value, 0);
 	let start = 0;
 
 	const branches = groups.map((group, g) => {
 		const width = columns[g];
-		const rows = crownRows(group.stars.length, width);
+		const rows = crownRows(group.stars.length, width, step);
 		/** @type {Slot[]} */
 		const slots = [];
 		rows.forEach((size, row) => {

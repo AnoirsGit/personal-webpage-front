@@ -1,9 +1,10 @@
 <!--
 	@component
 	The skills as a game-style skill tree: the root («AI-native engineer») on top, the five
-	groups of buildConstellations() as branches, every skill a node along its branch with the
-	most important nearest the root (layout.js). Node size and brightness follow what the data
-	holds — the group's lead, its main tools, the rest — and nothing else.
+	groups of buildConstellations() as branches, one on screen at a time (the tabs above it;
+	without JavaScript all of them, one under another), every skill a node along its branch
+	with the most important nearest the root (layout.js). Node size and brightness follow what
+	the data holds — the group's lead, its main tools, the rest — and nothing else.
 
 	All HTML and CSS, no canvas: every name is in the prerendered page and the lines stay crisp
 	at any pixel ratio. The markup is nested lists (root → branches → skills), which is also
@@ -25,7 +26,7 @@
 	import { onDestroy, onMount, tick } from 'svelte';
 
 	import { t } from '$lib/shared/i18n';
-	import { layoutTree, softHyphens } from './layout.js';
+	import { layoutTree, softHyphens, TAB_COLUMNS } from './layout.js';
 
 	/**
 	 * @typedef {{
@@ -59,12 +60,21 @@
 	};
 	const HEX = '0,-1 0.866,-0.5 0.866,0.5 0,1 -0.866,0.5 -0.866,-0.5';
 
-	$: layout = layoutTree(groups);
-	$: branches = groups.map((group, g) => ({ group, ...layout.branches[g] }));
-	$: tracks = layout.branches.map((branch) => `${branch.columns}fr`).join(' ');
-	$: busLeft = ((layout.branches[0]?.columns ?? 0) / 2 / layout.total) * 100;
-	$: busRight = ((layout.branches.at(-1)?.columns ?? 0) / 2 / layout.total) * 100;
+	/* plain selectors on purpose: the component's styles are scoped, this sheet is not */
+	const NO_SCRIPT =
+		'<noscript><style>.t-tabs{display:none!important}' +
+		'.t-branch[hidden]{display:flex!important;flex-direction:column;margin-top:48px}</style></noscript>';
+
+	/* one branch on screen at a time, so each is laid out on its own across the whole width */
+	$: branches = groups.map((group) => ({
+		group,
+		...layoutTree([group], TAB_COLUMNS, 2).branches[0]
+	}));
 	$: totalSkills = groups.reduce((sum, group) => sum + group.stars.length, 0);
+
+	/** the branch on screen; the prerender shows the first */
+	let activeGroup = '';
+	$: if (!groups.some((group) => group.id === activeGroup)) activeGroup = groups[0]?.id ?? '';
 
 	/* every node by key: 'root', 'hub:<group>', '<group>:<skill>' */
 	$: index = (() => {
@@ -217,6 +227,12 @@
 
 	/* ---------------- keyboard: roving focus, spatial arrows ---------------- */
 
+	/** the nodes on screen: the root and the open branch (the others are hidden) */
+	const shownNodes = () =>
+		/** @type {HTMLElement[]} */ ([...tree.querySelectorAll('[data-key]')]).filter(
+			(element) => element.getClientRects().length > 0
+		);
+
 	const centreOf = (element) => {
 		const shape = element.querySelector('.t-shape') ?? element;
 		const rect = shape.getBoundingClientRect();
@@ -230,7 +246,7 @@
 		const origin = centreOf(from);
 		let best = null;
 		let bestScore = Infinity;
-		for (const element of tree.querySelectorAll('[data-key]')) {
+		for (const element of shownNodes()) {
 			if (element === from) continue;
 			const point = centreOf(element);
 			const dx = point.x - origin.x;
@@ -277,8 +293,7 @@
 			focusNode(nodeElement('root'));
 		} else if (event.key === 'End') {
 			event.preventDefault();
-			const all = tree.querySelectorAll('[data-key]');
-			focusNode(/** @type {HTMLElement} */ (all[all.length - 1]));
+			focusNode(shownNodes().at(-1) ?? null);
 		}
 	};
 
@@ -320,7 +335,8 @@
 						else if (drawn === null) drawnTop = 0;
 						continue;
 					}
-					if (!reached) continue;
+					// a hidden branch has no box: it is drawn when its tab opens (showGroup)
+					if (!reached || !entry.boundingClientRect.height) continue;
 					const b = Number(element.dataset.branch);
 					next[b] = Math.max(next[b], Number(element.dataset.row) + 1);
 					observer?.unobserve(element);
@@ -332,6 +348,28 @@
 		observer.observe(tree);
 		tree.querySelectorAll('[data-trunk-row]').forEach((cell) => observer?.observe(cell));
 	});
+
+	/**
+	 * Opens a branch. Whatever was hovered, focused or pinned in the old one lets go (the
+	 * tree's tab stop moves to the new hub), and the new branch draws in from its hub: its
+	 * rows are observed afresh now that they have a box.
+	 * @param {string} id
+	 */
+	const showGroup = async (id) => {
+		if (id === activeGroup) return;
+		pinnedKey = null;
+		hoverKey = null;
+		if (focusKey !== 'root') focusKey = `hub:${id}`;
+		activeGroup = id;
+		if (!observer) return;
+		const b = groups.findIndex((group) => group.id === id);
+		drawn = (drawn ?? branches.map(() => 0)).map((rows, i) => (i === b ? 0 : rows));
+		await tick();
+		tree.querySelectorAll(`[data-trunk-row][data-branch="${b}"]`).forEach((cell) => {
+			observer?.unobserve(cell);
+			observer?.observe(cell);
+		});
+	};
 
 	onDestroy(() => {
 		observer?.disconnect();
@@ -356,6 +394,24 @@
 	};
 </script>
 
+<!-- without JavaScript the tabs cannot switch: every branch shows, one under another -->
+<!-- a fixed string from this file, no outside input -->
+<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+{@html NO_SCRIPT}
+
+<div class="t-tabs" role="group" aria-label={$t('skills.tree.tabsLabel')} data-scene-occlude>
+	{#each groups as group (group.id)}
+		<button
+			type="button"
+			aria-pressed={activeGroup === group.id}
+			style:--c={ACCENT[group.id] ?? '#e8c77e'}
+			on:click={() => showGroup(group.id)}
+		>
+			{group.name} <span class="t-tab-count">{group.stars.length}</span>
+		</button>
+	{/each}
+</div>
+
 <div
 	class="tree"
 	class:armed={drawn !== null}
@@ -363,9 +419,6 @@
 	role="group"
 	aria-label={$t('skills.tree.label')}
 	aria-describedby="tree-help"
-	style:--tracks={tracks}
-	style:--bus-l="{busLeft}%"
-	style:--bus-r="{busRight}%"
 	style:--drawn-top={drawnTop}
 	bind:this={tree}
 >
@@ -397,18 +450,20 @@
 			</button>
 			<span id="tree-desc-root" hidden>{$t('skills.tree.rootText', { count: totalSkills })}</span>
 
-			<ul class="t-branches" role="list" class:lit={litBranch >= 0} style:--root-x="{50}%">
-				{#each branches as { group, slots, rows, columns, root }, b (group.id)}
+			<ul
+				class="t-branches"
+				role="list"
+				class:lit={litBranch >= 0}
+				style:--c={ACCENT[activeGroup] ?? '#e8c77e'}
+			>
+				{#each branches as { group, slots, rows, columns }, b (group.id)}
 					{@const hubKey = `hub:${group.id}`}
 					<li
 						class="t-branch t-branch--{group.id}"
-						class:first={b === 0}
-						class:last={b === branches.length - 1}
 						class:lit={litBranch === b}
+						hidden={group.id !== activeGroup}
 						style:--c={ACCENT[group.id] ?? '#e8c77e'}
-						style:--root={root}
 					>
-						<span class="t-bus-lit" aria-hidden="true" />
 						<button
 							type="button"
 							class="t-node t-hub"
@@ -817,9 +872,74 @@
 		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 60%, transparent);
 	}
 
-	.t-bus-lit {
-		position: absolute;
-		pointer-events: none;
+	/* the closed branches; author styles give .t-branch a display, so [hidden] needs its own */
+	.t-branch[hidden] {
+		display: none;
+	}
+
+	/* ======================= the tabs ======================= */
+
+	.t-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px;
+		margin-bottom: 40px;
+	}
+
+	.t-tabs button {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		gap: 8px;
+		min-height: 44px;
+		padding: 0 18px;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		background: rgba(5, 6, 13, 0.6);
+		font-weight: 700;
+		font-size: 0.9375rem;
+		color: var(--text-dim);
+		transition: border-color 0.3s var(--ease), color 0.3s var(--ease),
+			background-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+	}
+
+	.t-tabs button:hover {
+		color: var(--text);
+		border-color: var(--line-strong);
+	}
+
+	.t-tabs button[aria-pressed='true'] {
+		border-color: var(--c);
+		background: color-mix(in srgb, var(--c) 14%, rgba(5, 6, 13, 0.88));
+		box-shadow: 0 0 24px -10px var(--c);
+		color: #fff;
+	}
+
+	.t-tab-count {
+		font-weight: 600;
+		color: var(--text-faint);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.t-tabs button[aria-pressed='true'] .t-tab-count {
+		color: var(--c);
+	}
+
+	/* phones: one row that scrolls sideways, out to the screen's edges */
+	@media (max-width: 719.98px) {
+		.t-tabs {
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+			margin-inline: -16px;
+			padding-inline: 16px;
+			overflow-x: auto;
+			scrollbar-width: none;
+		}
+
+		.t-tabs::-webkit-scrollbar {
+			display: none;
+		}
 	}
 
 	/* ======================= the card ======================= */
@@ -945,7 +1065,6 @@
 		/* the crown may use more than the text column: it is centred, so it still lines up */
 		.tree {
 			--tree-w: min(1320px, calc(100vw - 48px));
-			container-type: inline-size;
 			width: var(--tree-w);
 			margin-left: calc((100% - var(--tree-w)) / 2);
 		}
@@ -963,53 +1082,34 @@
 
 		.t-root .t-label {
 			margin-top: 10px;
-			font-size: 1.0625rem;
+			font-size: 1.1875rem;
 		}
 
-		/* the bus: root drop, a rail across the branches, a drop into every hub */
+		/* the open branch hangs straight from the root: one drop, gold into the branch colour */
 		.t-branches {
 			position: relative;
-			display: grid;
-			grid-template-columns: var(--tracks);
 			width: 100%;
-			padding-top: 68px;
+			padding-top: 56px;
 		}
 
-		.t-branches::before,
 		.t-branches::after {
 			content: '';
 			position: absolute;
-			pointer-events: none;
-			transition: clip-path 0.7s var(--ease) 0.25s, transform 0.4s var(--ease);
-		}
-
-		/* rail with the two outer drops as its rounded ends */
-		.t-branches::before {
-			top: 30px;
-			left: var(--bus-l);
-			right: var(--bus-r);
-			height: 38px;
-			border: var(--line-w) solid var(--line-dim);
-			border-bottom: 0;
-			border-radius: 18px 18px 0 0;
-			clip-path: inset(0 calc(50% * (1 - var(--drawn-top))) 0 calc(50% * (1 - var(--drawn-top))));
-		}
-
-		/* the root's drop onto the rail */
-		.t-branches::after {
 			top: 0;
 			left: 50%;
 			width: var(--line-w);
-			height: 31px;
+			height: 56px;
 			margin-left: calc(var(--line-w) / -2);
-			background: linear-gradient(var(--gold), rgba(232, 199, 126, 0.35));
+			pointer-events: none;
+			background: linear-gradient(var(--gold), color-mix(in srgb, var(--c) 55%, transparent));
 			transform-origin: top;
 			transform: scaleY(var(--drawn-top));
+			transition: transform 0.4s var(--ease);
 		}
 
 		.t-branches.lit::after {
-			background: var(--gold);
-			box-shadow: 0 0 8px rgba(232, 199, 126, 0.7);
+			background: linear-gradient(var(--gold), var(--c));
+			box-shadow: 0 0 8px color-mix(in srgb, var(--c) 70%, transparent);
 		}
 
 		.t-branch {
@@ -1020,65 +1120,14 @@
 			min-width: 0;
 		}
 
-		/* drops into the inner hubs (the outer ones are the rail's ends) */
-		.t-branch:not(.first):not(.last)::before {
-			content: '';
-			position: absolute;
-			top: -38px;
-			left: 50%;
-			width: var(--line-w);
-			height: 38px;
-			margin-left: calc(var(--line-w) / -2);
-			background: var(--line-dim);
-			transform-origin: top;
-			transform: scaleY(var(--drawn-top));
-			transition: transform 0.4s var(--ease) 0.6s;
-		}
-
-		/* the lit part of the rail: from this hub's drop to the root's */
-		.t-bus-lit {
-			top: -38px;
-			height: 38px;
-			left: calc(min(var(--root), 0.5) * 100%);
-			width: calc(max(var(--root) - 0.5, 0.5 - var(--root)) * 100%);
-			border-top: var(--line-w) solid var(--c);
-			opacity: 0;
-			transition: opacity 0.25s var(--ease);
-		}
-
-		.t-branch.first .t-bus-lit,
-		.t-branch.last .t-bus-lit {
-			border-radius: 18px 18px 0 0;
-		}
-
-		.t-branch.first .t-bus-lit {
-			border-left: var(--line-w) solid var(--c);
-			margin-left: calc(var(--line-w) / -2);
-		}
-
-		.t-branch.last .t-bus-lit {
-			border-right: var(--line-w) solid var(--c);
-			margin-right: calc(var(--line-w) / -2);
-		}
-
-		.t-branch.lit .t-bus-lit {
-			opacity: 1;
-			filter: drop-shadow(0 0 4px var(--c));
-		}
-
-		.t-branch.lit:not(.first):not(.last)::before {
-			background: var(--c);
-			box-shadow: 0 0 8px var(--c);
-		}
-
 		.t-hub .t-shape {
-			width: 62px;
-			height: 62px;
+			width: 84px;
+			height: 84px;
 		}
 
 		.t-hub .t-label {
-			margin-top: 8px;
-			font-size: 0.9375rem;
+			margin-top: 10px;
+			font-size: 1.125rem;
 		}
 
 		/* a branch: the crown grid, the trunk from the hub into it */
@@ -1088,7 +1137,7 @@
 			grid-template-columns: repeat(var(--half), minmax(0, 1fr));
 			align-items: stretch;
 			width: 100%;
-			padding-top: 26px;
+			padding-top: 36px;
 		}
 
 		.t-skills::before {
@@ -1097,7 +1146,7 @@
 			top: 0;
 			left: 50%;
 			width: var(--line-w);
-			height: 26px;
+			height: 36px;
 			margin-left: calc(var(--line-w) / -2);
 			background: color-mix(in srgb, var(--c) 55%, transparent);
 			transform-origin: top;
@@ -1111,7 +1160,7 @@
 		}
 
 		.t-cell {
-			--box: 46px;
+			--box: 72px;
 			--drawn-me: clamp(0, calc(var(--drawn, 99) - var(--gr) + 1), 1);
 			position: relative;
 			grid-column: var(--gc) / span 2;
@@ -1120,7 +1169,7 @@
 			flex-direction: column;
 			align-items: center;
 			min-width: 0;
-			padding-bottom: 18px;
+			padding-bottom: 30px;
 		}
 
 		/* the button spans its whole cell, so the rib can be measured in cell widths */
@@ -1129,20 +1178,21 @@
 		}
 
 		.t-cell .t-shape {
+			--ring: 2px;
 			width: var(--box);
 			height: var(--box);
 		}
 
 		.t-cell--lead {
-			--size: 46px;
+			--size: 72px;
 		}
 
 		.t-cell--main {
-			--size: 34px;
+			--size: 54px;
 		}
 
 		.t-cell--minor {
-			--size: 24px;
+			--size: 38px;
 		}
 
 		/* a name wraps inside its own cell; only a single word longer than the cell may run
@@ -1151,19 +1201,19 @@
 			width: max-content;
 			max-width: calc(100% - 8px);
 			min-width: min-content;
-			margin-top: 5px;
-			padding: 2px 5px;
+			margin-top: 8px;
+			padding: 3px 8px;
 			overflow-wrap: normal;
 			hyphens: auto;
-			font-size: clamp(0.6875rem, 0.95cqw, 0.78rem);
+			font-size: 0.9375rem;
 		}
 
 		.t-cell--lead .t-label {
-			font-size: clamp(0.75rem, 1.02cqw, 0.84rem);
+			font-size: 1.0625rem;
 		}
 
 		.t-cell--minor .t-label {
-			font-size: clamp(0.6875rem, 0.9cqw, 0.75rem);
+			font-size: 0.875rem;
 		}
 
 		/*
@@ -1327,10 +1377,6 @@
 			--drawn-me: clamp(0, calc(var(--drawn, 99) - var(--gr) + 1), 1);
 			display: flex;
 			max-width: 100%;
-		}
-
-		.t-bus-lit {
-			display: none;
 		}
 
 		.t-skill {
