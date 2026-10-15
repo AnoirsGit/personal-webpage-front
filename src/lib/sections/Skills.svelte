@@ -1,18 +1,18 @@
 <!--
-	Skills, two ways: a game-style skill tree (the default) or a plain filterable list.
+	Skills, two ways: the skill tree drawn as a star chart (the default) or a plain filterable
+	list.
 
 	Both read the same groups — buildConstellations() through the page's server load — and
-	both are complete in the prerendered HTML: the tree is HTML and CSS, so it needs neither
-	WebGL nor JavaScript to show every name; script adds the hover card, the pinned panel,
-	keyboard moves and the draw-in. The visitor's choice is remembered and published to the
-	scene as `sceneStore.skillsView`: behind the tree the 3D constellations stay as a dimmed
-	backdrop without captions or hover, behind the list they fade to a trace.
+	both are complete in the prerendered HTML: the chart is HTML, CSS and SVG, so it needs
+	neither WebGL nor JavaScript to show every name; script adds the hover card, the pinned
+	panel, keyboard moves and the draw-in. The visitor's choice is remembered. The chart gets
+	a wider column than the rest of the page on large screens (up to 1400 px), so its five
+	constellations can stand side by side.
 -->
 <script>
 	import { onMount } from 'svelte';
 
 	import { t } from '$lib/shared/i18n';
-	import { sceneStore } from '$lib/scene/sceneStore.js';
 	import SectionHead from './ui/SectionHead.svelte';
 	import Icon from './ui/Icon.svelte';
 	import SkillTree from './skill-tree/SkillTree.svelte';
@@ -32,7 +32,8 @@
 	const VIEW_KEY = 'skills-view-2';
 	const LEGACY_VIEW_KEY = 'skills-view';
 
-	/** @returns {import('$lib/scene/sceneStore.js').SkillsView | null} */
+	/** @typedef {'tree' | 'list'} SkillsView */
+	/** @returns {SkillsView | null} */
 	const readView = () => {
 		try {
 			const saved = localStorage.getItem(VIEW_KEY);
@@ -48,8 +49,7 @@
 		}
 	};
 
-	let mounted = false;
-	/** @type {import('$lib/scene/sceneStore.js').SkillsView} */
+	/** @type {SkillsView} */
 	let view = 'tree';
 	let activeGroup = 'all';
 	let query = '';
@@ -65,10 +65,9 @@
 	onMount(() => {
 		// never flip the section under a reader who is already looking at it
 		if (readView() === 'list' && !inView()) view = 'list';
-		mounted = true;
 	});
 
-	/** @param {import('$lib/scene/sceneStore.js').SkillsView} next */
+	/** @param {SkillsView} next */
 	const setView = (next) => {
 		view = next;
 		try {
@@ -82,8 +81,6 @@
 		activeGroup = 'all';
 		query = '';
 	};
-
-	$: if (mounted) sceneStore.update((state) => ({ ...state, skillsView: view }));
 
 	const normalize = (text) => text.toLowerCase().replace(/ё/g, 'е');
 	$: needle = normalize(query.trim());
@@ -129,9 +126,7 @@
 			{/if}
 		</div>
 
-		{#if !list}
-			<SkillTree {groups} />
-		{:else}
+		{#if list}
 			<div class="skills-list">
 				<div class="list-tools" data-scene-occlude>
 					<div class="group-filter" role="group" aria-label={$t('skills.groupsLabel')}>
@@ -215,9 +210,22 @@
 			</div>
 		{/if}
 	</div>
+	{#if !list}
+		<div class="tree-wrap">
+			<SkillTree {groups} />
+		</div>
+	{/if}
 </section>
 
 <style>
+	/* the chart's own column: wider than the page's text on large screens */
+	.tree-wrap {
+		width: 100%;
+		max-width: calc(1400px + 2 * var(--gutter));
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+	}
+
 	.skills-inner {
 		display: flex;
 		flex-direction: column;
