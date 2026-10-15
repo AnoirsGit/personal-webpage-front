@@ -73,6 +73,7 @@
         "reset": "Show all skills",
         "tree": {
             "label": "Skill tree",
+            "tabsLabel": "Branches of the tree",
             "help": "Arrow keys move between skills, Enter opens the details, Escape closes them.",
             "hintPointer": "Hover a skill for a short note, click to pin it.",
             "hintTouch": "Tap a skill for the details.",
