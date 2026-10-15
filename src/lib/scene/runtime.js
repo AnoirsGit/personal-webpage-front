@@ -56,12 +56,10 @@ export const createRuntime = (quality) => {
 		uniforms,
 		occlusion,
 		occlusionTexture,
-		/** how the Skills section shows the skills (sceneStore.skillsView): 'tree' | 'list' */
-		skillsView: /** @type {import('./sceneStore.js').SkillsView} */ ('tree'),
 		shot: createShot(),
 		/** smoothed story time */
 		T: 0,
-		phases: { skills: -1, process: -1, intro: 0 },
+		phases: { process: -1, intro: 0 },
 		/** @type {Set<(runtime: any) => void>} */
 		updaters: new Set(),
 		/** @type {Set<Hoverable>} */
