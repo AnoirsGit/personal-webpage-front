@@ -60,7 +60,7 @@
                     { "value": "334", "label": "коммита впереди upstream" }
                 ],
                 "link": {
-                    "src": "https://github.com/All-Hands-AI/OpenHands",
+                    "src": "https://github.com/OpenHands/OpenHands",
                     "label": "OpenHands — upstream-проект"
                 },
                 "imageUrls": [
