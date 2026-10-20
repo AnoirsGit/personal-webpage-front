@@ -13,6 +13,7 @@
         "menu": "Open menu",
         "closeMenu": "Close menu",
         "sections": "Page sections",
+        "footerSections": "Page sections (footer)",
         "language": "Language",
         "switchTo": "Switch to {name}",
         "backToTop": "Back to top",

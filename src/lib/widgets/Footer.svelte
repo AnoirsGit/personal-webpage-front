@@ -9,7 +9,7 @@
 <footer class="site-footer" data-scene-occlude>
 	<div class="wrap inner">
 		<p class="rights">{$t('footer.rights', { year })}</p>
-		<nav aria-label={$t('a11y.sections')}>
+		<nav aria-label={$t('a11y.footerSections')}>
 			<ul>
 				{#each LINKS as id}
 					<li><a href="#{id}">{$t(`nav.${id}`)}</a></li>

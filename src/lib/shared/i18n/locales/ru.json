@@ -13,6 +13,7 @@
         "menu": "Открыть меню",
         "closeMenu": "Закрыть меню",
         "sections": "Разделы страницы",
+        "footerSections": "Разделы страницы (подвал)",
         "language": "Язык",
         "switchTo": "Переключить на {name}",
         "backToTop": "Наверх",
