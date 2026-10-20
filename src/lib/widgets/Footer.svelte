@@ -17,7 +17,9 @@
 			</ul>
 		</nav>
 		<p class="made">
-			<a href={PERSON.repo} target="_blank" rel="noopener">{$t('footer.code')}</a>
+			<a href={PERSON.repo} target="_blank" rel="noopener"
+				>{$t('footer.code')}<span class="sr-only"> ({$t('a11y.newTab')})</span></a
+			>
 			<span aria-hidden="true">·</span>
 			{$t('footer.builtWith')}
 		</p>

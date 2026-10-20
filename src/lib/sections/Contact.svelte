@@ -68,6 +68,7 @@
 					<a class="btn btn-primary" href={telegramUrl} target="_blank" rel="noopener" use:magnetic>
 						<Icon name="telegram" />
 						{$t('contact.telegramCta')}
+						<span class="sr-only">({$t('a11y.newTab')})</span>
 					</a>
 					<a class="btn btn-ghost" href="mailto:{PERSON.email}" use:magnetic>
 						<Icon name="mail" />
