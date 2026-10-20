@@ -9,7 +9,14 @@
  * section stayed at opacity 0. A negative bottom margin gives the same
  * "it's meaningfully on screen" feel at any element height.
  */
-const DEFAULTS = { x: 0, y: 28, delay: 0, duration: 700, once: true, rootMargin: '0px 0px -8% 0px' };
+const DEFAULTS = {
+	x: 0,
+	y: 28,
+	delay: 0,
+	duration: 700,
+	once: true,
+	rootMargin: '0px 0px -8% 0px'
+};
 
 /* Sideways entrances belong to the desktop zigzag: below `md` the layout is a
  * single column, so an element parked at ±56px only sticks out of the viewport

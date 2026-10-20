@@ -1,1916 +1,1916 @@
 {
-    "ai-agents": {
-        "nodes": [
-            {
-                "treeId": 3,
-                "title": "AI & Agent Interfaces",
-                "description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built an autonomous multi-agent coding platform: self-hosted, my primary development environment, used daily.\n  - Below: the model layer and the orchestration that makes agents cooperate.\n  - 11.6k lines of React 19 across 142 files.\n",
-                "isNode": false,
-                "id": "mock-149522",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1000,
-                    "y": 70
-                },
-                "color": "#e8c77e",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Claude Code",
-                "description": "#### Claude Code ***is*** an\nagentic coding tool **that** I work in every day, alongside my own agents.\n  - Agents plan, write and test; I set the task, review every diff and own what ships.\n  - Nothing merges until typecheck, linters and tests pass.\n",
-                "isNode": true,
-                "id": "mock-301744",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1520,
-                    "y": 250
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/anthropic.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "LLM Application Engineering",
-                "description": "#### LLM application engineering ***is*** the\ncraft **that** is used to build products on top of language models rather than demos.\n  - Provider APIs, routing, prompts and cost all treated as product surface.\n  - Model choice is a runtime decision, not an architectural commitment.\n  - Measured on real runs: latency, spend and how often the agent finishes the job.\n",
-                "isNode": false,
-                "id": "mock-394589",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 700,
-                    "y": 265
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Evals",
-                "description": "#### Evals ***are*** the\nmeasurements **that** show whether a change to prompts, models or the agent setup actually helped.\n  - An eval harness runs the same tasks in two setups and compares pass rate, attempts and cost.\n  - Automated gates decide pass or fail, not eyeballing.\n",
-                "isNode": false,
-                "id": "mock-640218",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 500,
-                    "y": 250
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "RAG",
-                "description": "#### RAG ***is*** the\nretrieval layer **that** gives an agent the right context instead of stuffing the prompt.\n  - A RAG index over a team's codebase and internal docs, part of rolling AI into the team.\n  - The agent queries it like a tool instead of carrying everything in context.\n",
-                "isNode": false,
-                "id": "mock-512903",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 440,
-                    "y": 460
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Code Graph",
-                "description": "#### A code graph ***is*** a\nprebuilt index of how the code is connected **that** answers structural questions without grep-walking.\n  - Made agent recon 13.6× cheaper on my platform.\n  - Part of the AI setup I built for a team.\n",
-                "isNode": false,
-                "id": "mock-512977",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 560,
-                    "y": 590
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Anthropic API",
-                "description": "#### The Anthropic API ***is*** a\nmodel API **that** drives reasoning and tool use inside the agent loop.\n  - Claude models plan the work, edit files and call tools.\n  - Streaming responses feed the live event log the UI renders.\n  - Tool schemas declare exactly what an agent is allowed to touch.\n  - Prompt caching and token budgeting keep long runs affordable.\n",
-                "isNode": true,
-                "id": "mock-613019",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 520,
-                    "y": 360
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/anthropic.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "OpenAI API",
-                "description": "#### The OpenAI API ***is*** a\nmodel API **that** is used as a second provider behind the same agent interface.\n  - Swapped per run without touching agent code — routing lives in one layer.\n  - Function calling maps onto the same tool contracts as every other provider.\n  - Keeps cost and quality benchmarks honest by comparing models on identical tasks.\n",
-                "isNode": true,
-                "id": "mock-928868",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 640,
-                    "y": 430
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/openai.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "LiteLLM Routing",
-                "description": "#### LiteLLM ***is*** a\nmulti-provider routing layer **that** puts one interface in front of many model APIs.\n  - One call signature for Anthropic, OpenAI and self-hosted models.\n  - Per-agent model selection: cheap models for sub-agents, strong models for planning.\n  - A single place for retries, fallbacks and cost accounting.\n",
-                "isNode": false,
-                "id": "mock-610080",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 840,
-                    "y": 380
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Prompt Design",
-                "description": "#### Prompt and system-prompt design ***is*** the\ndiscipline **that** decides how an agent understands its job.\n  - System prompts encode role, boundaries and the tools an agent may call.\n  - Sub-agent roles are authored as editable documents, not hard-coded strings.\n  - Structured output contracts keep responses parseable by the UI.\n  - Iterated against real runs instead of cherry-picked examples.\n",
-                "isNode": false,
-                "id": "mock-539868",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 660,
-                    "y": 510
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Token & Cost",
-                "description": "#### Token and cost optimization ***is*** the\npractice **that** keeps long autonomous runs economically viable.\n  - Context trimming and tail-only history replay instead of full transcripts.\n  - Mechanical work delegated to cheaper models, planning reserved for strong ones.\n  - A live usage widget surfaces spend per run and per subscription.\n",
-                "isNode": false,
-                "id": "mock-179476",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 880,
-                    "y": 490
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Agent Orchestration",
-                "description": "#### Agent orchestration ***is*** the\nlayer **that** is used to turn one model into a team of cooperating agents.\n  - A lead agent plans and delegates; specialised sub-agents execute.\n  - Every run is isolated, observable and stoppable by the operator.\n  - Work is verified by gates, not by trust.\n",
-                "isNode": false,
-                "id": "mock-928741",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1300,
-                    "y": 265
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "MCP (Model Context Protocol)",
-                "description": "#### MCP ( Model Context Protocol ) ***is*** an\nopen protocol **that** is used to expose tools, data and prompts to agents in a uniform way.\n  - One contract for tools regardless of which model or client calls them.\n  - Servers advertise capabilities; agents discover and call them at runtime.\n  - Keeps tool access auditable and sandboxed instead of ad-hoc shell calls.\n",
-                "isNode": true,
-                "id": "mock-208296",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1480,
-                    "y": 360
-                },
-                "color": "#b57bff",
-                "imageUrl": "images/mcp.svg"
-            },
-            {
-                "treeId": 3,
-                "title": "Tool Calling",
-                "description": "#### Tool and function calling ***is*** the\nmechanism **that** lets a model act instead of only answering.\n  - Typed schemas describe each tool, its arguments and its failure modes.\n  - Calls stream into the UI as they happen — arguments, output and errors.\n  - Bad arguments are caught at the boundary, not inside the sandbox.\n",
-                "isNode": false,
-                "id": "mock-855763",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1140,
-                    "y": 360
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Multi-agent Runs",
-                "description": "#### A multi-agent run ***is*** an\nexecution model **that** splits one task across several agents working in parallel.\n  - Each run gets its own git worktree, so agents never fight over the tree.\n  - A per-run task strip shows what every agent is doing right now.\n  - The operator can switch autonomy level or stop the whole run mid-flight.\n",
-                "isNode": false,
-                "id": "mock-851594",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1330,
-                    "y": 440
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Sub-agents",
-                "description": "#### Sub-agent delegation ***is*** a\npattern **that** is used to give narrow roles to narrow agents.\n  - Roles are edited in a dedicated UI over a transport abstraction.\n  - One editor drives either a live sandbox or a plain folder on the host.\n  - Roles can be authored before any container exists.\n",
-                "isNode": false,
-                "id": "mock-124239",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1120,
-                    "y": 500
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Sandboxing",
-                "description": "#### Agent sandboxing ***is*** the\nisolation layer **that** decides how much damage an autonomous agent can do.\n  - Every agent run executes inside its own Docker sandbox.\n  - Git worktree isolation keeps concurrent runs off each other’s files.\n  - The host is reachable only through explicit, declared surfaces.\n",
-                "isNode": false,
-                "id": "mock-192837",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1520,
-                    "y": 460
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Verification Gates",
-                "description": "#### Automated verification gates ***are*** the\nchecks **that** decide whether an agent’s work is allowed to land.\n  - Lint, type checks and the test suite run before a result is accepted.\n  - Translation completeness across 15 locales is enforced in pre-commit.\n  - A failing gate sends the agent back to work instead of a human.\n",
-                "isNode": false,
-                "id": "mock-900671",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1330,
-                    "y": 540
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Agent UI & Streaming",
-                "description": "#### Agent UI and streaming UX ***is*** the\ninterface **that** makes an autonomous run legible while it is still running.\n  - Tool calls, file edits and terminal output render as they happen.\n  - Editor and terminal panes read the same event log as the chat.\n  - The operator always has a way to intervene.\n",
-                "isNode": false,
-                "id": "mock-457558",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1000,
-                    "y": 170
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "AI Adoption in Teams",
-                "description": "#### AI adoption ***is*** the\nwork **that** turns AI tools from a demo into a team's daily practice.\n  - Lectures and hands-on sessions, then editor plugins, custom MCP servers and a RAG index.\n  - At Mercury, emergency hotfixes and SSR incidents dropped 4× in two months.\n",
-                "isNode": false,
-                "id": "mock-731552",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1000,
-                    "y": 330
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            },
-            {
-                "treeId": 3,
-                "title": "Data Anonymization",
-                "description": "#### Data anonymization ***is*** the\nstep **that** makes AI usable under an NDA.\n  - Client and business data is anonymized before it reaches any AI tool.\n  - Nothing leaves in identifiable form.\n",
-                "isNode": false,
-                "id": "mock-731608",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1000,
-                    "y": 440
-                },
-                "color": "#9122ff",
-                "imageUrl": ""
-            }
-        ],
-        "edges": [
-            {
-                "sourceNodeId": "mock-394589",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-928741",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-457558",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-613019",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-928868",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-610080",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-539868",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-179476",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-208296",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-855763",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-851594",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-124239",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-192837",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-900671",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-301744",
-                "targetNodeId": "mock-928741"
-            },
-            {
-                "sourceNodeId": "mock-640218",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-512903",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-512977",
-                "targetNodeId": "mock-394589"
-            },
-            {
-                "sourceNodeId": "mock-731552",
-                "targetNodeId": "mock-149522"
-            },
-            {
-                "sourceNodeId": "mock-731608",
-                "targetNodeId": "mock-731552"
-            }
-        ]
-    },
-    "back-end": {
-        "nodes": [
-            {
-                "id": 4,
-                "treeId": 1,
-                "position": {
-                    "x": 620,
-                    "y": 524
-                },
-                "isActive": false,
-                "description": "",
-                "tags": [],
-                "imageUrl": "",
-                "title": "Version Control & Deploy",
-                "color": "#48d900",
-                "isNode": false
-            },
-            {
-                "id": 5,
-                "treeId": 1,
-                "position": {
-                    "x": 892,
-                    "y": 350
-                },
-                "isActive": false,
-                "tags": [],
-                "description": "",
-                "imageUrl": "",
-                "title": "Programming Language",
-                "color": "#48d900",
-                "isNode": false
-            },
-            {
-                "id": 6,
-                "treeId": 1,
-                "position": {
-                    "x": 987,
-                    "y": 656
-                },
-                "isActive": false,
-                "tags": [],
-                "description": "",
-                "imageUrl": "",
-                "title": "Databases & Caching",
-                "color": "#48d900",
-                "isNode": false
-            },
-            {
-                "id": 7,
-                "treeId": 1,
-                "position": {
-                    "x": 165,
-                    "y": 525
-                },
-                "isActive": false,
-                "tags": [],
-                "description": "#### Docker Hub ***is*** a \ncloud-based repository service **that** allows developers to store, share, and manage Docker container images.\n  - Provides a central location for finding and accessing container images.\n  - Supports public and private repositories.\n  - Enables collaboration and sharing of containerized applications.\n  - Integrates with CI/CD pipelines for automated builds and deployments.\n  - Offers official images maintained by Docker and community-contributed images.\n",
-                "imageUrl": "images/docker-hub.webp",
-                "title": "Docker Hub",
-                "color": "#ffffff",
-                "isNode": true
-            },
-            {
-                "id": 3,
-                "treeId": 1,
-                "position": {
-                    "x": 1061,
-                    "y": 297
-                },
-                "isActive": false,
-                "tags": [],
-                "description": "#### Ruby ***is*** a \ndynamic, open-source programming language **that** focuses on simplicity and productivity.\n  - It's known for its elegant syntax, which is natural to read and easy to write.\n  - Ideal for web development, Ruby has a rich ecosystem of libraries and frameworks, including the popular Ruby on Rails.",
-                "imageUrl": "images/ruby.webp",
-                "title": "Ruby",
-                "color": "#ff0000",
-                "isNode": true
-            },
-            {
-                "id": 1,
-                "treeId": 1,
-                "color": "#00cc66",
-                "position": {
-                    "x": 999,
-                    "y": 145
-                },
-                "isActive": false,
-                "description": " #### Node.js ***is*** a \n runtime environment **that** executes JavaScript code on the server side.\n  -  It's non-blocking, event-driven, and ideal for building scalable, \n  - real-time applications.",
-                "imageUrl": "images/node-js.webp",
-                "title": "Node.js",
-                "tags": [],
-                "isNode": true
-            },
-            {
-                "id": 2,
-                "treeId": 1,
-                "position": {
-                    "x": 1165,
-                    "y": 214
-                },
-                "isActive": false,
-                "description": "#### Ruby on Rails ***is*** a \nweb application framework **that** uses Ruby.\n  - It follows the MVC (Model-View-Controller) pattern for organized code.\n  - Emphasizes convention over configuration and the DRY (Don't Repeat Yourself) principle.\n  - Includes many tools to simplify tasks like database management and routing.\n  - Ideal for quickly building and deploying web applications.",
-                "tags": [],
-                "imageUrl": "images/rails.webp",
-                "title": "Ruby on Rails",
-                "color": "#cc0000",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "id": "mock-830892",
-                "isActive": false,
-                "position": {
-                    "x": 491,
-                    "y": 297
-                },
-                "description": "#### GitLab ***is*** a \nweb-based DevOps lifecycle tool **that** provides a Git repository manager providing CI/CD pipeline features and more.\n  - Offers version control, issue tracking, CI/CD pipelines, and more.\n  - Supports collaboration with features like code review and merge requests.\n  - Provides built-in CI/CD pipelines for automating builds, tests, and deployments.\n  - Includes container registry, Kubernetes integration, and monitoring tools.\n  - Available in both self-managed and SaaS versions, catering to various development needs.\n",
-                "imageUrl": "images/gitlab.webp",
-                "title": "GitLab",
-                "tags": [],
-                "color": "#ff7700",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "Webhooks",
-                "description": "#### Webhook ***is*** a \nway for an application to send real-time data to other services **that** is triggered by specific events.\n  - Allows apps to communicate instantly without polling.",
-                "id": "mock-927811",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 564,
-                    "y": 155
-                },
-                "imageUrl": "images/webhook.webp",
-                "color": "#000000",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "MySQL",
-                "description": "#### MySQL ***is*** a \nwidely-used open-source relational database management system **that** is known for its reliability and ease of use.\n  - It supports standard SQL and a variety of data types.\n  - Known for its high performance, scalability, and flexibility.\n  - Commonly used for web applications and online transaction processing (OLTP).\n  - Includes features like replication, clustering, and strong security measures.\n  - Ideal for both small and large-scale applications, from individual projects to large enterprises.\n",
-                "id": "mock-944651",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1337,
-                    "y": 547
-                },
-                "imageUrl": "images/mysql.webp",
-                "color": "#006faa",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "JavaScript",
-                "description": "#### JavaScript ***is*** a \nversatile programming language **that** runs in web browsers.\n  - It allows developers to create interactive web pages.\n  - Supports event-driven, functional, and imperative programming styles.\n  - Widely used for front-end development, often alongside HTML and CSS.\n  - Can also be used for server-side development with environments like Node.js.",
-                "id": "mock-310399",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 923,
-                    "y": 232
-                },
-                "imageUrl": "images/js.webp",
-                "color": "#ffd900",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "Git",
-                "description": "**Git** is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
-                "id": "mock-656747",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 618,
-                    "y": 389
-                },
-                "color": "#ff5900",
-                "imageUrl": "images/git.webp",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "SQL",
-                "description": "#### SQL ***is*** a \nstandard language **that** is used to manage and manipulate relational databases.\n  - It allows for querying, updating, and managing data.\n  - Supports operations like SELECT, INSERT, UPDATE, DELETE, and more.\n  - Used for defining database schemas with commands like CREATE, ALTER, and DROP.\n  - Essential for backend development and data analysis.",
-                "id": "mock-152172",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1156.2222222222222,
-                    "y": 549
-                },
-                "color": "#00e5ff",
-                "imageUrl": "images/sql.webp",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "PostgreSQL",
-                "description": "#### PostgreSQL ***is*** a \npowerful, open-source relational database management system **that** emphasizes extensibility and SQL compliance.\n  - It supports advanced data types and performance optimization features.\n  - Known for reliability, data integrity, and robust transaction support.\n  - Includes features like multi-version concurrency control (MVCC) and point-in-time recovery.\n  - Extensible through custom functions, data types, and operators.\n  - Ideal for complex applications requiring a reliable and scalable database solution.\n",
-                "id": "mock-798871",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1159.0909090909092,
-                    "y": 398.909090909091
-                },
-                "imageUrl": "images/postgre.webp",
-                "color": "#0093a0",
-                "isNode": true
-            },
-            {
-                "treeId": 1,
-                "title": "GitHub",
-                "description": "#### GitHub ***is*** a \nweb-based platform **that** provides version control and collaboration tools for software development.\n  - It uses Git for tracking changes in source code during development.\n  - Allows multiple developers to work on projects simultaneously with features like branching and merging.\n  - Hosts repositories, where code and documentation can be stored, managed, and shared.\n  - Supports issue tracking, project management, and continuous integration/continuous deployment (CI/CD).\n  - Facilitates collaboration through pull requests, code reviews, and discussions.\n",
-                "id": "mock-968626",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 675.3728714034058,
-                    "y": 266.79624192601295
-                },
-                "color": "#727272",
-                "isNode": true,
-                "imageUrl": "images/github.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "Unit Tests",
-                "description": "",
-                "id": "mock-125964",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 366.87375220199647,
-                    "y": 353.50733998825604
-                },
-                "isNode": false
-            },
-            {
-                "treeId": 1,
-                "title": "Redis",
-                "description": "#### Redis ***is*** an \nopen-source, in-memory data structure store **that** is used as a database, cache, and message broker.\n  - Supports various data structures like strings, hashes, lists, sets, and sorted sets.\n  - Known for its high performance and low latency.\n  - Provides persistence options through snapshots and append-only file (AOF) logs.\n  - Supports replication, enabling high availability and scalability.\n  - Includes features like Lua scripting, pub/sub messaging, and geospatial indexes.\n",
-                "id": "mock-726308",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 985.8737522019965,
-                    "y": 480.50733998825604
-                },
-                "isNode": true,
-                "imageUrl": "images/redis.webp",
-                "color": "#ff0000"
-            },
-            {
-                "treeId": 1,
-                "title": "Docker",
-                "description": "#### Docker ***is*** a \nplatform **that** enables developers to automate the deployment of applications inside lightweight, portable containers.\n  - Uses containerization to package applications with all dependencies.\n  - Ensures consistent environments across development, testing, and production.\n  - Allows for scalable and isolated application execution.\n  - Simplifies configuration and increases deployment speed.\n  - Supports Docker Hub for sharing and managing container images.\n",
-                "id": "mock-801766",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 341.87375220199647,
-                    "y": 522.507339988256
-                },
-                "isNode": true,
-                "color": "#00aeff",
-                "imageUrl": "images/docker.png"
-            },
-            {
-                "treeId": 1,
-                "title": "GitLab CI/CD",
-                "description": "#### GitLab CI/CD ***is*** a \nbuilt-in feature of GitLab **that** automates the software development lifecycle.\n  - Allows you to define CI/CD pipelines using `.gitlab-ci.yml` files.\n  - Automates the building, testing, and deployment of code.\n  - Supports parallel execution, caching, and artifact handling.\n  - Integrates with GitLab's version control and project management tools.\n  - Provides detailed logs and metrics for monitoring pipeline performance.\n  - Facilitates continuous integration and continuous deployment, improving code quality and delivery speed.\n",
-                "id": "mock-691833",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 407.87375220199647,
-                    "y": 177.50733998825604
-                },
-                "color": "#ffffff",
-                "isNode": true,
-                "imageUrl": "images/gitlab-cicd.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "GitHub Actions",
-                "description": "#### GitHub Actions ***is*** a \ntool **that** automates workflows for software development.\n  - Allows you to build, test, and deploy code from GitHub.\n  - Uses YAML files to define custom workflows.\n  - Triggers actions based on events like pushes and pull requests.\n  - Includes pre-built actions and supports custom actions.\n  - Helps ensure code quality and consistency through automation.\n",
-                "id": "mock-257032",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 718.8737522019965,
-                    "y": 153.50733998825604
-                },
-                "isNode": true,
-                "color": "#006696",
-                "imageUrl": "images/github-actions.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "E2E Tests",
-                "description": "",
-                "isNode": false,
-                "id": "mock-516634",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 134.48620082207873,
-                    "y": 354.8326482677628
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "NGINX",
-                "description": "#### NGINX ***is*** a \nhigh-performance web server and reverse proxy **that** also functions as an HTTP cache and load balancer.\n  - Known for its speed, stability, and low resource consumption.\n  - Handles high concurrency with an event-driven, asynchronous architecture.\n  - Commonly used for serving static content, load balancing HTTP traffic, and acting as a reverse proxy for web applications.\n  - Supports TLS/SSL for secure connections and HTTP/2 for improved performance.\n  - Extensible with modules and integrates well with other web technologies.\n",
-                "isNode": true,
-                "id": "mock-337232",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 558.2935995302407,
-                    "y": 660.5261303581915
-                },
-                "imageUrl": "images/nginx.webp",
-                "color": "#007f04"
-            },
-            {
-                "treeId": 1,
-                "title": "HTTPS",
-                "description": "",
-                "isNode": false,
-                "id": "mock-114511",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 380.20598006644525,
-                    "y": 696.9966777408638
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Web Servers and Web",
-                "description": "",
-                "isNode": false,
-                "id": "mock-976870",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 628.2059800664452,
-                    "y": 815.6810631229237
-                },
-                "color": "#48d900"
-            },
-            {
-                "treeId": 1,
-                "title": "SSH",
-                "description": "",
-                "isNode": false,
-                "id": "mock-323901",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 349.9435215946844,
-                    "y": 817.9966777408638
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Netplan",
-                "description": "",
-                "isNode": false,
-                "id": "mock-358585",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 396.16862037871954,
-                    "y": 945.7285843101895
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Proxying",
-                "description": "",
-                "isNode": false,
-                "id": "mock-729815",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 572.3832281334535,
-                    "y": 980.7285843101895
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Architectures Development Princeples",
-                "description": "",
-                "isNode": false,
-                "id": "mock-833011",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1089.2026578073092,
-                    "y": 989.7840531561462
-                },
-                "color": "#48d900"
-            },
-            {
-                "treeId": 1,
-                "title": "Clean Architecture",
-                "description": "",
-                "isNode": false,
-                "id": "mock-425754",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1154.857142857143,
-                    "y": 837.2857142857143
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Monolithic Apps",
-                "description": "",
-                "isNode": false,
-                "id": "mock-887942",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1159,
-                    "y": 1140.2857142857142
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Test-Driven Development (TDD)",
-                "description": "",
-                "isNode": false,
-                "id": "mock-925820",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1363,
-                    "y": 850.4285714285716
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Microservices",
-                "description": "",
-                "isNode": false,
-                "id": "mock-432310",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1412.5714285714287,
-                    "y": 982.8571428571429
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Domain-Driven Design (DDD)",
-                "description": "",
-                "isNode": false,
-                "id": "mock-366416",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1364.1428571428573,
-                    "y": 1126.7142857142858
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "NestJS",
-                "description": "#### NestJS ***is*** a \nprogressive Node.js framework **that** is used for building efficient, reliable, and scalable server-side applications.\n  - Built with TypeScript and fully supports JavaScript.\n  - Utilizes modern JavaScript, TypeScript, and design patterns such as MVC and Dependency Injection.\n  - Integrates seamlessly with other libraries and frameworks like Express and Fastify.\n  - Provides a modular architecture, making it easy to organize and manage code.\n  - Supports extensive features such as middleware, authentication, and microservices.\n  - Ideal for developing enterprise-grade applications due to its robust set of features and architectural principles.\n",
-                "isNode": true,
-                "id": "mock-316778",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 908,
-                    "y": 48.33333333333337
-                },
-                "imageUrl": "images/nest-js.webp",
-                "color": "#ff2c57"
-            },
-            {
-                "treeId": 1,
-                "title": "Koa",
-                "description": "#### Koa ***is*** a \nminimalist and flexible Node.js web framework **that** is designed for building APIs and web applications.\n  - Developed by the creators of Express, offering a more modern approach.\n  - Uses async/await for handling asynchronous operations, making code easier to read and maintain.\n  - Provides a lightweight and unopinionated structure, giving developers the freedom to design their application architecture.\n  - Does not include middleware by default, allowing developers to choose only the components they need.\n  - Ideal for building high-performance and scalable web applications.\n",
-                "isNode": true,
-                "id": "mock-621898",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1095.888888888889,
-                    "y": 58.44444444444446
-                },
-                "color": "#ffffff",
-                "imageUrl": "images/koa.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "Database scaling and optimization",
-                "description": "",
-                "isNode": false,
-                "id": "mock-262855",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 656.9487375669473,
-                    "y": 1202.7635807192044
-                },
-                "color": "#ffffff"
-            },
-            {
-                "treeId": 1,
-                "title": "Database denormalization",
-                "description": "",
-                "isNode": false,
-                "id": "mock-900681",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 659.433817903596,
-                    "y": 1401.7635807192044
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Database normalization",
-                "description": "",
-                "isNode": false,
-                "id": "mock-785170",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 462.43381790359604,
-                    "y": 1335.7635807192044
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Database replication (master-slave)",
-                "description": "",
-                "isNode": false,
-                "id": "mock-179223",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 475.43381790359604,
-                    "y": 1100.7635807192044
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Database indexing",
-                "description": "",
-                "isNode": false,
-                "id": "mock-907517",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 262.43381790359604,
-                    "y": 1203.7635807192044
-                }
-            },
-            {
-                "treeId": 1,
-                "isNode": false,
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 850,
-                    "y": 452
-                },
-                "title": "Python",
-                "description": "#### Python ***is*** a\nprogramming language **that** runs the backend of my own agent platform.\n  - FastAPI, async SQLAlchemy, Alembic and pytest.\n",
-                "id": "mock-605112",
-                "color": "#3776ab"
-            },
-            {
-                "treeId": 1,
-                "isNode": false,
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 892,
-                    "y": 554
-                },
-                "title": "FastAPI",
-                "description": "#### FastAPI ***is*** a\nPython web framework **that** serves the API of my agent platform.\n  - Services for projects, scheduling, usage and git-worktree isolation per agent run.\n",
-                "id": "mock-605148",
-                "color": "#009688"
-            }
-        ],
-        "edges": [
-            {
-                "sourceNodeId": 3,
-                "targetNodeId": 2
-            },
-            {
-                "sourceNodeId": "mock-310399",
-                "targetNodeId": 1
-            },
-            {
-                "sourceNodeId": 5,
-                "targetNodeId": "mock-310399"
-            },
-            {
-                "sourceNodeId": 4,
-                "targetNodeId": 5
-            },
-            {
-                "sourceNodeId": "mock-656747",
-                "targetNodeId": 4
-            },
-            {
-                "sourceNodeId": 6,
-                "targetNodeId": 4
-            },
-            {
-                "sourceNodeId": "mock-152172",
-                "targetNodeId": 6
-            },
-            {
-                "sourceNodeId": "mock-798871",
-                "targetNodeId": "mock-152172"
-            },
-            {
-                "sourceNodeId": "mock-944651",
-                "targetNodeId": "mock-152172"
-            },
-            {
-                "sourceNodeId": "mock-968626",
-                "targetNodeId": "mock-656747"
-            },
-            {
-                "sourceNodeId": "mock-257032",
-                "targetNodeId": "mock-968626"
-            },
-            {
-                "sourceNodeId": "mock-927811",
-                "targetNodeId": "mock-257032"
-            },
-            {
-                "sourceNodeId": "mock-927811",
-                "targetNodeId": "mock-968626"
-            },
-            {
-                "sourceNodeId": "mock-830892",
-                "targetNodeId": "mock-656747"
-            },
-            {
-                "sourceNodeId": "mock-830892",
-                "targetNodeId": "mock-968626"
-            },
-            {
-                "sourceNodeId": "mock-830892",
-                "targetNodeId": "mock-927811"
-            },
-            {
-                "sourceNodeId": "mock-691833",
-                "targetNodeId": "mock-830892"
-            },
-            {
-                "sourceNodeId": "mock-691833",
-                "targetNodeId": "mock-927811"
-            },
-            {
-                "sourceNodeId": "mock-801766",
-                "targetNodeId": 4
-            },
-            {
-                "sourceNodeId": 7,
-                "targetNodeId": "mock-801766"
-            },
-            {
-                "sourceNodeId": "mock-125964",
-                "targetNodeId": 4
-            },
-            {
-                "sourceNodeId": "mock-125964",
-                "targetNodeId": "mock-691833"
-            },
-            {
-                "sourceNodeId": "mock-125964",
-                "targetNodeId": "mock-516634"
-            },
-            {
-                "sourceNodeId": "mock-726308",
-                "targetNodeId": 6
-            },
-            {
-                "sourceNodeId": "mock-114511",
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": 6,
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": "mock-323901",
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": "mock-358585",
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": "mock-729815",
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": "mock-833011",
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": "mock-337232",
-                "targetNodeId": "mock-976870"
-            },
-            {
-                "sourceNodeId": "mock-425754",
-                "targetNodeId": "mock-833011"
-            },
-            {
-                "sourceNodeId": "mock-887942",
-                "targetNodeId": "mock-833011"
-            },
-            {
-                "sourceNodeId": "mock-366416",
-                "targetNodeId": "mock-833011"
-            },
-            {
-                "sourceNodeId": "mock-432310",
-                "targetNodeId": "mock-833011"
-            },
-            {
-                "sourceNodeId": "mock-925820",
-                "targetNodeId": "mock-833011"
-            },
-            {
-                "sourceNodeId": 3,
-                "targetNodeId": 5
-            },
-            {
-                "sourceNodeId": "mock-316778",
-                "targetNodeId": 1
-            },
-            {
-                "sourceNodeId": "mock-621898",
-                "targetNodeId": 1
-            },
-            {
-                "sourceNodeId": "mock-262855",
-                "targetNodeId": "mock-833011"
-            },
-            {
-                "sourceNodeId": "mock-179223",
-                "targetNodeId": "mock-262855"
-            },
-            {
-                "sourceNodeId": "mock-262855",
-                "targetNodeId": "mock-907517"
-            },
-            {
-                "sourceNodeId": "mock-785170",
-                "targetNodeId": "mock-262855"
-            },
-            {
-                "sourceNodeId": "mock-900681",
-                "targetNodeId": "mock-262855"
-            },
-            {
-                "sourceNodeId": "mock-605112",
-                "targetNodeId": 5
-            },
-            {
-                "sourceNodeId": "mock-605148",
-                "targetNodeId": "mock-605112"
-            }
-        ]
-    },
-    "front-end": {
-        "nodes": [
-            {
-                "treeId": 1,
-                "title": "Contributing UI projects",
-                "description": "",
-                "isNode": false,
-                "id": "mock-547485",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 353,
-                    "y": 455
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "JavaScript",
-                "description": "#### JavaScript ***is*** a \nversatile programming language **that** runs in web browsers.\n  - It allows developers to create interactive web pages.\n  - Supports event-driven, functional, and imperative programming styles.\n  - Widely used for front-end development, often alongside HTML and CSS.\n  - Can also be used for server-side development with environments like Node.js.",
-                "isNode": true,
-                "id": "mock-372944",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 663,
-                    "y": 166
-                },
-                "imageUrl": "images/js.webp",
-                "color": "#ff5900"
-            },
-            {
-                "treeId": 1,
-                "title": "JS Frameworks",
-                "description": "",
-                "isNode": false,
-                "id": "mock-511549",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1130,
-                    "y": 525
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "HTML",
-                "description": "#### HTML ***is*** a \nstandard markup language **that** is used for creating and structuring web pages.\n  - Stands for HyperText Markup Language.\n  - Defines the structure of web content using elements like headings, paragraphs, links, images, and lists.\n  - Forms the backbone of web development, working in conjunction with CSS and JavaScript.\n  - Uses tags to encapsulate different parts of the content, providing semantic meaning.\n  - Essential for creating accessible and SEO-friendly web pages.\n",
-                "isNode": true,
-                "id": "mock-173254",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 450,
-                    "y": 340
-                },
-                "color": "#ff5900",
-                "imageUrl": "images/html.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "CSS",
-                "description": "#### CSS ***is*** a \nstylesheet language **that** is used for describing the presentation of a document written in HTML or XML.\n  - Stands for Cascading Style Sheets.\n  - Controls the layout, colors, fonts, and overall visual appearance of web pages.\n  - Enables the separation of content (HTML) from presentation (CSS), improving maintainability.\n  - Supports responsive design, allowing web pages to adapt to different screen sizes and devices.\n  - Provides various features like selectors, box model, flexbox, grid, animations, and transitions.\n  - Enhances user experience by enabling rich, visually appealing designs.\n",
-                "isNode": true,
-                "id": "mock-913781",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 551,
-                    "y": 216
-                },
-                "color": "#78bbff",
-                "imageUrl": "images/css.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "Tailwind CSS",
-                "description": "#### Tailwind CSS ***is*** a \nutility-first CSS framework **that** provides a set of classes for quickly styling your web pages.\n  - Enables fast development by applying classes directly in your HTML.\n  - Highly customizable through a configuration file.\n  - Supports responsive design with built-in utilities.\n  - Avoids common CSS issues like specificity conflicts.\n  - Ideal for building custom designs efficiently.\n",
-                "isNode": true,
-                "id": "mock-886210",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 404,
-                    "y": 216
-                },
-                "imageUrl": "images/tailwind.svg",
-                "color": "#00fff2"
-            },
-            {
-                "treeId": 1,
-                "title": "npm",
-                "description": "#### NPM ***is*** a \npackage manager for JavaScript **that** is used to install, share, and manage dependencies for projects.\n  - Stands for Node Package Manager.\n  - Comes bundled with Node.js, making it an essential tool for JavaScript developers.\n  - Provides a vast registry of packages, enabling code reuse and modular development.\n  - Allows developers to publish their own packages and collaborate with others.\n  - Supports semantic versioning, ensuring compatibility and stability of dependencies.\n  - Facilitates scripts for automating tasks like testing, building, and deploying applications.\n",
-                "isNode": true,
-                "id": "mock-635590",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 548,
-                    "y": 451
-                },
-                "color": "#ff0000",
-                "imageUrl": "images/npm.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "Basics",
-                "description": "",
-                "isNode": false,
-                "id": "mock-658400",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 662,
-                    "y": 339
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "React",
-                "description": "#### React.js ***is*** a \nJavaScript library **that** is used for building user interfaces, particularly single-page applications.\n  - Developed and maintained by Facebook.\n  - Uses a component-based architecture, allowing for reusable and modular UI components.\n  - Implements a virtual DOM to optimize rendering and improve performance.\n  - Supports JSX, a syntax extension that allows writing HTML-like code within JavaScript.\n  - Manages application state effectively with hooks and context.\n  - Integrates well with other libraries and frameworks, making it versatile for various projects.\n  - Ideal for creating fast, interactive, and scalable front-end applications.\n",
-                "isNode": true,
-                "id": "mock-224980",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1346.5909090909092,
-                    "y": 527.3181818181819
-                },
-                "imageUrl": "images/react.webp",
-                "color": "#00aacc"
-            },
-            {
-                "treeId": 1,
-                "title": "Vue",
-                "description": "#### Vue.js ***is*** a \nprogressive JavaScript framework **that** is used for building user interfaces and single-page applications.\n  - Designed to be incrementally adoptable, integrating easily with other projects and libraries.\n  - Utilizes a component-based architecture for building reusable UI components.\n  - Supports reactive data binding and a virtual DOM for efficient updates.\n  - Includes features like directives, computed properties, and watchers for handling complex UI logic.\n  - Provides a CLI and a rich ecosystem of tools and libraries for enhancing development.\n  - Ideal for developing dynamic and interactive web applications with ease.\n",
-                "isNode": true,
-                "id": "mock-899665",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1272.5909090909092,
-                    "y": 393.31818181818187
-                },
-                "imageUrl": "images/vue.webp",
-                "color": "#00891b"
-            },
-            {
-                "treeId": 1,
-                "title": "jQuery",
-                "description": "#### jQuery ***is*** a \nfast, small, and feature-rich JavaScript library **that** simplifies HTML document traversal, event handling, and animation.\n  - Makes it easier to use JavaScript on your website.\n  - Provides a simple syntax for selecting elements and manipulating the DOM.\n  - Includes features for handling events, making AJAX requests, and creating animations.\n  - Compatible with all major browsers, ensuring cross-browser compatibility.\n  - Extensible with plugins, allowing for additional functionality.\n  - Ideal for adding interactivity and dynamic behavior to web pages with minimal code.\n",
-                "isNode": true,
-                "id": "mock-489009",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 559.5909090909092,
-                    "y": 33.31818181818187
-                },
-                "imageUrl": "images/jquery.webp",
-                "color": "#0084cc"
-            },
-            {
-                "treeId": 1,
-                "title": "Angular",
-                "description": "#### Angular ***is*** a \nplatform and framework for building single-page client applications using HTML and TypeScript.\n  - Developed and maintained by Google.\n  - Uses a component-based architecture for building scalable and maintainable applications.\n  - Includes features like data binding, dependency injection, and routing.\n  - Supports development of complex applications with a rich set of built-in tools and libraries.\n  - Provides a CLI for efficient project setup, development, and deployment.\n  - Ideal for developing dynamic, high-performance web applications.\n",
-                "isNode": true,
-                "id": "mock-461636",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1069.5909090909092,
-                    "y": 353.31818181818187
-                },
-                "imageUrl": "images/angular.png",
-                "color": "#cc0000"
-            },
-            {
-                "treeId": 1,
-                "title": "Svelte",
-                "description": "",
-                "isNode": true,
-                "id": "mock-842626",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1268.8636363636365,
-                    "y": 680.2272727272727
-                },
-                "imageUrl": "images/svelte.svg"
-            },
-            {
-                "treeId": 1,
-                "title": "Next.js",
-                "description": "#### Next.js ***is*** a \nReact framework **that** enables server-side rendering and static site generation for building web applications.\n  - Developed and maintained by Vercel.\n  - Supports both server-side rendering (SSR) and static site generation (SSG), improving performance and SEO.\n  - Provides an intuitive file-based routing system.\n  - Includes built-in CSS and Sass support, with options for CSS-in-JS solutions.\n  - Features API routes to create API endpoints as part of the application.\n  - Ideal for building fast, SEO-friendly, and scalable web applications.\n",
-                "isNode": true,
-                "id": "mock-798128",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1518.2857142857142,
-                    "y": 531.5714285714287
-                },
-                "color": "#ffffff",
-                "imageUrl": "images/next-js.svg"
-            },
-            {
-                "treeId": 1,
-                "title": "Vuex",
-                "description": "#### Vuex ***is*** a \nstate management library **that** is used for managing and centralizing state in Vue.js applications.\n  - Serves as a single source of truth for the application's state.\n  - Facilitates communication between components by storing and managing state in a centralized store.\n  - Supports reactive data binding and ensures that state changes are efficiently propagated to components.\n  - Integrates seamlessly with Vue.js, leveraging its reactivity system.\n  - Includes features like mutations, actions, getters, and modules for organizing state management logic.\n  - Ideal for large-scale applications where managing state across multiple components can be complex.\n",
-                "isNode": true,
-                "id": "mock-789823",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1367.2727272727275,
-                    "y": 248.18181818181824
-                },
-                "color": "#000000",
-                "imageUrl": "images/vuex.svg"
-            },
-            {
-                "treeId": 1,
-                "title": "Build Tools",
-                "description": "",
-                "isNode": false,
-                "id": "mock-505573",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 721.1363636363637,
-                    "y": 695.4545454545455
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Vite",
-                "description": "#### Vite ***is*** a \nnext-generation front-end build tool **that** offers an extremely fast development experience.\n  - Developed by Evan You, the creator of Vue.js.\n  - Uses native ES modules for development, enabling instant server start and fast hot module replacement (HMR).\n  - Bundles code with Rollup for production, ensuring optimized builds.\n  - Supports out-of-the-box configuration for popular frameworks like Vue, React, and Svelte.\n  - Provides a rich plugin API for extending functionality.\n  - Ideal for modern web development, improving efficiency and reducing build times. \n",
-                "isNode": true,
-                "id": "mock-383641",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 494.13636363636374,
-                    "y": 696
-                },
-                "color": "#b300ff",
-                "imageUrl": "images/vite.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "Webpack",
-                "description": "#### Webpack ***is*** a \npowerful module bundler **that** is used for bundling JavaScript files and other assets for web applications.\n  - Transforms front-end assets such as HTML, CSS, and images, as well as JavaScript.\n  - Allows developers to use modular code and bundle it into a single file or smaller files.\n  - Supports code splitting, lazy loading, and dynamic imports for optimized performance.\n  - Utilizes loaders to preprocess files and plugins to extend its capabilities.\n  - Provides a robust ecosystem of plugins and loaders for various tasks.\n  - Ideal for building complex web applications with optimized performance and maintainable code. \n",
-                "isNode": true,
-                "id": "mock-139869",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 582.5,
-                    "y": 566.8846153846154
-                },
-                "imageUrl": "images/webpack.webp",
-                "color": "#80e1ff"
-            },
-            {
-                "treeId": 1,
-                "title": "Testing",
-                "description": "",
-                "isNode": false,
-                "id": "mock-102782",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1125.6153846153845,
-                    "y": 932.3846153846155
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Jest",
-                "description": "#### Jest ***is*** a \nJavaScript testing framework **that** is built for simplicity and speed.\n  - Developed by Facebook and maintained by the community.\n  - Known for its zero-configuration setup, requiring minimal setup to start writing tests.\n  - Supports testing of JavaScript code, including React, Vue, Angular, and Node.js applications.\n  - Includes built-in assertion library and mocking capabilities for testing dependencies.\n  - Provides parallel test execution, making it fast and scalable.\n  - Integrates easily with CI/CD pipelines and other tools for automated testing.\n  - Ideal for writing unit tests, integration tests, and snapshot tests with ease.\n",
-                "isNode": true,
-                "id": "mock-629931",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1201.6538461538462,
-                    "y": 798.3846153846155
-                },
-                "color": "#7c0040",
-                "imageUrl": "images/Jest.svg"
-            },
-            {
-                "treeId": 1,
-                "title": "Jasmine",
-                "description": "#### Jasmine ***is*** a \nbehavior-driven development (BDD) framework **that** is used for testing JavaScript code.\n  - Provides a clean syntax for defining tests with descriptive names and expectations.\n  - Supports testing asynchronous code with built-in mechanisms like `async` and `await`.\n  - Includes a built-in assertion library for writing expectations.\n  - Integrates with various test runners and frameworks.\n  - Generates detailed and readable test reports.\n  - Ideal for writing clear and maintainable tests for JavaScript applications.\n",
-                "isNode": true,
-                "id": "mock-883489",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1307,
-                    "y": 908.5769230769231
-                },
-                "imageUrl": "images/jasmine-js.webp",
-                "color": "#ae4898"
-            },
-            {
-                "treeId": 1,
-                "title": "Cypress",
-                "description": "#### Cypress ***is*** a \nmodern end-to-end testing framework **that** is built for the web.\n  - Provides a fast, reliable, and easy-to-use testing experience.\n  - Allows developers to write tests using JavaScript or TypeScript.\n  - Offers automatic waiting and retrying for elements, making tests more resilient to timing issues.\n  - Provides real-time test execution with interactive debugging and snapshots.\n  - Supports testing across different browsers and devices.\n  - Integrates seamlessly with CI/CD pipelines for continuous testing.\n  - Ideal for testing web applications comprehensively, from UI interactions to backend integrations.\n",
-                "isNode": true,
-                "id": "mock-183392",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1032.3076923076922,
-                    "y": 785.5384615384614
-                },
-                "color": "#00967b",
-                "imageUrl": "images/cypress.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "Rendering Strategies",
-                "description": "",
-                "isNode": false,
-                "id": "mock-864844",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1300.4528419737665,
-                    "y": 1132.575265459088
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "SPA",
-                "description": "",
-                "isNode": false,
-                "id": "mock-120994",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1492.8750780762025,
-                    "y": 1018.9725171767645
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "SSR",
-                "description": "",
-                "isNode": false,
-                "id": "mock-119159",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1485.8750780762025,
-                    "y": 1253.9725171767645
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "SSG",
-                "description": "",
-                "isNode": false,
-                "id": "mock-667413",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1574.329169269207,
-                    "y": 1134.9725171767645
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Animations and Visual Effects",
-                "description": "",
-                "isNode": false,
-                "id": "mock-146709",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 816.4285714285714,
-                    "y": 1208.1428571428573
-                },
-                "color": "#ffffff"
-            },
-            {
-                "treeId": 1,
-                "title": "Three.js",
-                "description": "#### Three.js ***is*** a \nJavaScript library **that** is used for creating 3D graphics and animations in web browsers.\n  - Provides a simple API for working with WebGL, allowing developers to create complex 3D scenes.\n  - Includes a wide range of features such as geometries, materials, lights, textures, and animations.\n  - Supports virtual reality (VR) and augmented reality (AR) applications through WebXR.\n  - Offers a large community and ecosystem with numerous examples and extensions.\n  - Ideal for building interactive 3D visualizations, games, simulations, and virtual environments on the web.\n",
-                "isNode": true,
-                "id": "mock-438202",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 682.6428571428572,
-                    "y": 1032.1428571428573
-                },
-                "color": "#ffffff",
-                "imageUrl": "images/three-js.webp"
-            },
-            {
-                "treeId": 1,
-                "title": "WebGL",
-                "description": "#### WebGL ***is*** a \nJavaScript API **that** allows rendering interactive 3D and 2D graphics within any compatible web browser.\n  - Based on OpenGL ES, providing high-performance graphics rendering capabilities.\n  - Enables hardware-accelerated rendering using the GPU for improved performance.\n  - Utilizes shaders written in GLSL (OpenGL Shading Language) for customizing rendering pipelines.\n  - Supports complex visual effects, animations, and interactive experiences directly in web applications.\n  - Widely used for creating games, simulations, data visualizations, and virtual reality (VR) applications on the web.\n",
-                "isNode": true,
-                "id": "mock-637701",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 485.6428571428572,
-                    "y": 893.1428571428573
-                },
-                "imageUrl": "images/webgl.webp",
-                "color": "#ffffff"
-            },
-            {
-                "treeId": 1,
-                "title": "CSS animations",
-                "description": "",
-                "isNode": false,
-                "id": "mock-227406",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 455.6428571428572,
-                    "y": 1212.1428571428573
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Canvas animations",
-                "description": "",
-                "isNode": false,
-                "id": "mock-494290",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 684.6428571428572,
-                    "y": 1357.1428571428573
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Frontend Architectures",
-                "description": "",
-                "isNode": false,
-                "id": "mock-342728",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1358.7500000000002,
-                    "y": 1410.0000000000002
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Feature-Sliced Design (FSD)",
-                "description": "",
-                "isNode": false,
-                "id": "mock-546691",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1170.5000000000002,
-                    "y": 1606.7500000000002
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "DDD (Domain-Driven Design)",
-                "description": "",
-                "isNode": false,
-                "id": "mock-945235",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1494.5000000000002,
-                    "y": 1607.5000000000002
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "Clean Architecture",
-                "description": "",
-                "isNode": false,
-                "id": "mock-316457",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1707.7500000000002,
-                    "y": 1449.7500000000002
-                }
-            },
-            {
-                "treeId": 1,
-                "title": "TypeScript",
-                "description": "#### TypeScript ***is*** a\ntyped superset of JavaScript **that** is used to keep large front-ends refactorable.\n  - Types describe API payloads, so the compiler catches contract drift.\n  - Editor tooling turns into real navigation and safe renames across a codebase.\n  - Runs in the same gate as lint and tests — nothing lands untyped.\n  - Used across every production project since 2021: Vue, Nuxt, React and Node.\n",
-                "isNode": true,
-                "id": "mock-771204",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 820,
-                    "y": 210
-                },
-                "color": "#3178c6",
-                "imageUrl": "images/typescript.svg"
-            },
-            {
-                "treeId": 1,
-                "title": "Vitest",
-                "description": "#### Vitest ***is*** a\ntest runner **that** is used for unit and component tests on Vite-based projects.\n  - Shares the Vite pipeline, so tests run the same transforms as the app.\n  - Fast enough to sit inside a pre-commit gate.\n  - Drove a 2,400+ test suite fully green on an agent platform fork.\n",
-                "isNode": true,
-                "id": "mock-618377",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1230,
-                    "y": 1020
-                },
-                "color": "#6e9f18",
-                "imageUrl": "images/vitest.svg"
-            },
-            {
-                "treeId": 1,
-                "title": "Playwright",
-                "description": "#### Playwright ***is*** an\nend-to-end testing framework **that** drives a real browser against a real build.\n  - Covers the flows unit tests cannot see: routing, streaming, auth.\n  - Runs headless in CI across Chromium, Firefox and WebKit.\n  - Traces and screenshots make a failed run debuggable after the fact.\n",
-                "isNode": true,
-                "id": "mock-559182",
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1000,
-                    "y": 1040
-                },
-                "color": "#2ead33",
-                "imageUrl": "images/playwright.svg"
-            },
-            {
-                "treeId": 1,
-                "isNode": false,
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1383,
-                    "y": 393
-                },
-                "title": "Nuxt",
-                "description": "#### Nuxt ***is*** a\nVue framework **that** adds server-side rendering, routing and a module system.\n  - MercuryX and CarCity run on Nuxt 3 with SSR.\n  - Moved CarCity to Feature-Sliced Design: +120% feature velocity.\n",
-                "id": "mock-418331",
-                "color": "#00dc82"
-            },
-            {
-                "treeId": 1,
-                "isNode": false,
-                "tags": [],
-                "isActive": false,
-                "position": {
-                    "x": 1230,
-                    "y": 292
-                },
-                "title": "Pinia",
-                "description": "#### Pinia ***is*** the\nstate management library **that** Vue 3 and Nuxt 3 apps use.\n  - The store layer of MercuryX and CarCity.\n",
-                "id": "mock-418377",
-                "color": "#ffd859"
-            }
-        ],
-        "edges": [
-            {
-                "sourceNodeId": "mock-913781",
-                "targetNodeId": "mock-658400"
-            },
-            {
-                "sourceNodeId": "mock-173254",
-                "targetNodeId": "mock-658400"
-            },
-            {
-                "sourceNodeId": "mock-635590",
-                "targetNodeId": "mock-658400"
-            },
-            {
-                "sourceNodeId": "mock-547485",
-                "targetNodeId": "mock-635590"
-            },
-            {
-                "sourceNodeId": "mock-886210",
-                "targetNodeId": "mock-913781"
-            },
-            {
-                "sourceNodeId": "mock-372944",
-                "targetNodeId": "mock-658400"
-            },
-            {
-                "sourceNodeId": "mock-511549",
-                "targetNodeId": "mock-658400"
-            },
-            {
-                "sourceNodeId": "mock-489009",
-                "targetNodeId": "mock-372944"
-            },
-            {
-                "sourceNodeId": "mock-842626",
-                "targetNodeId": "mock-511549"
-            },
-            {
-                "sourceNodeId": "mock-224980",
-                "targetNodeId": "mock-511549"
-            },
-            {
-                "sourceNodeId": "mock-899665",
-                "targetNodeId": "mock-511549"
-            },
-            {
-                "sourceNodeId": "mock-461636",
-                "targetNodeId": "mock-511549"
-            },
-            {
-                "sourceNodeId": "mock-798128",
-                "targetNodeId": "mock-224980"
-            },
-            {
-                "sourceNodeId": "mock-789823",
-                "targetNodeId": "mock-899665"
-            },
-            {
-                "sourceNodeId": "mock-505573",
-                "targetNodeId": "mock-511549"
-            },
-            {
-                "sourceNodeId": "mock-383641",
-                "targetNodeId": "mock-505573"
-            },
-            {
-                "sourceNodeId": "mock-139869",
-                "targetNodeId": "mock-505573"
-            },
-            {
-                "sourceNodeId": "mock-102782",
-                "targetNodeId": "mock-505573"
-            },
-            {
-                "sourceNodeId": "mock-629931",
-                "targetNodeId": "mock-102782"
-            },
-            {
-                "sourceNodeId": "mock-883489",
-                "targetNodeId": "mock-102782"
-            },
-            {
-                "sourceNodeId": "mock-183392",
-                "targetNodeId": "mock-102782"
-            },
-            {
-                "sourceNodeId": "mock-864844",
-                "targetNodeId": "mock-102782"
-            },
-            {
-                "sourceNodeId": "mock-864844",
-                "targetNodeId": "mock-120994"
-            },
-            {
-                "sourceNodeId": "mock-119159",
-                "targetNodeId": "mock-864844"
-            },
-            {
-                "sourceNodeId": "mock-667413",
-                "targetNodeId": "mock-864844"
-            },
-            {
-                "sourceNodeId": "mock-146709",
-                "targetNodeId": "mock-864844"
-            },
-            {
-                "sourceNodeId": "mock-438202",
-                "targetNodeId": "mock-146709"
-            },
-            {
-                "sourceNodeId": "mock-637701",
-                "targetNodeId": "mock-438202"
-            },
-            {
-                "sourceNodeId": "mock-227406",
-                "targetNodeId": "mock-146709"
-            },
-            {
-                "sourceNodeId": "mock-494290",
-                "targetNodeId": "mock-146709"
-            },
-            {
-                "sourceNodeId": "mock-342728",
-                "targetNodeId": "mock-146709"
-            },
-            {
-                "sourceNodeId": "mock-316457",
-                "targetNodeId": "mock-342728"
-            },
-            {
-                "sourceNodeId": "mock-945235",
-                "targetNodeId": "mock-342728"
-            },
-            {
-                "sourceNodeId": "mock-546691",
-                "targetNodeId": "mock-342728"
-            },
-            {
-                "sourceNodeId": "mock-771204",
-                "targetNodeId": "mock-658400"
-            },
-            {
-                "sourceNodeId": "mock-618377",
-                "targetNodeId": "mock-102782"
-            },
-            {
-                "sourceNodeId": "mock-559182",
-                "targetNodeId": "mock-102782"
-            },
-            {
-                "sourceNodeId": "mock-418331",
-                "targetNodeId": "mock-899665"
-            },
-            {
-                "sourceNodeId": "mock-418377",
-                "targetNodeId": "mock-899665"
-            }
-        ]
-    }
+	"ai-agents": {
+		"nodes": [
+			{
+				"treeId": 3,
+				"title": "AI & Agent Interfaces",
+				"description": "#### AI and agent interfaces ***are*** the\nlayer **that** turns a model into a system a person can actually operate.\n  - Built an autonomous multi-agent coding platform: self-hosted, my primary development environment, used daily.\n  - Below: the model layer and the orchestration that makes agents cooperate.\n  - 11.6k lines of React 19 across 142 files.\n",
+				"isNode": false,
+				"id": "mock-149522",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1000,
+					"y": 70
+				},
+				"color": "#e8c77e",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Claude Code",
+				"description": "#### Claude Code ***is*** an\nagentic coding tool **that** I work in every day, alongside my own agents.\n  - Agents plan, write and test; I set the task, review every diff and own what ships.\n  - Nothing merges until typecheck, linters and tests pass.\n",
+				"isNode": true,
+				"id": "mock-301744",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1520,
+					"y": 250
+				},
+				"color": "#b57bff",
+				"imageUrl": "images/anthropic.svg"
+			},
+			{
+				"treeId": 3,
+				"title": "LLM Application Engineering",
+				"description": "#### LLM application engineering ***is*** the\ncraft **that** is used to build products on top of language models rather than demos.\n  - Provider APIs, routing, prompts and cost all treated as product surface.\n  - Model choice is a runtime decision, not an architectural commitment.\n  - Measured on real runs: latency, spend and how often the agent finishes the job.\n",
+				"isNode": false,
+				"id": "mock-394589",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 700,
+					"y": 265
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Evals",
+				"description": "#### Evals ***are*** the\nmeasurements **that** show whether a change to prompts, models or the agent setup actually helped.\n  - An eval harness runs the same tasks in two setups and compares pass rate, attempts and cost.\n  - Automated gates decide pass or fail, not eyeballing.\n",
+				"isNode": false,
+				"id": "mock-640218",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 500,
+					"y": 250
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "RAG",
+				"description": "#### RAG ***is*** the\nretrieval layer **that** gives an agent the right context instead of stuffing the prompt.\n  - A RAG index over a team's codebase and internal docs, part of rolling AI into the team.\n  - The agent queries it like a tool instead of carrying everything in context.\n",
+				"isNode": false,
+				"id": "mock-512903",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 440,
+					"y": 460
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Code Graph",
+				"description": "#### A code graph ***is*** a\nprebuilt index of how the code is connected **that** answers structural questions without grep-walking.\n  - Made agent recon 13.6× cheaper on my platform.\n  - Part of the AI setup I built for a team.\n",
+				"isNode": false,
+				"id": "mock-512977",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 560,
+					"y": 590
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Anthropic API",
+				"description": "#### The Anthropic API ***is*** a\nmodel API **that** drives reasoning and tool use inside the agent loop.\n  - Claude models plan the work, edit files and call tools.\n  - Streaming responses feed the live event log the UI renders.\n  - Tool schemas declare exactly what an agent is allowed to touch.\n  - Prompt caching and token budgeting keep long runs affordable.\n",
+				"isNode": true,
+				"id": "mock-613019",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 520,
+					"y": 360
+				},
+				"color": "#b57bff",
+				"imageUrl": "images/anthropic.svg"
+			},
+			{
+				"treeId": 3,
+				"title": "OpenAI API",
+				"description": "#### The OpenAI API ***is*** a\nmodel API **that** is used as a second provider behind the same agent interface.\n  - Swapped per run without touching agent code — routing lives in one layer.\n  - Function calling maps onto the same tool contracts as every other provider.\n  - Keeps cost and quality benchmarks honest by comparing models on identical tasks.\n",
+				"isNode": true,
+				"id": "mock-928868",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 640,
+					"y": 430
+				},
+				"color": "#b57bff",
+				"imageUrl": "images/openai.svg"
+			},
+			{
+				"treeId": 3,
+				"title": "LiteLLM Routing",
+				"description": "#### LiteLLM ***is*** a\nmulti-provider routing layer **that** puts one interface in front of many model APIs.\n  - One call signature for Anthropic, OpenAI and self-hosted models.\n  - Per-agent model selection: cheap models for sub-agents, strong models for planning.\n  - A single place for retries, fallbacks and cost accounting.\n",
+				"isNode": false,
+				"id": "mock-610080",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 840,
+					"y": 380
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Prompt Design",
+				"description": "#### Prompt and system-prompt design ***is*** the\ndiscipline **that** decides how an agent understands its job.\n  - System prompts encode role, boundaries and the tools an agent may call.\n  - Sub-agent roles are authored as editable documents, not hard-coded strings.\n  - Structured output contracts keep responses parseable by the UI.\n  - Iterated against real runs instead of cherry-picked examples.\n",
+				"isNode": false,
+				"id": "mock-539868",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 660,
+					"y": 510
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Token & Cost",
+				"description": "#### Token and cost optimization ***is*** the\npractice **that** keeps long autonomous runs economically viable.\n  - Context trimming and tail-only history replay instead of full transcripts.\n  - Mechanical work delegated to cheaper models, planning reserved for strong ones.\n  - A live usage widget surfaces spend per run and per subscription.\n",
+				"isNode": false,
+				"id": "mock-179476",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 880,
+					"y": 490
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Agent Orchestration",
+				"description": "#### Agent orchestration ***is*** the\nlayer **that** is used to turn one model into a team of cooperating agents.\n  - A lead agent plans and delegates; specialised sub-agents execute.\n  - Every run is isolated, observable and stoppable by the operator.\n  - Work is verified by gates, not by trust.\n",
+				"isNode": false,
+				"id": "mock-928741",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1300,
+					"y": 265
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "MCP (Model Context Protocol)",
+				"description": "#### MCP ( Model Context Protocol ) ***is*** an\nopen protocol **that** is used to expose tools, data and prompts to agents in a uniform way.\n  - One contract for tools regardless of which model or client calls them.\n  - Servers advertise capabilities; agents discover and call them at runtime.\n  - Keeps tool access auditable and sandboxed instead of ad-hoc shell calls.\n",
+				"isNode": true,
+				"id": "mock-208296",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1480,
+					"y": 360
+				},
+				"color": "#b57bff",
+				"imageUrl": "images/mcp.svg"
+			},
+			{
+				"treeId": 3,
+				"title": "Tool Calling",
+				"description": "#### Tool and function calling ***is*** the\nmechanism **that** lets a model act instead of only answering.\n  - Typed schemas describe each tool, its arguments and its failure modes.\n  - Calls stream into the UI as they happen — arguments, output and errors.\n  - Bad arguments are caught at the boundary, not inside the sandbox.\n",
+				"isNode": false,
+				"id": "mock-855763",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1140,
+					"y": 360
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Multi-agent Runs",
+				"description": "#### A multi-agent run ***is*** an\nexecution model **that** splits one task across several agents working in parallel.\n  - Each run gets its own git worktree, so agents never fight over the tree.\n  - A per-run task strip shows what every agent is doing right now.\n  - The operator can switch autonomy level or stop the whole run mid-flight.\n",
+				"isNode": false,
+				"id": "mock-851594",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1330,
+					"y": 440
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Sub-agents",
+				"description": "#### Sub-agent delegation ***is*** a\npattern **that** is used to give narrow roles to narrow agents.\n  - Roles are edited in a dedicated UI over a transport abstraction.\n  - One editor drives either a live sandbox or a plain folder on the host.\n  - Roles can be authored before any container exists.\n",
+				"isNode": false,
+				"id": "mock-124239",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1120,
+					"y": 500
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Sandboxing",
+				"description": "#### Agent sandboxing ***is*** the\nisolation layer **that** decides how much damage an autonomous agent can do.\n  - Every agent run executes inside its own Docker sandbox.\n  - Git worktree isolation keeps concurrent runs off each other’s files.\n  - The host is reachable only through explicit, declared surfaces.\n",
+				"isNode": false,
+				"id": "mock-192837",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1520,
+					"y": 460
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Verification Gates",
+				"description": "#### Automated verification gates ***are*** the\nchecks **that** decide whether an agent’s work is allowed to land.\n  - Lint, type checks and the test suite run before a result is accepted.\n  - Translation completeness across 15 locales is enforced in pre-commit.\n  - A failing gate sends the agent back to work instead of a human.\n",
+				"isNode": false,
+				"id": "mock-900671",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1330,
+					"y": 540
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Agent UI & Streaming",
+				"description": "#### Agent UI and streaming UX ***is*** the\ninterface **that** makes an autonomous run legible while it is still running.\n  - Tool calls, file edits and terminal output render as they happen.\n  - Editor and terminal panes read the same event log as the chat.\n  - The operator always has a way to intervene.\n",
+				"isNode": false,
+				"id": "mock-457558",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1000,
+					"y": 170
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "AI Adoption in Teams",
+				"description": "#### AI adoption ***is*** the\nwork **that** turns AI tools from a demo into a team's daily practice.\n  - Lectures and hands-on sessions, then editor plugins, custom MCP servers and a RAG index.\n  - At Mercury, emergency hotfixes and SSR incidents dropped 4× in two months.\n",
+				"isNode": false,
+				"id": "mock-731552",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1000,
+					"y": 330
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			},
+			{
+				"treeId": 3,
+				"title": "Data Anonymization",
+				"description": "#### Data anonymization ***is*** the\nstep **that** makes AI usable under an NDA.\n  - Client and business data is anonymized before it reaches any AI tool.\n  - Nothing leaves in identifiable form.\n",
+				"isNode": false,
+				"id": "mock-731608",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1000,
+					"y": 440
+				},
+				"color": "#9122ff",
+				"imageUrl": ""
+			}
+		],
+		"edges": [
+			{
+				"sourceNodeId": "mock-394589",
+				"targetNodeId": "mock-149522"
+			},
+			{
+				"sourceNodeId": "mock-928741",
+				"targetNodeId": "mock-149522"
+			},
+			{
+				"sourceNodeId": "mock-457558",
+				"targetNodeId": "mock-149522"
+			},
+			{
+				"sourceNodeId": "mock-613019",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-928868",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-610080",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-539868",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-179476",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-208296",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-855763",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-851594",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-124239",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-192837",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-900671",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-301744",
+				"targetNodeId": "mock-928741"
+			},
+			{
+				"sourceNodeId": "mock-640218",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-512903",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-512977",
+				"targetNodeId": "mock-394589"
+			},
+			{
+				"sourceNodeId": "mock-731552",
+				"targetNodeId": "mock-149522"
+			},
+			{
+				"sourceNodeId": "mock-731608",
+				"targetNodeId": "mock-731552"
+			}
+		]
+	},
+	"back-end": {
+		"nodes": [
+			{
+				"id": 4,
+				"treeId": 1,
+				"position": {
+					"x": 620,
+					"y": 524
+				},
+				"isActive": false,
+				"description": "",
+				"tags": [],
+				"imageUrl": "",
+				"title": "Version Control & Deploy",
+				"color": "#48d900",
+				"isNode": false
+			},
+			{
+				"id": 5,
+				"treeId": 1,
+				"position": {
+					"x": 892,
+					"y": 350
+				},
+				"isActive": false,
+				"tags": [],
+				"description": "",
+				"imageUrl": "",
+				"title": "Programming Language",
+				"color": "#48d900",
+				"isNode": false
+			},
+			{
+				"id": 6,
+				"treeId": 1,
+				"position": {
+					"x": 987,
+					"y": 656
+				},
+				"isActive": false,
+				"tags": [],
+				"description": "",
+				"imageUrl": "",
+				"title": "Databases & Caching",
+				"color": "#48d900",
+				"isNode": false
+			},
+			{
+				"id": 7,
+				"treeId": 1,
+				"position": {
+					"x": 165,
+					"y": 525
+				},
+				"isActive": false,
+				"tags": [],
+				"description": "#### Docker Hub ***is*** a \ncloud-based repository service **that** allows developers to store, share, and manage Docker container images.\n  - Provides a central location for finding and accessing container images.\n  - Supports public and private repositories.\n  - Enables collaboration and sharing of containerized applications.\n  - Integrates with CI/CD pipelines for automated builds and deployments.\n  - Offers official images maintained by Docker and community-contributed images.\n",
+				"imageUrl": "images/docker-hub.webp",
+				"title": "Docker Hub",
+				"color": "#ffffff",
+				"isNode": true
+			},
+			{
+				"id": 3,
+				"treeId": 1,
+				"position": {
+					"x": 1061,
+					"y": 297
+				},
+				"isActive": false,
+				"tags": [],
+				"description": "#### Ruby ***is*** a \ndynamic, open-source programming language **that** focuses on simplicity and productivity.\n  - It's known for its elegant syntax, which is natural to read and easy to write.\n  - Ideal for web development, Ruby has a rich ecosystem of libraries and frameworks, including the popular Ruby on Rails.",
+				"imageUrl": "images/ruby.webp",
+				"title": "Ruby",
+				"color": "#ff0000",
+				"isNode": true
+			},
+			{
+				"id": 1,
+				"treeId": 1,
+				"color": "#00cc66",
+				"position": {
+					"x": 999,
+					"y": 145
+				},
+				"isActive": false,
+				"description": " #### Node.js ***is*** a \n runtime environment **that** executes JavaScript code on the server side.\n  -  It's non-blocking, event-driven, and ideal for building scalable, \n  - real-time applications.",
+				"imageUrl": "images/node-js.webp",
+				"title": "Node.js",
+				"tags": [],
+				"isNode": true
+			},
+			{
+				"id": 2,
+				"treeId": 1,
+				"position": {
+					"x": 1165,
+					"y": 214
+				},
+				"isActive": false,
+				"description": "#### Ruby on Rails ***is*** a \nweb application framework **that** uses Ruby.\n  - It follows the MVC (Model-View-Controller) pattern for organized code.\n  - Emphasizes convention over configuration and the DRY (Don't Repeat Yourself) principle.\n  - Includes many tools to simplify tasks like database management and routing.\n  - Ideal for quickly building and deploying web applications.",
+				"tags": [],
+				"imageUrl": "images/rails.webp",
+				"title": "Ruby on Rails",
+				"color": "#cc0000",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"id": "mock-830892",
+				"isActive": false,
+				"position": {
+					"x": 491,
+					"y": 297
+				},
+				"description": "#### GitLab ***is*** a \nweb-based DevOps lifecycle tool **that** provides a Git repository manager providing CI/CD pipeline features and more.\n  - Offers version control, issue tracking, CI/CD pipelines, and more.\n  - Supports collaboration with features like code review and merge requests.\n  - Provides built-in CI/CD pipelines for automating builds, tests, and deployments.\n  - Includes container registry, Kubernetes integration, and monitoring tools.\n  - Available in both self-managed and SaaS versions, catering to various development needs.\n",
+				"imageUrl": "images/gitlab.webp",
+				"title": "GitLab",
+				"tags": [],
+				"color": "#ff7700",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "Webhooks",
+				"description": "#### Webhook ***is*** a \nway for an application to send real-time data to other services **that** is triggered by specific events.\n  - Allows apps to communicate instantly without polling.",
+				"id": "mock-927811",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 564,
+					"y": 155
+				},
+				"imageUrl": "images/webhook.webp",
+				"color": "#000000",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "MySQL",
+				"description": "#### MySQL ***is*** a \nwidely-used open-source relational database management system **that** is known for its reliability and ease of use.\n  - It supports standard SQL and a variety of data types.\n  - Known for its high performance, scalability, and flexibility.\n  - Commonly used for web applications and online transaction processing (OLTP).\n  - Includes features like replication, clustering, and strong security measures.\n  - Ideal for both small and large-scale applications, from individual projects to large enterprises.\n",
+				"id": "mock-944651",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1337,
+					"y": 547
+				},
+				"imageUrl": "images/mysql.webp",
+				"color": "#006faa",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "JavaScript",
+				"description": "#### JavaScript ***is*** a \nversatile programming language **that** runs in web browsers.\n  - It allows developers to create interactive web pages.\n  - Supports event-driven, functional, and imperative programming styles.\n  - Widely used for front-end development, often alongside HTML and CSS.\n  - Can also be used for server-side development with environments like Node.js.",
+				"id": "mock-310399",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 923,
+					"y": 232
+				},
+				"imageUrl": "images/js.webp",
+				"color": "#ffd900",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "Git",
+				"description": "**Git** is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
+				"id": "mock-656747",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 618,
+					"y": 389
+				},
+				"color": "#ff5900",
+				"imageUrl": "images/git.webp",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "SQL",
+				"description": "#### SQL ***is*** a \nstandard language **that** is used to manage and manipulate relational databases.\n  - It allows for querying, updating, and managing data.\n  - Supports operations like SELECT, INSERT, UPDATE, DELETE, and more.\n  - Used for defining database schemas with commands like CREATE, ALTER, and DROP.\n  - Essential for backend development and data analysis.",
+				"id": "mock-152172",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1156.2222222222222,
+					"y": 549
+				},
+				"color": "#00e5ff",
+				"imageUrl": "images/sql.webp",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "PostgreSQL",
+				"description": "#### PostgreSQL ***is*** a \npowerful, open-source relational database management system **that** emphasizes extensibility and SQL compliance.\n  - It supports advanced data types and performance optimization features.\n  - Known for reliability, data integrity, and robust transaction support.\n  - Includes features like multi-version concurrency control (MVCC) and point-in-time recovery.\n  - Extensible through custom functions, data types, and operators.\n  - Ideal for complex applications requiring a reliable and scalable database solution.\n",
+				"id": "mock-798871",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1159.0909090909092,
+					"y": 398.909090909091
+				},
+				"imageUrl": "images/postgre.webp",
+				"color": "#0093a0",
+				"isNode": true
+			},
+			{
+				"treeId": 1,
+				"title": "GitHub",
+				"description": "#### GitHub ***is*** a \nweb-based platform **that** provides version control and collaboration tools for software development.\n  - It uses Git for tracking changes in source code during development.\n  - Allows multiple developers to work on projects simultaneously with features like branching and merging.\n  - Hosts repositories, where code and documentation can be stored, managed, and shared.\n  - Supports issue tracking, project management, and continuous integration/continuous deployment (CI/CD).\n  - Facilitates collaboration through pull requests, code reviews, and discussions.\n",
+				"id": "mock-968626",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 675.3728714034058,
+					"y": 266.79624192601295
+				},
+				"color": "#727272",
+				"isNode": true,
+				"imageUrl": "images/github.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "Unit Tests",
+				"description": "",
+				"id": "mock-125964",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 366.87375220199647,
+					"y": 353.50733998825604
+				},
+				"isNode": false
+			},
+			{
+				"treeId": 1,
+				"title": "Redis",
+				"description": "#### Redis ***is*** an \nopen-source, in-memory data structure store **that** is used as a database, cache, and message broker.\n  - Supports various data structures like strings, hashes, lists, sets, and sorted sets.\n  - Known for its high performance and low latency.\n  - Provides persistence options through snapshots and append-only file (AOF) logs.\n  - Supports replication, enabling high availability and scalability.\n  - Includes features like Lua scripting, pub/sub messaging, and geospatial indexes.\n",
+				"id": "mock-726308",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 985.8737522019965,
+					"y": 480.50733998825604
+				},
+				"isNode": true,
+				"imageUrl": "images/redis.webp",
+				"color": "#ff0000"
+			},
+			{
+				"treeId": 1,
+				"title": "Docker",
+				"description": "#### Docker ***is*** a \nplatform **that** enables developers to automate the deployment of applications inside lightweight, portable containers.\n  - Uses containerization to package applications with all dependencies.\n  - Ensures consistent environments across development, testing, and production.\n  - Allows for scalable and isolated application execution.\n  - Simplifies configuration and increases deployment speed.\n  - Supports Docker Hub for sharing and managing container images.\n",
+				"id": "mock-801766",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 341.87375220199647,
+					"y": 522.507339988256
+				},
+				"isNode": true,
+				"color": "#00aeff",
+				"imageUrl": "images/docker.png"
+			},
+			{
+				"treeId": 1,
+				"title": "GitLab CI/CD",
+				"description": "#### GitLab CI/CD ***is*** a \nbuilt-in feature of GitLab **that** automates the software development lifecycle.\n  - Allows you to define CI/CD pipelines using `.gitlab-ci.yml` files.\n  - Automates the building, testing, and deployment of code.\n  - Supports parallel execution, caching, and artifact handling.\n  - Integrates with GitLab's version control and project management tools.\n  - Provides detailed logs and metrics for monitoring pipeline performance.\n  - Facilitates continuous integration and continuous deployment, improving code quality and delivery speed.\n",
+				"id": "mock-691833",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 407.87375220199647,
+					"y": 177.50733998825604
+				},
+				"color": "#ffffff",
+				"isNode": true,
+				"imageUrl": "images/gitlab-cicd.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "GitHub Actions",
+				"description": "#### GitHub Actions ***is*** a \ntool **that** automates workflows for software development.\n  - Allows you to build, test, and deploy code from GitHub.\n  - Uses YAML files to define custom workflows.\n  - Triggers actions based on events like pushes and pull requests.\n  - Includes pre-built actions and supports custom actions.\n  - Helps ensure code quality and consistency through automation.\n",
+				"id": "mock-257032",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 718.8737522019965,
+					"y": 153.50733998825604
+				},
+				"isNode": true,
+				"color": "#006696",
+				"imageUrl": "images/github-actions.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "E2E Tests",
+				"description": "",
+				"isNode": false,
+				"id": "mock-516634",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 134.48620082207873,
+					"y": 354.8326482677628
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "NGINX",
+				"description": "#### NGINX ***is*** a \nhigh-performance web server and reverse proxy **that** also functions as an HTTP cache and load balancer.\n  - Known for its speed, stability, and low resource consumption.\n  - Handles high concurrency with an event-driven, asynchronous architecture.\n  - Commonly used for serving static content, load balancing HTTP traffic, and acting as a reverse proxy for web applications.\n  - Supports TLS/SSL for secure connections and HTTP/2 for improved performance.\n  - Extensible with modules and integrates well with other web technologies.\n",
+				"isNode": true,
+				"id": "mock-337232",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 558.2935995302407,
+					"y": 660.5261303581915
+				},
+				"imageUrl": "images/nginx.webp",
+				"color": "#007f04"
+			},
+			{
+				"treeId": 1,
+				"title": "HTTPS",
+				"description": "",
+				"isNode": false,
+				"id": "mock-114511",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 380.20598006644525,
+					"y": 696.9966777408638
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Web Servers and Web",
+				"description": "",
+				"isNode": false,
+				"id": "mock-976870",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 628.2059800664452,
+					"y": 815.6810631229237
+				},
+				"color": "#48d900"
+			},
+			{
+				"treeId": 1,
+				"title": "SSH",
+				"description": "",
+				"isNode": false,
+				"id": "mock-323901",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 349.9435215946844,
+					"y": 817.9966777408638
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Netplan",
+				"description": "",
+				"isNode": false,
+				"id": "mock-358585",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 396.16862037871954,
+					"y": 945.7285843101895
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Proxying",
+				"description": "",
+				"isNode": false,
+				"id": "mock-729815",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 572.3832281334535,
+					"y": 980.7285843101895
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Architectures Development Princeples",
+				"description": "",
+				"isNode": false,
+				"id": "mock-833011",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1089.2026578073092,
+					"y": 989.7840531561462
+				},
+				"color": "#48d900"
+			},
+			{
+				"treeId": 1,
+				"title": "Clean Architecture",
+				"description": "",
+				"isNode": false,
+				"id": "mock-425754",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1154.857142857143,
+					"y": 837.2857142857143
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Monolithic Apps",
+				"description": "",
+				"isNode": false,
+				"id": "mock-887942",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1159,
+					"y": 1140.2857142857142
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Test-Driven Development (TDD)",
+				"description": "",
+				"isNode": false,
+				"id": "mock-925820",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1363,
+					"y": 850.4285714285716
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Microservices",
+				"description": "",
+				"isNode": false,
+				"id": "mock-432310",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1412.5714285714287,
+					"y": 982.8571428571429
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Domain-Driven Design (DDD)",
+				"description": "",
+				"isNode": false,
+				"id": "mock-366416",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1364.1428571428573,
+					"y": 1126.7142857142858
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "NestJS",
+				"description": "#### NestJS ***is*** a \nprogressive Node.js framework **that** is used for building efficient, reliable, and scalable server-side applications.\n  - Built with TypeScript and fully supports JavaScript.\n  - Utilizes modern JavaScript, TypeScript, and design patterns such as MVC and Dependency Injection.\n  - Integrates seamlessly with other libraries and frameworks like Express and Fastify.\n  - Provides a modular architecture, making it easy to organize and manage code.\n  - Supports extensive features such as middleware, authentication, and microservices.\n  - Ideal for developing enterprise-grade applications due to its robust set of features and architectural principles.\n",
+				"isNode": true,
+				"id": "mock-316778",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 908,
+					"y": 48.33333333333337
+				},
+				"imageUrl": "images/nest-js.webp",
+				"color": "#ff2c57"
+			},
+			{
+				"treeId": 1,
+				"title": "Koa",
+				"description": "#### Koa ***is*** a \nminimalist and flexible Node.js web framework **that** is designed for building APIs and web applications.\n  - Developed by the creators of Express, offering a more modern approach.\n  - Uses async/await for handling asynchronous operations, making code easier to read and maintain.\n  - Provides a lightweight and unopinionated structure, giving developers the freedom to design their application architecture.\n  - Does not include middleware by default, allowing developers to choose only the components they need.\n  - Ideal for building high-performance and scalable web applications.\n",
+				"isNode": true,
+				"id": "mock-621898",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1095.888888888889,
+					"y": 58.44444444444446
+				},
+				"color": "#ffffff",
+				"imageUrl": "images/koa.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "Database scaling and optimization",
+				"description": "",
+				"isNode": false,
+				"id": "mock-262855",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 656.9487375669473,
+					"y": 1202.7635807192044
+				},
+				"color": "#ffffff"
+			},
+			{
+				"treeId": 1,
+				"title": "Database denormalization",
+				"description": "",
+				"isNode": false,
+				"id": "mock-900681",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 659.433817903596,
+					"y": 1401.7635807192044
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Database normalization",
+				"description": "",
+				"isNode": false,
+				"id": "mock-785170",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 462.43381790359604,
+					"y": 1335.7635807192044
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Database replication (master-slave)",
+				"description": "",
+				"isNode": false,
+				"id": "mock-179223",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 475.43381790359604,
+					"y": 1100.7635807192044
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Database indexing",
+				"description": "",
+				"isNode": false,
+				"id": "mock-907517",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 262.43381790359604,
+					"y": 1203.7635807192044
+				}
+			},
+			{
+				"treeId": 1,
+				"isNode": false,
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 850,
+					"y": 452
+				},
+				"title": "Python",
+				"description": "#### Python ***is*** a\nprogramming language **that** runs the backend of my own agent platform.\n  - FastAPI, async SQLAlchemy, Alembic and pytest.\n",
+				"id": "mock-605112",
+				"color": "#3776ab"
+			},
+			{
+				"treeId": 1,
+				"isNode": false,
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 892,
+					"y": 554
+				},
+				"title": "FastAPI",
+				"description": "#### FastAPI ***is*** a\nPython web framework **that** serves the API of my agent platform.\n  - Services for projects, scheduling, usage and git-worktree isolation per agent run.\n",
+				"id": "mock-605148",
+				"color": "#009688"
+			}
+		],
+		"edges": [
+			{
+				"sourceNodeId": 3,
+				"targetNodeId": 2
+			},
+			{
+				"sourceNodeId": "mock-310399",
+				"targetNodeId": 1
+			},
+			{
+				"sourceNodeId": 5,
+				"targetNodeId": "mock-310399"
+			},
+			{
+				"sourceNodeId": 4,
+				"targetNodeId": 5
+			},
+			{
+				"sourceNodeId": "mock-656747",
+				"targetNodeId": 4
+			},
+			{
+				"sourceNodeId": 6,
+				"targetNodeId": 4
+			},
+			{
+				"sourceNodeId": "mock-152172",
+				"targetNodeId": 6
+			},
+			{
+				"sourceNodeId": "mock-798871",
+				"targetNodeId": "mock-152172"
+			},
+			{
+				"sourceNodeId": "mock-944651",
+				"targetNodeId": "mock-152172"
+			},
+			{
+				"sourceNodeId": "mock-968626",
+				"targetNodeId": "mock-656747"
+			},
+			{
+				"sourceNodeId": "mock-257032",
+				"targetNodeId": "mock-968626"
+			},
+			{
+				"sourceNodeId": "mock-927811",
+				"targetNodeId": "mock-257032"
+			},
+			{
+				"sourceNodeId": "mock-927811",
+				"targetNodeId": "mock-968626"
+			},
+			{
+				"sourceNodeId": "mock-830892",
+				"targetNodeId": "mock-656747"
+			},
+			{
+				"sourceNodeId": "mock-830892",
+				"targetNodeId": "mock-968626"
+			},
+			{
+				"sourceNodeId": "mock-830892",
+				"targetNodeId": "mock-927811"
+			},
+			{
+				"sourceNodeId": "mock-691833",
+				"targetNodeId": "mock-830892"
+			},
+			{
+				"sourceNodeId": "mock-691833",
+				"targetNodeId": "mock-927811"
+			},
+			{
+				"sourceNodeId": "mock-801766",
+				"targetNodeId": 4
+			},
+			{
+				"sourceNodeId": 7,
+				"targetNodeId": "mock-801766"
+			},
+			{
+				"sourceNodeId": "mock-125964",
+				"targetNodeId": 4
+			},
+			{
+				"sourceNodeId": "mock-125964",
+				"targetNodeId": "mock-691833"
+			},
+			{
+				"sourceNodeId": "mock-125964",
+				"targetNodeId": "mock-516634"
+			},
+			{
+				"sourceNodeId": "mock-726308",
+				"targetNodeId": 6
+			},
+			{
+				"sourceNodeId": "mock-114511",
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": 6,
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": "mock-323901",
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": "mock-358585",
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": "mock-729815",
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": "mock-833011",
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": "mock-337232",
+				"targetNodeId": "mock-976870"
+			},
+			{
+				"sourceNodeId": "mock-425754",
+				"targetNodeId": "mock-833011"
+			},
+			{
+				"sourceNodeId": "mock-887942",
+				"targetNodeId": "mock-833011"
+			},
+			{
+				"sourceNodeId": "mock-366416",
+				"targetNodeId": "mock-833011"
+			},
+			{
+				"sourceNodeId": "mock-432310",
+				"targetNodeId": "mock-833011"
+			},
+			{
+				"sourceNodeId": "mock-925820",
+				"targetNodeId": "mock-833011"
+			},
+			{
+				"sourceNodeId": 3,
+				"targetNodeId": 5
+			},
+			{
+				"sourceNodeId": "mock-316778",
+				"targetNodeId": 1
+			},
+			{
+				"sourceNodeId": "mock-621898",
+				"targetNodeId": 1
+			},
+			{
+				"sourceNodeId": "mock-262855",
+				"targetNodeId": "mock-833011"
+			},
+			{
+				"sourceNodeId": "mock-179223",
+				"targetNodeId": "mock-262855"
+			},
+			{
+				"sourceNodeId": "mock-262855",
+				"targetNodeId": "mock-907517"
+			},
+			{
+				"sourceNodeId": "mock-785170",
+				"targetNodeId": "mock-262855"
+			},
+			{
+				"sourceNodeId": "mock-900681",
+				"targetNodeId": "mock-262855"
+			},
+			{
+				"sourceNodeId": "mock-605112",
+				"targetNodeId": 5
+			},
+			{
+				"sourceNodeId": "mock-605148",
+				"targetNodeId": "mock-605112"
+			}
+		]
+	},
+	"front-end": {
+		"nodes": [
+			{
+				"treeId": 1,
+				"title": "Contributing UI projects",
+				"description": "",
+				"isNode": false,
+				"id": "mock-547485",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 353,
+					"y": 455
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "JavaScript",
+				"description": "#### JavaScript ***is*** a \nversatile programming language **that** runs in web browsers.\n  - It allows developers to create interactive web pages.\n  - Supports event-driven, functional, and imperative programming styles.\n  - Widely used for front-end development, often alongside HTML and CSS.\n  - Can also be used for server-side development with environments like Node.js.",
+				"isNode": true,
+				"id": "mock-372944",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 663,
+					"y": 166
+				},
+				"imageUrl": "images/js.webp",
+				"color": "#ff5900"
+			},
+			{
+				"treeId": 1,
+				"title": "JS Frameworks",
+				"description": "",
+				"isNode": false,
+				"id": "mock-511549",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1130,
+					"y": 525
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "HTML",
+				"description": "#### HTML ***is*** a \nstandard markup language **that** is used for creating and structuring web pages.\n  - Stands for HyperText Markup Language.\n  - Defines the structure of web content using elements like headings, paragraphs, links, images, and lists.\n  - Forms the backbone of web development, working in conjunction with CSS and JavaScript.\n  - Uses tags to encapsulate different parts of the content, providing semantic meaning.\n  - Essential for creating accessible and SEO-friendly web pages.\n",
+				"isNode": true,
+				"id": "mock-173254",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 450,
+					"y": 340
+				},
+				"color": "#ff5900",
+				"imageUrl": "images/html.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "CSS",
+				"description": "#### CSS ***is*** a \nstylesheet language **that** is used for describing the presentation of a document written in HTML or XML.\n  - Stands for Cascading Style Sheets.\n  - Controls the layout, colors, fonts, and overall visual appearance of web pages.\n  - Enables the separation of content (HTML) from presentation (CSS), improving maintainability.\n  - Supports responsive design, allowing web pages to adapt to different screen sizes and devices.\n  - Provides various features like selectors, box model, flexbox, grid, animations, and transitions.\n  - Enhances user experience by enabling rich, visually appealing designs.\n",
+				"isNode": true,
+				"id": "mock-913781",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 551,
+					"y": 216
+				},
+				"color": "#78bbff",
+				"imageUrl": "images/css.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "Tailwind CSS",
+				"description": "#### Tailwind CSS ***is*** a \nutility-first CSS framework **that** provides a set of classes for quickly styling your web pages.\n  - Enables fast development by applying classes directly in your HTML.\n  - Highly customizable through a configuration file.\n  - Supports responsive design with built-in utilities.\n  - Avoids common CSS issues like specificity conflicts.\n  - Ideal for building custom designs efficiently.\n",
+				"isNode": true,
+				"id": "mock-886210",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 404,
+					"y": 216
+				},
+				"imageUrl": "images/tailwind.svg",
+				"color": "#00fff2"
+			},
+			{
+				"treeId": 1,
+				"title": "npm",
+				"description": "#### NPM ***is*** a \npackage manager for JavaScript **that** is used to install, share, and manage dependencies for projects.\n  - Stands for Node Package Manager.\n  - Comes bundled with Node.js, making it an essential tool for JavaScript developers.\n  - Provides a vast registry of packages, enabling code reuse and modular development.\n  - Allows developers to publish their own packages and collaborate with others.\n  - Supports semantic versioning, ensuring compatibility and stability of dependencies.\n  - Facilitates scripts for automating tasks like testing, building, and deploying applications.\n",
+				"isNode": true,
+				"id": "mock-635590",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 548,
+					"y": 451
+				},
+				"color": "#ff0000",
+				"imageUrl": "images/npm.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "Basics",
+				"description": "",
+				"isNode": false,
+				"id": "mock-658400",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 662,
+					"y": 339
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "React",
+				"description": "#### React.js ***is*** a \nJavaScript library **that** is used for building user interfaces, particularly single-page applications.\n  - Developed and maintained by Facebook.\n  - Uses a component-based architecture, allowing for reusable and modular UI components.\n  - Implements a virtual DOM to optimize rendering and improve performance.\n  - Supports JSX, a syntax extension that allows writing HTML-like code within JavaScript.\n  - Manages application state effectively with hooks and context.\n  - Integrates well with other libraries and frameworks, making it versatile for various projects.\n  - Ideal for creating fast, interactive, and scalable front-end applications.\n",
+				"isNode": true,
+				"id": "mock-224980",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1346.5909090909092,
+					"y": 527.3181818181819
+				},
+				"imageUrl": "images/react.webp",
+				"color": "#00aacc"
+			},
+			{
+				"treeId": 1,
+				"title": "Vue",
+				"description": "#### Vue.js ***is*** a \nprogressive JavaScript framework **that** is used for building user interfaces and single-page applications.\n  - Designed to be incrementally adoptable, integrating easily with other projects and libraries.\n  - Utilizes a component-based architecture for building reusable UI components.\n  - Supports reactive data binding and a virtual DOM for efficient updates.\n  - Includes features like directives, computed properties, and watchers for handling complex UI logic.\n  - Provides a CLI and a rich ecosystem of tools and libraries for enhancing development.\n  - Ideal for developing dynamic and interactive web applications with ease.\n",
+				"isNode": true,
+				"id": "mock-899665",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1272.5909090909092,
+					"y": 393.31818181818187
+				},
+				"imageUrl": "images/vue.webp",
+				"color": "#00891b"
+			},
+			{
+				"treeId": 1,
+				"title": "jQuery",
+				"description": "#### jQuery ***is*** a \nfast, small, and feature-rich JavaScript library **that** simplifies HTML document traversal, event handling, and animation.\n  - Makes it easier to use JavaScript on your website.\n  - Provides a simple syntax for selecting elements and manipulating the DOM.\n  - Includes features for handling events, making AJAX requests, and creating animations.\n  - Compatible with all major browsers, ensuring cross-browser compatibility.\n  - Extensible with plugins, allowing for additional functionality.\n  - Ideal for adding interactivity and dynamic behavior to web pages with minimal code.\n",
+				"isNode": true,
+				"id": "mock-489009",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 559.5909090909092,
+					"y": 33.31818181818187
+				},
+				"imageUrl": "images/jquery.webp",
+				"color": "#0084cc"
+			},
+			{
+				"treeId": 1,
+				"title": "Angular",
+				"description": "#### Angular ***is*** a \nplatform and framework for building single-page client applications using HTML and TypeScript.\n  - Developed and maintained by Google.\n  - Uses a component-based architecture for building scalable and maintainable applications.\n  - Includes features like data binding, dependency injection, and routing.\n  - Supports development of complex applications with a rich set of built-in tools and libraries.\n  - Provides a CLI for efficient project setup, development, and deployment.\n  - Ideal for developing dynamic, high-performance web applications.\n",
+				"isNode": true,
+				"id": "mock-461636",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1069.5909090909092,
+					"y": 353.31818181818187
+				},
+				"imageUrl": "images/angular.png",
+				"color": "#cc0000"
+			},
+			{
+				"treeId": 1,
+				"title": "Svelte",
+				"description": "",
+				"isNode": true,
+				"id": "mock-842626",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1268.8636363636365,
+					"y": 680.2272727272727
+				},
+				"imageUrl": "images/svelte.svg"
+			},
+			{
+				"treeId": 1,
+				"title": "Next.js",
+				"description": "#### Next.js ***is*** a \nReact framework **that** enables server-side rendering and static site generation for building web applications.\n  - Developed and maintained by Vercel.\n  - Supports both server-side rendering (SSR) and static site generation (SSG), improving performance and SEO.\n  - Provides an intuitive file-based routing system.\n  - Includes built-in CSS and Sass support, with options for CSS-in-JS solutions.\n  - Features API routes to create API endpoints as part of the application.\n  - Ideal for building fast, SEO-friendly, and scalable web applications.\n",
+				"isNode": true,
+				"id": "mock-798128",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1518.2857142857142,
+					"y": 531.5714285714287
+				},
+				"color": "#ffffff",
+				"imageUrl": "images/next-js.svg"
+			},
+			{
+				"treeId": 1,
+				"title": "Vuex",
+				"description": "#### Vuex ***is*** a \nstate management library **that** is used for managing and centralizing state in Vue.js applications.\n  - Serves as a single source of truth for the application's state.\n  - Facilitates communication between components by storing and managing state in a centralized store.\n  - Supports reactive data binding and ensures that state changes are efficiently propagated to components.\n  - Integrates seamlessly with Vue.js, leveraging its reactivity system.\n  - Includes features like mutations, actions, getters, and modules for organizing state management logic.\n  - Ideal for large-scale applications where managing state across multiple components can be complex.\n",
+				"isNode": true,
+				"id": "mock-789823",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1367.2727272727275,
+					"y": 248.18181818181824
+				},
+				"color": "#000000",
+				"imageUrl": "images/vuex.svg"
+			},
+			{
+				"treeId": 1,
+				"title": "Build Tools",
+				"description": "",
+				"isNode": false,
+				"id": "mock-505573",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 721.1363636363637,
+					"y": 695.4545454545455
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Vite",
+				"description": "#### Vite ***is*** a \nnext-generation front-end build tool **that** offers an extremely fast development experience.\n  - Developed by Evan You, the creator of Vue.js.\n  - Uses native ES modules for development, enabling instant server start and fast hot module replacement (HMR).\n  - Bundles code with Rollup for production, ensuring optimized builds.\n  - Supports out-of-the-box configuration for popular frameworks like Vue, React, and Svelte.\n  - Provides a rich plugin API for extending functionality.\n  - Ideal for modern web development, improving efficiency and reducing build times. \n",
+				"isNode": true,
+				"id": "mock-383641",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 494.13636363636374,
+					"y": 696
+				},
+				"color": "#b300ff",
+				"imageUrl": "images/vite.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "Webpack",
+				"description": "#### Webpack ***is*** a \npowerful module bundler **that** is used for bundling JavaScript files and other assets for web applications.\n  - Transforms front-end assets such as HTML, CSS, and images, as well as JavaScript.\n  - Allows developers to use modular code and bundle it into a single file or smaller files.\n  - Supports code splitting, lazy loading, and dynamic imports for optimized performance.\n  - Utilizes loaders to preprocess files and plugins to extend its capabilities.\n  - Provides a robust ecosystem of plugins and loaders for various tasks.\n  - Ideal for building complex web applications with optimized performance and maintainable code. \n",
+				"isNode": true,
+				"id": "mock-139869",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 582.5,
+					"y": 566.8846153846154
+				},
+				"imageUrl": "images/webpack.webp",
+				"color": "#80e1ff"
+			},
+			{
+				"treeId": 1,
+				"title": "Testing",
+				"description": "",
+				"isNode": false,
+				"id": "mock-102782",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1125.6153846153845,
+					"y": 932.3846153846155
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Jest",
+				"description": "#### Jest ***is*** a \nJavaScript testing framework **that** is built for simplicity and speed.\n  - Developed by Facebook and maintained by the community.\n  - Known for its zero-configuration setup, requiring minimal setup to start writing tests.\n  - Supports testing of JavaScript code, including React, Vue, Angular, and Node.js applications.\n  - Includes built-in assertion library and mocking capabilities for testing dependencies.\n  - Provides parallel test execution, making it fast and scalable.\n  - Integrates easily with CI/CD pipelines and other tools for automated testing.\n  - Ideal for writing unit tests, integration tests, and snapshot tests with ease.\n",
+				"isNode": true,
+				"id": "mock-629931",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1201.6538461538462,
+					"y": 798.3846153846155
+				},
+				"color": "#7c0040",
+				"imageUrl": "images/Jest.svg"
+			},
+			{
+				"treeId": 1,
+				"title": "Jasmine",
+				"description": "#### Jasmine ***is*** a \nbehavior-driven development (BDD) framework **that** is used for testing JavaScript code.\n  - Provides a clean syntax for defining tests with descriptive names and expectations.\n  - Supports testing asynchronous code with built-in mechanisms like `async` and `await`.\n  - Includes a built-in assertion library for writing expectations.\n  - Integrates with various test runners and frameworks.\n  - Generates detailed and readable test reports.\n  - Ideal for writing clear and maintainable tests for JavaScript applications.\n",
+				"isNode": true,
+				"id": "mock-883489",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1307,
+					"y": 908.5769230769231
+				},
+				"imageUrl": "images/jasmine-js.webp",
+				"color": "#ae4898"
+			},
+			{
+				"treeId": 1,
+				"title": "Cypress",
+				"description": "#### Cypress ***is*** a \nmodern end-to-end testing framework **that** is built for the web.\n  - Provides a fast, reliable, and easy-to-use testing experience.\n  - Allows developers to write tests using JavaScript or TypeScript.\n  - Offers automatic waiting and retrying for elements, making tests more resilient to timing issues.\n  - Provides real-time test execution with interactive debugging and snapshots.\n  - Supports testing across different browsers and devices.\n  - Integrates seamlessly with CI/CD pipelines for continuous testing.\n  - Ideal for testing web applications comprehensively, from UI interactions to backend integrations.\n",
+				"isNode": true,
+				"id": "mock-183392",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1032.3076923076922,
+					"y": 785.5384615384614
+				},
+				"color": "#00967b",
+				"imageUrl": "images/cypress.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "Rendering Strategies",
+				"description": "",
+				"isNode": false,
+				"id": "mock-864844",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1300.4528419737665,
+					"y": 1132.575265459088
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "SPA",
+				"description": "",
+				"isNode": false,
+				"id": "mock-120994",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1492.8750780762025,
+					"y": 1018.9725171767645
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "SSR",
+				"description": "",
+				"isNode": false,
+				"id": "mock-119159",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1485.8750780762025,
+					"y": 1253.9725171767645
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "SSG",
+				"description": "",
+				"isNode": false,
+				"id": "mock-667413",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1574.329169269207,
+					"y": 1134.9725171767645
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Animations and Visual Effects",
+				"description": "",
+				"isNode": false,
+				"id": "mock-146709",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 816.4285714285714,
+					"y": 1208.1428571428573
+				},
+				"color": "#ffffff"
+			},
+			{
+				"treeId": 1,
+				"title": "Three.js",
+				"description": "#### Three.js ***is*** a \nJavaScript library **that** is used for creating 3D graphics and animations in web browsers.\n  - Provides a simple API for working with WebGL, allowing developers to create complex 3D scenes.\n  - Includes a wide range of features such as geometries, materials, lights, textures, and animations.\n  - Supports virtual reality (VR) and augmented reality (AR) applications through WebXR.\n  - Offers a large community and ecosystem with numerous examples and extensions.\n  - Ideal for building interactive 3D visualizations, games, simulations, and virtual environments on the web.\n",
+				"isNode": true,
+				"id": "mock-438202",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 682.6428571428572,
+					"y": 1032.1428571428573
+				},
+				"color": "#ffffff",
+				"imageUrl": "images/three-js.webp"
+			},
+			{
+				"treeId": 1,
+				"title": "WebGL",
+				"description": "#### WebGL ***is*** a \nJavaScript API **that** allows rendering interactive 3D and 2D graphics within any compatible web browser.\n  - Based on OpenGL ES, providing high-performance graphics rendering capabilities.\n  - Enables hardware-accelerated rendering using the GPU for improved performance.\n  - Utilizes shaders written in GLSL (OpenGL Shading Language) for customizing rendering pipelines.\n  - Supports complex visual effects, animations, and interactive experiences directly in web applications.\n  - Widely used for creating games, simulations, data visualizations, and virtual reality (VR) applications on the web.\n",
+				"isNode": true,
+				"id": "mock-637701",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 485.6428571428572,
+					"y": 893.1428571428573
+				},
+				"imageUrl": "images/webgl.webp",
+				"color": "#ffffff"
+			},
+			{
+				"treeId": 1,
+				"title": "CSS animations",
+				"description": "",
+				"isNode": false,
+				"id": "mock-227406",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 455.6428571428572,
+					"y": 1212.1428571428573
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Canvas animations",
+				"description": "",
+				"isNode": false,
+				"id": "mock-494290",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 684.6428571428572,
+					"y": 1357.1428571428573
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Frontend Architectures",
+				"description": "",
+				"isNode": false,
+				"id": "mock-342728",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1358.7500000000002,
+					"y": 1410.0000000000002
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Feature-Sliced Design (FSD)",
+				"description": "",
+				"isNode": false,
+				"id": "mock-546691",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1170.5000000000002,
+					"y": 1606.7500000000002
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "DDD (Domain-Driven Design)",
+				"description": "",
+				"isNode": false,
+				"id": "mock-945235",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1494.5000000000002,
+					"y": 1607.5000000000002
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "Clean Architecture",
+				"description": "",
+				"isNode": false,
+				"id": "mock-316457",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1707.7500000000002,
+					"y": 1449.7500000000002
+				}
+			},
+			{
+				"treeId": 1,
+				"title": "TypeScript",
+				"description": "#### TypeScript ***is*** a\ntyped superset of JavaScript **that** is used to keep large front-ends refactorable.\n  - Types describe API payloads, so the compiler catches contract drift.\n  - Editor tooling turns into real navigation and safe renames across a codebase.\n  - Runs in the same gate as lint and tests — nothing lands untyped.\n  - Used across every production project since 2021: Vue, Nuxt, React and Node.\n",
+				"isNode": true,
+				"id": "mock-771204",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 820,
+					"y": 210
+				},
+				"color": "#3178c6",
+				"imageUrl": "images/typescript.svg"
+			},
+			{
+				"treeId": 1,
+				"title": "Vitest",
+				"description": "#### Vitest ***is*** a\ntest runner **that** is used for unit and component tests on Vite-based projects.\n  - Shares the Vite pipeline, so tests run the same transforms as the app.\n  - Fast enough to sit inside a pre-commit gate.\n  - Drove a 2,400+ test suite fully green on an agent platform fork.\n",
+				"isNode": true,
+				"id": "mock-618377",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1230,
+					"y": 1020
+				},
+				"color": "#6e9f18",
+				"imageUrl": "images/vitest.svg"
+			},
+			{
+				"treeId": 1,
+				"title": "Playwright",
+				"description": "#### Playwright ***is*** an\nend-to-end testing framework **that** drives a real browser against a real build.\n  - Covers the flows unit tests cannot see: routing, streaming, auth.\n  - Runs headless in CI across Chromium, Firefox and WebKit.\n  - Traces and screenshots make a failed run debuggable after the fact.\n",
+				"isNode": true,
+				"id": "mock-559182",
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1000,
+					"y": 1040
+				},
+				"color": "#2ead33",
+				"imageUrl": "images/playwright.svg"
+			},
+			{
+				"treeId": 1,
+				"isNode": false,
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1383,
+					"y": 393
+				},
+				"title": "Nuxt",
+				"description": "#### Nuxt ***is*** a\nVue framework **that** adds server-side rendering, routing and a module system.\n  - MercuryX and CarCity run on Nuxt 3 with SSR.\n  - Moved CarCity to Feature-Sliced Design: +120% feature velocity.\n",
+				"id": "mock-418331",
+				"color": "#00dc82"
+			},
+			{
+				"treeId": 1,
+				"isNode": false,
+				"tags": [],
+				"isActive": false,
+				"position": {
+					"x": 1230,
+					"y": 292
+				},
+				"title": "Pinia",
+				"description": "#### Pinia ***is*** the\nstate management library **that** Vue 3 and Nuxt 3 apps use.\n  - The store layer of MercuryX and CarCity.\n",
+				"id": "mock-418377",
+				"color": "#ffd859"
+			}
+		],
+		"edges": [
+			{
+				"sourceNodeId": "mock-913781",
+				"targetNodeId": "mock-658400"
+			},
+			{
+				"sourceNodeId": "mock-173254",
+				"targetNodeId": "mock-658400"
+			},
+			{
+				"sourceNodeId": "mock-635590",
+				"targetNodeId": "mock-658400"
+			},
+			{
+				"sourceNodeId": "mock-547485",
+				"targetNodeId": "mock-635590"
+			},
+			{
+				"sourceNodeId": "mock-886210",
+				"targetNodeId": "mock-913781"
+			},
+			{
+				"sourceNodeId": "mock-372944",
+				"targetNodeId": "mock-658400"
+			},
+			{
+				"sourceNodeId": "mock-511549",
+				"targetNodeId": "mock-658400"
+			},
+			{
+				"sourceNodeId": "mock-489009",
+				"targetNodeId": "mock-372944"
+			},
+			{
+				"sourceNodeId": "mock-842626",
+				"targetNodeId": "mock-511549"
+			},
+			{
+				"sourceNodeId": "mock-224980",
+				"targetNodeId": "mock-511549"
+			},
+			{
+				"sourceNodeId": "mock-899665",
+				"targetNodeId": "mock-511549"
+			},
+			{
+				"sourceNodeId": "mock-461636",
+				"targetNodeId": "mock-511549"
+			},
+			{
+				"sourceNodeId": "mock-798128",
+				"targetNodeId": "mock-224980"
+			},
+			{
+				"sourceNodeId": "mock-789823",
+				"targetNodeId": "mock-899665"
+			},
+			{
+				"sourceNodeId": "mock-505573",
+				"targetNodeId": "mock-511549"
+			},
+			{
+				"sourceNodeId": "mock-383641",
+				"targetNodeId": "mock-505573"
+			},
+			{
+				"sourceNodeId": "mock-139869",
+				"targetNodeId": "mock-505573"
+			},
+			{
+				"sourceNodeId": "mock-102782",
+				"targetNodeId": "mock-505573"
+			},
+			{
+				"sourceNodeId": "mock-629931",
+				"targetNodeId": "mock-102782"
+			},
+			{
+				"sourceNodeId": "mock-883489",
+				"targetNodeId": "mock-102782"
+			},
+			{
+				"sourceNodeId": "mock-183392",
+				"targetNodeId": "mock-102782"
+			},
+			{
+				"sourceNodeId": "mock-864844",
+				"targetNodeId": "mock-102782"
+			},
+			{
+				"sourceNodeId": "mock-864844",
+				"targetNodeId": "mock-120994"
+			},
+			{
+				"sourceNodeId": "mock-119159",
+				"targetNodeId": "mock-864844"
+			},
+			{
+				"sourceNodeId": "mock-667413",
+				"targetNodeId": "mock-864844"
+			},
+			{
+				"sourceNodeId": "mock-146709",
+				"targetNodeId": "mock-864844"
+			},
+			{
+				"sourceNodeId": "mock-438202",
+				"targetNodeId": "mock-146709"
+			},
+			{
+				"sourceNodeId": "mock-637701",
+				"targetNodeId": "mock-438202"
+			},
+			{
+				"sourceNodeId": "mock-227406",
+				"targetNodeId": "mock-146709"
+			},
+			{
+				"sourceNodeId": "mock-494290",
+				"targetNodeId": "mock-146709"
+			},
+			{
+				"sourceNodeId": "mock-342728",
+				"targetNodeId": "mock-146709"
+			},
+			{
+				"sourceNodeId": "mock-316457",
+				"targetNodeId": "mock-342728"
+			},
+			{
+				"sourceNodeId": "mock-945235",
+				"targetNodeId": "mock-342728"
+			},
+			{
+				"sourceNodeId": "mock-546691",
+				"targetNodeId": "mock-342728"
+			},
+			{
+				"sourceNodeId": "mock-771204",
+				"targetNodeId": "mock-658400"
+			},
+			{
+				"sourceNodeId": "mock-618377",
+				"targetNodeId": "mock-102782"
+			},
+			{
+				"sourceNodeId": "mock-559182",
+				"targetNodeId": "mock-102782"
+			},
+			{
+				"sourceNodeId": "mock-418331",
+				"targetNodeId": "mock-899665"
+			},
+			{
+				"sourceNodeId": "mock-418377",
+				"targetNodeId": "mock-899665"
+			}
+		]
+	}
 }
