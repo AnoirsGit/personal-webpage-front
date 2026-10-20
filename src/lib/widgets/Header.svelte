@@ -128,6 +128,19 @@
 		-webkit-backdrop-filter: blur(14px) saturate(140%);
 	}
 
+	/*
+	 * Touch screens: no backdrop blur. Over the live canvas the browser re-blurs the strip
+	 * under the header on every frame of the scene, which phones pay for in dropped frames;
+	 * a denser plain background reads the same.
+	 */
+	@media (hover: none) {
+		.site-header {
+			background: rgba(5, 6, 13, 0.9);
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+		}
+	}
+
 	.bar {
 		display: flex;
 		align-items: center;
