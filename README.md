@@ -23,7 +23,7 @@ Every fact in the copy comes from the public CV, the previous site or the owner'
 ## Stack
 
 - SvelteKit 2 + Svelte 4 + Vite 5, plain JavaScript (`svelte-check` runs over `jsconfig.json`), `@sveltejs/adapter-static`
-- Threlte (`@threlte/core` 7.x, `@threlte/extras` 8.x) on three.js 0.159. `@threlte/core` is pinned to the Svelte 4 line; a newer major needs Svelte 5.
+- Threlte (`@threlte/core` 7.x) on three.js 0.159 (types: `@types/three` 0.165). `@threlte/core` is pinned to the Svelte 4 line; a newer major needs Svelte 5.
 - Tailwind 3 (base layer) plus hand-written CSS: tokens and shared styles in `src/lib/app/styles/app.css`, section styles inside the components
 - Self-hosted Manrope and Playfair Display italic (Latin + Cyrillic subsets, SIL OFL, `static/fonts/`); icons are inline SVG
 - A tiny store-based i18n written in-repo (no i18n library): `src/lib/shared/i18n/`
