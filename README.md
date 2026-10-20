@@ -46,13 +46,13 @@ src/
     scene/                    the 3D background: Scene.svelte and sceneStore.js
     sections/                 the seven sections, sceneProgress.js, skill-tree/ (the chart and its layout), ui/ (Icon, SectionHead, magnetic)
     seo/                      site.js (origin, contacts), Seo.svelte (head tags), jsonld.js
-    widgets/                  Header, Footer, and the old typing-figure 3D widget (unused)
-    entities/ shared/         globe meshes, 3D model, shaders, helpers, i18n, content JSON
+    widgets/                  Header and Footer
+    entities/ shared/         globe meshes, shaders, helpers, i18n, content JSON
 scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chromium (location-neutral)
 scripts/scene-poster.js       renders the scene's no-WebGL posters and src/lib/scene/poster.json
 scripts/scene-geodata.js      land raster and country borders for the globe, from the Natural Earth geojson
 scripts/model-pipeline.js     GLB to Threlte component converter
-static/                       fonts, images, CV files, OG images, robots.txt, 3D model (served as-is)
+static/                       fonts, images, CV files, OG images, scene posters, robots.txt (served as-is)
 tools/site-admin/             the place admin (see «Админка места»): server, page, tests; no dependencies
 ops/box/                      the production box: deploy.sh, Caddyfile, the admin's and the rebuild's units, install.sh
 ```
@@ -91,6 +91,8 @@ The dev server adds `COOP`/`COEP` headers and permissive CORS (`vite.config.js`)
 
 ## 3D model pipeline
 
+The page uses no GLB model today (the old typing figure is gone); the pipeline stays for the next one. Create `static/models/` and put the file there first, the script stops if that folder is missing.
+
 `pnpm model-pipeline:run` runs `scripts/model-pipeline.js`, which turns GLB/GLTF files into Threlte components:
 
 1. It takes every `.glb` / `.gltf` in `static/models/` (skipping `*-transformed.*`).
@@ -98,8 +100,6 @@ The dev server adds `COOP`/`COEP` headers and permissive CORS (`vite.config.js`)
 3. It moves the generated `<name>.svelte` into `src/lib/entities/3d/models/` and deletes it from `static/models/`. The `.glb` stays in `static/models/` because the component loads it from `/models/<name>.glb`.
 
 Options (types, draco, texture transform and simplify, overwrite) are the `configuration` object at the top of the script; all are off by default. Existing components are skipped unless `overwrite` is on.
-
-Caution: `typingPerson.svelte` was generated and then edited by hand (greeting animation queue, `allowGreet`) and renamed. Do not regenerate over it; a rerun would create a separate `typing-person.svelte`.
 
 ## Production
 
@@ -132,8 +132,5 @@ SITE_ADMIN_TOKEN=local-token-0123456789 SITE_CONFIG_PATH=/tmp/site-admin/site-co
 
 Open items, in priority order. "Agent" means an agent can do it alone; "Owner" means it needs a decision or access to the box.
 
-1. **Install `ops/box` on the box.** Box access: `ops/box/install.sh`, then `/opt/personal-webpage/deploy.sh --force`, then `install.sh` again (it switches Caddy only once a static build is live). Done when `curl -I https://anoirs-server.top/ru/` returns the prerendered Russian page, `/robots.txt` returns text, not HTML, and a missing page returns 404.
-2. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
-3. **Prettier formatting debt.** `pnpm exec prettier --check .` still flags older files. Agent: one `pnpm format` commit with nothing else mixed in.
-4. **Dependency cleanup.** Never imported from `src/`: `@dimforge/rapier3d-compat`, `@sveu/browser`, `@theatre/core`, `@theatre/studio`, `@threlte/flex`, `@threlte/rapier`, `@threlte/theatre`, `@threlte/xr`, `rxjs`, `troika-three-text`, `@tweenjs/tween.js`, `dayjs`, `svelte-awesome-color-picker`, `adapter-auto`, `adapter-cloudflare`, `adapter-netlify`; `@iconify/svelte` and `svelte-markdown` are used only by unused components. Agent. Done when `pnpm check` and `pnpm build` stay green and the lockfile is updated.
-5. **Dead code and assets.** The old contacts globe, `globe-points.json`, the particle background and the skill-tree editor leftovers are gone. Still unused: `widgets/typing-3d` (with `entities/3d` and its model), `widgets/content/SectionTextContent` with `app/styles/markdown-reader.css`, `shared/UI/{Deferred,MovableGlow}`, the Poppins fonts and ten images in `static/images/`. Keep `src/lib/ne_110m_admin_0_countries.geojson`: the place admin, `scripts/scene-geodata.js` and `scripts/check-country-codes.js` read it. Agent.
+1. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
+2. **The Milky Way branch.** Owner: `agent/site-constellation-tree` (unmerged, never pushed) has a Milky Way sky instead of the nebulae and more phone savings (30 fps while the camera rests, the sky skipped behind the Earth, one content-mask tap on the low tier). Its skill-chart half is superseded by the star chart on main, so it cannot be merged as is: the scene half would have to be ported onto main's nebula bake. Its shader `pow()` fixes and the no-blur header on touch screens are already ported.
