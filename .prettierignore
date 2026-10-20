@@ -11,3 +11,9 @@ node_modules
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+# GLSL (prettier has no parser for it) and the Natural Earth source data
+*.frag
+*.vert
+*.glsl
+src/lib/ne_110m_admin_0_countries.geojson
