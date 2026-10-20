@@ -62,7 +62,7 @@ vec3 nebulaAt(vec2 uv) {
 void main() {
 	vec3 d = normalize(vDir);
 	vec3 color = uBase;
-	float band = 1.0 - abs(dot(d, uBandNormal));
+	float band = max(1.0 - abs(dot(d, uBandNormal)), 0.0); // pow() below needs a base >= 0
 	color += vec3(0.09, 0.075, 0.15) * pow(band, 12.0) * 0.55;
 
 	if (uNebulaMix > 0.0) {

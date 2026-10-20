@@ -28,7 +28,8 @@ void main() {
 		float period = vKind > 2.5 ? 2.6 : (vKind > 1.5 ? 4.8 : 3.6);
 		float t = fract(uTime / period + vSeed);
 		float radius = mix(0.9, vScale * 0.92, t);
-		float ring = exp(-pow((r - radius) * 2.6, 2.0)) * pow(1.0 - t, 1.5);
+		float off = (r - radius) * 2.6; // squared by hand: pow() is undefined below 0
+		float ring = exp(-off * off) * pow(1.0 - t, 1.5);
 		shape += ring * (vKind > 1.5 && vKind < 2.5 ? 0.55 : 0.4) * mix(0.0, 1.0, uMotion);
 		if (vKind > 1.5 && vKind < 2.5) shape += exp(-r * 0.7) * 0.12;
 	}

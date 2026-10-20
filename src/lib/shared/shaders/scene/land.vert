@@ -26,7 +26,8 @@ void main() {
 
 	// A slow soft ripple leaves home every few seconds.
 	float phase = fract(uTime / 6.0);
-	float ring = exp(-pow((fromHome - phase * 0.6) / 0.03, 2.0)) * pow(1.0 - phase, 2.0) * uMotion;
+	float off = (fromHome - phase * 0.6) / 0.03; // squared by hand: pow() is undefined below 0
+	float ring = exp(-off * off) * pow(1.0 - phase, 2.0) * uMotion;
 
 	// Sparse warm "city lights" that breathe.
 	float lights = step(0.994, aRand) * (0.5 + 0.5 * sin(uTime * (0.5 + aRand * 1.5) + aRand * 80.0));
