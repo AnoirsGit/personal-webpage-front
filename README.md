@@ -1,6 +1,19 @@
 # personal-webpage-front
 
-The personal site of Anuar Beibit, who sells himself as an AI-native engineer: one landing page, prerendered in English (`/en/`) and Russian (`/ru/`), with a fixed 3D scene (Threlte) behind the text. Every word is in the static HTML, so the page reads fine without WebGL or JavaScript. No backend.
+The personal site of Anuar Beibit, who sells himself as an AI-native engineer: one landing page, prerendered in English (`/en/`) and Russian (`/ru/`), with a fixed 3D scene (Threlte) behind the text. Every word is in the static HTML, so the page reads fine without WebGL or JavaScript. No backend; the only server-side piece is a small place admin on the box.
+
+Live at https://anoirs-server.top, built from `main` (the box rebuilds daily at 04:30 UTC).
+
+## Status, 2026-10-21
+
+| What                                                                                                                                               | State                                                                                 |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                        | on `main`, served by the box (the live site was not checked from here)                |
+| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                    | on `main`, installed on the box; 39/39 tests pass                                     |
+| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens | built and checked here (build, `check`, `lint`, skill chart clean); not on `main` yet |
+| Automated tests for the page itself                                                                                                                | not built: browser checks are done by hand                                            |
+| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                     | pending, the owner's call (see [Next](#next))                                         |
+| Search Console                                                                                                                                     | not done (owner)                                                                      |
 
 ## What is on the page
 
@@ -16,9 +29,57 @@ The personal site of Anuar Beibit, who sells himself as an AI-native engineer: o
 | FAQ (`faq`)            | Native `<details>`; the same items feed the FAQPage JSON-LD                                                        |
 | Contact (`contact`)    | Telegram, email, phone, LinkedIn, GitHub, the CV PDF                                                               |
 
-`/` only picks a language (a remembered choice, then the browser's languages, then English) and keeps old in-page links working (`/#contacts` → `/en/#contact`). The CVs live in `static/cv/`.
+`/` only picks a language (a remembered choice, then the browser's languages, then English) with an inline script and ships no app JavaScript; it keeps old in-page links working (`/#contacts` → `/en/#contact`). The CVs live in `static/cv/`.
 
 Every fact in the copy comes from the public CV, the previous site or the owner's positioning notes; there are no invented numbers, clients or reviews.
+
+## Quick start
+
+Node 20+ (checked with Node 24) and pnpm 10 (pinned in `package.json`).
+
+```bash
+pnpm install            # lockfile: pnpm-lock.yaml
+pnpm dev                # http://localhost:5173 (add -- --open to open a tab)
+pnpm build              # static site into build/ (index.html, en/, ru/, 404.html, sitemap.xml)
+pnpm preview            # serve the build on http://localhost:4173
+```
+
+## Checks
+
+```bash
+pnpm check              # svelte-kit sync + svelte-check (0 errors, 0 warnings on 2026-10-21)
+pnpm lint               # prettier --check + eslint
+pnpm format             # prettier --write
+node scripts/check-skill-chart.js http://localhost:5173   # the skill chart: overlaps, both languages, all layouts (needs pnpm dev or preview)
+node scripts/check-country-codes.js                       # the globe's country lookup and the configured home
+node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'   # the place admin
+```
+
+There is no automated test suite for the page; the browser checks in commit messages were done by hand and are not committed.
+
+Regenerating assets (commit the output):
+
+```bash
+node scripts/og-image.js       # static/og/og-<lang>.jpg, needs Chromium; after changing the name, hero line or job title
+PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://localhost:4173/en/   # no-WebGL posters, needs pnpm preview and a GPU Chromium; after changing the hero's look
+node scripts/scene-geodata.js  # the globe's land raster and borders from the Natural Earth geojson
+pnpm model-pipeline:run        # GLB → Threlte component, see docs/architecture.md
+```
+
+## Configuration
+
+The site has no `.env` and reads no environment at build or run time. What there is to set:
+
+| Where                                                                                                            | What                                                                                                                                         |
+| ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/lib/config/site-config.json`                                                                                | The home: country (ISO3 + names), city in EN/RU, lat/lon, IANA time zone. On the box the place admin's saved copy replaces it for each build |
+| `src/lib/seo/site.js`                                                                                            | `SITE_URL` (the canonical origin), contacts                                                                                                  |
+| `src/lib/shared/i18n/locales/{en,ru}.json`                                                                       | All copy                                                                                                                                     |
+| `src/lib/shared/mocks/`, `src/lib/shared/i18n/content.skill-tree.js`                                             | Skills (`tree.json`, `tree.ru.json`, `CONSTELLATIONS`) and cases (`works.{en,ru}.json`)                                                      |
+| `CHROMIUM` (env)                                                                                                 | Chromium for `og-image.js` and `scene-poster.js`, default `/usr/bin/chromium`                                                                |
+| `PLAYWRIGHT_CORE` (env)                                                                                          | A `playwright-core` install for `scene-poster.js` (not a project dependency)                                                                 |
+| `DEPLOY_ROOT`, `DEPLOY_BRANCH`, `DEPLOY_LOCK`, `DEPLOY_BUILD_LOG`, `DEPLOY_HEALTH_URL`, `SITE_CONFIG_PATH` (env) | Override `ops/box/deploy.sh`'s box defaults for a trial run elsewhere                                                                        |
+| `SITE_ADMIN_*`, `SITE_CONFIG_PATH`, `SITE_REBUILD_*` (env)                                                       | The place admin, see [docs/site-admin.md](docs/site-admin.md#settings)                                                                       |
 
 ## Stack
 
@@ -27,7 +88,6 @@ Every fact in the copy comes from the public CV, the previous site or the owner'
 - Tailwind 3 (base layer) plus hand-written CSS: tokens and shared styles in `src/lib/app/styles/app.css`, section styles inside the components
 - Self-hosted Manrope and Playfair Display italic (Latin + Cyrillic subsets, SIL OFL, `static/fonts/`); icons are inline SVG
 - A tiny store-based i18n written in-repo (no i18n library): `src/lib/shared/i18n/`
-- pnpm 10 (pinned in `package.json`); checked here with Node 24
 
 ## Structure
 
@@ -37,96 +97,48 @@ src/
   params/lang.js              only `en` and `ru` are routes
   routes/
     +layout.js                prerender everything, trailing slash
-    +page.svelte              `/`: language redirect
+    +page.svelte, +page.js    `/`: the language redirect, no app JS (csr = false)
     +error.svelte             404 (rendered by build/404.html)
     [lang=lang]/              the page: header, footer, <Scene /> behind the content
     sitemap.xml/+server.js    prerendered sitemap with hreflang alternates
   lib/
-    config/site-config.json   site-wide facts, today the home location (owner edits it)
-    scene/                    the 3D background: Scene.svelte and sceneStore.js
-    sections/                 the seven sections, sceneProgress.js, skill-tree/ (the chart and its layout), ui/ (Icon, SectionHead, magnetic)
+    config/site-config.json   site-wide facts, today the home location
+    scene/                    the 3D background: Scene.svelte (shell, poster), World.svelte (frame loop),
+                              story.js (camera), quality.js (tiers), sceneStore.js, parts/, gl/
+    sections/                 the seven sections, sceneProgress.js, skill-tree/ (the chart and its layout),
+                              ui/ (Icon, SectionHead, magnetic)
     seo/                      site.js (origin, contacts), Seo.svelte (head tags), jsonld.js
     widgets/                  Header and Footer
-    entities/ shared/         globe meshes, shaders, helpers, i18n, content JSON
-scripts/og-image.js           renders static/og/og-<lang>.jpg with headless Chromium (location-neutral)
-scripts/scene-poster.js       renders the scene's no-WebGL posters and src/lib/scene/poster.json
-scripts/scene-geodata.js      land raster and country borders for the globe, from the Natural Earth geojson
-scripts/model-pipeline.js     GLB to Threlte component converter
-static/                       fonts, images, CV files, OG images, scene posters, robots.txt (served as-is)
-tools/site-admin/             the place admin (see «Админка места»): server, page, tests; no dependencies
+    entities/globe/           the globe and its geodata (generated landMask.js, countryBorders.js)
+    shared/                   i18n, content JSON (mocks/), shaders, helpers
+scripts/                      checks (check-skill-chart, check-country-codes) and generators
+                              (og-image, scene-poster, scene-geodata, model-pipeline)
+static/                       fonts, images, CV files, OG images, scene posters, robots.txt (served as is)
+tools/site-admin/             the place admin: server, page, tests; no dependencies
 ops/box/                      the production box: deploy.sh, Caddyfile, the admin's and the rebuild's units, install.sh
+docs/                         architecture.md (how the pieces work), site-admin.md
 ```
 
-How the pieces fit:
+How the language, the location, the skills, the scene, SEO and the no-WebGL fallback work: [docs/architecture.md](docs/architecture.md).
 
-- **The URL decides the language.** `[lang]/+layout.svelte` sets the `locale` store from the route before anything renders, so the prerendered `/ru/` is Russian; the header's EN/RU are plain links and remember the choice for `/`. Strings live in `src/lib/shared/i18n/locales/{en,ru}.json` and are read as `$t('section.key')`; lists (cases, FAQ…) come back as arrays.
-- **Location comes from the config.** Copy says `{city}`, `{country}` and `{utc}`; they are filled from `src/lib/config/site-config.json` at build time (the UTC offset from its IANA time zone), in the page language, and the JSON-LD address uses the same file. Russian copy uses the names only in the nominative, so another city needs no grammar changes. `{years}` is computed from `works.en.json`.
-- **Skills have one source.** `tree.json` (with `tree.ru.json` overlaying titles and descriptions by id) holds the skills; `CONSTELLATIONS` in `content.skill-tree.js` groups them (Agents, LLM & evals, Front-end, Back-end, Infrastructure) and `buildConstellations(lang)` returns the groups for the skill tree and the list. The page gets only the built list from its server load, not the whole tree: per skill its one-line summary, its `tier` (the group's lead, a main tool, or the rest — what the data holds, no invented levels), its links inside the group and the cases whose stack names it.
-- **The skill tree** (`src/lib/sections/skill-tree/`), drawn as a star chart: the root («AI-native engineer») and one group at a time as a constellation, every skill a star with its name beside it. Tabs above the chart open a group (Agents first; without JavaScript every group's chart shows, one under another). Each group grows from its lead (the brightest star) in limbs — chains of stars, the main tools nearest the lead; a skill the data links to an earlier one (Vue → Nuxt, Python → FastAPI) follows it on the same limb, and nothing else about the lines claims anything. `constellation.js` lays out one chart per group for four layouts picked by the tree's own width (a container query): `n` (phones, two limbs) and `m` (tablets, three) hang the group down from the root on top; `w` (≥ 1000 px, up to seven limbs) and `x` (≥ 1320 px, up to nine) grow it up from the root at the bottom, over the Earth (the camera comes down to the horizon as the root scrolls into view). In the crown a group takes a limb per four or so of its skills (a crown of few limbs gets wider ones, centred), its limbs start at odd heights so they never line up into rows, and the lines to them run in low and turn up at the end; the root is a large star (120 px, a breathing halo, a second flare, a slow dotted orbit — none of it moving with reduced motion) with its name in 30 px under it. Type: names 14.5–17 px (`FONTS`), times 0.84 on phones and 0.94 on tablets. Positions are a fraction of the width across and px down; the lines are one stretched SVG per layout with non-scaling strokes. Heights come from the labels, wrapped at each layout's narrowest width with Manrope's measured glyph widths, so a wider screen only ever has more room. `node scripts/check-skill-chart.js <dev or preview origin>` checks every group in both languages and every layout (labels that overlap, a line through a label, a label out of the tree or past its room); run it after changing the skills, the label fonts or the layout constants. All HTML, CSS and SVG: every name is in the prerendered page, readable without WebGL or JavaScript. Hover or focus shows a card and lights the path from the root; click, Enter or Space pins a panel with links to the cases (`#case-<id>` in Works; a sheet at the bottom on touch screens); one tab stop for the open chart, arrow keys move to the nearest star; a chart fades in as it scrolls into view, and again when its tab opens (not with reduced motion).
-- **Scene contract** (`src/lib/scene/sceneStore.js`). `sceneStore` is a writable `{ section, progress }` (`hero | skills | process | works | offer | contact`, progress 0..1), always written with `update()`: `sceneProgress.js` writes it on scroll (the FAQ shares the `contact` stage) and mirrors the stage on `<html data-scene>`. The Skills section's view (tree or list) is the page's own business, remembered in `localStorage` as `skills-view-2`; the 3D sky draws no skill constellations of its own any more. `sceneStatus` goes the other way: the scene shell reports `pending | loading | live | poster` (no WebGL probe on the main thread — it costs 100–200 ms there).
-- **The sky.** A dome with the base colour and a dim galactic band, the nebulae (domain-warped noise baked once into an equirectangular map when the scene starts — 4096×2048 on the high tier, 2048×1024 on the low one, 2 × 2 samples per texel, in strips over a few frames — then only sampled through a cubic B-spline, so the magnified map shows no texel facets; they drift slowly and part softly around readable content), a star field with halos on the brightest stars, and now and then a shooting star (at most one in 18–32 s, none with reduced motion; `?scene=debug` sends the first after 1.5 s).
-- **Content in front of the scene.** Mark readable content with `data-scene-occlude` (cards, panels, text blocks, the header and footer). The scene dims its bright parts behind those boxes (a mask texture, so text never sits on a bright patch at any scroll position), hides its captions under them and never answers the pointer there; links and buttons stay clickable because the canvas never takes the pointer. `data-scene-keepout` marks the hero headline and lead: the whole-Earth shots frame the globe right of that text on wide screens and below it on phones (`earthFraming()` in `story.js`).
-- **SEO.** Each language has its own title, description, canonical, hreflang (en, ru, x-default → `/en/`), Open Graph/Twitter image and one JSON-LD graph (Person, WebSite, WebPage, Service per format, FAQPage). `robots.txt` points to `sitemap.xml`. The canonical origin is `SITE_URL` in `src/lib/seo/site.js`.
-- **No WebGL, reduced motion, no JS.** All text is in the HTML; the skill tree needs neither WebGL nor JavaScript (without JavaScript it is simply drawn, every group's chart one under another, with no tabs, cards or keyboard moves). Without WebGL (or with a software renderer, Save-Data, a weak device) the shell shows a poster of the hero instead of the canvas. The poster is country-neutral (no home highlight, marker or arcs, a fixed view of the Earth): the shell draws the home marker over it as HTML from `site-config.json`, so changing the home needs no new poster. Re-run `scripts/scene-poster.js` only when the hero's look changes.
-- **Share images.** `static/og/og-<lang>.jpg` carry no location either (name, hero line, job title, a neutral Earth): the box rebuilds the site without a browser, so they must survive a change of location. Re-run `scripts/og-image.js` after changing the name, the hero line or the job title.
+## Deploy
 
-## Run, build, check
+The box side lives in `ops/box/` and is installed with `ops/box/install.sh` (as root, from a checkout of main; `--dry-run` shows what it would change). [`ops/box/README.md`](ops/box/README.md) maps every installed path.
 
-```bash
-pnpm install            # lockfile: pnpm-lock.yaml
-pnpm dev                # dev server (add -- --open to open a tab)
-pnpm build              # static site into build/ (index.html, en/, ru/, 404.html, sitemap.xml)
-pnpm preview            # serve the build
-pnpm check              # svelte-kit sync + svelte-check
-pnpm lint               # prettier --check + eslint
-node scripts/check-skill-chart.js http://127.0.0.1:5173   # the skill chart: no overlaps in either language (needs pnpm dev)
-pnpm format             # prettier --write
-node scripts/og-image.js   # regenerate the OG images (needs Chromium)
-PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://127.0.0.1:4173/en/   # regenerate the scene posters (needs pnpm preview and a GPU Chromium)
-```
-
-The site has no automated test suite; the browser checks in commit messages were done by hand and are not committed. The place admin has one: `node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'`.
-
-The dev server adds `COOP`/`COEP` headers and permissive CORS (`vite.config.js`). Production headers are set by the web server, not by this repo.
-
-## 3D model pipeline
-
-The page uses no GLB model today (the old typing figure is gone); the pipeline stays for the next one. Create `static/models/` and put the file there first, the script stops if that folder is missing.
-
-`pnpm model-pipeline:run` runs `scripts/model-pipeline.js`, which turns GLB/GLTF files into Threlte components:
-
-1. It takes every `.glb` / `.gltf` in `static/models/` (skipping `*-transformed.*`).
-2. For each one it runs `npx @threlte/gltf@latest <file> --root /models/ --printwidth 120 --precision 2` (needs network, because it fetches the latest CLI).
-3. It moves the generated `<name>.svelte` into `src/lib/entities/3d/models/` and deletes it from `static/models/`. The `.glb` stays in `static/models/` because the component loads it from `/models/<name>.glb`.
-
-Options (types, draco, texture transform and simplify, overwrite) are the `configuration` object at the top of the script; all are off by default. Existing components are skipped unless `overwrite` is on.
-
-## Production
-
-The site is live at https://anoirs-server.top. The box side lives in `ops/box/` and is installed with `ops/box/install.sh` (as root, from a checkout of main; `--dry-run` shows what it would change). `ops/box/README.md` maps every installed path.
-
-- `deploy.sh`: root's cron runs it every day at 04:30 UTC, and it rebuilds when `origin/main` or the place saved in the admin changed. It runs `pnpm install --frozen-lockfile && pnpm build`, copies `build/` into a new release, swaps it in atomically and rolls back if the health check fails; there is no adapter overlay (one with `fallback: 'index.html'` would replace the prerendered `/`).
-- A change reaches the site on the next 04:30 UTC run, at once with `deploy.sh --force` on the box, or with a save in the place admin; a push triggers nothing.
-- Caddy serves the release as is: unknown paths get `404.html` with status 404 (not `index.html`), `/_app/immutable/*` is cached for a year (`immutable`), the rest for 5 minutes, and `www.` redirects to the bare domain.
+- Root's cron runs `deploy.sh` every day at 04:30 UTC. It rebuilds when `origin/main` or the place saved in the admin changed: `pnpm install --frozen-lockfile && pnpm build`, `build/` into a new release, an atomic swap, a health check of `/ /en/ /ru/ /sitemap.xml`, a rollback on failure.
+- So a push to `main` goes live on the next 04:30 UTC run, at once with `deploy.sh --force` on the box, or with a save in the place admin. The push itself triggers nothing.
+- Caddy serves the release as is: unknown paths get `404.html` with status 404 (no SPA fallback), `/_app/immutable/*` is cached for a year, the rest for 5 minutes, `www.` redirects to the bare domain.
 - The box's addresses, tailnet names and secrets are deliberately not recorded in this repo.
 
-## Админка места
+The place admin (pick the country, the site rebuilds by itself): [docs/site-admin.md](docs/site-admin.md).
 
-The place admin (`tools/site-admin/`) is where the owner says which country he is in: a searchable list of the 177 countries the globe knows, then «другая страна» — the other 75 of ISO 3166-1 (Singapore, Malta, Hong Kong…), Russian and English names, codes; the city in English and Russian; coordinates (for a globe country prefilled with a point inside it, for another one typed in; rounded to 0.01° — a city, not an address) and an IANA time zone. It shows the JSON it will write and saves it; the site rebuilds by itself and the page shows the build log live.
+## Troubleshooting
 
-- **Open it.** On the box it is `site-admin.service` on `127.0.0.1:8792`. From the owner's devices on the tailnet: `http://<box tailnet name>:8792/?token=<SITE_ADMIN_TOKEN>` once (the box's userspace tailscaled hands tailnet connections to loopback; `install.sh` prints the exact address). Otherwise `ssh -L 8792:127.0.0.1:8792 root@<box>` and `http://127.0.0.1:8792/?token=…`. The token is in `/etc/site-admin/env`; the browser then keeps an HttpOnly, SameSite=Strict session cookie for 30 days. Only the Host names listed in that env file are answered, and every write needs a same-origin `Origin`.
-- **What a save changes.** Everything that reads `src/lib/config/site-config.json` at build time, in both languages: the globe's highlighted country (none for «другая страна»), home marker and arcs, `{city}`, `{country}` and the UTC offset in the copy and meta tags, and the JSON-LD address and coordinates. A failed build leaves the previous release online. Not covered: the OG images (`static/og/`) and the no-WebGL posters (`static/scene/`) are rendered offline and keep the old view until `scripts/og-image.js` and `scripts/scene-poster.js` are rerun and committed.
-- **How the rebuild starts.** The admin runs nothing and has no rights: it only writes the config atomically. A root path unit (`site-rebuild.path`) sees the file change and starts `site-rebuild.service`, which runs `deploy.sh --force --wait` — again if another save arrived during the build — and writes `status.json` and `rebuild.log` to `/var/lib/site-rebuild` for the page. «Пересобрать ещё раз» rewrites a request file next to the config, which the path unit watches too.
-- **Where the config lives.** `/var/lib/site-admin/site-config.json` on the box (`SITE_CONFIG_PATH`; outside git and the build). Before each build `deploy.sh` checks it with `tools/site-admin/apply-config.js` and puts its `home` over `src/lib/config/site-config.json`. The file in git stays the default for local builds, and the admin shows it until the first save.
-
-Locally, with stand-ins for the path unit and the deploy (two terminals):
-
-```bash
-node tools/site-admin/test/fixtures/fake-path-unit.js /tmp/site-admin/site-config.json /tmp/site-admin/rebuild
-SITE_ADMIN_TOKEN=local-token-0123456789 SITE_CONFIG_PATH=/tmp/site-admin/site-config.json \
-  SITE_REBUILD_STATUS_DIR=/tmp/site-admin/rebuild node tools/site-admin/server.js
-# then open http://127.0.0.1:8792/?token=local-token-0123456789
-```
+- **`fetch failed` from `check-skill-chart.js`, or `127.0.0.1:5173` refuses.** Vite may listen on `[::1]` only (Node 17+ resolves `localhost` to IPv6 first). Use `http://localhost:<port>`.
+- **`pnpm install` complains about the lockfile.** Use pnpm 10 (`corepack enable` picks the pinned one). The box installs with `--frozen-lockfile`, so commit `pnpm-lock.yaml` with every dependency change.
+- **A newer Threlte major** needs Svelte 5; stay on the `@threlte/core` 7.x line.
+- **The site did not change after a push.** Nothing happens before 04:30 UTC. On the box: `/var/log/personal-webpage-deploy.log`; a failed build keeps the previous release (last build output in `/tmp/personal-webpage-build.log`).
+- **Caddy does not start after a `caddy validate` as root:** `chown -R caddy:caddy /var/log/caddy` (see `ops/box/README.md`).
 
 ## Next
 
@@ -134,3 +146,4 @@ Open items, in priority order. "Agent" means an agent can do it alone; "Owner" m
 
 1. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
 2. **The Milky Way branch.** Owner: `agent/site-constellation-tree` (unmerged, never pushed) has a Milky Way sky instead of the nebulae and more phone savings (30 fps while the camera rests, the sky skipped behind the Earth, one content-mask tap on the low tier). Its skill-chart half is superseded by the star chart on main, so it cannot be merged as is: the scene half would have to be ported onto main's nebula bake. Its shader `pow()` fixes and the no-blur header on touch screens are already ported.
+3. **The model pipeline.** Agent: `@threlte/gltf@latest` is now 3.x (the Threlte 8 / Svelte 5 line) and `@threlte/extras` is no longer installed; fix the script before the next model (details in [docs/architecture.md](docs/architecture.md#3d-model-pipeline)).
