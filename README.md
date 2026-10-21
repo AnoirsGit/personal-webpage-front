@@ -6,14 +6,14 @@ Live at https://anoirs-server.top, built from `main` (the box rebuilds daily at 
 
 ## Status, 2026-10-21
 
-| What                                                                                                                                               | State                                                                                 |
-| -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                        | on `main`, served by the box (the live site was not checked from here)                |
-| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                    | on `main`, installed on the box; 39/39 tests pass                                     |
-| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens | built and checked here (build, `check`, `lint`, skill chart clean); not on `main` yet |
-| Automated tests for the page itself                                                                                                                | not built: browser checks are done by hand                                            |
-| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                     | pending, the owner's call (see [Next](#next))                                         |
-| Search Console                                                                                                                                     | not done (owner)                                                                      |
+| What                                                                                                                                               | State                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                        | on `main`, served by the box (the live site was not checked from here)                                                                            |
+| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                    | on `main`, installed on the box (not checked from here); 39/39 tests pass                                                                         |
+| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens | built and checked here (build, `check`, `lint`, skill chart clean); reaches `main` together with these docs (`agent/docs-site` sits on top of it) |
+| Automated tests for the page itself                                                                                                                | not built: browser checks are done by hand                                                                                                        |
+| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                     | pending, the owner's call (see [Next](#next))                                                                                                     |
+| Search Console                                                                                                                                     | not done (owner)                                                                                                                                  |
 
 ## What is on the page
 
@@ -63,7 +63,7 @@ Regenerating assets (commit the output):
 node scripts/og-image.js       # static/og/og-<lang>.jpg, needs Chromium; after changing the name, hero line or job title
 PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://localhost:4173/en/   # no-WebGL posters, needs pnpm preview and a GPU Chromium; after changing the hero's look
 node scripts/scene-geodata.js  # the globe's land raster and borders from the Natural Earth geojson
-pnpm model-pipeline:run        # GLB → Threlte component, see docs/architecture.md
+pnpm model-pipeline:run        # GLB → Threlte component; broken today (see Next), details in docs/architecture.md
 ```
 
 ## Configuration
@@ -135,6 +135,7 @@ The place admin (pick the country, the site rebuilds by itself): [docs/site-admi
 ## Troubleshooting
 
 - **`fetch failed` from `check-skill-chart.js`, or `127.0.0.1:5173` refuses.** Vite may listen on `[::1]` only (Node 17+ resolves `localhost` to IPv6 first). Use `http://localhost:<port>`.
+- **`pnpm install` warns "Ignored build scripts: esbuild, svelte-preprocess".** Harmless: `pnpm dev`, `pnpm build` and `pnpm check` work without those scripts; do not run `pnpm approve-builds` just for this.
 - **`pnpm install` complains about the lockfile.** Use pnpm 10 (`corepack enable` picks the pinned one). The box installs with `--frozen-lockfile`, so commit `pnpm-lock.yaml` with every dependency change.
 - **A newer Threlte major** needs Svelte 5; stay on the `@threlte/core` 7.x line.
 - **The site did not change after a push.** Nothing happens before 04:30 UTC. On the box: `/var/log/personal-webpage-deploy.log`; a failed build keeps the previous release (last build output in `/tmp/personal-webpage-build.log`).
