@@ -18,7 +18,7 @@
  * palette, star field) — not after changing the home or the copy.
  *
  *   pnpm build && pnpm preview --port 4391 &
- *   PLAYWRIGHT_CORE=/path/to/node_modules/playwright-core node scripts/scene-poster.js http://127.0.0.1:4391/en/
+ *   PLAYWRIGHT_CORE=/path/to/node_modules/playwright-core node scripts/scene-poster.js http://localhost:4391/en/
  *
  * Needs playwright-core (not a project dependency: point PLAYWRIGHT_CORE at an install, e.g.
  * the one `npx playwright-core --version` leaves in ~/.npm/_npx) and a Chromium with GPU

@@ -9,7 +9,7 @@
  * exactly what the page lays out):
  *
  *   pnpm dev &            # or: pnpm build && pnpm preview &
- *   node scripts/check-skill-chart.js http://127.0.0.1:5173
+ *   node scripts/check-skill-chart.js http://localhost:5173
  *
  * Run it after changing the skills (tree.json, tree.ru.json, CONSTELLATIONS), the label
  * fonts or the layout constants.
@@ -20,7 +20,8 @@ import {
 	softHyphens
 } from '../src/lib/sections/skill-tree/constellation.js';
 
-const origin = (process.argv[2] ?? 'http://127.0.0.1:5173').replace(/\/$/, '');
+// localhost, not 127.0.0.1: vite dev/preview listen on ::1 only on some machines (Node 17+)
+const origin = (process.argv[2] ?? 'http://localhost:5173').replace(/\/$/, '');
 const ROOT = { en: 'AI-native engineer', ru: 'AI-native разработчик' };
 
 /** The page's server data, decoded from SvelteKit's devalue-flattened __data.json. */
