@@ -10,6 +10,7 @@ The static site (github.com/AnoirsGit/personal-webpage-front), prerendered by th
 | `/opt/personal-webpage/deploy.sh`                 | fetch, apply the saved place, install, build, swap, health check, roll back on failure                               |
 | `/var/log/personal-webpage-deploy.log`            | deploy log with the build output (logrotate: monthly, 6 kept); last build also in `/tmp/personal-webpage-build.log`  |
 | `/etc/caddy/Caddyfile`                            | the site, `www` → bare domain, real 404s, a year of cache for `/_app/immutable/*`                                    |
+| `/etc/caddy/sites/*.caddy`                        | other services' site blocks, imported at the end of the Caddyfile (e.g. atlas's study site); not installed from here |
 | `site-admin.service`                              | the place admin on `127.0.0.1:8792` (user `site-admin`, sandboxed), code in `/usr/local/lib/site-admin`              |
 | `/etc/site-admin/env`                             | its token and allowed Host names: loopback, the box's tailnet name and address (`root:site-admin`, 0640; not in git) |
 | `/var/lib/site-admin/site-config.json`            | the place it saved; each deploy applies it over `src/lib/config/site-config.json`                                    |
