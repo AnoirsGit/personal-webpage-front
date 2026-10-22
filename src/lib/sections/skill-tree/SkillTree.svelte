@@ -178,6 +178,10 @@
 		};
 	};
 	$: if (activeKey) placeCard(activeKey);
+	/* the stars move with the tree's width: a card left open across a resize follows its star */
+	const onResize = () => {
+		if (activeKey) placeCard(activeKey);
+	};
 
 	/* ---------------- pointer ---------------- */
 
@@ -404,6 +408,8 @@
 		return parts.join(' ');
 	};
 </script>
+
+<svelte:window on:resize={onResize} />
 
 <div class="skilltree" bind:this={wrap}>
 	<!-- without JavaScript the tabs cannot switch: every chart shows, one under another -->
