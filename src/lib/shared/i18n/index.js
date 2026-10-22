@@ -37,10 +37,6 @@ const initialLocale = () =>
 
 export const locale = writable(initialLocale());
 
-export const setLocale = (next) => {
-	if (isSupported(next)) locale.set(next);
-};
-
 /* Called when the reader picks a language by hand; `/` honours it next time. */
 export const rememberLocale = (code) => {
 	if (!browser || !isSupported(code)) return;
@@ -91,11 +87,6 @@ export const t = derived(
 		(key, params) =>
 			translate($locale, key, { ...$facts, ...params })
 );
-
-/* Picks the active variant out of a `{ en: …, ru: … }` map — used for
- * whole content files that live outside the dictionaries. */
-export const byLocale = (variants) =>
-	derived(locale, ($locale) => variants[$locale] ?? variants[DEFAULT_LOCALE]);
 
 // a client-side switch between /en/ and /ru/ keeps the document, so mirror the
 // language onto <html lang> (the first HTML already carries it from the server)
