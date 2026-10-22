@@ -4,16 +4,17 @@ The personal site of Anuar Beibit, who sells himself as an AI-native engineer: o
 
 Live at https://anoirs-server.top, built from `main` (the box rebuilds daily at 04:30 UTC).
 
-## Status, 2026-10-21
+## Status, 2026-10-22
 
-| What                                                                                                                                               | State                                                                                                                                             |
-| -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                        | on `main`, served by the box (the live site was not checked from here)                                                                            |
-| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                    | on `main`, installed on the box (not checked from here); 39/39 tests pass                                                                         |
-| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens | built and checked here (build, `check`, `lint`, skill chart clean); reaches `main` together with these docs (`agent/docs-site` sits on top of it) |
-| Automated tests for the page itself                                                                                                                | not built: browser checks are done by hand                                                                                                        |
-| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                     | pending, the owner's call (see [Next](#next))                                                                                                     |
-| Search Console                                                                                                                                     | not done (owner)                                                                                                                                  |
+| What                                                                                                                                                                        | State                                                                                                                                             |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                                                 | on `main`, served by the box (checked 2026-10-22: `/`, `/en/`, `/ru/`, `/sitemap.xml` answer 200, unknown paths 404)                              |
+| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                                             | on `main`, installed on the box (not checked from here); 39/39 tests pass                                                                         |
+| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens                          | built and checked here (build, `check`, `lint`, skill chart clean); reaches `main` together with these docs (`agent/docs-site` sits on top of it) |
+| Review 2026-10-22 (`agent/review-site`): no frozen page when only a worker has WebGL, `data-scene-fail`, the 404's language, an open skill card follows a resize, dead code | built and checked here (build, `check`, `lint`, skill chart clean, browser scenarios by hand); reaches `main` with the next merge                 |
+| Automated tests for the page itself                                                                                                                                         | not built: browser checks are done by hand                                                                                                        |
+| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                                              | pending, the owner's call (see [Next](#next))                                                                                                     |
+| Search Console                                                                                                                                                              | not done (owner)                                                                                                                                  |
 
 ## What is on the page
 
@@ -136,6 +137,7 @@ The place admin (pick the country, the site rebuilds by itself): [docs/site-admi
 
 - **`fetch failed` from `check-skill-chart.js`, or `127.0.0.1:5173` refuses.** Vite may listen on `[::1]` only (Node 17+ resolves `localhost` to IPv6 first). Use `http://localhost:<port>`.
 - **`pnpm install` warns "Ignored build scripts: esbuild, svelte-preprocess".** Harmless: `pnpm dev`, `pnpm build` and `pnpm check` work without those scripts; do not run `pnpm approve-builds` just for this.
+- **`pnpm build` prints six `"untrack"` / `"fork"` / `"settled"` is not exported by `svelte` lines and "Some chunks are larger than 500 kB".** Both harmless: `@sveltejs/kit` 2.65 looks for Svelte 5 APIs and falls back on Svelte 4, and the big chunk is three.js, fetched only after the page is up (never without WebGL).
 - **`pnpm install` complains about the lockfile.** Use pnpm 10 (`corepack enable` picks the pinned one). The box installs with `--frozen-lockfile`, so commit `pnpm-lock.yaml` with every dependency change.
 - **A newer Threlte major** needs Svelte 5; stay on the `@threlte/core` 7.x line.
 - **The site did not change after a push.** Nothing happens before 04:30 UTC. On the box: `/var/log/personal-webpage-deploy.log`; a failed build keeps the previous release (last build output in `/tmp/personal-webpage-build.log`).
