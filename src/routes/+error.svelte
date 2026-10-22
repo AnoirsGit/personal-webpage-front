@@ -1,11 +1,15 @@
 <!-- Unknown paths: the 404.html fallback renders this. The language is guessed from the path. -->
 <script>
+	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import { translate } from '$lib/shared/i18n';
 
-	$: code = $page.url.pathname.startsWith('/ru') ? 'ru' : 'en';
+	// /ru and /ru/… only (the same test as hooks.server.js): /rules/ is no Russian page
+	$: code = /^\/ru(\/|$)/.test($page.url.pathname) ? 'ru' : 'en';
 	$: tr = (key) => translate(code, key);
 	$: notFound = $page.status === 404;
+	// 404.html is one English shell for every path: the title in <head> is in `code` too
+	$: if (browser) document.documentElement.lang = code;
 </script>
 
 <svelte:head>
