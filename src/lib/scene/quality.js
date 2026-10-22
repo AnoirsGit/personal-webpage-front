@@ -14,7 +14,8 @@
  *
  * WebGL is probed in a worker (gpuProbe.worker.js): the first context of a page waits for
  * the GPU side to initialise, a long task if done here. The main-thread probe is only the
- * fallback for browsers without WebGL in workers.
+ * fallback for browsers without WebGL in workers. A worker's yes is then checked once on the
+ * page itself (pageHasWebGL), just before a live tier is handed out.
  *
  * Light module (no three.js).
  */
@@ -63,6 +64,25 @@ const probeWebGL = () => {
 		};
 	} catch {
 		return { ok: false };
+	}
+};
+
+/**
+ * Can the page's own canvases get WebGL? A worker's OffscreenCanvas can have it, even on the
+ * real GPU, while the page has none: Chrome's Disable3DAPIs policy and --disable-webgl leave
+ * workers alone, and so do extensions that blank getContext. The scene's renderer would then
+ * throw while it mounts, and a throw inside a Svelte 4 update stops every later update on the
+ * page (the skill tree's tabs and the list went dead, the poster never came). After the
+ * worker has woken the GPU this costs a few milliseconds.
+ */
+const pageHasWebGL = () => {
+	try {
+		const canvas = document.createElement('canvas');
+		const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+		gl?.getExtension('WEBGL_lose_context')?.loseContext();
+		return Boolean(gl);
+	} catch {
+		return false;
 	}
 };
 
@@ -159,7 +179,8 @@ export const detectQuality = async () => {
 	}
 	if (nav.connection?.saveData) return { ...result, reason: 'save-data' };
 
-	const gl = (await probeInWorker()) ?? probeWebGL();
+	const fromWorker = await probeInWorker();
+	const gl = fromWorker ?? probeWebGL();
 	if (!gl.ok) return { ...result, reason: gl.timeout ? 'probe-timeout' : 'no-webgl' };
 	result.renderer = gl.renderer ?? '';
 	result.maxPointSize = gl.maxPointSize ?? 64;
@@ -167,6 +188,8 @@ export const detectQuality = async () => {
 		return { ...result, reason: 'software-renderer' };
 	}
 	if (memory <= 1 || (mobile && cores <= 2)) return { ...result, reason: 'weak-device' };
+	// the worker answered for its own canvas; the scene draws into one of the page's
+	if (fromWorker && !pageHasWebGL()) return { ...result, reason: 'no-webgl-page' };
 
 	const weak =
 		mobile || coarse || WEAK_GPU.test(result.renderer) || memory <= 4 || cores <= 4 || !gl.webgl2;
