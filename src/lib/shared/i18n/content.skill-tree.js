@@ -4,10 +4,10 @@
  * translatable `title` / `description` by node id, so keep ids stable.
  *
  * CONSTELLATIONS is the one place that groups those nodes into the named groups
- * the site shows: the 3D sky draws each group as a constellation and the Skills
- * section lists the same groups. Only membership and the group names live here;
- * every skill's name and text come from the tree. Use `buildConstellations(code)`
- * (plain data, also fine on the server).
+ * the site shows: the Skills section draws each group as a constellation of its
+ * star chart and lists the same groups. Only membership and the group names live
+ * here; every skill's name and text come from the tree. Use
+ * `buildConstellations(code)` (plain data, also fine on the server).
  *
  * The full tree is ~150 kB, so the page itself receives only the built list from
  * its server load; import this module from the client only in lazily loaded code.
@@ -232,11 +232,10 @@ const pick = (names, code) => names[code] ?? names[DEFAULT_LOCALE];
 
 /**
  * The groups in one language, as plain data:
- * `[{ id, name, line, detailed, stars: [{ id, title, summary, description, image, main, x, y }], links: [[from, to]] }]`.
+ * `[{ id, name, line, detailed, stars: [{ id, title, summary, main }], links: [[from, to]] }]`.
  * `links` are tree edges with both ends inside the group — the lines of the constellation.
- * `main` marks a group's main tools (its `lead`, or every skill of a `detailed` group) and
- * `x`/`y` are the node's place in the tree's own layout: the 3D sky draws main tools as the
- * brighter stars and shapes each constellation from those positions (the page ignores both).
+ * `main` marks a group's main tools (its `lead`, or every skill of a `detailed` group); the
+ * skill tree draws them as the brighter stars.
  */
 export const buildConstellations = (code) => {
 	const localized = localizedTree(code);
@@ -250,11 +249,7 @@ export const buildConstellations = (code) => {
 					id: String(node.id),
 					title: node.title.trim(),
 					summary: summaryOf(node.description),
-					description: node.description ?? '',
-					image: node.imageUrl || '',
-					main: detailed || lead.includes(String(node.id)),
-					x: Number(node.position?.x) || 0,
-					y: Number(node.position?.y) || 0
+					main: detailed || lead.includes(String(node.id))
 				})),
 			lead
 		);

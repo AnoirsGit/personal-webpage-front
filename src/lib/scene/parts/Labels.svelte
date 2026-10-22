@@ -1,6 +1,6 @@
 <!--
-	HTML captions over the canvas: constellation names, process stages, the home caption and
-	the hover card. Svelte renders the text once per locale; World moves them every frame by
+	HTML captions over the canvas: process stages and agents, the retry note, the home caption
+	and the hover card. Svelte renders the text once per locale; World moves them every frame by
 	writing transform/opacity only (no layout reads). Decorative — the page carries the
 	real copy — so the whole layer is aria-hidden and never takes the pointer.
 -->
@@ -102,15 +102,6 @@
 		line-height: 1;
 		color: rgba(243, 227, 188, 0.86);
 		text-shadow: 0 0 10px rgba(7, 5, 26, 0.95), 0 0 2px rgba(7, 5, 26, 0.9);
-	}
-
-	.scene-label--constellation {
-		transform: translate(-50%, -50%);
-		font-size: 11px;
-		font-weight: 600;
-		letter-spacing: 0.34em;
-		text-transform: uppercase;
-		color: rgba(243, 227, 188, 0.8);
 	}
 
 	.scene-label--stage {

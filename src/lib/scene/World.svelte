@@ -406,7 +406,8 @@
 	   caption keeps HOME_GAP px from its marker so the marker's glow never covers a letter */
 	const HOME_GAP = 26;
 	const BOX = {
-		constellation: (w, h) => [-w / 2, -h / 2, w / 2, h / 2],
+		/** any other kind: centred on its anchor */
+		centre: (w, h) => [-w / 2, -h / 2, w / 2, h / 2],
 		stage: (w, h) => [-w / 2, 16, w / 2, 16 + h],
 		agent: (w, h) => [-w / 2, -h - 9, w / 2, -9],
 		note: (w, h) => [-w / 2, 9, w / 2, 9 + h],
@@ -439,10 +440,7 @@
 							state.flipped = flipped;
 						}
 					}
-					const box = (state.flipped ? BOX.homeFlipped : BOX[state.kind] ?? BOX.constellation)(
-						w,
-						h
-					);
+					const box = (state.flipped ? BOX.homeFlipped : BOX[state.kind] ?? BOX.centre)(w, h);
 					// no caption is ever cut by the edge of the screen: slide it back in
 					if (state.kind !== 'home') {
 						const shift =

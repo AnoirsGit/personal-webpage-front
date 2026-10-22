@@ -1,9 +1,7 @@
 /*
  * Words the scene itself draws: process-graph stages and place labels. The page carries the
  * real copy in HTML; these labels are decoration (aria-hidden) and repeat only facts already
- * public on the site or in the CV. Constellation names, skill titles and their short texts
- * come from buildConstellations() (content.skill-tree.js), the home city from
- * src/lib/config/site-config.json.
+ * public on the site or in the CV. The home city comes from src/lib/config/site-config.json.
  */
 
 /** @typedef {'en' | 'ru'} SceneLang */

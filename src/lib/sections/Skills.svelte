@@ -53,7 +53,6 @@
 	let view = 'tree';
 	let activeGroup = 'all';
 	let query = '';
-	let listTop;
 	/** @type {HTMLElement} */
 	let section;
 
@@ -164,12 +163,7 @@
 					</p>
 				</div>
 
-				<div
-					class="skill-groups"
-					class:single={visible.length === 1}
-					bind:this={listTop}
-					tabindex="-1"
-				>
+				<div class="skill-groups" class:single={visible.length === 1} tabindex="-1">
 					{#each visible as group (group.id)}
 						<section
 							class="skill-group"
