@@ -12,7 +12,9 @@
 	so scrolling, links and text selection work as if it were not there.
 
 	Props: `lang` ('en' | 'ru'; defaults to <html lang>, followed live) and `poster`.
-	`data-scene` on the root reports 'pending' | 'loading' | 'live' | 'poster'.
+	`data-scene` on the root reports 'pending' | 'loading' | 'live' | 'poster', `data-scene-reason`
+	why the tier was chosen and `data-scene-fail` why a live scene gave way to the poster
+	('context-lost', 'slow', 'load-failed').
 
 	The poster (static/scene/poster-*.webp, made by scripts/scene-poster.js) is
 	country-neutral: no home highlight, marker or arcs. The home marker is drawn here as
@@ -129,8 +131,13 @@
 			: null;
 	};
 
-	const showPoster = () => {
+	/** why a live scene gave way to the poster: 'context-lost' | 'slow' | 'load-failed' */
+	let failure = '';
+
+	/** @param {string} [reason] set when a live scene was dropped */
+	const showPoster = (reason = '') => {
 		if (mode === 'poster' || destroyed) return;
+		failure = reason;
 		mode = 'poster';
 		Live = null;
 		visible = false;
@@ -174,7 +181,7 @@
 						.then((module) => {
 							if (!destroyed) Live = module.default;
 						})
-						.catch(showPoster);
+						.catch(() => showPoster('load-failed'));
 				}, 2500)
 			);
 		};
@@ -198,6 +205,7 @@
 	data-scene={mode}
 	data-scene-tier={quality?.tier ?? ''}
 	data-scene-reason={quality?.reason ?? ''}
+	data-scene-fail={failure || undefined}
 	aria-hidden="true"
 >
 	{#if mode === 'poster'}
@@ -221,7 +229,7 @@
 					mode = 'live';
 					visible = true;
 				}}
-				on:fail={showPoster}
+				on:fail={(event) => showPoster(event.detail?.reason || 'failed')}
 			/>
 		</div>
 	{/if}
