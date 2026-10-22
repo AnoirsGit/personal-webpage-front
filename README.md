@@ -53,6 +53,7 @@ pnpm lint               # prettier --check + eslint
 pnpm format             # prettier --write
 node scripts/check-skill-chart.js http://localhost:5173   # the skill chart: overlaps, both languages, all layouts (needs pnpm dev or preview)
 node scripts/check-country-codes.js                       # the globe's country lookup and the configured home
+PLAYWRIGHT_CORE=… node scripts/check-scene-fallback.js http://localhost:4173   # poster, not a frozen page, without WebGL or after a lost context (needs pnpm preview)
 node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'   # the place admin
 ```
 
