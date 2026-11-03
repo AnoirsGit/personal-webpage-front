@@ -4,17 +4,18 @@ The personal site of Anuar Beibit, who sells himself as an AI-native engineer: o
 
 Live at https://anoirs-server.top, built from `main` (the box rebuilds daily at 04:30 UTC).
 
-## Status, 2026-10-22
+## Status, 2026-11-05
 
-| What                                                                                                                                                                        | State                                                                                                                                             |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                                                 | on `main`, served by the box (checked 2026-10-22: `/`, `/en/`, `/ru/`, `/sitemap.xml` answer 200, unknown paths 404)                              |
-| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                                             | on `main`, installed on the box (not checked from here); 39/39 tests pass                                                                         |
-| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens                          | built and checked here (build, `check`, `lint`, skill chart clean); reaches `main` together with these docs (`agent/docs-site` sits on top of it) |
-| Review 2026-10-22 (`agent/review-site`): no frozen page when only a worker has WebGL, `data-scene-fail`, the 404's language, an open skill card follows a resize, dead code | built and checked here (build, `check`, `lint`, skill chart clean, browser scenarios by hand); reaches `main` with the next merge                 |
-| Automated tests for the page itself                                                                                                                                         | not built: browser checks are done by hand                                                                                                        |
-| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                                              | pending, the owner's call (see [Next](#next))                                                                                                     |
-| Search Console                                                                                                                                                              | not done (owner)                                                                                                                                  |
+| What                                                                                                                                                                        | State                                                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The page: seven sections, EN/RU, 3D scene with no-WebGL posters, star-chart skill tree, SEO                                                                                 | on `main`, served by the box (checked 2026-10-22: `/`, `/en/`, `/ru/`, `/sitemap.xml` answer 200, unknown paths 404)                                                                                  |
+| Place admin + rebuild on save (`tools/site-admin/`, `ops/box/`)                                                                                                             | on `main`, installed on the box (not checked from here); 39 tests: 39/39 passed on Linux on 2026-10-21, on macOS 5 of `site-rebuild.test.js` fail (no `flock`, GNU `date`/`stat`), checked 2026-11-05 |
+| `agent/polish-site`: a11y fixes, unused packages and dead files removed, `/` without app JS, shader `pow()` fixes, no header blur on touch screens                          | on `main`; built and checked here (build, `check`, `lint`, skill chart clean)                                                                                                                         |
+| Review 2026-10-22 (`agent/review-site`): no frozen page when only a worker has WebGL, `data-scene-fail`, the 404's language, an open skill card follows a resize, dead code | on `main`; built and checked here (build, `check`, `lint`, skill chart clean, browser scenarios by hand)                                                                                              |
+| Automated tests for the page itself                                                                                                                                         | only `scripts/check-build.js` (the static build: languages, SEO tags, JSON-LD, sitemap); browser checks are done by hand                                                                              |
+| `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                                              | pending, the owner's call; the branch is in neither this clone nor `origin` on 2026-11-05 (see [Next](#next))                                                                                         |
+| Night 2026-11-05 (`agent/night-2026-11-05`, not on `main`): the model pipeline pinned to `@threlte/gltf@2.0.3`, `scripts/check-build.js`, these docs                        | build, `check`, `lint`, `check-build.js` pass here; not merged, the owner's call                                                                                                                      |
+| Search Console                                                                                                                                                              | not done (owner)                                                                                                                                                                                      |
 
 ## What is on the page
 
@@ -48,16 +49,17 @@ pnpm preview            # serve the build on http://localhost:4173
 ## Checks
 
 ```bash
-pnpm check              # svelte-kit sync + svelte-check (0 errors, 0 warnings on 2026-10-21)
+pnpm check              # svelte-kit sync + svelte-check (0 errors, 0 warnings on 2026-11-05)
 pnpm lint               # prettier --check + eslint
 pnpm format             # prettier --write
 node scripts/check-skill-chart.js http://localhost:5173   # the skill chart: overlaps, both languages, all layouts (needs pnpm dev or preview)
+node scripts/check-build.js                               # the static build in build/: languages, SEO tags, JSON-LD, sitemap, `/` without app JS (needs pnpm build, no server)
 node scripts/check-country-codes.js                       # the globe's country lookup and the configured home
 PLAYWRIGHT_CORE=… node scripts/check-scene-fallback.js http://localhost:4173   # poster, not a frozen page, without WebGL or after a lost context (needs pnpm preview)
 node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'   # the place admin
 ```
 
-There is no automated test suite for the page; the browser checks in commit messages were done by hand and are not committed.
+There is no browser test suite for the page: `check-build.js` reads the built files only, and the browser checks in commit messages were done by hand and are not committed. On macOS 5 of the place admin's tests fail for want of `flock` and GNU `date`/`stat` (see [docs/site-admin.md](docs/site-admin.md#locally)).
 
 Regenerating assets (commit the output):
 
@@ -65,7 +67,7 @@ Regenerating assets (commit the output):
 node scripts/og-image.js       # static/og/og-<lang>.jpg, needs Chromium; after changing the name, hero line or job title
 PLAYWRIGHT_CORE=… node scripts/scene-poster.js http://localhost:4173/en/   # no-WebGL posters, needs pnpm preview and a GPU Chromium; after changing the hero's look
 node scripts/scene-geodata.js  # the globe's land raster and borders from the Natural Earth geojson
-pnpm model-pipeline:run        # GLB → Threlte component; broken today (see Next), details in docs/architecture.md
+pnpm model-pipeline:run        # GLB → Threlte component (@threlte/gltf 2.0.3); needs @threlte/extras with the first model, see Next and docs/architecture.md
 ```
 
 ## Configuration
@@ -78,8 +80,8 @@ The site has no `.env` and reads no environment at build or run time. What there
 | `src/lib/seo/site.js`                                                                                            | `SITE_URL` (the canonical origin), contacts                                                                                                  |
 | `src/lib/shared/i18n/locales/{en,ru}.json`                                                                       | All copy                                                                                                                                     |
 | `src/lib/shared/mocks/`, `src/lib/shared/i18n/content.skill-tree.js`                                             | Skills (`tree.json`, `tree.ru.json`, `CONSTELLATIONS`) and cases (`works.{en,ru}.json`)                                                      |
-| `CHROMIUM` (env)                                                                                                 | Chromium for `og-image.js` and `scene-poster.js`, default `/usr/bin/chromium`                                                                |
-| `PLAYWRIGHT_CORE` (env)                                                                                          | A `playwright-core` install for `scene-poster.js` (not a project dependency)                                                                 |
+| `CHROMIUM` (env)                                                                                                 | Chromium for `og-image.js`, `scene-poster.js` and `check-scene-fallback.js`, default `/usr/bin/chromium`                                     |
+| `PLAYWRIGHT_CORE` (env)                                                                                          | A `playwright-core` install for `scene-poster.js` and `check-scene-fallback.js` (not a project dependency)                                   |
 | `DEPLOY_ROOT`, `DEPLOY_BRANCH`, `DEPLOY_LOCK`, `DEPLOY_BUILD_LOG`, `DEPLOY_HEALTH_URL`, `SITE_CONFIG_PATH` (env) | Override `ops/box/deploy.sh`'s box defaults for a trial run elsewhere                                                                        |
 | `SITE_ADMIN_*`, `SITE_CONFIG_PATH`, `SITE_REBUILD_*` (env)                                                       | The place admin, see [docs/site-admin.md](docs/site-admin.md#settings)                                                                       |
 
@@ -113,7 +115,7 @@ src/
     widgets/                  Header and Footer
     entities/globe/           the globe and its geodata (generated landMask.js, countryBorders.js)
     shared/                   i18n, content JSON (mocks/), shaders, helpers
-scripts/                      checks (check-skill-chart, check-country-codes) and generators
+scripts/                      checks (check-build, check-skill-chart, check-country-codes, check-scene-fallback) and generators
                               (og-image, scene-poster, scene-geodata, model-pipeline)
 static/                       fonts, images, CV files, OG images, scene posters, robots.txt (served as is)
 tools/site-admin/             the place admin: server, page, tests; no dependencies
@@ -149,6 +151,6 @@ The place admin (pick the country, the site rebuilds by itself): [docs/site-admi
 Open items, in priority order. "Agent" means an agent can do it alone; "Owner" means it needs a decision or access to the box.
 
 1. **Search Console.** Owner: verify the domain, submit `https://anoirs-server.top/sitemap.xml`, check both URLs with URL Inspection.
-2. **The Milky Way branch.** Owner: `agent/site-constellation-tree` (unmerged, never pushed) has a Milky Way sky instead of the nebulae and more phone savings (30 fps while the camera rests, the sky skipped behind the Earth, one content-mask tap on the low tier). Its skill-chart half is superseded by the star chart on main, so it cannot be merged as is: the scene half would have to be ported onto main's nebula bake. Its shader `pow()` fixes and the no-blur header on touch screens are already ported.
+2. **The Milky Way branch.** Owner: `agent/site-constellation-tree` (unmerged, never pushed; on 2026-11-05 it is neither a local branch nor on `origin`, so it may exist only in another clone, or be lost, in which case drop this item) has a Milky Way sky instead of the nebulae and more phone savings (30 fps while the camera rests, the sky skipped behind the Earth, one content-mask tap on the low tier). Its skill-chart half is superseded by the star chart on main, so it cannot be merged as is: the scene half would have to be ported onto main's nebula bake. Its shader `pow()` fixes and the no-blur header on touch screens are already ported.
 3. **The model pipeline.** Agent: the script is pinned to `@threlte/gltf@2.0.3` (3.x is the Svelte 5 line); `@threlte/extras` is not installed, add it (7.5.3 matches `@threlte/core` 7) together with the next model (details in [docs/architecture.md](docs/architecture.md#3d-model-pipeline)).
 4. **Frame-rate caps read as a slow GPU.** Agent, with an iPhone at hand to confirm: iOS Low Power Mode and Chrome's Energy Saver run `requestAnimationFrame` at 30 Hz, and `adapt()` in `src/lib/scene/World.svelte` counts every frame over 24 ms as slow, so it steps the pixel ratio down to its minimum while the GPU idles (in emulation: DPR 2 → 1 in about 20 s, 0.4 ms of work and 0.1 ms of GPU per frame). Measure the bare rAF interval before the scene mounts and scale both thresholds (24 and 40 ms) by it; stepping back up when a step does not help fails on vsync quantisation.
