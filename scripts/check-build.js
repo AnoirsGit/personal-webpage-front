@@ -8,7 +8,8 @@
  * - `/` ships no app JavaScript (only the inline language gate)
  * - each language page has one H1, seven sections, a canonical, hreflang alternates, a JSON-LD graph
  *   (Person, WebSite, WebPage, Service, FAQPage) and no unfilled {city}/{country}/{utc}/{years}
- * - hooks.server.js picks `ru` only for /ru and /ru/…, never for /rules/ or /en/ru/ (the 404 shell is one file for every path)
+ * - hooks.server.js picks `ru` only for /ru and /ru/…, never for /rules/ or /en/ru/; +error.svelte uses the same test
+ *   (the 404 shell is one file for every path)
  * - the sitemap lists both pages with their alternates; the 404 shell loads the app that renders the error page
  *
  * Exits non-zero if any invariant class is broken; prints one line per check.
@@ -18,10 +19,11 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { handle } from '../src/hooks.server.js';
+import { SITE_URL } from '../src/lib/seo/site.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const build = resolve(process.argv[2] ?? resolve(root, 'build'));
-const ORIGIN = 'https://anoirs-server.top';
+const ORIGIN = SITE_URL;
 const SECTIONS = ['hero', 'skills', 'process', 'works', 'offer', 'faq', 'contact'];
 const GRAPH_TYPES = ['Person', 'WebSite', 'WebPage', 'Service', 'FAQPage'];
 
@@ -74,7 +76,8 @@ check(
 		/<script[^>]*\bsrc=/.test(root_) && 'script with src',
 		/<script[^>]*type="module"/.test(root_) && 'module script',
 		/\bimport\(/.test(root_) && 'dynamic import',
-		!/<script>[^<]*(localStorage|navigator\.languages?)/.test(root_) && 'no inline language gate'
+		!/<script>(?:(?!<\/script>)[\s\S])*?(localStorage|navigator\.languages?)/.test(root_) &&
+			'no inline language gate'
 	].filter(Boolean)
 );
 
@@ -143,14 +146,15 @@ for (const lang of ['en', 'ru']) {
 }
 
 {
-	// the same test +error.svelte repeats in the browser: /rules/ is no Russian page
+	// +error.svelte repeats the same test in the browser: /rules/ is no Russian page
 	const langFor = (pathname) => {
-		let html;
-		handle({
+		const html = handle({
 			event: { url: new URL(pathname, ORIGIN) },
 			resolve: (_event, { transformPageChunk }) =>
-				(html = transformPageChunk({ html: '<html lang="%lang%">' }))
+				transformPageChunk({ html: '<html lang="%lang%">' })
 		});
+		if (typeof html !== 'string')
+			throw new Error('hooks.server.js handle() is no longer synchronous');
 		return /lang="([^"]*)"/.exec(html)?.[1];
 	};
 	const expected = {
@@ -163,12 +167,15 @@ for (const lang of ['en', 'ru']) {
 		'/russia/': 'en',
 		'/en/ru/': 'en'
 	};
-	check(
-		'hooks.server.js: <html lang> from the path',
-		Object.entries(expected)
-			.filter(([pathname, lang]) => langFor(pathname) !== lang)
-			.map(([pathname, lang]) => `${pathname}: ${langFor(pathname)}, expected ${lang}`)
-	);
+	const problems = [];
+	for (const [pathname, lang] of Object.entries(expected)) {
+		const got = langFor(pathname);
+		if (got !== lang) problems.push(`${pathname}: ${got}, expected ${lang}`);
+	}
+	const errorPage = readFileSync(resolve(root, 'src/routes/+error.svelte'), 'utf8');
+	if (!errorPage.includes('/^\\/ru(\\/|$)/.test($page.url.pathname)'))
+		problems.push('+error.svelte does not use the /^\\/ru(\\/|$)/ test of hooks.server.js');
+	check('hooks.server.js and +error.svelte: <html lang> from the path', problems);
 }
 
 {
