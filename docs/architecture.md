@@ -20,9 +20,9 @@ The page uses no GLB model today (the old typing figure is gone); the pipeline s
 `pnpm model-pipeline:run` runs `scripts/model-pipeline.js`, which turns GLB/GLTF files into Threlte components:
 
 1. It takes every `.glb` / `.gltf` in `static/models/` (skipping `*-transformed.*`).
-2. For each one it runs `npx @threlte/gltf@latest <file> --root /models/ --printwidth 120 --precision 2` (needs network, because it fetches the latest CLI).
+2. For each one it runs `npx @threlte/gltf@2.0.3 <file> --root /models/ --printwidth 120 --precision 2` (needs network, because it fetches the CLI).
 3. It moves the generated `<name>.svelte` into `src/lib/entities/3d/models/` and deletes it from `static/models/`. The `.glb` stays in `static/models/` because the component loads it from `/models/<name>.glb`.
 
 Options (types, draco, texture transform and simplify, overwrite) are the `configuration` object at the top of the script; all are off by default. Existing components are skipped unless `overwrite` is on.
 
-Not tried since 2026-10-20, two catches: the generated component imports `useGltf` from `@threlte/extras`, which is no longer a dependency (add back the version that matches `@threlte/core` 7), and `@threlte/gltf@latest` is now 3.x, written for Threlte 8 and Svelte 5 — on this Svelte 4 stack the script probably needs `@threlte/gltf@2` instead (not checked).
+Checked 2026-11-05 on a one-triangle test GLTF outside the repo: `@threlte/gltf@2.0.3` writes a Svelte 4 component (`$$restProps`, slots), while `@threlte/gltf@latest` (3.x) writes Svelte 5 (`$props`, `{@render}`), so the script pins 2.0.3. One catch is left: the generated component imports `useGltf` from `@threlte/extras`, which is not a dependency now; add the version that matches `@threlte/core` 7 (7.5.3) together with the first model.

@@ -5,7 +5,8 @@ import { exit } from 'node:process';
 
 /**
  * This script is used to transform gltf and glb files into Threlte components.
- * It uses the `@threlte/gltf` package to do so.
+ * It uses the `@threlte/gltf` package to do so, pinned to 2.0.3: 3.x writes Svelte 5
+ * components (`$props`, `{@render}`), this site is on Svelte 4.
  * It works in two steps:
  *    1. Transform the gltf/glb files located in the sourceDir directory
  *    2. Move the Threlte components to the targetDir directory
@@ -108,7 +109,7 @@ filteredGltfFiles.forEach((file) => {
 	const formattedArgs = args.join(' ');
 
 	// run the command
-	const cmd = `npx @threlte/gltf@latest ${path} ${formattedArgs}`;
+	const cmd = `npx @threlte/gltf@2.0.3 ${path} ${formattedArgs}`;
 	try {
 		execSync(cmd, {
 			cwd: configuration.sourceDir
