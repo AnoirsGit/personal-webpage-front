@@ -8,6 +8,7 @@
  * - `/` ships no app JavaScript (only the inline language gate)
  * - each language page has one H1, seven sections, a canonical, hreflang alternates, a JSON-LD graph
  *   (Person, WebSite, WebPage, Service, FAQPage) and no unfilled {city}/{country}/{utc}/{years}
+ * - hooks.server.js picks `ru` only for /ru and /ru/…, never for /rules/ or /en/ru/ (the 404 shell is one file for every path)
  * - the sitemap lists both pages with their alternates; the 404 shell loads the app that renders the error page
  *
  * Exits non-zero if any invariant class is broken; prints one line per check.
@@ -15,6 +16,8 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { handle } from '../src/hooks.server.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const build = resolve(process.argv[2] ?? resolve(root, 'build'));
@@ -137,6 +140,35 @@ for (const lang of ['en', 'ru']) {
 	if (!pages['robots.txt'].includes(`Sitemap: ${ORIGIN}/sitemap.xml`))
 		problems.push('robots.txt does not point to the sitemap');
 	check('sitemap.xml and robots.txt', problems);
+}
+
+{
+	// the same test +error.svelte repeats in the browser: /rules/ is no Russian page
+	const langFor = (pathname) => {
+		let html;
+		handle({
+			event: { url: new URL(pathname, ORIGIN) },
+			resolve: (_event, { transformPageChunk }) =>
+				(html = transformPageChunk({ html: '<html lang="%lang%">' }))
+		});
+		return /lang="([^"]*)"/.exec(html)?.[1];
+	};
+	const expected = {
+		'/': 'en',
+		'/en/': 'en',
+		'/ru': 'ru',
+		'/ru/': 'ru',
+		'/ru/nope/': 'ru',
+		'/rules/': 'en',
+		'/russia/': 'en',
+		'/en/ru/': 'en'
+	};
+	check(
+		'hooks.server.js: <html lang> from the path',
+		Object.entries(expected)
+			.filter(([pathname, lang]) => langFor(pathname) !== lang)
+			.map(([pathname, lang]) => `${pathname}: ${langFor(pathname)}, expected ${lang}`)
+	);
 }
 
 {
