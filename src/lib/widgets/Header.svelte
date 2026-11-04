@@ -139,6 +139,11 @@
 			backdrop-filter: none;
 			-webkit-backdrop-filter: none;
 		}
+
+		/* without the blur the open menu would show the page's text through it */
+		.site-header.open {
+			background: var(--bg);
+		}
 	}
 
 	.bar {
