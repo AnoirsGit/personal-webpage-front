@@ -4,6 +4,7 @@
  *   node scripts/check-build.js [build-dir]
  *
  * - the files the box's health check and Caddy rely on exist (/, /en/, /ru/, 404.html, sitemap.xml, robots.txt)
+ * - build/ is not older than the sources it is built from (src/, static/, the configs, the lockfile)
  * - <html lang> is filled per page: ru only under /ru/, English for /, the 404 shell and /en/
  * - `/` ships no app JavaScript (only the inline language gate)
  * - each language page has one H1, seven sections, a canonical, hreflang alternates, a JSON-LD graph
@@ -14,8 +15,8 @@
  *
  * Exits non-zero if any invariant class is broken; prints one line per check.
  */
-import { existsSync, readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { handle } from '../src/hooks.server.js';
@@ -51,6 +52,39 @@ check(
 	files.filter((file) => !existsSync(resolve(build, file))).map((file) => `missing ${file}`)
 );
 if (files.some((file) => !existsSync(resolve(build, file)))) process.exit(1);
+
+{
+	// a stale build/ would pass every check below while the sources say otherwise
+	const sources = [
+		...['src', 'static'].flatMap((dir) =>
+			readdirSync(resolve(root, dir), { recursive: true })
+				.map((file) => join(dir, file))
+				.filter((file) => statSync(resolve(root, file)).isFile())
+		),
+		...[
+			'svelte.config.js',
+			'vite.config.js',
+			'tailwind.config.js',
+			'postcss.config.js',
+			'package.json',
+			'pnpm-lock.yaml'
+		].filter((file) => existsSync(resolve(root, file)))
+	];
+	// the pages the build renders (a copied static file may keep its source's mtime)
+	const rendered = files.filter((file) => file !== 'robots.txt');
+	const built = Math.min(...rendered.map((file) => statSync(resolve(build, file)).mtimeMs));
+	const newer = sources.filter((file) => statSync(resolve(root, file)).mtimeMs > built);
+	check(
+		'build/ is not older than its sources',
+		newer.length
+			? [
+					`changed after the build: ${newer.slice(0, 5).join(', ')}${
+						newer.length > 5 ? ', …' : ''
+					}; run pnpm build`
+			  ]
+			: []
+	);
+}
 
 const read = (file) => readFileSync(resolve(build, file), 'utf8');
 const pages = Object.fromEntries(files.map((file) => [file, read(file)]));
