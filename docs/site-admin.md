@@ -36,4 +36,4 @@ SITE_ADMIN_TOKEN=local-token-0123456789 SITE_CONFIG_PATH=/tmp/site-admin/site-co
 # then open http://127.0.0.1:8792/?token=local-token-0123456789
 ```
 
-Tests: `node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'` (39 tests; all passed on Linux on 2026-10-21). They need Linux tools: the five in `site-rebuild.test.js` run `ops/box/site-rebuild.sh`, which uses `flock`, GNU `date` (`%3N`, `-Is`) and `stat -c`, so on macOS they fail by timeout (34 of 39 pass, checked 2026-11-05) unless those tools are installed.
+Tests: `node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'` (39 tests; all passed on Linux on 2026-10-21). They need Linux tools: the five in `site-rebuild.test.js` run `ops/box/site-rebuild.sh`, which uses `flock`, GNU `date` (`%3N`, `-Is`) and `stat -c`, so on macOS they fail by timeout (34 of 39 pass, checked 2026-11-04) unless those tools are installed.
