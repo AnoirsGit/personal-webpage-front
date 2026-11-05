@@ -36,4 +36,4 @@ SITE_ADMIN_TOKEN=local-token-0123456789 SITE_CONFIG_PATH=/tmp/site-admin/site-co
 # then open http://127.0.0.1:8792/?token=local-token-0123456789
 ```
 
-Tests: `node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'` (39 tests; all passed on Linux on 2026-10-21). They need Linux tools: the six in `site-rebuild.test.js` run `ops/box/site-rebuild.sh`, which uses `flock`, GNU `date` (`%3N`, `-Is`) and `stat -c`, so on macOS five of them fail unless those tools are installed: four by timeout and "a failing deploy" on an assertion (the script exits 0, not the deploy's 3); only the `--mark-stopped` one passes (34 of 39 pass, checked 2026-11-04).
+Tests: `node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'` (39 tests; all passed on Linux on 2026-11-05). They need Linux tools: the six in `site-rebuild.test.js` run `ops/box/site-rebuild.sh`, which uses `flock`, GNU `date` (`%3N`, `-Is`) and `stat -c`, so on macOS five of them fail unless those tools are installed: four by timeout and "a failing deploy" on an assertion (the script exits 0, not the deploy's 3); only the `--mark-stopped` one passes (34 of 39 pass, checked 2026-11-04).
