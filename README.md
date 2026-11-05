@@ -14,7 +14,7 @@ Live at https://anoirs-server.top, built from `main` (the box rebuilds daily at 
 | Review 2026-10-22 (`agent/review-site`): no frozen page when only a worker has WebGL, `data-scene-fail`, the 404's language, an open skill card follows a resize, dead code | on `main`; built and checked here (build, `check`, `lint`, skill chart clean, browser scenarios by hand)                                                                                              |
 | Automated tests for the page itself                                                                                                                                         | four scripts, run by hand, none in CI: `check-build.js`, `check-country-codes.js`, `check-skill-chart.js`, `check-scene-fallback.js` (see [Checks](#checks)); the rest is checked by hand             |
 | `agent/site-constellation-tree` (Milky Way sky, phone savings)                                                                                                              | pending, the owner's call; the branch is in neither this clone nor `origin` on 2026-11-04 (see [Next](#next))                                                                                         |
-| Night 2026-11-04 (`agent/night-2026-11-05`, not on `main`): the model pipeline pinned to `@threlte/gltf@2.0.3`, `scripts/check-build.js`, these docs                        | build, `check`, `lint`, `check-build.js` pass here; not merged, the owner's call                                                                                                                      |
+| Night 2026-11-04 (`agent/night-2026-11-05`): the model pipeline pinned to `@threlte/gltf@2.0.3`, `scripts/check-build.js`, an opaque open menu on touch screens, these docs | on local `main` since 2026-11-05, not pushed (the owner's call); build, `check`, `lint`, `check-build.js` pass on macOS and Linux; the open menu looked at with touch emulation: opaque               |
 | Search Console                                                                                                                                                              | not done (owner)                                                                                                                                                                                      |
 
 ## What is on the page
@@ -55,7 +55,7 @@ pnpm format             # prettier --write
 node scripts/check-skill-chart.js http://localhost:5173   # the skill chart: overlaps, both languages, all layouts (needs pnpm dev or preview)
 node scripts/check-build.js                               # the static build in build/: languages, SEO tags, JSON-LD, sitemap, `/` without app JS (needs pnpm build, fails on a build older than the sources; no server)
 node scripts/check-country-codes.js                       # the globe's country lookup and the configured home
-PLAYWRIGHT_CORE=… node scripts/check-scene-fallback.js http://localhost:4173   # poster, not a frozen page, without WebGL or after a lost context (needs pnpm preview)
+PLAYWRIGHT_CORE=… node scripts/check-scene-fallback.js http://localhost:4173   # poster, not a frozen page, without WebGL or after a lost context (needs pnpm preview; both ok on Linux on 2026-11-05)
 node --test --test-concurrency=2 'tools/site-admin/test/*.test.js'   # the place admin
 ```
 
