@@ -5,8 +5,9 @@
 	  and anchor links all become calm camera moves.
 	- Parts mount in stages (sky → stars → Earth → process), each compiled
 	  with compileAsync before the next, so no frame has to compile every shader at once.
-	- Frames are capped near 60 fps on high-refresh screens, rendered on demand only with
-	  prefers-reduced-motion, and the loop stops while the tab is hidden.
+	- Frames are capped near 60 fps on high-refresh screens (30 on the low tier while the
+	  camera rests), rendered on demand only with prefers-reduced-motion, and the loop stops
+	  while the tab is hidden.
 	- If frames stay slow, the pixel ratio steps down; if even that fails, `fail` asks the
 	  shell to swap in the poster.
 	- Page content marked data-scene-occlude stays in front (./occlusion.js): the bright
@@ -34,6 +35,8 @@
 
 	const DEG = Math.PI / 180;
 	const FRAME_MS = 12.5; // cap ≈ 80 fps: every frame at 60/75 Hz, every other at 120/144 Hz
+	/* the low tier halves its frame rate while the camera rests: only stars twinkle then */
+	const RESTING_FRAME_MS = runtime.quality.tier === 'high' ? FRAME_MS : 30;
 	const FROZEN_TIME = 8.2; // reduced motion: the moment the still frames show
 	const camera = new PerspectiveCamera(40, 1, 0.1, 1600);
 	runtime.camera = camera;
@@ -248,8 +251,12 @@
 	const frame = () => {
 		const now = performance.now();
 		const motion = runtime.motion;
+		const resting =
+			Math.abs(target - storyT) < 0.002 &&
+			Math.abs(storyV) < 0.01 &&
+			!(pointer.active && !pointer.touch);
 		if (motion) {
-			if (now - lastRender < FRAME_MS) return;
+			if (now - lastRender < (resting ? RESTING_FRAME_MS : FRAME_MS)) return;
 		} else if (!needsRender) {
 			return;
 		}
@@ -347,7 +354,9 @@
 
 		if (debug) stats.work.push(performance.now() - now);
 		stats.frames++;
-		if (motion) adapt(now, dt);
+		// only frames of a moving camera say whether the device keeps up (a resting low tier
+		// renders at 30 fps on purpose)
+		if (motion && !resting) adapt(now, dt);
 	};
 
 	const pickHover = (now) => {

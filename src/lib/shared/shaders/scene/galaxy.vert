@@ -1,4 +1,4 @@
-// Full-target quad for the nebula bake.
+// Full-target quad for the Milky Way bake.
 varying vec2 vUv;
 
 void main() {

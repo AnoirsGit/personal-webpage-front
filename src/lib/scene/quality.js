@@ -3,7 +3,8 @@
  *
  *   high   — laptops and desktops with a real GPU: full density, DPR up to 2
  *   low    — phones, tablets, old/integrated-weak GPUs, low memory: fewer dots and
- *            stars, DPR up to 1.5, no country border line
+ *            stars, DPR up to 1.5 (sharp enough for the stars on a 3× phone, a quarter of
+ *            its pixels), no country border line, 30 fps while the camera rests
  *   static — no WebGL, a software rasteriser (SwiftShader, llvmpipe), Save-Data, or a very
  *            weak device: the poster image, and three.js is never fetched
  *

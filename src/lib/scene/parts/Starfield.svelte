@@ -4,16 +4,22 @@
 	import { Points } from 'three';
 
 	import { SCENE_PALETTE } from '../palette.js';
+	import { GALAXY_CORE, GALAXY_NORMAL } from '../galaxy.js';
 	import { buildStarfield } from '../gl/geometry.js';
 	import { createStarsMaterial, rgb } from '../gl/materials.js';
 
 	/** @type {import('../runtime.js').Runtime} */
 	export let runtime;
 
-	const count = runtime.quality.tier === 'high' ? 6000 : 2600;
+	// half again as many stars as the plain field, the extra ones crowding into the Milky Way
+	const count = runtime.quality.tier === 'high' ? 9000 : 3600;
 	const material = createStarsMaterial(runtime.uniforms);
 	const stars = new Points(
-		buildStarfield(count, { star: rgb(SCENE_PALETTE.star), warm: rgb(SCENE_PALETTE.starWarm) }),
+		buildStarfield(
+			count,
+			{ star: rgb(SCENE_PALETTE.star), warm: rgb(SCENE_PALETTE.starWarm) },
+			{ normal: GALAXY_NORMAL, core: GALAXY_CORE, band: 0.4 }
+		),
 		material
 	);
 	stars.renderOrder = -50;

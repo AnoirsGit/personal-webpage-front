@@ -19,8 +19,8 @@ import {
 
 import skyVert from '$lib/shared/shaders/scene/sky.vert?raw';
 import skyFrag from '$lib/shared/shaders/scene/sky.frag?raw';
-import nebulaVert from '$lib/shared/shaders/scene/nebula.vert?raw';
-import nebulaFrag from '$lib/shared/shaders/scene/nebula.frag?raw';
+import galaxyVert from '$lib/shared/shaders/scene/galaxy.vert?raw';
+import galaxyFrag from '$lib/shared/shaders/scene/galaxy.frag?raw';
 import starsVert from '$lib/shared/shaders/scene/stars.vert?raw';
 import starsFrag from '$lib/shared/shaders/scene/stars.frag?raw';
 import earthVert from '$lib/shared/shaders/scene/earth.vert?raw';
@@ -37,6 +37,7 @@ import meteorFrag from '$lib/shared/shaders/scene/meteor.frag?raw';
 import occlusionGlsl from '$lib/shared/shaders/scene/occlusion.glsl?raw';
 
 import { SCENE_PALETTE } from '../palette.js';
+import { GALAXY_CORE, GALAXY_NORMAL } from '../galaxy.js';
 
 /** '#rrggbb' → linear-free RGB triple in 0..1 (no colour management on purpose). */
 export const rgb = (hex) => {
@@ -68,62 +69,58 @@ const shaded = (fragment) => `${occlusionGlsl}\n${fragment}`;
 
 const base = (shared, extra) => ({ ...shared, ...extra });
 
-/** @param {SharedUniforms} shared */
-export const createSkyMaterial = (shared) =>
+/**
+ * The sky dome. It sits on the far plane and is drawn after the Earth with the depth test on,
+ * so none of its pixels behind the planet are shaded (parts/Sky.svelte orders it).
+ * @param {SharedUniforms} shared
+ * @param {{ low?: boolean }} [options] low: one tap of the content mask instead of five
+ */
+export const createSkyMaterial = (shared, { low = false } = {}) =>
 	new ShaderMaterial({
 		vertexShader: skyVert,
 		fragmentShader: shaded(skyFrag),
+		defines: low ? { LOW: 1 } : {},
 		uniforms: base(shared, {
 			uBase: { value: rgb(SCENE_PALETTE.space) },
-			uBandNormal: { value: new Vector3(0.38, 0.62, 0.68).normalize() },
 			uDim: { value: 1 },
-			/** the baked nebula map (parts/Sky.svelte), and 0 → 1 once it is there */
-			uNebula: { value: /** @type {import('three').Texture | null} */ (null) },
+			/** the baked Milky Way (parts/Sky.svelte), and 0 → 1 once it is there */
+			uGalaxy: { value: /** @type {import('three').Texture | null} */ (null) },
 			/** the map's size in texels, for the bicubic read */
-			uNebulaSize: { value: new Vector2(1, 1) },
-			uNebulaMix: { value: 0 },
-			uViolet: { value: rgb(SCENE_PALETTE.nebulaViolet) },
-			uIndigo: { value: rgb(SCENE_PALETTE.nebulaIndigo) },
-			uWarm: { value: rgb(SCENE_PALETTE.nebulaWarm) },
+			uGalaxySize: { value: new Vector2(1, 1) },
+			uGalaxyMix: { value: 0 },
+			uGlow: { value: rgb(SCENE_PALETTE.galaxyGlow) },
+			uCore: { value: rgb(SCENE_PALETTE.galaxyCore) },
+			uRose: { value: rgb(SCENE_PALETTE.galaxyRose) },
+			/** how many of the band's faint stars to draw (0 = none) */
+			uGrain: { value: 1 },
 			uCamera: { value: new Vector3() }
 		}),
 		// the camera is inside the dome: its faces point away from it
 		side: BackSide,
-		depthTest: false,
+		depthTest: true,
 		depthWrite: false
 	});
 
 /**
- * The one-off bake of the nebula densities (nebula.frag) into an equirectangular map. The
- * centres of the clouds are directions as seen from the scene's origin, chosen from the
- * camera's shots in story.js (yaw, pitch): they fill the skies of the skills, process and
- * low-orbit sections in both layouts; the hero's text column gets only the faint veil.
+ * The one-off bake of the Milky Way (galaxy.frag) into an equirectangular map: the band's
+ * plane and its core come from ../galaxy.js, like the star clouds of the starfield.
  * @param {number} width the map's size in texels
  * @param {number} height
  */
-export const createNebulaBakeMaterial = (width, height) => {
-	const towards = (yaw, pitch) => {
-		const y = (yaw * Math.PI) / 180;
-		const p = (pitch * Math.PI) / 180;
-		return new Vector3(Math.sin(y) * Math.cos(p), Math.sin(p), -Math.cos(y) * Math.cos(p));
-	};
-	return new ShaderMaterial({
-		vertexShader: nebulaVert,
-		fragmentShader: nebulaFrag,
+export const createGalaxyBakeMaterial = (width, height) =>
+	new ShaderMaterial({
+		vertexShader: galaxyVert,
+		fragmentShader: galaxyFrag,
 		/* 2 × 2 samples per texel: no stair steps, and the bake stays a few ms of GPU */
 		defines: { SAMPLES: 2 },
 		uniforms: {
-			uCloudA: { value: towards(-14, 40) },
-			uCloudB: { value: towards(40, 22) },
-			uCloudC: { value: towards(22, -6) },
-			uCloudD: { value: towards(-6, -4) },
-			uCloudE: { value: towards(8, 68) },
+			uNormal: { value: new Vector3(...GALAXY_NORMAL) },
+			uCore: { value: new Vector3(...GALAXY_CORE) },
 			uTexel: { value: new Vector2(1 / width, 1 / height) }
 		},
 		depthTest: false,
 		depthWrite: false
 	});
-};
 
 /** @param {SharedUniforms} shared */
 export const createStarsMaterial = (shared) =>
